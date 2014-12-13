@@ -19,8 +19,8 @@ Install fonts
 
 Install Composer
 
-  - follow instructions here : https://github.com/composer/composer
+  - follow instructions here: https://github.com/composer/composer
 
 
-credits:
+Credits:
   - https://github.com/mathiasbynens/dotfiles
