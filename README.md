@@ -1,6 +1,10 @@
 ~/. dotfiles
 ==
 
+Clone
+
+    git clone https://github.com/aureooms/dotfiles --recursive
+    
 
 Install / Update
 
