@@ -2,11 +2,6 @@
 ==
 
 
-dependencies:
-  - https://github.com/tpope/vim-pathogen
-  - https://github.com/composer/composer
-
-
 Install / Update
 
     source bootstrap.sh
@@ -20,6 +15,11 @@ Install software
 Install fonts
 
     sh modules/powerline-fonts/install.sh
+
+
+Install Composer
+
+Follow instructions here : https://github.com/composer/composer
 
 
 credits:

@@ -49,3 +49,9 @@
 [submodule "modules/powerline-fonts"]
 	path = modules/powerline-fonts
 	url = https://github.com/powerline/fonts
+[submodule "modules/vim-pathogen"]
+	path = modules/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen
+[submodule "modules/composer"]
+	path = modules/composer
+	url = https://github.com/composer/composer
