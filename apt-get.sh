@@ -10,7 +10,7 @@ apt-get upgrade -y
 # PACKAGES
 
 apt-get install -y pkg-config
-apt-get install -y i3-wm
+apt-get install -y i3
 apt-get install -y vim-gtk
 
 apt-get install -y curl wget
