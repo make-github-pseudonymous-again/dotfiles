@@ -22,5 +22,5 @@ Install Composer
   - follow instructions here: https://github.com/composer/composer
 
 
-Credits:
+Credits
   - https://github.com/mathiasbynens/dotfiles
