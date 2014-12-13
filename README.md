@@ -23,4 +23,5 @@ Install Composer
 
 
 Credits
+
   - https://github.com/mathiasbynens/dotfiles
