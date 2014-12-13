@@ -1,0 +1,2 @@
+# disable gnome-keyring silly warning
+unset GNOME_KEYRING_CONTROL

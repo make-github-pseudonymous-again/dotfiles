@@ -120,6 +120,11 @@
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
 
+[push]
+
+	# New git installation default
+	default = simple
+
 [merge]
 
 	# Include summaries of merged commits in newly created merge commit messages
@@ -149,7 +154,7 @@
 
 [user]
 
-	name = Ooms Aurélien
+	name = aureooms
 	email = aurelien.ooms@gmail.com
 
 [credential]
