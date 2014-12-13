@@ -19,7 +19,7 @@ Install fonts
 
 Install Composer
 
-Follow instructions here : https://github.com/composer/composer
+  - follow instructions here : https://github.com/composer/composer
 
 
 credits:
