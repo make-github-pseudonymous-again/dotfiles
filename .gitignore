@@ -1,14 +1,85 @@
-# Compiled Python files
+# Compiled source #
+###################
+
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
 *.pyc
+*.pyo
+*.a
 
-# Folder view configuration files
+# Packages #
+############
+
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs #
+########
+*.log
+
+# OS generated files #
+######################
 .DS_Store
-Desktop.ini
-
-# Thumbnail cache files
+.DS_Store?
 ._*
-Thumbs.db
-
-# Files that might appear on external disks
 .Spotlight-V100
 .Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+*~
+.goutputstream-*
+
+# Sublime Text 2 #
+##################
+
+*.sublime-workspace
+*.sublime-project
+
+# Qt #
+######
+
+moc_*.cpp
+qrc_*.cpp
+
+
+# Sass #
+########
+
+.sass-cache
+
+# LaTeX #
+#########
+
+*.aux
+*.lof
+*.log
+*.bbl
+*.blg
+*.toc
+*.idx
+*.ilg
+*.ind
+*.out
+*.equ
+*.pyg
+
+
+# IntelliJ IDEA #
+#################
+
+.idea
