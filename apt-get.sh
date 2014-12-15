@@ -28,7 +28,7 @@ apt-get install -y openjdk-8-jdk openjdk-8-jre
 apt-get install -y libmagickwand-dev imagemagick
 
 apt-get install -y terminator
-apt-get install -y ranger nautilus baobab
+apt-get install -y ranger nautilus baobab ack-grep
 apt-get install -y dnsutils ngrep tcpdump libwww-perl
 
 apt-get install -y texlive*
