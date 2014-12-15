@@ -121,3 +121,7 @@ autocmd FileType javascript,python,c,cpp,java,html,css,ruby autocmd BufWritePre 
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+
+" Show hidden files in ctrlp.vim
+
+let g:ctrlp_show_hidden = 1
