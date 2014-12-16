@@ -61,7 +61,9 @@ set noerrorbells
 set nostartofline
 " Show the cursor position
 set ruler
-" Adds a guide for maximum length of lines.
+" Automatically cut long lines
+set tw=79
+" Adds a guide for maximum length of lines
 set colorcolumn=79
 " Don’t show the intro message when starting Vim
 set shortmess=atI
