@@ -14,6 +14,8 @@ alias d="cd ~/dev"
 alias g="git"
 alias h="history"
 alias j="jobs"
+alias t="touch"
+alias n="ranger"
 
 
 # List all files colorized in long format
