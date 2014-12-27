@@ -35,8 +35,6 @@ set exrc
 set secure
 " Enable line numbers
 set number
-" Enable syntax highlighting
-syntax on
 " Highlight current line
 set cursorline
 " Make tabs as wide as four spaces
@@ -99,8 +97,12 @@ set showcmd
 " Pathogen
 execute pathogen#infect()
 
-" Set colors Monokai
-colorscheme Monokai
+" Set colors
+set t_Co=256
+syntax on
+set background=dark
+colorscheme Tomorrow-Night
+
 
 " Replace search with easymotion multi char search
 map  / <Plug>(easymotion-sn)
