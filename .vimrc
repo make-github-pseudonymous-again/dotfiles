@@ -129,5 +129,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 " Show hidden files in ctrlp.vim
-
 let g:ctrlp_show_hidden = 1
+
+" ctrl-c expands {_} to an indented block
+imap <C-c> <CR><Esc>O
