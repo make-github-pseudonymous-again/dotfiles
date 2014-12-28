@@ -101,7 +101,9 @@ execute pathogen#infect()
 set t_Co=256
 syntax on
 set background=dark
-colorscheme Tomorrow-Night
+" Use Hybrid, to use ~/.Xresources uncomment next line
+" let g:hybrid_use_Xresources = 1
+colorscheme hybrid
 
 
 " Replace search with easymotion multi char search
