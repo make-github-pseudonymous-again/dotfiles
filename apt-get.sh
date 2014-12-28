@@ -9,6 +9,7 @@ apt-get upgrade -y
 
 # PACKAGES
 
+apt-get install -y build-essential cmake
 apt-get install -y pkg-config
 apt-get install -y i3
 apt-get install -y vim-gtk
@@ -18,6 +19,7 @@ apt-get install -y git mercurial subversion
 
 apt-get install -y g++ clang
 
+apt-get install -y python-dev
 apt-get install -y python python3
 apt-get install -y python-pip python3-pip
 apt-get install -y bpython bpython3
