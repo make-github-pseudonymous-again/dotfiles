@@ -1,0 +1,2 @@
+#!/urs/bin/env sh
+nautilus --no-desktop "$@"
