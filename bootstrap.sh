@@ -7,6 +7,7 @@ git pull origin master;
 function doIt() {
 	rsync \
 		--exclude ".git/" \
+		--exclude ".gitmodules" \
 		--exclude "bootstrap.sh" \
 		--exclude "apt-get.sh" \
 		--exclude "npm.sh" \

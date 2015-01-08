@@ -1,0 +1,5 @@
+
+[Default Applications]
+text/plain=vim.desktop
+application/javascript=vim.desktop
+application/x-desktop=vim.desktop
