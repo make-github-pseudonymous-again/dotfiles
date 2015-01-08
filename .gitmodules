@@ -73,3 +73,6 @@
 [submodule ".vim/bundle/tern_for_vim"]
 	path = .vim/bundle/tern_for_vim
 	url = https://github.com/marijnh/tern_for_vim
+[submodule ".vim/bundle/vim-jsdoc"]
+	path = .vim/bundle/vim-jsdoc
+	url = https://github.com/heavenshell/vim-jsdoc
