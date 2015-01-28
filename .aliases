@@ -26,6 +26,7 @@ alias gca="git commit -a"
 alias gps="git push"
 alias gpl="git pull"
 alias gst="git status"
+alias gdt="git diff --word-diff-regex=."
 
 # List all files colorized in long format
 alias l="ls -lF --color"
