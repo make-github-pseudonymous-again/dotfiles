@@ -220,3 +220,31 @@ function o() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+# Image optimization tools (lossless)
+# credits to http://stackoverflow.com/a/19327447/1582182
+png() {
+    pngcrush -brute "$1"{,.} && du -b "$1"{,.}
+}
+gif() {
+    gifsicle -O "$1" -o "$1." && du -b "$1"{,.}
+}
+jpeg() {
+    jpegtran "$1" > "$1." && du -b "$1"{,.}
+}
+# Just for easy access in history
+mpng() {
+    mv "$1"{.,}
+}
+mgif() {
+    newsize=$(wc -c <"$1.")
+    oldsize=$(wc -c <"$1")
+    if [ $oldsize -gt $newsize ] ; then
+        mv "$1"{.,}
+    else
+        rm "$1."
+    fi
+}
+mjpeg() {
+    mv "$1"{.,}
+}
