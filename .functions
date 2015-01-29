@@ -225,24 +225,29 @@ function tre() {
 # credits to http://stackoverflow.com/a/19327447/1582182
 
 optigif() {
-    gifsicle -O "$1" -o "$1." && du -b "$1"{,.}
-    newsize=$(wc -c <"$1.")
-    oldsize=$(wc -c <"$1")
-    if [ $oldsize -gt $newsize ] ; then
-        mv "$1"{.,}
-    else
-        rm "$1."
-    fi
+	for file in "$@"
+	do
+		gifsicle -O "$file" -o "$file." && du -b "$file"{,.}
+		newsize=$(wc -c <"$file.")
+		oldsize=$(wc -c <"$file")
+		if [ $oldsize -gt $newsize ] ; then
+			mv "$file"{.,}
+		else
+			rm "$file."
+		fi
+	done
 }
 
 optijpeg() {
-    jpegtran -optimize "$1" > "$1." && du -b "$1"{,.}
-    newsize=$(wc -c <"$1.")
-    oldsize=$(wc -c <"$1")
-    if [ $oldsize -gt $newsize ] ; then
-        mv "$1"{.,}
-    else
-        rm "$1."
-    fi
+	for file in "$@"
+	do
+		jpegtran -optimize "$file" > "$file." && du -b "$file"{,.}
+		newsize=$(wc -c <"$file.")
+		oldsize=$(wc -c <"$file")
+		if [ $oldsize -gt $newsize ] ; then
+			mv "$file"{.,}
+		else
+			rm "$file."
+		fi
+	done
 }
-
