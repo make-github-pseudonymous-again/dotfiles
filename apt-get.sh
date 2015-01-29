@@ -43,6 +43,6 @@ apt-get install -y mplayer
 
 apt-get install -y apache2 php5 mysql-server mysql-client phpmyadmin php5-imagick filezilla
 apt-get install -y php5-intl php-apc
-apt-get install -y libjpeg-turbo-progs gifsicle pngcrush
+apt-get install -y libjpeg-turbo-progs gifsicle optipng
 
 apt-get install -y sloccount
