@@ -135,3 +135,15 @@ let g:ctrlp_show_hidden = 1
 
 " ctrl-c expands {_} to an indented block
 imap <C-c> <CR><Esc>O
+
+" Experimentally integrate YouCompleteMe with vim-multiple-cursors, otherwise
+" the numerous Cursor events cause great slowness
+" (https://github.com/kristijanhusak/vim-multiple-cursors/issues/4)
+
+function Multiple_cursors_before()
+let s:old_ycm_whitelist = g:ycm_filetype_whitelist
+let g:ycm_filetype_whitelist = {}
+endfunction
+function Multiple_cursors_after()
+let g:ycm_filetype_whitelist = s:old_ycm_whitelist
+endfunction
