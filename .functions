@@ -230,7 +230,7 @@ gif() {
     gifsicle -O "$1" -o "$1." && du -b "$1"{,.}
 }
 jpeg() {
-    jpegtran "$1" > "$1." && du -b "$1"{,.}
+    jpegtran -optimize "$1" > "$1." && du -b "$1"{,.}
 }
 # Just for easy access in history
 mpng() {
