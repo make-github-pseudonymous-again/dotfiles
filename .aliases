@@ -17,6 +17,7 @@ alias t="touch"
 alias n="ranger"
 alias o="xdg-open"
 alias q="exit"
+alias lvl="echo $SHLVL"
 
 alias g="git"
 alias gd="git diff"
