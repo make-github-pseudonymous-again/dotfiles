@@ -53,7 +53,7 @@ alias week='date +%V'
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
 # Get Ubuntu software updates, and update gem, npm, and their installed packages
-alias update='apt-get update && apt-get upgrade && npm install npm -g && npm update -g && gem update --system && gem update'
+alias update='sh -c "apt-get update && apt-get upgrade && npm install npm -g && npm update -g && gem update --system && gem update"'
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
