@@ -46,3 +46,4 @@ apt-get install -y php5-intl php-apc
 apt-get install -y libjpeg-turbo-progs gifsicle optipng
 
 apt-get install -y sloccount
+apt-get install -y vlc
