@@ -76,3 +76,6 @@
 [submodule ".vim/bundle/vim-jsdoc"]
 	path = .vim/bundle/vim-jsdoc
 	url = https://github.com/heavenshell/vim-jsdoc
+[submodule ".nvm"]
+	path = .nvm
+	url = https://github.com/creationix/nvm.git

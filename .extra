@@ -1,2 +1,6 @@
 # disable gnome-keyring silly warning
 unset GNOME_KEYRING_CONTROL
+
+# https://github.com/creationix/nvm
+source ~/.nvm/nvm.sh
+
