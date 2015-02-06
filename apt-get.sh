@@ -24,6 +24,9 @@ apt-get install -y python python3
 apt-get install -y python-pip python3-pip
 apt-get install -y bpython bpython3
 
+apt-get install -y ruby
+apt-get install -y ruby-dev
+
 apt-get install -y openjdk-7-jdk openjdk-7-jre
 apt-get install -y openjdk-8-jdk openjdk-8-jre
 

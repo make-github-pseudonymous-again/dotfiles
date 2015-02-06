@@ -11,6 +11,7 @@ function doIt() {
 		--exclude "bootstrap.sh" \
 		--exclude "apt-get.sh" \
 		--exclude "npm.sh" \
+		--exclude "gem.sh" \
 		--exclude "modules" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
