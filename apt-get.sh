@@ -36,7 +36,16 @@ apt-get install -y terminator
 apt-get install -y ranger nautilus baobab ack-grep
 apt-get install -y dnsutils ngrep tcpdump libwww-perl
 
-apt-get install -y texlive*
+apt-get install -y texlive texlive-base texlive-bibtex-extra texlive-binaries\
+texlive-extra-utils texlive-font-utils texlive-fonts-recommended\
+texlive-generic-recommended texlive-latex-base texlive-latex-extra\
+texlive-latex-recommended texlive-math-extra texlive-pictures texlive-pstricks\
+texlive-fonts-extra texlive-formats-extra texlive-games texlive-generic-extra\
+texlive-humanities texlive-lang-arabic texlive-lang-chinese texlive-lang-cjk\
+texlive-lang-cyrillic texlive-lang-english texlive-lang-french\
+texlive-lang-greek texlive-lang-japanese texlive-lang-korean texlive-music\
+texlive-plain-extra texlive-publishers texlive-science texlive-xetex
+
 apt-get install -y gimp ipe inkscape
 apt-get install -y klavaro
 apt-get install -y libreoffice
