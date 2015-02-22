@@ -180,3 +180,8 @@ exec /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active fals
 
 # set background black
 exec /usr/bin/xsetroot -solid "#000000"
+
+# volume
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 3%+
+bindsym XF86AudioLowerVolume exec amixer -q set Master 3%-
+bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
