@@ -79,3 +79,6 @@
 [submodule ".nvm"]
 	path = .nvm
 	url = https://github.com/creationix/nvm.git
+[submodule ".vim/bundle/vim-go"]
+	path = .vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go.git
