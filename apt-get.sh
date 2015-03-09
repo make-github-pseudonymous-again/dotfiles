@@ -30,6 +30,8 @@ apt-get install -y ruby-dev
 apt-get install -y openjdk-7-jdk openjdk-7-jre
 apt-get install -y openjdk-8-jdk openjdk-8-jre
 
+apt-get install -y golang
+
 apt-get install -y libmagickwand-dev imagemagick
 
 apt-get install -y terminator
