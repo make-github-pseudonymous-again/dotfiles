@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+mkdir -f ~/apache-website
+mkdir -f ~/dev
+mkdir -f ~/bin
+mkdir -f ~/opt
+mkdir -f ~/shots
+
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;

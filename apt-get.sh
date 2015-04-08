@@ -48,7 +48,7 @@ texlive-lang-cyrillic texlive-lang-english texlive-lang-french\
 texlive-lang-greek texlive-lang-japanese texlive-lang-korean texlive-music\
 texlive-plain-extra texlive-publishers texlive-science texlive-xetex
 
-apt-get install -y gimp ipe inkscape
+apt-get install -y scrot gimp ipe inkscape
 apt-get install -y klavaro
 apt-get install -y libreoffice
 apt-get install -y usb-creator-gtk

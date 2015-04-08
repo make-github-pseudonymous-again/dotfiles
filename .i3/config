@@ -185,3 +185,8 @@ exec /usr/bin/xsetroot -solid "#000000"
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 3%+
 bindsym XF86AudioLowerVolume exec amixer -q set Master 3%-
 bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
+
+# print screen
+bindsym Print exec scrot -e "mv $f ~/shots/"
+bindsym $mod+Print exec scrot -s -e "mv $f ~/shots/"
+bindsym $mod+Shift+Print exec scrot -e "mv $f ~/shots/ && gimp ~/shots/$f"
