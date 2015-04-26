@@ -64,4 +64,3 @@ apt-get install -y sloccount
 apt-get install -y vlc
 
 apt-get install -y npm
-ln -s /usr/bin/nodejs /usr/bin/node
