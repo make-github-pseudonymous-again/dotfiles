@@ -55,7 +55,7 @@ apt-get install -y scrot gimp ipe inkscape
 apt-get install -y klavaro
 apt-get install -y libreoffice
 apt-get install -y usb-creator-gtk
-apt-get install -y transmission-gtk
+apt-get install -y transmission-cli transmission-gtk
 apt-get install -y mplayer
 apt-get install -y vlc
 
