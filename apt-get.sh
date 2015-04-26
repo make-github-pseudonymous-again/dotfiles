@@ -19,6 +19,8 @@ apt-get install -y git mercurial subversion
 
 apt-get install -y g++ clang
 
+apt-get install -y npm
+
 apt-get install -y python-dev
 apt-get install -y python python3
 apt-get install -y python-pip python3-pip
@@ -38,6 +40,7 @@ apt-get install -y terminator
 apt-get install -y ranger nautilus baobab ack-grep
 apt-get install -y dnsutils ngrep tcpdump libwww-perl
 
+## latex
 apt-get install -y texlive texlive-base texlive-bibtex-extra texlive-binaries\
 texlive-extra-utils texlive-font-utils texlive-fonts-recommended\
 texlive-generic-recommended texlive-latex-base texlive-latex-extra\
@@ -54,13 +57,15 @@ apt-get install -y libreoffice
 apt-get install -y usb-creator-gtk
 apt-get install -y transmission-gtk
 apt-get install -y mplayer
+apt-get install -y vlc
 
 apt-get install -y apache2 php5 mysql-server mysql-client phpmyadmin php5-imagick filezilla
 apt-get install -y php5-intl php-apc
 apt-get install -y libjpeg-turbo-progs gifsicle optipng
+
+## file preview
 apt-get install -y caca-utils
+apt-get install -y highlight
 
 apt-get install -y sloccount
-apt-get install -y vlc
 
-apt-get install -y npm
