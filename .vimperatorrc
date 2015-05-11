@@ -1,0 +1,33 @@
+
+" Load configuration file into current browser, useful for updating after editing this file.
+command! sourcerc :source ~/.vimperatorrc
+
+" More hint chars than default
+set hintchars=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+" Use sci-hub.org proxy
+javascript <<EOF
+function scihubify() {
+	var location = window.content.window.location ;
+	var url = location.origin +
+	                  ".sci-hub.org" +
+	                  location.pathname +
+	                  location.search +
+	                  location.hash ;
+	liberator.execute( ":open " + url ) ;
+}
+EOF
+command! scihubify javascript scihubify()
+
+" Make bar yellow when focused.
+" From: http://www.reddit.com/r/linux/comments/99d55/i_could_use_a_little_vimperator_help_also/
+javascript <<EOF
+    (function() {
+        var inputElement = document.getElementById('liberator-commandline-command');
+        function swapBGColor(event) {
+            inputElement.style.backgroundColor = event.type == "focus" ? "yellow" : "";
+        }
+        inputElement.addEventListener('focus', swapBGColor, false);
+        inputElement.addEventListener('blur', swapBGColor, false);
+    })();
+EOF
