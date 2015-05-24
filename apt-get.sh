@@ -69,3 +69,5 @@ apt-get install -y highlight
 
 apt-get install -y sloccount
 
+# fonts
+apt-get install -y ttf-ancient-fonts
