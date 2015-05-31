@@ -16,6 +16,7 @@ apt-get install -y vim-gtk
 
 apt-get install -y curl wget
 apt-get install -y git mercurial subversion
+apt-get install -y git-extras
 
 apt-get install -y g++ clang
 

@@ -20,6 +20,7 @@ alias q="exit"
 alias lvl="echo $SHLVL"
 
 alias g="git"
+alias gl="git log"
 alias gd="git diff"
 alias ga="git add"
 alias gc="git commit"
