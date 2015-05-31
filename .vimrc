@@ -1,6 +1,49 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" Make Vim more useful
-set nocompatible
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+Plugin 'kien/ctrlp.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'mattn/emmet-vim'
+Plugin 'ervandew/supertab'
+Plugin 'scrooloose/syntastic'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'bling/vim-airline'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mhinz/vim-signify'
+Plugin 'tpope/vim-surround'
+Plugin 'evidens/vim-twig'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'fatih/vim-go'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -93,9 +136,6 @@ if has("autocmd")
 endif
 
 set showcmd
-
-" Pathogen
-execute pathogen#infect()
 
 " Set colors
 set t_Co=256
