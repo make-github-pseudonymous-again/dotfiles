@@ -1,31 +1,31 @@
 ~/. dotfiles
 ==
 
-Clone
+## Clone
 
     git clone https://github.com/aureooms/dotfiles --recursive
 
 
-Install / Update
+## Install / Update
 
     source bootstrap.sh
 
 
-Install software
+## Install software
 
     sudo sh apt-get.sh
 
 
-Install fonts
+## Install fonts
 
     sh modules/powerline-fonts/install.sh
 
 
-Install Composer
+## Install Composer
 
   - follow instructions here: https://github.com/composer/composer
 
 
-Credits
+## Credits
 
   - https://github.com/mathiasbynens/dotfiles
