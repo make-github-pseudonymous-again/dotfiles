@@ -2,8 +2,8 @@
 ! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
 ! vim: ft=xdefaults
 
-*background: #1D1F21
-*foreground: #C5C8C6
+*background: #333333
+*foreground: #CCCCCC
 ! black
 *color0: #282A2E
 *color8: #373B41
