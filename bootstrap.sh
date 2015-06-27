@@ -16,6 +16,7 @@ function doIt() {
 		--exclude ".gitmodules" \
 		--exclude "bootstrap.sh" \
 		--exclude "apt-get.sh" \
+		--exclude "pacman.sh" \
 		--exclude "npm.sh" \
 		--exclude "gem.sh" \
 		--exclude "modules" \
