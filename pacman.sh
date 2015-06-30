@@ -12,3 +12,4 @@ pacman -S git
 pacman -S rsync
 pacman -S vim
 pacman -S firefox
+pacman -S npm
