@@ -14,3 +14,4 @@ pacman -S vim
 pacman -S firefox
 pacman -S npm
 pacman -S python-pip
+pacman -S python-lxml
