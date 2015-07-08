@@ -174,7 +174,9 @@ let g:airline_powerline_fonts = 1
 let g:ctrlp_show_hidden = 1
 
 " ctrl-c expands {_} to an indented block
-imap <C-c> <CR><Esc>O
+" imap <C-c> <CR><Esc>O
+" Thankyou! this is great, poking around in the docs I found the delimitmate has an option for the enter thingy
+let g:delimitMate_expand_cr = 1
 
 " Experimentally integrate YouCompleteMe with vim-multiple-cursors, otherwise
 " the numerous Cursor events cause great slowness
