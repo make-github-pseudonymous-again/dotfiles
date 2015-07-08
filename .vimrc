@@ -187,3 +187,8 @@ endfunction
 function! Multiple_cursors_after()
 let g:ycm_filetype_whitelist = s:old_ycm_whitelist
 endfunction
+
+" This does what it says on the tin. It will check your file on open too, not just on save.
+" You might not want this, so just leave it out if you don't.
+" (http://oli.me.uk/2013/06/29/equipping-vim-for-javascript/)
+let g:syntastic_check_on_open=1
