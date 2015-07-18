@@ -10,7 +10,7 @@ pacman -S --noconfirm curl
 pacman -S --noconfirm wget
 pacman -S --noconfirm git
 pacman -S --noconfirm rsync
-pacman -S --noconfirm vim
+pacman -S --noconfirm gvim
 pacman -S --noconfirm firefox
 pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
