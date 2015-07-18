@@ -1,5 +1,4 @@
-~/. dotfiles
-==
+# ~/. dotfiles for Arch Linux and Ubuntu
 
 ## Clone
 
@@ -13,7 +12,13 @@
 
 ## Install software
 
-    sudo sh apt-get.sh
+### Arch Linux
+
+	sudo ./pacman.sh
+	
+### Ubuntu
+
+    sudo ./apt-get.sh
 
 
 ## Install fonts
