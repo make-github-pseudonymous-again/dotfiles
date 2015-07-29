@@ -16,4 +16,4 @@ rsync \
 	--exclude "pip.sh" \
 	--exclude "README.md" \
 	--exclude "LICENSE" \
-	-avun . ~;
+	-avnc . ~;
