@@ -111,12 +111,12 @@ bindsym $mod+Shift+R restart
 
 mode "system" {
 
-        bindsym l exec gnome-screensaver-command -l; mode "default"
-        bindsym e exec i3-msg exit; mode "default"
-        bindsym s exec dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend; mode "default"
-        bindsym h exec dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hybernate; mode "default"
-        bindsym r exec dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart; mode "default"
-        bindsym Shift+S exec dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop; mode "default"
+        bindsym l exec system.lock; mode "default"
+        bindsym e exec system.exit; mode "default"
+        bindsym s exec system.suspend; mode "default"
+        bindsym h exec system.hibernate; mode "default"
+        bindsym r exec system.restart; mode "default"
+        bindsym Shift+S exec system.stop; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"

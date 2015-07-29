@@ -1,2 +1,8 @@
 #!/usr/bin/env sh
-nautilus --no-desktop "$@"
+
+if is.distro.arch
+then
+	thunar "$@"
+else
+	nautilus --no-desktop "$@"
+fi

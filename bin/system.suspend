@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+
+if is.distro.arch
+then
+dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:false
+else
+dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+fi

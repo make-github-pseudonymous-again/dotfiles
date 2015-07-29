@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+pacman -S --noconfirm lsb-release
 pacman -S --noconfirm ranger
 pacman -S --noconfirm cmake
 pacman -S --noconfirm make

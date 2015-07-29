@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import sys
+
+try :
+
+    a , b = sys.argv[1:]
+
+    sys.exit( 0 if a == b else 1 )
+
+except ValueError as e :
+
+    print( e )
+    sys.exit( 127 )

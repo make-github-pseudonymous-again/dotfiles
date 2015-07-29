@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+
+if is.distro.arch
+then
+echo "Hibernate not supported because cannot resume from swap"
+false
+#dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Hibernate boolean:false
+else
+dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate
+fi

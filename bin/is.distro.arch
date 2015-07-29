@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+
+if test "`lsb_release -sd | trim`" = '"Arch Linux"'
+then
+	true
+else
+	false
+fi
