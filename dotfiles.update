@@ -8,18 +8,19 @@ mkdir -p ~/shots
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-git pull origin master;
-
 function doIt() {
 	rsync \
 		--exclude ".git/" \
 		--exclude ".gitmodules" \
-		--exclude "bootstrap.sh" \
 		--exclude "apt-get.sh" \
-		--exclude "pacman.sh" \
-		--exclude "npm.sh" \
+		--exclude "dotfiles.diff" \
+		--exclude "dotfiles.update" \
+		--exclude "dotfiles.upgrade" \
 		--exclude "gem.sh" \
 		--exclude "modules" \
+		--exclude "npm.sh" \
+		--exclude "pacman.sh" \
+		--exclude "pip.sh" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
 		-avhL --no-perms . ~;
