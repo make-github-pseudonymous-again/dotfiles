@@ -15,6 +15,12 @@ pacman -S --noconfirm firefox
 pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
+pacman -S --noconfirm transmission-gtk
+
+# iphone / USB
+
+pacman -S --noconfirm usbmuxd gvfs-afc
+pacman -S --noconfirm thunar
 
 # latex
 
