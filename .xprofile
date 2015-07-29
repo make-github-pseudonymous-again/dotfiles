@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Add `~/bin` to the `$PATH`
+if [ -d "$HOME/bin" ] ; then
+	export PATH="$HOME/bin:$PATH";
+fi
+
