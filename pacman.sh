@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+pacman -Syy
+
 pacman -S --noconfirm lsb-release
 pacman -S --noconfirm ranger
 pacman -S --noconfirm cmake
@@ -20,6 +22,7 @@ pacman -S --noconfirm transmission-gtk
 pacman -S --noconfirm fakeroot
 pacman -S --noconfirm vlc
 pacman -S --noconfirm feh imagemagick
+pacman -S --noconfirm gimp
 
 # iphone / USB
 
