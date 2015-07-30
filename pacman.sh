@@ -17,6 +17,7 @@ pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
+pacman -S --noconfirm fakeroot
 
 # iphone / USB
 
