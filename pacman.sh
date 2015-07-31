@@ -22,6 +22,10 @@ pacman -S --noconfirm transmission-gtk
 pacman -S --noconfirm fakeroot
 pacman -S --noconfirm vlc
 
+# disk usage
+
+pacman -S --noconfirm ncdu
+
 # iphone / USB
 
 pacman -S --noconfirm usbmuxd gvfs-afc
