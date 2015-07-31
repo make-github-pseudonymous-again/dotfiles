@@ -182,12 +182,12 @@ exec /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active fals
 exec /usr/bin/xsetroot -solid "#000000"
 
 # volume
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 3%+
-bindsym XF86AudioLowerVolume exec amixer -q set Master 3%-
-bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
+bindsym XF86AudioRaiseVolume exec volume.up
+bindsym XF86AudioLowerVolume exec volume.down
+bindsym XF86AudioMute exec volume.toggle
 
 # print screen
-bindsym --release Print exec scrot -e 'mv ~/$f ~/shots/'
-bindsym --release Shift+Print exec scrot -s -e 'mv ~/$f ~/shots/'
-bindsym --release $mod+Print exec scrot -e 'mv ~/$f ~/shots/ && gimp ~/shots/$f'
-bindsym --release $mod+Shift+Print exec scrot -s -e 'mv ~/$f ~/shots/ && gimp ~/shots/$f'
+bindsym --release Print exec screenshot.all
+bindsym --release Shift+Print exec screenshot.selection
+bindsym --release $mod+Print exec screenshot.all+gimp
+bindsym --release $mod+Shift+Print exec screenshot.selection+gimp

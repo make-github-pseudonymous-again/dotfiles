@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+
+amixer -q -D pulse set Master toggle

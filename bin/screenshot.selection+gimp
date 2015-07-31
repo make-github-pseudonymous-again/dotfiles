@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+
+scrot -s -e 'mv ~/$f ~/shots/ && gimp ~/shots/$f'
