@@ -2,4 +2,4 @@
 
 mkdir -p ~/shots
 
-scrot '~/shots/%Y-%m-%d-%H%M%S_$wx$h.png'
+scrot "$HOME/shots/%Y-%m-%d-%H%M%S_\$wx\$h.png"
