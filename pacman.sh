@@ -29,6 +29,7 @@ pacman -S --noconfirm thunar
 
 # image manipulation
 
+pacman -S --noconfirm scrot
 pacman -S --noconfirm libjpeg-turbo gifsicle optipng
 pacman -S --noconfirm feh imagemagick
 pacman -S --noconfirm gimp
