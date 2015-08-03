@@ -38,6 +38,10 @@ pacman -S --noconfirm libjpeg-turbo gifsicle optipng
 pacman -S --noconfirm feh imagemagick
 pacman -S --noconfirm gimp
 
+# libre office
+
+pacman -S --noconfirm libreoffice-still
+
 # latex
 
 pacman -S --noconfirm extra/texlive-bibtexextra
