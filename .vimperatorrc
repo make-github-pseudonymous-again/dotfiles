@@ -2,8 +2,7 @@
 " Load configuration file into current browser, useful for updating after editing this file.
 command! sourcerc :source ~/.vimperatorrc
 
-" More hint chars than default
-set hintchars=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+set hintchars=0123456789abcdefghijklmnopqrstuvwxyz
 
 " Use sci-hub.org proxy
 javascript <<EOF
