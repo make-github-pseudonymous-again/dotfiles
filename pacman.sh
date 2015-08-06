@@ -29,7 +29,7 @@ pacman -S --noconfirm ncdu
 # iphone / USB
 
 pacman -S --noconfirm usbmuxd gvfs-afc
-pacman -S --noconfirm thunar
+pacman -S --noconfirm tumbler thunar
 
 # image manipulation
 
