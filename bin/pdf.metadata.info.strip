@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+
+pdftk $1 dump_data | \
+sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | \
+pdftk $1 update_info - output $2
