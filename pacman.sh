@@ -21,6 +21,7 @@ pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
 pacman -S --noconfirm fakeroot
+pacman -S --noconfirm autoconf automake
 pacman -S --noconfirm vlc
 
 # disk usage
