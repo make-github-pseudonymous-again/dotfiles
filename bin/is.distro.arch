@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env sh
 
 if test "`lsb_release -sd | trim`" = '"Arch Linux"'
 then

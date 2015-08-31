@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env sh
 
 pdftk $1 dump_data | \
 sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | \
