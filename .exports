@@ -18,5 +18,5 @@ export LESS_TERMCAP_md="${yellow}";
 
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto";
-alias grep="/usr/bin/grep $GREP_OPTIONS"
+alias grep="/usr/bin/env grep $GREP_OPTIONS"
 unset GREP_OPTIONS
