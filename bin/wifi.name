@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-wifi services | awk "/$1/ {print \$3}"
+wifi services | awk "/$1/ {print \$NF}"
