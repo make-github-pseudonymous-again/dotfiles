@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if eval $@ ; then
+echo yes
+else
+echo no
+fi
