@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+wifi.find "$1" | xargs wifi disconnect

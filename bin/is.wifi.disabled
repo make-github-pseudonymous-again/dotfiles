@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+connmanctl scan wifi 2>&1 | grep -q "No carrier"
