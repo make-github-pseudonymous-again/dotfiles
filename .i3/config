@@ -191,3 +191,7 @@ bindsym --release Print exec screenshot.all
 bindsym --release Shift+Print exec screenshot.selection
 bindsym --release $mod+Print exec screenshot.all+gimp
 bindsym --release $mod+Shift+Print exec screenshot.selection+gimp
+
+#keyboard layout
+bindsym $mod+dollar exec setxkbmap us
+bindsym $mod+backslash exec setxkbmap be
