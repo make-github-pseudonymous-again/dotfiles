@@ -162,4 +162,4 @@
 
 [credential]
 
-	helper = cache --timeout=300
+	helper = cache --timeout=900
