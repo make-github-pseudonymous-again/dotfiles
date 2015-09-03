@@ -20,7 +20,7 @@ pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
-pacman -S --noconfirm fakeroot autoconf automake pkg-config patch
+pacman -S --noconfirm fakeroot autoconf automake pkg-config patch ed
 pacman -S --noconfirm vlc
 
 # disk usage
