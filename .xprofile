@@ -5,3 +5,6 @@ if [ -d "$HOME/bin" ] ; then
 	export PATH="$HOME/bin:$PATH";
 fi
 
+if [ -d "$HOME/.ipe/styles" ] ; then
+	export IPESTYLES="$HOME/.ipe/styles";
+fi

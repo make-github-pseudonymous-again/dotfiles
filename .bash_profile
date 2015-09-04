@@ -1,7 +1,8 @@
 # Add `~/bin` to the `$PATH`
-if [ -d "$HOME/bin" ] ; then
-	export PATH="$HOME/bin:$PATH";
-fi
+# (already done in .xprofile)
+#if [ -d "$HOME/bin" ] ; then
+#	export PATH="$HOME/bin:$PATH";
+#fi
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
