@@ -68,3 +68,5 @@ pacman -S --noconfirm extra/texlive-plainextra
 pacman -S --noconfirm extra/texlive-pstricks
 pacman -S --noconfirm extra/texlive-publishers
 pacman -S --noconfirm extra/texlive-science
+
+pacman -S --noconfirm xfig transfig
