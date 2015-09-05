@@ -20,8 +20,11 @@ pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
-pacman -S --noconfirm base-devel 
+pacman -S --noconfirm base-devel
 pacman -S --noconfirm vlc
+
+# replace ugly default font
+pacman -S --noconfirm extra/ttf-dejavu
 
 # disk usage
 
