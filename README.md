@@ -7,7 +7,7 @@
 
 ## Install / Update
 
-    source bootstrap.sh
+    ./dotfiles.update
 
 
 ## Install software
