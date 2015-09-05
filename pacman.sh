@@ -20,7 +20,7 @@ pacman -S --noconfirm npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
-pacman -S --noconfirm fakeroot autoconf automake pkg-config patch ed
+pacman -S --noconfirm base-devel 
 pacman -S --noconfirm vlc
 
 # disk usage
@@ -45,28 +45,28 @@ pacman -S --noconfirm libreoffice-still
 
 # latex
 
-pacman -S --noconfirm extra/texlive-bibtexextra
-pacman -S --noconfirm extra/texlive-bin
-pacman -S --noconfirm extra/texlive-core
-pacman -S --noconfirm extra/texlive-fontsextra
-pacman -S --noconfirm extra/texlive-formatsextra
-pacman -S --noconfirm extra/texlive-games
-pacman -S --noconfirm extra/texlive-genericextra
-pacman -S --noconfirm extra/texlive-htmlxml
-pacman -S --noconfirm extra/texlive-humanities
-pacman -S --noconfirm extra/texlive-langchinese
-pacman -S --noconfirm extra/texlive-langcjk
-pacman -S --noconfirm extra/texlive-langcyrillic
-pacman -S --noconfirm extra/texlive-langextra
-pacman -S --noconfirm extra/texlive-langgreek
-pacman -S --noconfirm extra/texlive-langjapanese
-pacman -S --noconfirm extra/texlive-langkorean
-pacman -S --noconfirm extra/texlive-latexextra
-pacman -S --noconfirm extra/texlive-music
-pacman -S --noconfirm extra/texlive-pictures
-pacman -S --noconfirm extra/texlive-plainextra
-pacman -S --noconfirm extra/texlive-pstricks
-pacman -S --noconfirm extra/texlive-publishers
-pacman -S --noconfirm extra/texlive-science
+pacman -S --noconfirm extra/texlive-bibtexextra\
+extra/texlive-bin\
+extra/texlive-core\
+extra/texlive-fontsextra\
+extra/texlive-formatsextra\
+extra/texlive-games\
+extra/texlive-genericextra\
+extra/texlive-htmlxml\
+extra/texlive-humanities\
+extra/texlive-langchinese\
+extra/texlive-langcjk\
+extra/texlive-langcyrillic\
+extra/texlive-langextra\
+extra/texlive-langgreek\
+extra/texlive-langjapanese\
+extra/texlive-langkorean\
+extra/texlive-latexextra\
+extra/texlive-music\
+extra/texlive-pictures\
+extra/texlive-plainextra\
+extra/texlive-pstricks\
+extra/texlive-publishers\
+extra/texlive-science
 
 pacman -S --noconfirm xfig transfig geogebra
