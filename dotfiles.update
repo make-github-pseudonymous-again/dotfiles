@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-mkdir -p ~/apache-website
-mkdir -p ~/dev
 mkdir -p ~/bin
+mkdir -p ~/dev
 mkdir -p ~/opt
+mkdir -p ~/ulb
+mkdir -p ~/games
 mkdir -p ~/shots
+mkdir -p ~/sandbox
 
 cd "$(dirname "${BASH_SOURCE}")";
 
