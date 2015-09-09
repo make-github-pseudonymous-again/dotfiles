@@ -2,10 +2,19 @@
 
 npm i -g json
 npm i -g jshint
-npm i -g peerflix torrentflix
+npm i -g peerflix
+npm i -g torrentflix
 npm i -g uglify-js
 npm i -g npm-check-updates
-npm i -g jspm duo bower ender spm jamjs component
+npm i -g jspm
+npm i -g duo
+npm i -g bower
+npm i -g ender
+npm i -g spm
+npm i -g jamjs
+npm i -g component
 npm i -g xyz
-npm i -g yo grunt-cli gulp
+npm i -g yo
+npm i -g grunt-cli
+npm i -g gulp
 npm i -g tick
