@@ -22,6 +22,7 @@ pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
 pacman -S --noconfirm base-devel
 pacman -S --noconfirm vlc
+pacman -S --noconfirm testdisk
 
 # replace ugly default font
 pacman -S --noconfirm extra/ttf-dejavu
