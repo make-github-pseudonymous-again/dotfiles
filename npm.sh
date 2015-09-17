@@ -18,3 +18,5 @@ npm i -g yo
 npm i -g grunt-cli
 npm i -g gulp
 npm i -g tick
+npm i -g speed-test
+npm i -g man-n
