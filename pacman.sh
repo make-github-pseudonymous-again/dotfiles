@@ -23,6 +23,8 @@ pacman -S --noconfirm transmission-gtk
 pacman -S --noconfirm base-devel
 pacman -S --noconfirm vlc
 pacman -S --noconfirm testdisk
+pacman -S --noconfirm pkgfile
+pacman -S --noconfirm bind-tools
 
 # replace ugly default font
 pacman -S --noconfirm extra/ttf-dejavu
