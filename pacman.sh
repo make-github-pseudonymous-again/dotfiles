@@ -25,6 +25,8 @@ pacman -S --noconfirm vlc
 pacman -S --noconfirm testdisk
 pacman -S --noconfirm pkgfile
 pacman -S --noconfirm bind-tools
+pacman -S --noconfirm pstoedit python2-numpy python2-lxml uniconvertor
+pacman -S --noconfirm inkscape
 
 # replace ugly default font
 pacman -S --noconfirm extra/ttf-dejavu
