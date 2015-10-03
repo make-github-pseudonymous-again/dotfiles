@@ -68,7 +68,13 @@ complete -W "NSGlobalDomain" defaults;
 complete -o "nospace" -W "firefox" killall;
 
 # Init fasd
-eval "$(fasd --init auto)"
+# eval "$(fasd --init auto)"
+fasd_cache="$HOME/.fasd-init-cache"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init auto >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
 alias v='f -e vim' # quick opening files with vim
 alias m='f -e vlc' # quick opening files with vlc
 alias j='fasd_cd -d'     # cd, same functionality as j in autojump
