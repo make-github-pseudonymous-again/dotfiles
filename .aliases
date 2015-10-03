@@ -90,7 +90,7 @@ done
 command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 # Lock the screen (when going AFK)
-alias afk="gnome-screensaver-command -l"
+alias afk="system.LS"
 
 # Faster npm for Europeans
 command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu/"
