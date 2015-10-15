@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+terminator -b -T urlab.irc -e 'ssh -t rarity.urlab.be "TERM=xterm screen -r"'
