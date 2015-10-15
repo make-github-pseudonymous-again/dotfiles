@@ -22,6 +22,7 @@ function doIt() {
 		--exclude "modules" \
 		--exclude "npm.sh" \
 		--exclude "pacman.sh" \
+		--exclude "yaourt.sh" \
 		--exclude "pip.sh" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
