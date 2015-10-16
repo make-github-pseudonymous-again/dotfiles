@@ -28,7 +28,7 @@ pacman -S --noconfirm bind-tools
 pacman -S --noconfirm pstoedit python2-numpy python2-lxml uniconvertor
 pacman -S --noconfirm inkscape
 
-pacamn -S --noconfirm openssh
+pacman -S --noconfirm openssh
 pacman -S --noconfirm python2-keyring
 pacman -S --noconfirm python-keyring
 
