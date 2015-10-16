@@ -1,0 +1,73 @@
+[general]
+pythonfile = ~/.offlineimap.py
+accounts = personal, riseup, ulb
+ui = ttyui
+
+[Account personal]
+localrepository = personal-local
+remoterepository = personal-remote
+status_backend = sqlite
+
+[Repository personal-local]
+type = Maildir
+localfolders = ~/mail/personal
+# Spaces in pathname are bad. Lets use `archive` which is a simple word
+# Besides, we only need `Tous les messages` folder.
+# Sup would manage mails on its own.
+# If your GMail language setting is not English, you can execute
+# `offlineimap --info` to find out the name of folder which is
+# translated and encoded after your account is configured.
+nametrans = lambda folder: {'archive': '[Gmail]/Tous les messages',
+                            }.get(folder, folder)
+
+[Repository personal-remote]
+# IMAP with hardcoded GMail config
+type = Gmail
+# The path of ca-certfile might be different on your system.
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# Remember that GMail requires full mail address as username
+remoteuser = aurelien.ooms@gmail.com
+remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@gmail.com']).strip()
+nametrans = lambda folder: {'[Gmail]/Tous les messages': 'archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Tous les messages']
+
+[Account riseup]
+localrepository = riseup-local
+remoterepository = riseup-remote
+status_backend = sqlite
+
+[Repository riseup-local]
+type = Maildir
+localfolders = ~/mail/riseup
+nametrans = lambda folder: {}.get(folder, folder)
+
+[Repository riseup-remote]
+type = IMAP
+remotehost = mail.riseup.net
+tls = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remoteuser = aurelien.ooms
+remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@riseup.net']).strip()
+nametrans = lambda folder: {}.get(folder, folder)
+folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
+
+[Account ulb]
+localrepository = ulb-local
+remoterepository = ulb-remote
+status_backend = sqlite
+
+[Repository ulb-local]
+type = Maildir
+localfolders = ~/mail/ulb
+nametrans = lambda folder: {}.get(folder, folder)
+
+[Repository ulb-remote]
+type = IMAP
+remotehost = imap.ulb.ac.be
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remoteuser = aureooms
+remotepasseval = subprocess.check_output(['$','cfg','us','aureooms@ulb.ac.be']).strip()
+nametrans = lambda folder: {}.get(folder, folder)
+folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
