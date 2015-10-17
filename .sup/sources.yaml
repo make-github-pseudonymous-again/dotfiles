@@ -1,28 +1,12 @@
 ---
 - !supmua.org,2006-10-01/Redwood/Maildir
-  uri: maildir:/home/aureooms/mail/personal/archive
-  usual: true
-  archived: true
-  sync_back: true
-  id: 1
-  labels:
-      - gmail
-- !supmua.org,2006-10-01/Redwood/Maildir
   uri: maildir:/home/aureooms/mail/personal/INBOX
   usual: true
   archived: false
   sync_back: true
   id: 2
   labels:
-      - gmail
-- !supmua.org,2006-10-01/Redwood/Maildir
-  uri: maildir:/home/aureooms/mail/riseup/Trash
-  usual: true
-  archived: true
-  sync_back: true
-  id: 3
-  labels:
-      - riseup
+  - gmail
 - !supmua.org,2006-10-01/Redwood/Maildir
   uri: maildir:/home/aureooms/mail/riseup/INBOX
   usual: true
@@ -30,15 +14,7 @@
   sync_back: true
   id: 4
   labels:
-      - riseup
-- !supmua.org,2006-10-01/Redwood/Maildir
-  uri: maildir:/home/aureooms/mail/ulb/Trash
-  usual: true
-  archived: true
-  sync_back: true
-  id: 5
-  labels:
-      - ulb
+  - riseup
 - !supmua.org,2006-10-01/Redwood/Maildir
   uri: maildir:/home/aureooms/mail/ulb/INBOX
   usual: true
@@ -46,4 +22,29 @@
   sync_back: true
   id: 6
   labels:
-      - ulb
+  - ulb
+- !supmua.org,2006-10-01/Redwood/Maildir
+  uri: maildir:/home/aureooms/mail/personal/archive
+  usual: true
+  archived: true
+  sync_back: true
+  id: 1
+  labels:
+  - gmail
+- !supmua.org,2006-10-01/Redwood/Maildir
+  uri: maildir:/home/aureooms/mail/riseup/Trash
+  usual: true
+  archived: true
+  sync_back: true
+  id: 3
+  labels:
+  - riseup
+- !supmua.org,2006-10-01/Redwood/Maildir
+  uri: maildir:/home/aureooms/mail/ulb/Trash
+  usual: true
+  archived: true
+  sync_back: true
+  id: 5
+  labels:
+  - ulb
+- !supmua.org,2006-10-01/Redwood/SentLoader {}
