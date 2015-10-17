@@ -1,0 +1,33 @@
+[global_config]
+  enabled_plugins = APTURLHandler, LaunchpadCodeURLHandler, LaunchpadBugURLHandler
+[keybindings]
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_image = None
+    font = Liberation Mono for Powerline 12
+    scroll_on_output = False
+    scrollback_infinite = True
+    use_system_font = False
+  [[sup]]
+    background_image = None
+    backspace_binding = control-h
+    custom_command = sup
+    font = Liberation Mono for Powerline 12
+    scrollbar_position = hidden
+    use_custom_command = True
+    use_system_font = False
+  [[urlab.irc]]
+    custom_command = 'ssh -t rarity.urlab.be "TERM=xterm screen -dRR"'
+    font = Liberation Mono for Powerline 12
+    scrollbar_position = hidden
+    use_custom_command = True
+    use_system_font = False
