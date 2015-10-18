@@ -1,5 +1,4 @@
 [global_config]
-  enabled_plugins = APTURLHandler, LaunchpadCodeURLHandler, LaunchpadBugURLHandler
 [keybindings]
 [layouts]
   [[default]]
