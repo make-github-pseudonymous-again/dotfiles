@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-system.suspend && system.lock
+system.lock && system.suspend
