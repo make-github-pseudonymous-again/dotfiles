@@ -5,6 +5,7 @@ cd "$(dirname "${BASH_SOURCE}")";
 rsync \
 	--exclude ".git/" \
 	--exclude ".gitmodules" \
+	--exclude "files" \
 	--exclude "apt-get.sh" \
 	--exclude "dotfiles.diff" \
 	--exclude "dotfiles.update" \
