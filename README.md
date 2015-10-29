@@ -1,5 +1,7 @@
 # ~/. dotfiles for Arch Linux and Ubuntu
 
+![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot.png)
+
 ## Clone
 
     git clone https://github.com/aureooms/dotfiles --recursive
