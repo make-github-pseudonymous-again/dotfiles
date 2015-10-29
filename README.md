@@ -36,3 +36,4 @@
 ## Credits
 
   - https://github.com/mathiasbynens/dotfiles
+  - https://github.com/thomacer/dotfiles
