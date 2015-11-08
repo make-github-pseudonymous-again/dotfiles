@@ -1,3 +1,8 @@
 #!/usr/bin/env sh
 
+if is.distro.arch
+then
+amixer -q set Master toggle
+else
 amixer -q -D pulse set Master toggle
+fi
