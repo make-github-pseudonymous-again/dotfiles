@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+ps -aux | grep papercut | grep java 1>/dev/null

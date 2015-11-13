@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+systemctl status cups-browsed.service | grep running 1>/dev/null

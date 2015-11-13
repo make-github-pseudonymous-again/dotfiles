@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+is.cups.running && is.papercut.running
