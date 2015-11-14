@@ -20,11 +20,17 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+p exec i3-sensible-terminal
 
-# kill focused window
-bindsym $mod+Shift+A kill
-
 # start dmenu (a program launcher)
 bindsym $mod+o exec dmenu_run
+
+# start evince
+bindsym $mod+i exec evince
+
+# start firefox
+bindsym $mod+u exec firefox
+
+# kill focused window
+bindsym $mod+Shift+A kill
 
 # change focus
 bindsym $mod+j focus left
