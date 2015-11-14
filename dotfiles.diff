@@ -21,4 +21,4 @@ rsync \
 	-avnchL . ~ | \
 	grep '^\.' | \
 	grep -v '/$' | \
-	$ iter imap "git diff --no-index --color-words {0} $HOME/{0}" ;
+	$ iter imap "git diff --no-index --color-words $HOME/{0} {0}" ;
