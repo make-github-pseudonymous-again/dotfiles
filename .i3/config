@@ -29,6 +29,9 @@ bindsym $mod+i exec evince
 # start firefox
 bindsym $mod+u exec firefox
 
+# start courriel
+bindsym $mod+y exec courriel
+
 # kill focused window
 bindsym $mod+Shift+A kill
 
