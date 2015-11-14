@@ -1,5 +1,10 @@
 [global_config]
 [keybindings]
+  group_tab = <Primary><Super>t
+  group_tab_toggle = <Super>t
+  new_terminator = <Super>p
+  rotate_ccw = <Shift><Alt>k
+  rotate_cw = <Alt>k
 [layouts]
   [[default]]
     [[[child1]]]
@@ -12,13 +17,17 @@
 [profiles]
   [[default]]
     background_image = None
+    copy_on_selection = True
     font = Liberation Mono for Powerline 12
     scroll_on_output = False
     scrollback_infinite = True
+    scrollbar_position = hidden
+    show_titlebar = False
     use_system_font = False
   [[sup]]
     background_image = None
     backspace_binding = control-h
+    copy_on_selection = True
     custom_command = sup
     font = Liberation Mono for Powerline 12
     scrollbar_position = hidden
@@ -27,6 +36,7 @@
     use_system_font = False
   [[urlab.irc]]
     background_image = None
+    copy_on_selection = True
     custom_command = 'ssh -t rarity.urlab.be "TERM=xterm screen -dRR"'
     font = Liberation Mono for Powerline 12
     scrollbar_position = hidden
