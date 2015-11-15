@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if is.wifi.enabled
+then
+echo "enabled"
+else
+echo "disabled"
+fi
