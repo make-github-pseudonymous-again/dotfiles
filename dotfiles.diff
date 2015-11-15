@@ -2,23 +2,5 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-rsync \
-	--exclude ".git/" \
-	--exclude ".gitmodules" \
-	--exclude "files" \
-	--exclude "apt-get.sh" \
-	--exclude "dotfiles.diff" \
-	--exclude "dotfiles.update" \
-	--exclude "dotfiles.upgrade" \
-	--exclude "gem.sh" \
-	--exclude "modules" \
-	--exclude "npm.sh" \
-	--exclude "pacman.sh" \
-	--exclude "yaourt.sh" \
-	--exclude "pip.sh" \
-	--exclude "README.md" \
-	--exclude "LICENSE" \
-	-avnchL . ~ | \
-	grep '^\.' | \
-	grep -v '/$' | \
-	$ iter imap "git diff --no-index --color-words $HOME/{0} {0}" ;
+./dotfiles.list-diff | \
+$ iter imap "git diff --no-index --color-words $HOME/{0} {0}" ;
