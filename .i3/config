@@ -185,9 +185,9 @@ bar {
 }
 
 # enable volume control ( and others )
-exec /usr/bin/gnome-settings-daemon
+exec --no-startup-id /usr/bin/gnome-settings-daemon
 # ... and restore mouse cursor
-exec /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active false
+exec --no-startup-id /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active false
 
 # set background black
 # exec /usr/bin/xsetroot -solid "#000000"
