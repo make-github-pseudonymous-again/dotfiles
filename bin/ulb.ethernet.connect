@@ -5,6 +5,7 @@ import urllib.parse
 import socket , ssl
 import http.client
 import getpass
+import subprocess
 
 # see https://gist.github.com/flandr/74be22d1c3d7c1dfefdd
 
@@ -39,11 +40,14 @@ class SSLv2Handler(urllib.request.HTTPSHandler):
 # Override default handler
 urllib.request.install_opener(urllib.request.build_opener(SSLv2Handler()))
 
-while True :
+username = subprocess.check_output(['$','config','get-user','ulb.ethernet']).decode('utf-8')[:-1]
+password = subprocess.check_output(['$','config','get-password','ulb.ethernet']).decode('utf-8')[:-1]
 
-
+if username == 'None' or password == 'None' :
     username = input( 'username: ' )
     password = getpass.getpass( 'password: ' )
+
+while True :
 
     url = 'https://172.19.78.1/web_auth/index.html'
     values = {'edit_cookies' : '' ,
@@ -69,3 +73,7 @@ while True :
             print( 'connected' )
             break
         else : print( 'bad credentials' )
+
+    username = input( 'username: ' )
+    password = getpass.getpass( 'password: ' )
+
