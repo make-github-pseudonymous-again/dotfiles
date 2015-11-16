@@ -191,7 +191,7 @@ exec --no-startup-id /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cu
 
 # set background black
 # exec /usr/bin/xsetroot -solid "#000000"
-exec --no-startup-id /usr/bin/feh --bg-scale ~/.background.jpg
+exec --no-startup-id ~/bin/wallpaper.refresh
 
 # volume
 bindsym XF86AudioRaiseVolume exec volume.up

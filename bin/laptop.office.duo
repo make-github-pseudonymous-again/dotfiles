@@ -2,4 +2,6 @@
 
 xrandr --output LVDS --auto --output HDMI-0 --auto --output DisplayPort-0 --off
 xrandr --output HDMI-0 --left-of LVDS
+~/bin/wallpaper.refresh
+
 
