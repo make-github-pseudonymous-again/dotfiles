@@ -80,3 +80,6 @@ alias m='f -e vlc' # quick opening files with vlc
 alias j='fasd_cd -d'     # cd, same functionality as j in autojump
 alias o='a -e xdg-open' # quick opening files with xdg-open
 _fasd_bash_hook_cmd_complete v m j o
+
+# bind vi keys
+set -o vi
