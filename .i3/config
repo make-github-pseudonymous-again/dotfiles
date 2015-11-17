@@ -15,7 +15,7 @@ set $mod Mod4
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango: Monospace 8
 
-# This will set borders on new windows to 1pixel if they are in a split
+# This will set borders on new windows to 1 pixel if they are in a split
 # container. In stacked or tabbed containers the title bar(s) will still be
 # shown if there is more than one window in the container.
 for_window [class="^.*"] border pixel 1
@@ -114,6 +114,9 @@ bindsym $mod+Shift+7 move workspace number 7
 bindsym $mod+Shift+8 move workspace number 8
 bindsym $mod+Shift+9 move workspace number 9
 bindsym $mod+Shift+0 move workspace number 10
+
+# rename focused workspace
+bindsym $mod+n exec i3.workspace.rename
 
 # reload the configuration file
 bindsym $mod+Shift+C reload
