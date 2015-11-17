@@ -1,5 +1,7 @@
 [global_config]
 [keybindings]
+  group_all = <Primary><Super>g
+  group_all_toggle = <Super>g
   group_tab = <Primary><Super>t
   group_tab_toggle = <Super>t
   new_terminator = <Super>p
