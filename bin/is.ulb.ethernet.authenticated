@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+is.ulb.ethernet.connected && is.internet.accessible

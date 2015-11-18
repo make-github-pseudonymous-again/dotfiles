@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+time ping -c 1 -s 56 8.8.8.8 | grep '64 bytes from 8.8.8.8'
