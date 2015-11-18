@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+read line || exit 1
+if is.ulb.printer.connected
+then
+line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":"⎙ ulb"})' -o json-0)
+fi
+echo $line
