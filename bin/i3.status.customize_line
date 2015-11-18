@@ -1,10 +1,14 @@
 #!/usr/bin/env sh
 
 read line || exit 1
+
+line=$(echo $line | json -c 'this.full_text !== "no IPv6"')
+
 if is.ulb.printer.connected
 then
 line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":"⎙ ulb"})' -o json-0)
 fi
+
 if is.ulb.ethernet.connected
 then
 	if is.internet.accessible
@@ -14,4 +18,11 @@ then
 	line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -o json-0)
 	fi
 fi
+
+mail_count=$(mail.new_count)
+if test $mail_count -gt 0
+then
+line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -o json-0)
+fi
+
 echo $line
