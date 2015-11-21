@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+killall -USR1 i3status

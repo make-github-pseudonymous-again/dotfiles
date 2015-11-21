@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-amixer -q set Master 3%+
+volume._up
+i3.status.reload
