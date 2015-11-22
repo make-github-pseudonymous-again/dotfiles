@@ -2,7 +2,12 @@
 
 read line || exit 1
 
-line=$(echo $line | json -c 'this.full_text !== "no IPv6"')
+line=$(echo $line | json -c 'this.full_text !== "no IPv6"' -j0)
+
+if is.wifi.disabled
+then
+line=$(echo $line | json -c 'this.name !== "wireless"' -j0)
+fi
 
 if is.ulb.ethernet.connected
 then
@@ -10,18 +15,18 @@ then
 	then
 		if is.cups.running && is.papercut.running
 		then
-			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":"⎙ ulb"})' -o json-0)
+			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":"⎙ ulb"})' -j0)
 		fi
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"})' -o json-0)
+		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"})' -j0)
 	else
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -o json-0)
+		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -j0)
 	fi
 fi
 
 mail_count=$(mail.new_count)
 if test $mail_count -gt 0
 then
-line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -o json-0)
+line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -j0)
 fi
 
 echo $line
