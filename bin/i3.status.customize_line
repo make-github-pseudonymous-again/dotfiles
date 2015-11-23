@@ -3,6 +3,7 @@
 read line || exit 1
 
 line=$(echo $line | json -c 'this.full_text !== "no IPv6"' -j0)
+line=$(echo $line | json -c 'this.full_text !== "No battery"' -j0)
 
 if is.wifi.disabled
 then
