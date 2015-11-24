@@ -57,8 +57,8 @@ alias week='date +%V'
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
-# Get Ubuntu software updates, and update gem, npm, and their installed packages
-alias update='sh -c "apt-get update && apt-get upgrade && npm install npm -g && npm update -g && gem update --system && gem update"'
+# Get Arch Linux software updates, and update gem, npm, and their installed packages
+alias update='sh -c "pacman -Syu && npm install npm -g && npm update -g && gem update --system && gem update"'
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
