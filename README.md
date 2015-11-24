@@ -16,8 +16,8 @@
 
 ### Arch Linux
 
-	sudo ./pacman.sh
-	
+    sudo ./pacman.sh
+
 ### Ubuntu
 
     sudo ./apt-get.sh
@@ -26,11 +26,6 @@
 ## Install fonts
 
     sh modules/powerline-fonts/install.sh
-
-
-## Install Composer
-
-  - follow instructions here: https://github.com/composer/composer
 
 
 ## Credits
