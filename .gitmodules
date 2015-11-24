@@ -4,10 +4,6 @@
 [submodule "modules/composer"]
 	path = modules/composer
 	url = https://github.com/composer/composer
-[submodule ".nvm"]
-	path = .nvm
-	url = https://github.com/creationix/nvm.git
-
 [submodule ".vim/bundle/Vundle.vim"]
 	path = .vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
