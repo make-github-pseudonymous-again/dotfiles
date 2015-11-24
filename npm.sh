@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+if [ $(id -u) != "0" ]
+then
+echo 'must be run as root'
+exit 1
+fi
+
 npm i -g n
 npm i -g json
 npm i -g jshint
