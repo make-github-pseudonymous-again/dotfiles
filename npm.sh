@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+npm i -g n
 npm i -g json
 npm i -g jshint
 npm i -g peerflix
