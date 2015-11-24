@@ -13,7 +13,7 @@ alias dt="cd ~/Desktop"
 alias u="cd ~/ulb"
 alias h="history"
 alias t="touch"
-alias n="ranger"
+alias r="ranger"
 alias q="exit"
 alias lvl="echo $SHLVL"
 
