@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-! is.wifi.disabled
+connmanctl technologies | grep '/net/connman/technology/wifi' -A5 | grep 'Powered = True' 2>&1 1>/dev/null
