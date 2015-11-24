@@ -16,7 +16,7 @@ pacman -S --noconfirm git
 pacman -S --noconfirm rsync
 pacman -S --noconfirm gvim
 pacman -S --noconfirm firefox
-pacman -S --noconfirm npm
+pacman -S --noconfirm nodejs npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
 pacman -S --noconfirm transmission-gtk
