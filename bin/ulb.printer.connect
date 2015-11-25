@@ -13,5 +13,6 @@ then
 echo 'papercut already running'
 else
 echo 'start papercut'
-xvfb-run -a papercut &
+#xvfb-run -a papercut &
+papercut &
 fi
