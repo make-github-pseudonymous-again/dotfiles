@@ -9,4 +9,4 @@ if [ $brightness -lt 0 ] ; then
 brightness=0
 fi
 
-echo $brightness > /sys/class/backlight/gmux_backlight/brightness
+echo $brightness | sudo /usr/bin/tee '/sys/class/backlight/gmux_backlight/brightness'

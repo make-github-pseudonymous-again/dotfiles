@@ -71,6 +71,12 @@
 | winkey + shift + <kbd>c</kbd>   | Reload config file.
 | winkey + shift + <kbd>r</kbd>   | Restart i3.
 
+## Root changes
+
+Add those two lines to /etc/sudoers
+
+    ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/leds/smc\:\:kbd_backlight/brightness 
+    ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/backlight/gmux_backlight/brightness
 
 
 ## Credits

@@ -9,4 +9,4 @@ if [ $brightness -gt $max_brightness ] ; then
 brightness=$max_brightness
 fi
 
-echo $brightness > /sys/class/leds/smc\:\:kbd_backlight/brightness
+echo $brightness | sudo /usr/bin/tee '/sys/class/leds/smc::kbd_backlight/brightness'
