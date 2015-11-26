@@ -206,6 +206,10 @@ bindsym XF86AudioRaiseVolume exec volume.up
 bindsym XF86AudioLowerVolume exec volume.down
 bindsym XF86AudioMute exec volume.toggle
 
+# screen brightness
+bindsym XF86MonBrightnessUp exec screen.brightness.up
+bindsym XF86MonBrightnessDown exec screen.brightness.down
+
 # print screen
 bindsym --release Print exec screenshot.all
 bindsym --release Shift+Print exec screenshot.selection

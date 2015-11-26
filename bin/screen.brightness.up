@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+max_brightness=$(cat /sys/class/backlight/gmux_backlight/max_brightness)
+actual_brightness=$(cat /sys/class/backlight/gmux_backlight/actual_brightness)
+a=3
+b=100
+step=`expr $a \* $max_brightness / $b`
+brightness=`expr $actual_brightness + $step`
+
+if [ $brightness -gt $max_brightness ] ; then
+brightness=$max_brightness
+fi
+
+echo $brightness > /sys/class/backlight/gmux_backlight/brightness
