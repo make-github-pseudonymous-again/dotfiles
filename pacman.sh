@@ -95,3 +95,4 @@ extra/texlive-publishers \
 extra/texlive-science
 
 pacman -S --noconfirm xfig transfig geogebra
+pacman -S --noconfirm xorg-xwininfo xorg-xprop
