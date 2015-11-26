@@ -31,7 +31,7 @@ alias gdt="git diff --word-diff-regex=."
 alias gdw="git diff --color-words"
 
 # ft for ack-grep
-alias ft="ack-grep"
+alias ft="ack"
 # ff to find a file
 alias ff="find . | grep"
 
