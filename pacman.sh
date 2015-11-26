@@ -36,6 +36,7 @@ pacman -S --noconfirm pstoedit python2-numpy python2-lxml uniconvertor
 pacman -S --noconfirm inkscape
 pacman -S --noconfirm thefuck
 pacman -S --noconfirm ack
+pacman -S --noconfirm cups
 
 pacman -S --noconfirm offlineimap
 pacman -S --noconfirm msmtp
