@@ -143,7 +143,7 @@ mode "system" {
 }
 
 bindsym $mod+Delete mode "system"
-
+bindsym $mod+XF86Eject mode "system"
 
 
 # resize window (you can also use the mouse for that)
@@ -209,6 +209,10 @@ bindsym XF86AudioMute exec volume.toggle
 # screen brightness
 bindsym XF86MonBrightnessUp exec screen.brightness.up
 bindsym XF86MonBrightnessDown exec screen.brightness.down
+
+# keyboard backlight
+bindsym XF86KbdBrightnessUp exec keyboard.brightness.up
+bindsym XF86KbdBrightnessDown exec keyboard.brightness.down
 
 # print screen
 bindsym --release Print exec screenshot.all
