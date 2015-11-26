@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+max_brightness=$(cat /sys/class/leds/smc\:\:kbd_backlight/max_brightness)
+actual_brightness=$(cat /sys/class/leds/smc\:\:kbd_backlight/actual_brightness)
+step=`expr $max_brightness / 10`
+brightness=`expr $actual_brightness + $step`
+
+if [ $brightness -gt $max_brightness ] ; then
+brightness=$max_brightness
+fi
+
+echo $brightness > /sys/class/leds/smc\:\:kbd_backlight/brightness
