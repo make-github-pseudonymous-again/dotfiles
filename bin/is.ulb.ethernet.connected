@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-route -n | grep '^0.0.0.0' | grep 'enp3s0f0$' | grep '172.19.78.254' 2>&1 1>/dev/null
+/sbin/ip route | grep 'via 172.19.78.254 dev enp[0-9]s0f0' 2>&1 1>/dev/null
