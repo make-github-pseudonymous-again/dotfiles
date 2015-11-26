@@ -143,7 +143,7 @@ mode "system" {
 }
 
 bindsym $mod+Delete mode "system"
-
+bindsym $mod+XF86Eject mode "system"
 
 
 # resize window (you can also use the mouse for that)
