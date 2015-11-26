@@ -20,6 +20,7 @@ pacman -S --noconfirm wget
 pacman -S --noconfirm zip unzip
 pacman -S --noconfirm git
 pacman -S --noconfirm rsync
+pacman -S --noconfirm terminator
 pacman -S --noconfirm gvim
 pacman -S --noconfirm firefox
 pacman -S --noconfirm nodejs npm
