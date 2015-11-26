@@ -37,6 +37,9 @@ pacman -S --noconfirm inkscape
 pacman -S --noconfirm thefuck
 pacman -S --noconfirm ack
 
+pacman -S --noconfirm offlineimap
+pacman -S --noconfirm msmtp
+
 pacman -S --noconfirm openssh
 pacman -S --noconfirm python2-keyring
 pacman -S --noconfirm python-keyring
