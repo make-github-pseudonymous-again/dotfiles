@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 xrandr --output LVDS --auto --output HDMI-0 --off --output DisplayPort-0 --auto
-xrandr --output DisplayPort-0 --left-of LVDS
+xrandr --output DisplayPort-0 --right-of LVDS
 ~/bin/wallpaper.refresh
 
