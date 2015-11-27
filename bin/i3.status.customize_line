@@ -27,7 +27,7 @@ fi
 mail_count=$(mail.new_count)
 if test $mail_count -gt 0
 then
-line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -j0)
+line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -j0)
 fi
 
 echo $line
