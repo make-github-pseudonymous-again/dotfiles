@@ -253,4 +253,5 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 # Automatically move papercut balance window to the scratchpad.
-for_window [class="biz-papercut-pcng-client-uit-UserClient"] move scratchpad
+for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
+
