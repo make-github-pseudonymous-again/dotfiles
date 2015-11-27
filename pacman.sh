@@ -23,6 +23,7 @@ pacman -S --noconfirm rsync
 pacman -S --noconfirm terminator
 pacman -S --noconfirm gvim
 pacman -S --noconfirm firefox
+pacman -S --noconfirm evince
 pacman -S --noconfirm nodejs npm
 pacman -S --noconfirm python-pip
 pacman -S --noconfirm python-lxml
