@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+terminator -b -T compose -p sup.compose -x sup --compose ${1#mailto:}
