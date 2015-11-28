@@ -36,6 +36,7 @@ pacman -S --needed --noconfirm bind-tools
 pacman -S --needed --noconfirm pstoedit python2-numpy python2-lxml uniconvertor
 pacman -S --needed --noconfirm inkscape
 pacman -S --needed --noconfirm thefuck
+pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
