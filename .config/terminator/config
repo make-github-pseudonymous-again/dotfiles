@@ -37,6 +37,7 @@
     use_custom_command = True
     use_system_font = False
   [[sup.compose]]
+    background_image = None
     backspace_binding = control-h
     copy_on_selection = True
     font = Liberation Mono for Powerline 12
