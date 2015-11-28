@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 volume._toggle
-i3.status.reload
+#i3.status.reload

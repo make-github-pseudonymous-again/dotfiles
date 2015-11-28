@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 volume._down
-i3.status.reload
+#i3.status.reload
