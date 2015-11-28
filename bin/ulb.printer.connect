@@ -1,18 +1,13 @@
 #!/usr/bin/env sh
 
-if is.cups.running
-then
-echo 'cups already running'
+if is.cups.running; then
+	if is.papercut.running; then
+		echo 'papercut already running'
+	else
+		echo 'start papercut'
+		papercut &
+	fi
 else
-echo 'start cups'
-systemctl start cups-browsed.service
-fi
-
-if is.papercut.running
-then
-echo 'papercut already running'
-else
-echo 'start papercut'
-#xvfb-run -a papercut &
-papercut &
+	echo 'cups is not running, run the following command'
+	echo '> systemctl start cups-browsed.service'
 fi

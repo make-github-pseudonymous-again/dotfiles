@@ -7,12 +7,3 @@ ps -aux | grep papercut | grep java | awk '{print $2}' | xargs kill
 else
 echo 'papercut already stopped'
 fi
-
-if is.cups.running
-then
-echo 'stop cups'
-systemctl stop cups-browsed.service
-else
-echo 'cups already stopped'
-fi
-

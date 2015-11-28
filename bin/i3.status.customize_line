@@ -12,11 +12,15 @@ fi
 if is.ulb.ethernet.connected; then
 	if is.internet.accessible; then
 		if is.cups.running && is.papercut.running; then
-			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":"⎙ ulb"})' -j0)
+			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":" ulb"})' -j0)
+		else
+			ulb.printer.connect &
+			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#FFFF00","full_text":" ulb"})' -j0)
 		fi
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"})' -j0)
+		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"})' -j0)
 	else
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -j0)
+		ulb.ethernet.connect &
+		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -j0)
 	fi
 fi
 
