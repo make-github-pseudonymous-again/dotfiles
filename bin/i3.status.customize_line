@@ -32,8 +32,15 @@ fi
 volume=$(volume.get)
 if test $volume -lt 50; then
 	if is.volume.on; then
-		line=$(echo $line | json -e 'if (this.name === "volume") this.full_text = " '$volume'%"' -j0)
+		line=$(echo $line | json -e 'if (this.name === "volume") this.full_text = " '"$volume"'%"' -j0)
 	fi
+fi
+
+urlab_json=$(memoize 300 curl https://urlab.be/spaceapi.json 2>/dev/null)
+urlab_open=$(echo $urlab_json | json state.open)
+if [ $urlab_open == 'true' ] ; then
+	urlab_people=$(echo $urlab_json | json sensors.people_now_present[0].value)
+	line=$(echo $line | json -Ae 'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"})' -j0)
 fi
 
 echo $line
