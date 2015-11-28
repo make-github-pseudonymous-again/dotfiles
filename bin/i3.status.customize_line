@@ -2,10 +2,10 @@
 
 read line || exit 1
 
+if is.wifi.enabled; then
 line=$(echo $line | json -c 'this.full_text !== "no IPv6" && this.full_text !== "No battery"' -j0)
-
-if is.wifi.disabled; then
-line=$(echo $line | json -c 'this.name !== "wireless"' -j0)
+else
+line=$(echo $line | json -c 'this.full_text !== "no IPv6" && this.full_text !== "No battery" && this.name !== "wireless"' -j0)
 fi
 
 if is.ulb.ethernet.connected; then
