@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+import os , sys , json , subprocess , operator , time
+
+CACHE = os.path.expanduser( '~/.cache/memoize' )
+VALUE = ':.?..?+:@#&|^<\\$µù£'
+TIME = 'ç&èà%£*¨/\\°)-²³£´`~'
+NOW = time.time( )
+
+validity = float(sys.argv[1])
+command = sys.argv[2:]
+
+def lookup ( cache , command ) :
+
+    for i , part in enumerate( command ) :
+
+        if part in cache : cache = cache[part]
+
+        else : return ( False , cache , command[i:] )
+
+    return ( True , cache , [ ] )
+
+try :
+
+    with open( CACHE , 'r' ) as _cache :
+
+        cache = json.load( _cache )
+
+except FileNotFoundError :
+
+    cache = {}
+
+found , entry , rest = lookup( cache , command )
+
+if not found or not VALUE in entry or entry[TIME] + validity < NOW :
+
+    if not found :
+
+        for part in rest :
+
+            entry[part] = { }
+            entry = entry[part]
+
+    entry[VALUE] = subprocess.check_output( command ).decode( 'utf8' )
+    entry[TIME] = NOW
+
+    with open( CACHE , 'w' ) as _cache :
+
+        json.dump( cache , _cache )
+
+print( entry[VALUE] , end = '' )
