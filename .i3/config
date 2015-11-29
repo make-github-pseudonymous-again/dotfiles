@@ -13,7 +13,7 @@ set $mod Mod4
 
 # font for window titles. ISO 10646 = Unicode
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango: Monospace 8
+font pango: Monospace, FontAwesome 8
 
 # This will set borders on new windows to 1 pixel if they are in a split
 # container. In stacked or tabbed containers the title bar(s) will still be
