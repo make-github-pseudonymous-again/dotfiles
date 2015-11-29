@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+acpi -b | grep -o '[0-9]*%' | head -c -2 | xargs echo

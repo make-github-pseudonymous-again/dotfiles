@@ -44,6 +44,51 @@ if test $volume -lt 50; then
 	fi
 fi
 
+if power.battery.has; then
+	battery_charge=$(power.battery.charge)
+	if power.adapter.online; then
+		if [ $battery_charge -ge 100 ]; then
+			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+		else
+			if [ $battery_charge -ge 80 ]; then
+				execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+			else
+				if [ $battery_charge -ge 60 ]; then
+					execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+				else
+					if [ $battery_charge -ge 40 ]; then
+						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+					else
+						if [ $battery_charge -ge 20 ]; then
+							execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+						else
+							execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+						fi
+					fi
+				fi
+			fi
+		fi
+	else
+		if [ $battery_charge -ge 80 ]; then
+			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+		else
+			if [ $battery_charge -ge 60 ]; then
+				execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+			else
+				if [ $battery_charge -ge 40 ]; then
+					execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+				else
+					if [ $battery_charge -ge 20 ]; then
+						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+					else
+						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+					fi
+				fi
+			fi
+		fi
+	fi
+fi
+
 urlab_data=$(memoize 300 urlab.data)
 urlab_open=$(echo $urlab_data | head -1)
 urlab_people=$(echo $urlab_data | tail -1)

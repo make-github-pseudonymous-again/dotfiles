@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+acpi -a | grep on-line > /dev/null 2>&1
