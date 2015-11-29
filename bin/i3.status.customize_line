@@ -2,44 +2,62 @@
 
 read line || exit 1
 
-if is.wifi.enabled; then
-line=$(echo $line | json -c 'this.full_text !== "no IPv6" && this.full_text !== "No battery"' -j0)
-else
-line=$(echo $line | json -c 'this.full_text !== "no IPv6" && this.full_text !== "No battery" && this.name !== "wireless"' -j0)
+FILTER_INIT='true'
+PREPEND_INIT='true;'
+EXECUTE_INIT='true;'
+
+filter=$FILTER_INIT
+prepend=$PREPEND_INIT
+execute=$EXECUTE_INIT
+
+filter="$filter"'&& this.full_text !== "no IPv6"'
+filter="$filter"'&& this.full_text !== "No battery"'
+
+if ! is.wifi.enabled; then
+	filter="$filter"'&& this.name !== "wireless"'
 fi
 
 if is.ulb.ethernet.connected; then
 	if is.internet.accessible; then
 		if is.cups.running && is.papercut.running; then
-			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":" ulb"})' -j0)
+			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":" ulb"});'
 		else
 			ulb.printer.connect &
-			line=$(echo $line | json -Ae 'this.unshift({"name":"ulb printer","color":"#FFFF00","full_text":" ulb"})' -j0)
+			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#FFFF00","full_text":" ulb"});'
 		fi
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"})' -j0)
+		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"});'
 	else
 		ulb.ethernet.connect &
-		line=$(echo $line | json -Ae 'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"})' -j0)
+		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"});'
 	fi
 fi
 
 mail_count=$(mail.new_count)
 if test $mail_count -gt 0; then
-line=$(echo $line | json -Ae 'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"})' -j0)
+	prepend="$prepend"'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"});'
 fi
 
 volume=$(volume.get)
 if test $volume -lt 50; then
 	if is.volume.on; then
-		line=$(echo $line | json -e 'if (this.name === "volume") this.full_text = " '"$volume"'%"' -j0)
+		execute="$execute"'if (this.name === "volume") this.full_text = " '"$volume"'%";'
 	fi
 fi
 
-urlab_json=$(memoize 300 curl https://urlab.be/spaceapi.json 2>/dev/null)
-urlab_open=$(echo $urlab_json | json state.open)
-if [ $urlab_open == 'true' ] ; then
-	urlab_people=$(echo $urlab_json | json sensors.people_now_present[0].value)
-	line=$(echo $line | json -Ae 'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"})' -j0)
+urlab_data=$(memoize 300 urlab.data)
+urlab_open=$(echo $urlab_data | head -1)
+urlab_people=$(echo $urlab_data | tail -1)
+
+if [ "$urlab_open" == 'true' ] ; then
+	prepend="$prepend"'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"});'
+fi
+
+if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
+	line=$(echo $line | json -c "$filter" -e "$execute" -j0)
+fi
+
+if [ "$prepend" != "$PREPEND_INIT" ] ; then
+	line=$(echo $line | json -Ae "$prepend" -j0)
 fi
 
 echo $line

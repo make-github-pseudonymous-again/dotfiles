@@ -5,6 +5,7 @@ import os , sys , json , subprocess , operator , time
 CACHE = os.path.expanduser( '~/.cache/memoize' )
 VALUE = ':.?..?+:@#&|^<\\$µù£'
 TIME = 'ç&èà%£*¨/\\°)-²³£´`~'
+RETURNCODE = 'è§§"!§é!è§é!§é!è'
 NOW = time.time( )
 
 validity = float(sys.argv[1])
@@ -40,12 +41,14 @@ if not found or not VALUE in entry or entry[TIME] + validity < NOW :
 
             entry[part] = { }
             entry = entry[part]
-
-    entry[VALUE] = subprocess.check_output( command ).decode( 'utf8' )
+    p = subprocess.run( command , stdout = subprocess.PIPE )
+    entry[VALUE] = p.stdout.decode( 'utf8' )
     entry[TIME] = NOW
+    entry[RETURNCODE] = p.returncode
 
     with open( CACHE , 'w' ) as _cache :
 
         json.dump( cache , _cache )
 
 print( entry[VALUE] , end = '' )
+sys.exit( entry[RETURNCODE] )
