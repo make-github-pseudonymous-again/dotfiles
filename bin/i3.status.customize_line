@@ -47,27 +47,7 @@ fi
 if power.battery.has; then
 	battery_charge=$(power.battery.charge)
 	if power.adapter.online; then
-		if [ $battery_charge -ge 100 ]; then
-			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-		else
-			if [ $battery_charge -ge 80 ]; then
-				execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-			else
-				if [ $battery_charge -ge 60 ]; then
-					execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-				else
-					if [ $battery_charge -ge 40 ]; then
-						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-					else
-						if [ $battery_charge -ge 20 ]; then
-							execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-						else
-							execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-						fi
-					fi
-				fi
-			fi
-		fi
+		execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 	else
 		if [ $battery_charge -ge 80 ]; then
 			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
