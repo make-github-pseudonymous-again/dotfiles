@@ -70,10 +70,10 @@ if power.battery.has; then
 fi
 
 urlab_data=$(memoize 300 urlab.data)
-urlab_open=$(echo $urlab_data | head -1)
-urlab_people=$(echo $urlab_data | tail -1)
+urlab_open=$(echo $urlab_data | cut -d ' ' -f 1)
+urlab_people=$(echo $urlab_data | cut -d ' ' -f 2)
 
-if [ "$urlab_open" == 'true' ] ; then
+if [ "$urlab_open" = 'true' ] ; then
 	prepend="$prepend"'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"});'
 fi
 
