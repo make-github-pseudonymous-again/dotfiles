@@ -22,12 +22,12 @@ if is.ulb.ethernet.connected; then
 		if is.cups.running && is.papercut.running; then
 			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":" ulb"});'
 		else
-			ulb.printer.connect &
+			ulb.printer.connect > /dev/null 2>&1 &
 			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#FFFF00","full_text":" ulb"});'
 		fi
 		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"});'
 	else
-		ulb.ethernet.connect &
+		ulb.ethernet.connect > /dev/null 2>&1 &
 		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"});'
 	fi
 fi
