@@ -71,13 +71,18 @@
 | winkey + shift + <kbd>c</kbd>   | Reload config file.
 | winkey + shift + <kbd>r</kbd>   | Restart i3.
 
-## Root changes
+## Manual changes
+
+### Screen brightness and keyboard backlight (MacBook Pro 8,2)
 
 Add those two lines to /etc/sudoers
 
     ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/leds/smc\:\:kbd_backlight/brightness 
     ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/backlight/gmux_backlight/brightness
 
+### Gimp in single-window mode
+
+Open gimp and select Windows > Single-Window Mode.
 
 ## Credits
 
