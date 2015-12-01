@@ -2,11 +2,18 @@
 pythonfile = ~/.offlineimap.py
 accounts = personal, riseup, ulb
 ui = ttyui
+# Controls how many accounts may be synced simultaneously
+maxsyncaccounts = 3
 
 [Account personal]
 localrepository = personal-local
 remoterepository = personal-remote
 status_backend = sqlite
+# Minutes between syncs
+autorefresh = 5
+# Number of quick-syncs between autorefreshes. Quick-syncs do not update if the
+# only changes were to IMAP flags
+quick = 10
 
 [Repository personal-local]
 type = Maildir
@@ -31,11 +38,27 @@ remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@gmail.co
 nametrans = lambda folder: {'[Gmail]/Tous les messages': 'archive',
                             }.get(folder, folder)
 folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Tous les messages']
+# Instead of closing the connection once a sync is complete, offlineimap will
+# send empty data to the server to hold the connection open. A value of 60
+# attempts to hold the connection for a minute between syncs (both quick and
+# autorefresh).This setting has no effect if autorefresh and holdconnectionopen
+# are not both set.
+keepalive = 60
+# OfflineIMAP normally closes IMAP server connections between refreshes if
+# the global option autorefresh is specified.  If you wish it to keep the
+# connection open, set this to true. This setting has no effect if autorefresh
+# is not set.
+holdconnectionopen = yes
 
 [Account riseup]
 localrepository = riseup-local
 remoterepository = riseup-remote
 status_backend = sqlite
+# Minutes between syncs
+autorefresh = 5
+# Number of quick-syncs between autorefreshes. Quick-syncs do not update if the
+# only changes were to IMAP flags
+quick = 10
 
 [Repository riseup-local]
 type = Maildir
@@ -51,11 +74,27 @@ remoteuser = aurelien.ooms
 remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@riseup.net']).strip()
 nametrans = lambda folder: {}.get(folder, folder)
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
+# Instead of closing the connection once a sync is complete, offlineimap will
+# send empty data to the server to hold the connection open. A value of 60
+# attempts to hold the connection for a minute between syncs (both quick and
+# autorefresh).This setting has no effect if autorefresh and holdconnectionopen
+# are not both set.
+keepalive = 60
+# OfflineIMAP normally closes IMAP server connections between refreshes if
+# the global option autorefresh is specified.  If you wish it to keep the
+# connection open, set this to true. This setting has no effect if autorefresh
+# is not set.
+holdconnectionopen = yes
 
 [Account ulb]
 localrepository = ulb-local
 remoterepository = ulb-remote
 status_backend = sqlite
+# Minutes between syncs
+autorefresh = 5
+# Number of quick-syncs between autorefreshes. Quick-syncs do not update if the
+# only changes were to IMAP flags
+quick = 10
 
 [Repository ulb-local]
 type = Maildir
@@ -71,3 +110,14 @@ remoteuser = aureooms
 remotepasseval = subprocess.check_output(['$','cfg','us','aureooms@ulb.ac.be']).strip()
 nametrans = lambda folder: {}.get(folder, folder)
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
+# Instead of closing the connection once a sync is complete, offlineimap will
+# send empty data to the server to hold the connection open. A value of 60
+# attempts to hold the connection for a minute between syncs (both quick and
+# autorefresh).This setting has no effect if autorefresh and holdconnectionopen
+# are not both set.
+keepalive = 60
+# OfflineIMAP normally closes IMAP server connections between refreshes if
+# the global option autorefresh is specified.  If you wish it to keep the
+# connection open, set this to true. This setting has no effect if autorefresh
+# is not set.
+holdconnectionopen = yes

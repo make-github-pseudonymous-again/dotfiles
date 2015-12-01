@@ -11,3 +11,6 @@ export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 if [ -d "$HOME/.ipe/styles" ] ; then
 	export IPESTYLES="$HOME/.ipe/styles";
 fi
+
+systemctl --user import-environment PATH
+systemctl --user start offlineimap
