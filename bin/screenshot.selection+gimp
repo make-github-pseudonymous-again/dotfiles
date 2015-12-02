@@ -2,4 +2,4 @@
 
 mkdir -p ~/shots
 
-scrot "$HOME/shots/%Y-%m-%d-%H%M%S_\$wx\$h.png" -s -e 'gimp $f'
+scrot "$HOME"'/shots/%Y-%m-%d-%H%M%S_$wx$h.png' -s -e 'gimp $f'

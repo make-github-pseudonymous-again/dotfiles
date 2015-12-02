@@ -6,9 +6,9 @@ FILTER_INIT='true'
 PREPEND_INIT='true;'
 EXECUTE_INIT='true;'
 
-filter=$FILTER_INIT
-prepend=$PREPEND_INIT
-execute=$EXECUTE_INIT
+filter="$FILTER_INIT"
+prepend="$PREPEND_INIT"
+execute="$EXECUTE_INIT"
 
 filter="$filter"'&& this.full_text !== "no IPv6"'
 filter="$filter"'&& this.full_text !== "No battery"'
@@ -32,33 +32,33 @@ if is.ulb.ethernet.connected; then
 	fi
 fi
 
-mail_count=$(mail.new_count)
-if test $mail_count -gt 0; then
+mail_count="$(mail.new_count)"
+if test "$mail_count" -gt 0; then
 	prepend="$prepend"'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"});'
 fi
 
-volume=$(volume.get)
-if test $volume -lt 50; then
+volume="$(volume.get)"
+if test "$volume" -lt 50; then
 	if is.volume.on; then
 		execute="$execute"'if (this.name === "volume") this.full_text = " '"$volume"'%";'
 	fi
 fi
 
 if power.battery.has; then
-	battery_charge=$(power.battery.charge)
+	battery_charge="$(power.battery.charge)"
 	if power.adapter.online; then
 		execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 	else
-		if [ $battery_charge -ge 80 ]; then
+		if [ "$battery_charge" -ge 80 ]; then
 			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 		else
-			if [ $battery_charge -ge 60 ]; then
+			if [ "$battery_charge" -ge 60 ]; then
 				execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 			else
-				if [ $battery_charge -ge 40 ]; then
+				if [ "$battery_charge" -ge 40 ]; then
 					execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 				else
-					if [ $battery_charge -ge 20 ]; then
+					if [ "$battery_charge" -ge 20 ]; then
 						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 					else
 						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
@@ -69,20 +69,20 @@ if power.battery.has; then
 	fi
 fi
 
-urlab_data=$(memoize 300 urlab.data)
-urlab_open=$(echo $urlab_data | cut -d ' ' -f 1)
-urlab_people=$(echo $urlab_data | cut -d ' ' -f 2)
+urlab_data="$(memoize 300 urlab.data)"
+urlab_open="$(echo "$urlab_data" | head -1)"
+urlab_people="$(echo "$urlab_data" | tail -1)"
 
 if [ "$urlab_open" = 'true' ] ; then
 	prepend="$prepend"'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"});'
 fi
 
 if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
-	line=$(echo $line | json -c "$filter" -e "$execute" -j0)
+	line="$(echo "$line" | json -c "$filter" -e "$execute" -j0)"
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line=$(echo $line | json -Ae "$prepend" -j0)
+	line="$(echo "$line" | json -Ae "$prepend" -j0)"
 fi
 
-echo $line
+echo "$line"

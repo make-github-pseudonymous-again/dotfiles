@@ -31,7 +31,7 @@ match_qstring='"[^"\\]*(\\.[^"\\]*)*"' # NOTE: Adds 1 backreference
 
     # Run xprop, transform its output into i3 criteria. Handle fallback to
     # WM_NAME when _NET_WM_NAME isn't set
-    xprop -id $window_id |
+    xprop -id "$window_id" |
         sed -nr \
             -e "s/^WM_CLASS\(STRING\) = ($match_qstring), ($match_qstring)$/instance=\1\nclass=\3/p" \
             -e "s/^WM_WINDOW_ROLE\(STRING\) = ($match_qstring)$/window_role=\1/p" \

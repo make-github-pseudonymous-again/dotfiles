@@ -2,18 +2,18 @@
 
 # skip version
 read line || exit 1
-echo $line
+echo "$line"
 
 # skip opening bracket
 read line || exit 1
-echo $line
+echo "$line"
 
 read line || exit 1
-echo $(echo $line | i3.status.customize_line)
+echo "$(echo "$line" | i3.status.customize_line)"
 
 while :
 do
 	read line || exit 1
-	line=${line:1:${#line}-1}
-	echo ",$(echo $line | i3.status.customize_line)"
+	line="${line:1:${#line}-1}"
+	echo ",$(echo "$line" | i3.status.customize_line)"
 done

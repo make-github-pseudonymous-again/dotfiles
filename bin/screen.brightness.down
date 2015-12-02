@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 
-max_brightness=$(cat /sys/class/backlight/gmux_backlight/max_brightness)
-actual_brightness=$(cat /sys/class/backlight/gmux_backlight/actual_brightness)
-step=`expr $max_brightness / 10`
-brightness=`expr $actual_brightness - $step`
+max_brightness="$(cat /sys/class/backlight/gmux_backlight/max_brightness)"
+actual_brightness="$(cat /sys/class/backlight/gmux_backlight/actual_brightness)"
+step=`expr "$max_brightness" / 10`
+brightness=`expr "$actual_brightness" - "$step"`
 
-if [ $brightness -lt 0 ] ; then
+if [ "$brightness" -lt 0 ] ; then
 brightness=0
 fi
 
-echo $brightness | sudo /usr/bin/tee '/sys/class/backlight/gmux_backlight/brightness'
+echo "$brightness" | sudo /usr/bin/tee '/sys/class/backlight/gmux_backlight/brightness'
