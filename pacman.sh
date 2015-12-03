@@ -40,6 +40,7 @@ pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
+pacman -S --needed --noconfirm xorg-xkill
 
 pacman -S --needed --noconfirm offlineimap
 pacman -S --needed --noconfirm msmtp
