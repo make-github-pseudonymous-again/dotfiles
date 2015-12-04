@@ -30,17 +30,17 @@
     :email: aurelien.ooms@gmail.com
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
-    :gpgkey: ''
+    :gpgkey: '72A5A850'
   :riseup:
     :name: riseup
     :email: aurelien.ooms@riseup.net
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
-    :gpgkey: ''
+    :gpgkey: '72A5A850'
   :ulb:
     :name: ulb
     :email: aureooms@ulb.ac.be
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
-    :gpgkey: ''
+    :gpgkey: '72A5A850'
 :time_mode: 24h
