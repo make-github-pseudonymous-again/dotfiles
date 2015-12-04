@@ -27,6 +27,7 @@ pacman -S --needed --noconfirm evince
 pacman -S --needed --noconfirm nodejs npm
 pacman -S --needed --noconfirm python-pip
 pacman -S --needed --noconfirm python-lxml
+pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
 pacman -S --needed --noconfirm vlc
