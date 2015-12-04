@@ -34,3 +34,4 @@ yaourt -S ruby-gpgme-1
 yaourt -S sup-git
 yaourt -S solaar
 yaourt -S ipe
+yaourt -S keybase-release
