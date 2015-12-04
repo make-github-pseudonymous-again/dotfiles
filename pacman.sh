@@ -21,6 +21,7 @@ pacman -S --needed --noconfirm zip unzip
 pacman -S --needed --noconfirm git
 pacman -S --needed --noconfirm rsync
 pacman -S --needed --noconfirm terminator
+pacman -S --needed --noconfirm bash-completion
 pacman -S --needed --noconfirm gvim
 pacman -S --needed --noconfirm firefox
 pacman -S --needed --noconfirm evince
