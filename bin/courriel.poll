@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+offlineimap -o -u quiet
