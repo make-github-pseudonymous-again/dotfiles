@@ -69,7 +69,18 @@ if power.battery.has; then
 	fi
 fi
 
-urlab_data="$(memoize 300 urlab.data)"
+
+calendar="$(memoize 3600 calendar.next)"
+if [ "$calendar" != '' ]; then
+	prepend="$prepend"'this.unshift({"name":"calendar","color":"#0000FF","full_text":" '"$calendar"'"});'
+fi
+
+weather="$(memoize 3600 weather.next)"
+if [ "$weather" != '' ]; then
+	prepend="$prepend"'this.unshift({"name":"weather","color":"#0000FF","full_text":" '"$weather"'"});'
+fi
+
+urlab_data="$(memoize 3600 urlab.data)"
 urlab_open="$(echo "$urlab_data" | head -1)"
 urlab_people="$(echo "$urlab_data" | tail -1)"
 

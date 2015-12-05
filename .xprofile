@@ -14,3 +14,7 @@ fi
 
 systemctl --user import-environment PATH
 systemctl --user start offlineimap
+
+watch -n 600 memoize 0 weather.next > /dev/null 2>&1 &
+watch -n 600 memoize 0 calendar.next > /dev/null 2>&1 &
+watch -n 300 memoize 0 urlab.data > /dev/null 2>&1 &

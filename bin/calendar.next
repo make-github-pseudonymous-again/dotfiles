@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import sys
+import os.path
+import traceback
+import urllib.request , urllib.error
+import arrow
+import ics
+
+CALENDARS = os.path.expanduser( '~/.calendars' ) ;
+
+with open( CALENDARS , 'r' ) as _calendars :
+
+    _calendars = list( line.rstrip( '\n' ) for line in _calendars )
+
+events = ics.eventlist.EventList( )
+
+for _calendar in _calendars :
+
+    try :
+
+        data = urllib.request.urlopen( _calendar ).read( ).decode( )
+        calendar = ics.Calendar( data )
+
+        for event in calendar.events : events.append( event )
+
+    except urllib.error.URLError as err :
+
+        print( 'Error opening url: {}'.format( _calendar ) , file = sys.stderr )
+        traceback.print_tb( err.__traceback__ , file = sys.stderr )
+
+try :
+
+    now = arrow.now( )
+
+    _next = next( filter( lambda x : x.end >= now , events ) )
+
+    name = _next.name
+    begin = _next.begin
+
+    ef = '{} - {} ({})'
+    if begin < now : '{} - {} (started {})'
+    bf = 'YYYY, MMM D, HH:mm'
+    if begin.year == now.year :
+        if begin.month == now.month :
+            if begin.day == now.day : bf = 'HH:mm'
+            else : bf = 'ddd D, HH:mm'
+        else : bf = 'MMM D, HH:mm'
+
+    print( ef.format( name , begin.format( bf ) , begin.humanize( ) ) )
+
+except StopIteration :
+
+    print( )
