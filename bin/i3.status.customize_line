@@ -72,12 +72,12 @@ fi
 
 calendar="$(memoize 3600 calendar.next)"
 if [ "$calendar" != '' ]; then
-	prepend="$prepend"'this.unshift({"name":"calendar","color":"#0000FF","full_text":" '"$calendar"'"});'
+	prepend="$prepend"'this.unshift({"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"});'
 fi
 
 weather="$(memoize 3600 weather.next)"
 if [ "$weather" != '' ]; then
-	prepend="$prepend"'this.unshift({"name":"weather","color":"#0000FF","full_text":" '"$weather"'"});'
+	prepend="$prepend"'this.unshift({"name":"weather","color":"#FF00FF","full_text":" '"$weather"'"});'
 fi
 
 urlab_data="$(memoize 3600 urlab.data)"

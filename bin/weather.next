@@ -20,4 +20,4 @@ URL = 'https://api.forecast.io/forecast/{}/{},{},{}'.format( APIKEY , LONGITUDE 
 
 data = json.load( reader( urllib.request.urlopen( URL ) ) )
 
-print( data['hourly']['summary'] )
+print( data['currently']['summary'] )
