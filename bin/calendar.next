@@ -39,7 +39,7 @@ try :
     begin = _next.begin.to( 'local' )
 
     ef = '{} - {} ({})'
-    if begin < now : '{} - {} (started {})'
+    if begin < now : ef = '{} - {} (started {})'
     bf = 'YYYY, MMM D, HH:mm'
     if begin.year == now.year :
         if begin.month == now.month :
