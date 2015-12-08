@@ -77,7 +77,7 @@ fi
 
 weather="$(memoize 3600 weather.next)"
 if [ "$weather" != '' ]; then
-	prepend="$prepend"'this.unshift({"name":"weather","color":"#FF00FF","full_text":" '"$weather"'"});'
+	prepend="$prepend"'this.unshift({"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"});'
 fi
 
 urlab_data="$(memoize 3600 urlab.data)"
