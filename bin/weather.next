@@ -5,9 +5,13 @@ import json
 import codecs
 import os.path
 import arrow
+import heapq
 
 def ftoc ( c ) :
     return ( c - 32 ) * 5 / 9
+
+def itom ( i ) :
+    return i * 25.4
 
 reader = codecs.getreader( 'utf8' )
 
@@ -23,12 +27,15 @@ URL = 'https://api.forecast.io/forecast/{}/{},{},{}'.format( APIKEY , LONGITUDE 
 
 _data = json.load( reader( urllib.request.urlopen( URL ) ) )
 
-data = _data['hourly']['data'][:3]
+HALFHOUR = 60 * 60 // 2
+NOW = arrow.now( ).timestamp - HALFHOUR
+
+data = heapq.nsmallest( 3 , filter( lambda x : x['time'] >= NOW , _data['hourly']['data'] ) , key = lambda x : x['time'] )
 t = list( map( round , map( ftoc , map( lambda x : x['apparentTemperature'] , data ) ) ) )
 p = list( map( lambda x : round( 100 * x['precipProbability'] ) , data ) )
-i = list( map( lambda x : x['precipIntensity'] , data ) )
+i = list( map( lambda x : round( itom( x['precipIntensity'] ) , 1 ) , data ) )
 
 if all( map( lambda x : x == 0 , p ) ) :
-    print( ' {}-{}-{}'.format( *t , *p , *i ) )
+    print( '☀ {},{},{}'.format( *t , *p , *i ) )
 else:
-    print( '☔ {}-{}-{} %:{}-{}-{} i:{}-{}-{}'.format( *t , *p , *i ) )
+    print( '☔ {},{},{} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format( *t , *p , *i ) )
