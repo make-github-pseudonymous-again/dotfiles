@@ -70,17 +70,17 @@ if power.battery.has; then
 fi
 
 
-calendar="$(memoize 3600 calendar.next)"
+calendar="$(memoize 3600 calendar.fetch)"
 if [ "$calendar" != '' ]; then
 	prepend="$prepend"'this.unshift({"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"});'
 fi
 
-weather="$(memoize 3600 weather.next)"
+weather="$(memoize 3600 weather.fetch)"
 if [ "$weather" != '' ]; then
 	prepend="$prepend"'this.unshift({"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"});'
 fi
 
-urlab_data="$(memoize 3600 urlab.data)"
+urlab_data="$(memoize 3600 urlab.fetch)"
 urlab_open="$(echo "$urlab_data" | head -1)"
 urlab_people="$(echo "$urlab_data" | tail -1)"
 

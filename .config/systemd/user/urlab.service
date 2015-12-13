@@ -1,0 +1,10 @@
+[Unit]
+Description=UrLaB updates daemon
+
+[Service]
+ExecStart=/usr/bin/env sh urlab.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+

@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+while true; do
+	if memoize 0 urlab.fetch; then
+		sleep 300
+	else
+		sleep 100
+	fi
+done

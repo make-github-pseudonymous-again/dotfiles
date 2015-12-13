@@ -1,0 +1,10 @@
+[Unit]
+Description=Weather updates daemon
+
+[Service]
+ExecStart=/usr/bin/env sh weather.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+
