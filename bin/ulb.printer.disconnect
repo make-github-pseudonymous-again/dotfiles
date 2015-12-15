@@ -3,7 +3,7 @@
 if is.papercut.running
 then
 echo 'stop papercut'
-ps -aux | grep papercut | grep java | awk '{print $2}' | xargs kill
+systemctl --user stop papercut
 else
 echo 'papercut already stopped'
 fi
