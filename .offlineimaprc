@@ -34,7 +34,7 @@ type = Gmail
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 # Remember that GMail requires full mail address as username
 remoteuser = aurelien.ooms@gmail.com
-remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@gmail.com']).strip()
+remotepasseval = subprocess.check_output(['pass','google.com/app/mail/aurelien.ooms@gmail.com']).strip()
 nametrans = lambda folder: {'[Gmail]/Tous les messages': 'archive',
                             }.get(folder, folder)
 folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Tous les messages']
@@ -71,7 +71,7 @@ remotehost = mail.riseup.net
 tls = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 remoteuser = aurelien.ooms
-remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@riseup.net']).strip()
+remotepasseval = subprocess.check_output(['pass','riseup.net/aurelien.ooms@riseup.net']).strip()
 nametrans = lambda folder: {}.get(folder, folder)
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
 # Instead of closing the connection once a sync is complete, offlineimap will
@@ -107,7 +107,7 @@ remotehost = imap.ulb.ac.be
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 remoteuser = aureooms
-remotepasseval = subprocess.check_output(['$','cfg','us','aureooms@ulb.ac.be']).strip()
+remotepasseval = subprocess.check_output(['pass','ULB/aureooms']).strip()
 nametrans = lambda folder: {}.get(folder, folder)
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
 # Instead of closing the connection once a sync is complete, offlineimap will

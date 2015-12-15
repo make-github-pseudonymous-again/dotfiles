@@ -40,8 +40,8 @@ class SSLv2Handler(urllib.request.HTTPSHandler):
 # Override default handler
 urllib.request.install_opener(urllib.request.build_opener(SSLv2Handler()))
 
-username = subprocess.check_output(['$','config','get-user','ulb.ethernet']).decode('utf-8')[:-1]
-password = subprocess.check_output(['$','config','get-password','ulb.ethernet']).decode('utf-8')[:-1]
+username = subprocess.check_output(['pass','ulb.ethernet/user']).decode('utf-8')[:-1]
+password = subprocess.check_output(['pass','ulb.ethernet/login']).decode('utf-8')[:-1]
 
 if username == 'None' or password == 'None' :
     username = input( 'username: ' )
