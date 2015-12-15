@@ -229,15 +229,6 @@ bar {
         status_command ~/bin/system.status
 }
 
-# enable volume control ( and others )
-exec --no-startup-id /usr/bin/gnome-settings-daemon
-# ... and restore mouse cursor
-exec --no-startup-id /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active false
-
-# set background black
-# exec /usr/bin/xsetroot -solid "#000000"
-exec --no-startup-id ~/bin/wallpaper.refresh
-
 # volume
 bindsym XF86AudioRaiseVolume exec volume.up
 bindsym XF86AudioLowerVolume exec volume.down
@@ -277,6 +268,11 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 # Automatically move papercut balance window to the scratchpad.
 for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
+
+
+# set background black
+# exec /usr/bin/xsetroot -solid "#000000"
+exec --no-startup-id ~/bin/wallpaper.refresh
 
 exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
 exec --no-startup-id /usr/bin/systemctl --user start offlineimap
