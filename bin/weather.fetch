@@ -6,6 +6,10 @@ import codecs
 import os.path
 import arrow
 import heapq
+import subprocess
+
+HALFHOUR = 60 * 60 // 2
+ONEDAY = 60 * 60 * 24
 
 def ftoc ( c ) :
     return ( c - 32 ) * 5 / 9
@@ -15,27 +19,34 @@ def itom ( i ) :
 
 reader = codecs.getreader( 'utf8' )
 
-KEYCHAIN = os.path.expanduser( '~/.keychain' )
 GEOLOCATION = os.path.expanduser( '~/.geolocation' )
 
-APIKEY = json.load( open( KEYCHAIN ) )[ 'api.forecast.io' ]
+APIKEY = subprocess.check_output( [ 'pass' , 'api.forecast.io/aurelien.ooms@gmail.com' ] ).decode( ).strip( )
 
 LONGITUDE , LATITUDE = json.load( open( GEOLOCATION ) )
-TIME = arrow.utcnow( ).format( 'YYYY-MM-DDTHH:mm:ssZZ' )
+NOW = arrow.utcnow( )
+TIME = NOW.format( 'YYYY-MM-DDTHH:mm:ssZZ' )
 
-URL = 'https://api.forecast.io/forecast/{}/{},{},{}'.format( APIKEY , LONGITUDE , LATITUDE , TIME )
+URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
+URL = URLFMT.format( APIKEY , LONGITUDE , LATITUDE , TIME )
 
 _data = json.load( reader( urllib.request.urlopen( URL ) ) )
+hourly = _data['hourly']['data']
 
-HALFHOUR = 60 * 60 // 2
-NOW = arrow.now( ).timestamp - HALFHOUR
+if NOW.to('local').hour + 3 >= 24 :
+    TIME2 = NOW.replace( days = +1 ).format( 'YYYY-MM-DDTHH:mm:ssZZ' )
+    URL2 = URLFMT.format( APIKEY , LONGITUDE , LATITUDE , TIME2 )
+    _data2 = json.load( reader( urllib.request.urlopen( URL2 ) ) )
+    hourly.extend( _data2['hourly']['data'] )
 
-data = heapq.nsmallest( 3 , filter( lambda x : x['time'] >= NOW , _data['hourly']['data'] ) , key = lambda x : x['time'] )
+BEGIN = arrow.now( ).timestamp - HALFHOUR
+
+data = heapq.nsmallest( 3 , filter( lambda x : x['time'] >= BEGIN , hourly ) , key = lambda x : x['time'] )
 t = list( map( round , map( ftoc , map( lambda x : x['apparentTemperature'] , data ) ) ) )
 p = list( map( lambda x : round( 100 * x['precipProbability'] ) , data ) )
 i = list( map( lambda x : round( itom( x['precipIntensity'] ) , 1 ) , data ) )
 
 if all( map( lambda x : x == 0 , p ) ) :
-    print( '☀ {},{},{}'.format( *t , *p , *i ) )
+    print( '☀ {:d},{:d},{:d}'.format( *t , *p , *i ) )
 else:
-    print( '☔ {},{},{} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format( *t , *p , *i ) )
+    print( '☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format( *t , *p , *i ) )
