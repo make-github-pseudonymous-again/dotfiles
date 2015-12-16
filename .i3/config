@@ -247,6 +247,12 @@ bindsym --release Print exec screenshot.all
 bindsym --release Shift+Print exec screenshot.selection
 bindsym --release $mod+Print exec screenshot.all+gimp
 bindsym --release $mod+Shift+Print exec screenshot.selection+gimp
+# ... for MacBook Pro
+bindsym --release XF86LaunchA exec screenshot.all
+bindsym --release Shift+XF86LaunchA exec screenshot.selection
+bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
+bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
+
 
 #keyboard layout
 bindsym $mod+dollar exec setxkbmap us
