@@ -33,13 +33,31 @@ try :
 
     now = arrow.now( )
 
-    _next = next( filter( lambda x : x.end >= now , events ) )
+    _fresh = list( filter( lambda x : x.end >= now , events ) )
+    _future = filter( lambda x : x.begin >= now , _fresh )
+    _happening = filter( lambda x : x.begin < now , _fresh )
+    _current = min( _happening , key = lambda x : x.end , default = None )
+    _next = min( _future , key = lambda x : x.begin , default = None )
+
+    if _current is None :
+
+        if _next is None :
+
+            raise ValueError( 'no main event' )
+
+        else :
+
+            _main = _next
+
+    else :
+
+        _main = _current if _next is None or _next.begin >= _current.end else _next
 
     name = _next.name
     begin = _next.begin.to( 'local' )
 
     ef = '{} - {} ({})'
-    if begin < now : ef = '{} - {} (started {})'
+    if begin < now : ef = '(started {2})'
     bf = 'YYYY, MMM D, HH:mm'
     if begin.year == now.year :
         if begin.month == now.month :
@@ -49,6 +67,6 @@ try :
 
     print( ef.format( name , begin.format( bf ) , begin.humanize( ) ) )
 
-except StopIteration :
+except ValueError :
 
     print( )
