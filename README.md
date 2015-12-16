@@ -16,6 +16,7 @@
     sh yaourt.sh
     sudo sh npm.sh
     sudo sh gem.sh
+    sudo sh pip.sh
 
 ### Install fonts
 
