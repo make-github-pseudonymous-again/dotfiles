@@ -208,6 +208,7 @@ bindsym $mod+b mode "layout"
 
 mode "apps" {
 
+        bindsym a exec alarm.new.ui; mode "default"
         bindsym e exec evince; mode "default"
         bindsym f exec firefox; mode "default"
         bindsym c exec courriel; mode "default"

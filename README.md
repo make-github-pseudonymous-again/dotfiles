@@ -86,6 +86,10 @@ Add those two lines to /etc/sudoers
 
 Open gimp and select Windows > Single-Window Mode.
 
+### Enable services
+
+	systemctl enable atd
+
 ## Credits
 
   - https://github.com/mathiasbynens/dotfiles
