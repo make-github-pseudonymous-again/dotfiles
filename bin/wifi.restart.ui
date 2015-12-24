@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if is.wifi.enabled
+then
+wifi.disconnect.ui
+connmanctl disable wifi
+connmanctl enable wifi
+else
+connmanctl enable wifi
+fi

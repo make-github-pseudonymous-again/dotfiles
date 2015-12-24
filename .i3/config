@@ -180,6 +180,7 @@ bindsym $mod+r mode "resize"
 
 mode "wifi" {
 
+        bindsym r exec wifi.restart.ui; mode "default"
         bindsym t exec wifi.toggle.ui; mode "default"
         bindsym d exec wifi.disconnect.ui; mode "default"
         bindsym c exec wifi.connect.ui; mode "default"
