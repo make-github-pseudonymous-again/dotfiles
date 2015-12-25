@@ -217,6 +217,7 @@ mode "apps" {
         bindsym i exec ipe; mode "default"
         bindsym t exec thunar; mode "default"
         bindsym p exec courriel.fetch; mode "default"
+        bindsym n exec news; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -284,6 +285,7 @@ exec --no-startup-id ~/bin/wallpaper.refresh
 
 exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
 exec --no-startup-id /usr/bin/systemctl --user start offlineimap
+exec --no-startup-id /usr/bin/systemctl --user start news
 exec --no-startup-id /usr/bin/systemctl --user start calendar
 exec --no-startup-id /usr/bin/systemctl --user start urlab
 exec --no-startup-id /usr/bin/systemctl --user start weather

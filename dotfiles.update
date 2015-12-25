@@ -9,6 +9,11 @@ mkdir -p ~/shots
 mkdir -p ~/sandbox
 mkdir -p ~/mail
 
+mkdir -p ~/.config
+mkdir -p ~/.config/newsbeuter
+mkdir -p ~/.local/share
+mkdir -p ~/.local/share/newsbeuter
+
 cd "$(dirname "${BASH_SOURCE}")";
 
 function doIt() {

@@ -1,0 +1,10 @@
+[Unit]
+Description=News updates daemon
+
+[Service]
+ExecStart=/usr/bin/env sh news.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+

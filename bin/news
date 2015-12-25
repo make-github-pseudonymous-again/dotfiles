@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+while true; do
+	running=ps axu | awk '/[n]ewsbeuter/ {print $2}'
+	if [ "$running" ] ; then
+		kill -9 "$running"
+	fi
+	if terminator -b -T news -p newsbeuter; then
+		exit 0
+	else
+		sleep 3
+	fi
+done

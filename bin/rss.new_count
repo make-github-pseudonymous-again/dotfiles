@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+echo 'SELECT COUNT(*) FROM rss_item WHERE unread = 1;' | sqlite3 ~/.local/share/newsbeuter/cache.db
