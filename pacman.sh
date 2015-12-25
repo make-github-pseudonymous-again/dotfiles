@@ -48,6 +48,8 @@ pacman -S --needed --noconfirm xclip
 pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
 
+pacman -S --needed --noconfirm newsbeuter
+
 pacman -S --needed --noconfirm offlineimap
 pacman -S --needed --noconfirm msmtp
 
