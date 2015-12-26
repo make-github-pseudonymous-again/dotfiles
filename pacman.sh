@@ -26,6 +26,7 @@ pacman -S --needed --noconfirm gvim
 pacman -S --needed --noconfirm firefox
 pacman -S --needed --noconfirm evince
 pacman -S --needed --noconfirm nodejs npm
+pacman -S --needed --noconfirm pypy3
 pacman -S --needed --noconfirm python-pip
 pacman -S --needed --noconfirm python-lxml
 pacman -S --needed --noconfirm go
