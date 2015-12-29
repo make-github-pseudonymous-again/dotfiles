@@ -6,8 +6,8 @@ echo 'must be run as root'
 exit 1
 fi
 
-pip3 install semantic_version
-pip3 install lxml
-pip3 install arrow
-pip3 install ics
-pip3 install tldr
+pip install semantic_version
+pip install lxml
+pip install arrow
+pip install ics
+pip install tldr
