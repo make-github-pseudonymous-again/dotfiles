@@ -10,3 +10,4 @@ pip3 install semantic_version
 pip3 install lxml
 pip3 install arrow
 pip3 install ics
+pip3 install tldr
