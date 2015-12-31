@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-i3-input -F "exec alarm.new %s" -P '"when" "message": '
+when=$(ui.dialog.input 'when')
+message=$(ui.dialog.input 'message')
+alarm.new "$when" "$message"
