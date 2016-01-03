@@ -1,54 +1,36 @@
-#!/usr/bin/env python3
+#!/usr/bin/env sh
 
-import os , sys , json , subprocess , operator , time
+validity="$1"
+shift
 
-CACHE = os.path.expanduser( '~/.cache/memoize' )
-VALUE = ':.?..?+:@#&|^<\\$µù£'
-TIME = 'ç&èà%£*¨/\\°)-²³£´`~'
-RETURNCODE = 'è§§"!§é!è§é!§é!è'
-NOW = time.time( )
+tmp=$(mktemp /tmp/.memoize_XXXXXXXXXX)
 
-validity = float(sys.argv[1])
-command = sys.argv[2:]
+for a in "$@" ; do
+	echo "$a" >> "$tmp"
+done
 
-def lookup ( cache , command ) :
+cache="$HOME/.cache/memoize/$(sha1sum "$tmp" | head -c 40)"
+rm "$tmp"
 
-    for i , part in enumerate( command ) :
+O="$cache""/O"
+E="$cache""/E"
+R="$cache""/R"
+T="$cache""/T"
 
-        if part in cache : cache = cache[part]
+now=$(date +%s)
+if [ -e "$O" ]; then
+	previous=$(cat "$T")
+	x=`expr $previous + $validity - $now`
+else
+	mkdir -p "$cache"
+	x=-1
+fi
 
-        else : return ( False , cache , command[i:] )
+if test $x -lt 0; then
+	eval "$@" 1>"$O" 2>"$E"
+	echo "$?" > "$R"
+	echo "$now" > "$T"
+fi
 
-    return ( True , cache , [ ] )
-
-try :
-
-    with open( CACHE , 'r' ) as _cache :
-
-        cache = json.load( _cache )
-
-except FileNotFoundError :
-
-    cache = {}
-
-found , entry , rest = lookup( cache , command )
-
-if not found or not VALUE in entry or entry[TIME] + validity < NOW :
-
-    if not found :
-
-        for part in rest :
-
-            entry[part] = { }
-            entry = entry[part]
-    p = subprocess.run( command , stdout = subprocess.PIPE )
-    entry[VALUE] = p.stdout.decode( 'utf8' )
-    entry[TIME] = NOW
-    entry[RETURNCODE] = p.returncode
-
-    with open( CACHE , 'w' ) as _cache :
-
-        json.dump( cache , _cache )
-
-print( entry[VALUE] , end = '' )
-sys.exit( entry[RETURNCODE] )
+cat "$O"
+exit $(cat "$R")
