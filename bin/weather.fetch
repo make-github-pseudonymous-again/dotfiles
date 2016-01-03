@@ -21,7 +21,7 @@ reader = codecs.getreader( 'utf8' )
 
 APIKEY = subprocess.check_output( [ 'pass' , 'api.forecast.io/aurelien.ooms@gmail.com' ] ).decode( ).strip( )
 
-GEOLOCATION = json.load( reader( urllib.request.urlopen( 'http://ip-api.com/json' ) ) )
+GEOLOCATION = json.loads( subprocess.check_output( [ 'memoize' , '3600' , 'geolocation.fetch' ] ).decode( ) )
 LATITUDE , LONGITUDE = GEOLOCATION['lat'] , GEOLOCATION['lon']
 
 NOW = arrow.utcnow( )
