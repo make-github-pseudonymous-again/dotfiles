@@ -3,7 +3,7 @@
 read line || exit 1
 
 FILTER_INIT='true'
-PREPEND_INIT='true;'
+PREPEND_INIT=''
 EXECUTE_INIT='true;'
 
 filter="$FILTER_INIT"
@@ -12,19 +12,19 @@ execute="$EXECUTE_INIT"
 
 calendar="$(memoize 3600 calendar.fetch)"
 if [ "$calendar" != '' ]; then
-	prepend="$prepend"'this.unshift({"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"});'
+	prepend='{"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"},'"$prepend"
 fi
 
 weather="$(memoize 3600 weather.fetch)"
 if [ "$weather" != '' ]; then
-	prepend="$prepend"'this.unshift({"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"});'
+	prepend='{"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"},'"$prepend"
 fi
 
 urlab_data="$(memoize 3600 urlab.fetch)"
 urlab_open="$(echo "$urlab_data" | head -1)"
 urlab_people="$(echo "$urlab_data" | tail -1)"
 if [ "$urlab_open" = 'true' ] ; then
-	prepend="$prepend"'this.unshift({"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"});'
+	prepend='{"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
 if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
@@ -32,7 +32,8 @@ if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line="$(echo "$line" | json -Ae "$prepend" -j0)"
+	line="[""$(echo "$prepend")""$(echo "$line" | tail -c +2)"
 fi
+
 
 echo "$line"

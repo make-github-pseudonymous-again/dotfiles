@@ -3,7 +3,7 @@
 read line || exit 1
 
 FILTER_INIT='true'
-PREPEND_INIT='true;'
+PREPEND_INIT=''
 EXECUTE_INIT='true;'
 
 filter="$FILTER_INIT"
@@ -19,27 +19,27 @@ fi
 
 if is.ulb.ethernet.connected; then
 	if is.internet.accessible; then
-		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"});'
+		prepend='{"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"},'"$prepend"
 		if is.cups.running && is.papercut.running; then
-			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#00FF00","full_text":" ulb"});'
+			prepend='{"name":"ulb printer","color":"#00FF00","full_text":" ulb"},'"$prepend"
 		else
 			ulb.printer.connect > /dev/null 2>&1 &
-			prepend="$prepend"'this.unshift({"name":"ulb printer","color":"#FFFF00","full_text":" ulb"});'
+			prepend='{"name":"ulb printer","color":"#FFFF00","full_text":" ulb"},'"$prepend"
 		fi
 	else
 		ulb.ethernet.connect > /dev/null 2>&1 &
-		prepend="$prepend"'this.unshift({"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"});'
+		prepend='{"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"},'"$prepend"
 	fi
 fi
 
 mail_count="$(mail.new_count)"
 if test "$mail_count" -gt 0; then
-	prepend="$prepend"'this.unshift({"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"});'
+	prepend='{"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
 rss_count="$(rss.new_count)"
 if test "$rss_count" -gt 0; then
-	prepend="$prepend"'this.unshift({"name":"new rss","color":"#00FF00","full_text":" '"$rss_count"'"});'
+	prepend='{"name":"new rss","color":"#00FF00","full_text":" '"$rss_count"'"},'"$prepend"
 fi
 
 volume="$(volume.get)"
@@ -50,10 +50,10 @@ if test "$volume" -lt 50; then
 fi
 
 if power.battery.has; then
-	battery_charge="$(power.battery.charge)"
 	if power.adapter.online; then
 		execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 	else
+		battery_charge="$(power.battery.charge)"
 		if [ "$battery_charge" -ge 80 ]; then
 			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
 		else
@@ -80,7 +80,7 @@ if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line="$(echo "$line" | json -Ae "$prepend" -j0)"
+	line="[""$(echo "$prepend")""$(echo "$line" | tail -c +2)"
 fi
 
 echo "$line"
