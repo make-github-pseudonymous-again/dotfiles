@@ -230,6 +230,8 @@ bindsym $mod+i mode "apps"
 # finds out, if available)
 bar {
         status_command ~/bin/system.status
+        wheel_up_cmd nop
+        wheel_down_cmd nop
 }
 
 # volume
