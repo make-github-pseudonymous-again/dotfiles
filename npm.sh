@@ -7,7 +7,6 @@ exit 1
 fi
 
 npm i -g n
-npm i -g json
 npm i -g jshint
 npm i -g peerflix
 npm i -g torrentflix

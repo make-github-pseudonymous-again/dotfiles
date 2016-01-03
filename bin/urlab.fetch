@@ -3,4 +3,4 @@
 # 1. state.open
 # 2. sensors.people_now_present[0].value
 
-curl https://urlab.be/spaceapi.json 2>/dev/null | json state.open sensors.people_now_present[0].value
+curl https://urlab.be/spaceapi.json 2>/dev/null | jq -r '.state.open, .sensors.people_now_present[0].value'
