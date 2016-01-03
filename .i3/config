@@ -205,12 +205,14 @@ mode "layout" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+b mode "layout"
+bindsym $mod+y mode "layout"
 
 mode "apps" {
 
         bindsym a exec alarm.new.ui; mode "default"
         bindsym e exec evince; mode "default"
+        bindsym s exec search; mode "default"
+        bindsym d exec dropbox; mode "default"
         bindsym f exec firefox; mode "default"
         bindsym c exec courriel; mode "default"
         bindsym h exec hangouts; mode "default"
@@ -229,10 +231,38 @@ bindsym $mod+i mode "apps"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+        id main
+        position bottom
         status_command ~/bin/system.status
+
         wheel_up_cmd nop
         wheel_down_cmd nop
+        #bindsym button4 nop
+        #bindsym button5 nop
+
+        tray_output none
 }
+
+bar {
+        id extra
+        position top
+        status_command ~/bin/system.status.extra
+
+        wheel_up_cmd nop
+        wheel_down_cmd nop
+        #bindsym button4 nop
+        #bindsym button5 nop
+
+        mode invisible
+        hidden_state show
+
+        workspace_buttons no
+        binding_mode_indicator no
+}
+
+bindsym $mod+u bar mode invisible extra
+bindsym $mod+Shift+u bar mode dock extra
+
 
 # volume
 bindsym XF86AudioRaiseVolume exec volume.up

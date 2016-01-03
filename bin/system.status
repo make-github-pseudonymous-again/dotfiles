@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-i3status | i3.status.customize
+i3status --config ~/.config/i3status/config | i3.status.customize

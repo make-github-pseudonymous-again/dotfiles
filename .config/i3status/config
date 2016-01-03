@@ -18,10 +18,10 @@ general {
 order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery 0"
-order += "disk /"
-order += "load"
-order += "cpu_usage"
-order += "cpu_temperature 0"
+#order += "disk /"
+#order += "load"
+#order += "cpu_usage"
+#order += "cpu_temperature 0"
 order += "tztime local"
 order += "volume master"
 
@@ -54,8 +54,8 @@ run_watch VPN {
         pidfile = "/var/run/vpnc/pid"
 }
 
-tztime local {
-        format = " %Y-%m-%d %a  %H:%M:%S"
+disk "/" {
+        format = " %avail"
 }
 
 load {
@@ -70,8 +70,8 @@ cpu_temperature 0 {
         format = " %degrees°C"
 }
 
-disk "/" {
-        format = " %avail"
+tztime local {
+        format = " %Y-%m-%d %a  %H:%M:%S"
 }
 
 volume master {
