@@ -58,6 +58,10 @@ pacman -S --needed --noconfirm openssh
 pacman -S --needed --noconfirm python2-keyring
 pacman -S --needed --noconfirm python-keyring
 
+# json CLI processor
+
+pacman -S --needed --noconfirm jq
+
 # replace ugly default font
 pacman -S --needed --noconfirm extra/ttf-dejavu
 

@@ -2,13 +2,9 @@
 
 read line || exit 1
 
-FILTER_INIT='true'
 PREPEND_INIT=''
-EXECUTE_INIT='true;'
 
-filter="$FILTER_INIT"
 prepend="$PREPEND_INIT"
-execute="$EXECUTE_INIT"
 
 calendar="$(memoize 3600 calendar.fetch)"
 if [ "$calendar" != '' ]; then
@@ -25,10 +21,6 @@ urlab_open="$(echo "$urlab_data" | head -1)"
 urlab_people="$(echo "$urlab_data" | tail -1)"
 if [ "$urlab_open" = 'true' ] ; then
 	prepend='{"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"},'"$prepend"
-fi
-
-if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
-	line="$(echo "$line" | json -c "$filter" -e "$execute" -j0)"
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then

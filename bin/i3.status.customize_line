@@ -2,19 +2,17 @@
 
 read line || exit 1
 
-FILTER_INIT='true'
 PREPEND_INIT=''
-EXECUTE_INIT='true;'
+EXECUTE_INIT='.'
 
-filter="$FILTER_INIT"
 prepend="$PREPEND_INIT"
 execute="$EXECUTE_INIT"
 
-filter="$filter"'&& this.full_text !== "no IPv6"'
-filter="$filter"'&& this.full_text !== "No battery"'
+execute="$execute"'| map( select( .full_text != "no IPV6" ) )'
+execute="$execute"'| map( select( .full_text != "No battery" ) )'
 
 if ! is.wifi.enabled; then
-	filter="$filter"'&& this.name !== "wireless"'
+	execute="$execute"'| map( select( .name != "wireless" ) )'
 fi
 
 if is.ulb.ethernet.connected; then
@@ -45,38 +43,32 @@ fi
 volume="$(volume.get)"
 if test "$volume" -lt 50; then
 	if is.volume.on; then
-		execute="$execute"'if (this.name === "volume") this.full_text = " '"$volume"'%";'
+		execute="$execute"'| map(select(.name == "volume").full_text |= " '"$volume"'%")'
 	fi
 fi
 
 if power.battery.has; then
 	if power.adapter.online; then
-		execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+		execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
 	else
 		battery_charge="$(power.battery.charge)"
 		if [ "$battery_charge" -ge 80 ]; then
-			execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
+			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+		elif [ "$battery_charge" -ge 60 ]; then
+			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+		elif [ "$battery_charge" -ge 40 ]; then
+			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+		elif [ "$battery_charge" -ge 20 ]; then
+			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
 		else
-			if [ "$battery_charge" -ge 60 ]; then
-				execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-			else
-				if [ "$battery_charge" -ge 40 ]; then
-					execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-				else
-					if [ "$battery_charge" -ge 20 ]; then
-						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-					else
-						execute="$execute"'if (this.name === "battery") this.full_text = "" + this.full_text;'
-					fi
-				fi
-			fi
+			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
 		fi
 	fi
 fi
 
 
-if [ "$filter" != "$FILTER_INIT" ] || [ "$execute" != "$EXECUTE_INIT" ] ; then
-	line="$(echo "$line" | json -c "$filter" -e "$execute" -j0)"
+if  [ "$execute" != "$EXECUTE_INIT" ] ; then
+	line="$(echo "$line" | jq -cM "$execute")"
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
