@@ -19,16 +19,16 @@ def itom ( i ) :
 
 reader = codecs.getreader( 'utf8' )
 
-GEOLOCATION = os.path.expanduser( '~/.geolocation' )
-
 APIKEY = subprocess.check_output( [ 'pass' , 'api.forecast.io/aurelien.ooms@gmail.com' ] ).decode( ).strip( )
 
-LONGITUDE , LATITUDE = json.load( open( GEOLOCATION ) )
+GEOLOCATION = json.load( reader( urllib.request.urlopen( 'http://ip-api.com/json' ) ) )
+LATITUDE , LONGITUDE = GEOLOCATION['lat'] , GEOLOCATION['lon']
+
 NOW = arrow.utcnow( )
 TIME = NOW.format( 'YYYY-MM-DDTHH:mm:ssZZ' )
 
 URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
-URL = URLFMT.format( APIKEY , LONGITUDE , LATITUDE , TIME )
+URL = URLFMT.format( APIKEY , LATITUDE , LONGITUDE , TIME )
 
 _data = json.load( reader( urllib.request.urlopen( URL ) ) )
 hourly = _data['hourly']['data']

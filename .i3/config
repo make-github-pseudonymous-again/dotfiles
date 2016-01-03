@@ -219,6 +219,7 @@ mode "apps" {
         bindsym i exec ipe; mode "default"
         bindsym t exec thunar; mode "default"
         bindsym p exec courriel.fetch; mode "default"
+        bindsym m exec maps; mode "default"
         bindsym n exec news; mode "default"
 
         # back to normal: Enter or Escape

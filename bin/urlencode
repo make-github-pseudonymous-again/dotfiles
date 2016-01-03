@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+perl -pe 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'
