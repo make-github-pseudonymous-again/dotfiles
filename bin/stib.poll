@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+while true; do
+	if memoize 0 stib.fetch; then
+		sleep 30
+	else
+		sleep 10
+	fi
+done

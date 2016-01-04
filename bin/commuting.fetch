@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+
+import os , sys , json , time
+
+CONFIG = os.path.expanduser( '~/.config/commuting/config' )
+
+STIBCACHE = os.path.expanduser( '~/.cache/stib' )
+STIBCONFIG = os.path.expanduser( '~/.config/stib/config' )
+
+HALT = STIBCACHE + '/{}'
+LINE = HALT + '/{}'
+TIME = LINE + '/{}'
+
+log = lambda *x , **y : print( *x , **y , file = sys.stderr )
+
+with open( CONFIG ) as _config :
+    config = json.load( _config )
+
+with open( STIBCONFIG ) as _config :
+    stibconfig = json.load( _config )
+
+log( config )
+log( stibconfig )
+
+pt = frozenset( ( args[0] , args[1] ) for road in config.values( ) for path in road['paths'] for T , *args in
+        path if T in 'BTM' )
+
+log( pt )
+
+
+def grab ( halt , line ) :
+
+    try :
+
+        return sorted( map( int , os.listdir( LINE.format( halt , line ) ) ) )
+
+    except FileNotFoundError :
+
+        log( 'no data for' , halt , line )
+
+        return [ ]
+
+def _repr ( path ) :
+
+    return ' -- '.join( T if T == 'W' else args[1] for T , *args in path )
+
+stib = { }
+
+for halt , line in pt :
+
+    if halt not in stibconfig or line not in stibconfig[halt] :
+
+        log( 'warning: stib is not configured to fetch' , halt , line )
+
+    stib[ ( halt , line ) ] = grab( halt , line )
+
+log( stib )
+
+NOW = time.time( )
+
+def allroutes ( ) :
+
+    for name , road in config.items( ) :
+
+        for path in road['paths'] :
+
+            for route in routes( path ) :
+
+                yield name , route
+
+def routes ( path , leave = None , total = 0 , prev = ( ) ) :
+
+    if not path :
+
+        yield leave , total , prev
+
+        return
+
+    T , *args = path[0]
+
+    if T == 'W' :
+
+        duration = args[0]
+
+        yield from routes( path[1:] , leave , total + duration , prev + (
+            path[0], ) )
+
+    else :
+
+        halt , line , duration = args
+
+        if leave is None :
+
+            for timestamp in stib[ ( halt , line ) ] :
+
+                yield from routes( path[1:] , timestamp - total , total +
+                        duration , prev + ( path[0], ) )
+        else :
+
+            for timestamp in stib[ ( halt , line ) ] :
+
+                waiting = timestamp - leave - total
+
+                if waiting < 0 : continue
+
+                yield from routes( path[1:] , leave , total + waiting +
+                        duration , prev + ( path[0], ) )
+
+
+for name , route in allroutes ( ) :
+
+    leave , total , path = route
+
+    log( name , leave , total , _repr( path ) )
+

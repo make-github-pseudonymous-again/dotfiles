@@ -323,3 +323,4 @@ exec --no-startup-id /usr/bin/systemctl --user start calendar
 exec --no-startup-id /usr/bin/systemctl --user start urlab
 exec --no-startup-id /usr/bin/systemctl --user start weather
 exec --no-startup-id /usr/bin/systemctl --user start geolocation
+exec --no-startup-id /usr/bin/systemctl --user start stib
