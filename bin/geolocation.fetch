@@ -45,11 +45,19 @@ def precise ( key , value ) :
 
             return 0
 
+        score += len( value['TRUE'] )
+
+        log( '[{}] ok TRUE'.format( key ) )
+
     if 'FALSE' in value :
 
         if any( run( test ).returncode == 0 for test in value['FALSE'] ) :
 
             return 0
+
+        score += len( value['FALSE'] )
+
+        log( '[{}] ok FALSE'.format( key ) )
 
     if 'true' in value :
 
@@ -59,13 +67,17 @@ def precise ( key , value ) :
 
                 score += 1
 
+                log( '[{}] ok true {}'.format( key , test ) )
+
     if 'false' in value :
 
-        for test in value['true'] :
+        for test in value['false'] :
 
             if run( test ).returncode != 0 :
 
                 score += 1
+
+                log( '[{}] ok false {}'.format( key , test ) )
 
     if 'wifi' in value :
 
@@ -79,6 +91,8 @@ def precise ( key , value ) :
 
                     score += 1
 
+                    log( '[{}] ok fingerprint {}'.format( key , string ) )
+
         if 'connected' in value :
 
             _ , connected = getwifiservices( )
@@ -89,6 +103,8 @@ def precise ( key , value ) :
 
                     score += 1
 
+                    log( '[{}] ok connected {}'.format( key , string ) )
+
     return score
 
 scores = [ ]
@@ -96,6 +112,8 @@ scores = [ ]
 for key , value in config["precise"].items( ) :
 
     scores.append( ( precise( key , value ) , key ) )
+
+log( scores )
 
 score , key = max( scores )
 

@@ -23,6 +23,16 @@ if [ "$urlab_open" = 'true' ] ; then
 	prepend='{"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
+commuting="$(commuting.fetch | head -n 1)"
+if [ "$commuting" != '' ]; then
+	prepend="$commuting"','"$prepend"
+fi
+
+geolocation="$(memoize 3600 geolocation.fetch | jq -r '.precise')"
+if [ "$geolocation" != '' ]; then
+	prepend='{"name":"geolocation","color":"#FF6600","full_text":" '"$geolocation"'"},'"$prepend"
+fi
+
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
 	line="[""$(echo "$prepend")""$(echo "$line" | tail -c +2)"
 fi

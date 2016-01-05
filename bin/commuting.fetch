@@ -38,7 +38,61 @@ def grab ( halt , line ) :
 
 def _repr ( path ) :
 
-    return ' -- '.join( T if T == 'W' else args[1] for T , *args in path )
+    _map = {
+        "w" : lambda A , B : '  ({})'.format( _shortduration( A , B ) ) ,
+        "W" : lambda s : '  ' ,
+        "T" : lambda halt , line , s : '  {}'.format( line ) ,
+        "B" : lambda halt , line , s : '  {}'.format( line ) ,
+        "M" : lambda halt , line , s : '  {}'.format( line )
+    }
+
+    return '  '.join( _map[T](*args) for T , *args in path )
+
+def _humanize ( time , ref ) :
+
+    x = time.humanize( ref )
+
+    if x == "in seconds" :
+
+        return "in {} seconds".format( ( time - ref ).seconds )
+
+    if x == "just now" :
+
+        return "now"
+
+    return x
+
+def _duration ( A , B ) :
+
+    x = _humanize( B , A )
+
+    if x == 'now' :
+
+        return '{} seconds'.format( ( B - A ).seconds )
+
+    if x == 'in a minute' :
+
+        return '1 minute'
+
+    return x[3:]
+
+def _shortduration ( A , B ) :
+
+    x = _duration( A , B )
+
+    if 'minutes' in x or 'seconds' in x :
+
+        return x[:-4]
+
+    if 'minute' in x :
+
+        return x[:-3]
+
+    return x
+
+def _diff ( a , b ) :
+
+    return a.datetime.timestamp( ) - b.datetime.timestamp( )
 
 stib = { }
 
@@ -91,14 +145,23 @@ def routes ( path , leave = None , total = 0 , prev = ( ) ) :
 
             for timestamp in stib[ ( halt , line ) ] :
 
-                # not sure if best option
 
-                waiting = timestamp.datetime.timestamp( ) - leave.datetime.timestamp( ) - total
+                waiting = _diff( timestamp , leave ) - total
 
                 if waiting < 0 : continue
 
-                yield from routes( path[1:] , leave , total + waiting +
+                elif waiting == 0 :
+
+                    yield from routes( path[1:] , leave , total + waiting +
                         duration , prev + ( path[0], ) )
+
+                else :
+
+                    A = leave.replace( seconds = +total )
+                    B = A.replace( seconds = +waiting )
+
+                    yield from routes( path[1:] , leave , total + waiting +
+                        duration , prev + ( [ 'w' , A , B ] , path[0] ) )
 
 NOW = arrow.now( )
 
@@ -132,10 +195,34 @@ for name , _path , _leave , _arrival in myroutes :
 
     if not myfilter( name ) : continue
 
-    leave = _leave.humanize( NOW )
-    arrival = _arrival.humanize( NOW )
-    total = _arrival.humanize( _leave )[3:] # remove "in " prefix
+    title = config[name]['title']
+    leave = _humanize( _leave , NOW )
+    arrival = _humanize( _arrival , NOW )
+    total = _duration( _leave , _arrival ) # remove "in " prefix
     path = _repr( _path )
+    eta = _arrival.format( 'HH:mm:ss' )
 
-    log( name , leave , arrival , path , total )
+    full_text = ' [{}] leave {}, commute {}, arrive {} :{} : ETA  {}'.format(
+        title , leave , total , arrival , path , eta
+    )
 
+    color = "#6DE256"
+
+    if len( _path ) > 1 :
+
+        d = _diff( _leave , NOW )
+
+        if d < 600 :
+
+            if d < 60 :
+
+                color = "#FA2A00"
+
+            else :
+
+                color = "#C5E946"
+
+    data = { "name" : "commuting" , "color" : color , "full_text" : full_text }
+
+    json.dump( data , sys.stdout )
+    sys.stdout.write( '\n' )

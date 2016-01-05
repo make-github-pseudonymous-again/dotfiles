@@ -30,7 +30,7 @@
 
 			"wifi" : {
 				"fingerprint" : [ "Waffle" , "eduroam" ] ,
-				"connected" : [ ]
+				"connected" : [ "eduroam" ]
 			}
 
 		}
