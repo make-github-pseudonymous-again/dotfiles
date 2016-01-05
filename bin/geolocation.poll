@@ -2,7 +2,7 @@
 
 while true; do
 	if memoize 0 geolocation.fetch; then
-		sleep 600
+		sleep 300
 	else
 		sleep 100
 	fi
