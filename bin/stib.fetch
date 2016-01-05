@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os , sys , json , time , shutil , urllib.request
+import os , sys , json , arrow , shutil , urllib.request
 
 from xml.etree import ElementTree
 
@@ -55,7 +55,7 @@ for halt , lines in config.items( ) :
         log( 'failed to download' , url )
         continue
 
-    now = round( time.time( ) )
+    now = arrow.now( )
 
     waitingtimes = list( W.iter( 'waitingtime' ) )
 
@@ -69,10 +69,12 @@ for halt , lines in config.items( ) :
 
         w = { tag.tag : tag.text for tag in waitingtime }
 
+        timestamp = now.replace( minutes = +int( w['minutes'] ) )
+
         if w['line'] in lines :
 
-            save( halt , w['line'] , int( w['minutes'] ) * 60 + now )
+            save( halt , w['line'] , timestamp )
 
         else :
 
-            log( ' ' , halt , w['line'] , int( w['minutes'] ) * 60 + now )
+            log( ' ' , halt , w['line'] , timestamp )

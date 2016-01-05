@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os , sys , json , time
+import os , sys , json , arrow
 
 CONFIG = os.path.expanduser( '~/.config/commuting/config' )
 
@@ -32,7 +32,7 @@ def grab ( halt , line ) :
 
     try :
 
-        return sorted( map( int , os.listdir( LINE.format( halt , line ) ) ) )
+        return sorted( map( arrow.get , os.listdir( LINE.format( halt , line ) ) ) )
 
     except FileNotFoundError :
 
@@ -56,7 +56,7 @@ for halt , line in pt :
 
 log( stib )
 
-NOW = time.time( )
+NOW = arrow.now( )
 
 def allroutes ( ) :
 
@@ -109,7 +109,16 @@ def routes ( path , leave = None , total = 0 , prev = ( ) ) :
 
 for name , route in allroutes ( ) :
 
-    leave , total , path = route
+    _leave , _total , _path = route
 
-    log( name , leave , total , _repr( path ) )
+    if _leave is None : _leave = NOW
+
+    _arrival = _leave.update( seconds = +_total )
+
+    leave = _leave.humanize( )
+    arrival = _arrival.humanize( )
+    total = arrival.humanize( leave )
+    path = _repr( _path )
+
+    log( name , leave , arrival , total , path )
 
