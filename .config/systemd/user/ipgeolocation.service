@@ -1,0 +1,10 @@
+[Unit]
+Description=IP Geolocation updates daemon
+
+[Service]
+ExecStart=/usr/bin/env sh ipgeolocation.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+

@@ -1,7 +1,7 @@
 {
 
-	"OFFICE" : {
-		"condition" : "OFFICE -> HOME" ,
+	"home -> office" : {
+		"geolocation" : { "precise" : "home" },
 		"paths" : [
 			[ [ "W" , 1080 ] ] ,
 			[ [ "W" , 300 ] , [ "B" , "3558" , "95" , 60 ] , [ "W" , 480 ] ] ,
@@ -12,8 +12,8 @@
 		]
 	} ,
 
-	"HOME" : {
-		"condition" : "HOME -> OFFICE" ,
+	"office -> home" : {
+		"geolocation" : { "precise" : "office" } ,
 		"paths" : [
 			[ [ "W" , 1080 ] ] ,
 			[ [ "W" , 480 ] , [ "B" , "4360" , "95" , 60 ] , [ "W" , 300 ] ] ,

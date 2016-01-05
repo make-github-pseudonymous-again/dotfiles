@@ -1,12 +1,104 @@
 #!/usr/bin/env python3
 
-import sys
-import json
-import codecs
-import urllib.request
+import os , sys , json , arrow
 
-reader = codecs.getreader( 'utf8' )
+from subprocess import run , check_output
 
-data = json.load( reader( urllib.request.urlopen( 'http://ip-api.com/json' ) ) )
+CONFIG = os.path.expanduser( '~/.config/geolocation/config' )
 
-json.dump( data , sys.stdout )
+log = lambda *x , **y : print( *x , **y , file = sys.stderr )
+
+with open( CONFIG ) as _config :
+    config = json.load( _config )
+
+geolocation = json.loads( check_output( [ 'memoize' , '3600' , 'ipgeolocation.fetch' ] ).decode( ) )
+
+wifi = None
+
+def getwifiservices ( ) :
+
+    global wifi
+
+    if wifi is None :
+
+        services = check_output( [ 'connmanctl' , 'services' ] ).decode( )
+
+        data = services.splitlines( )
+
+        connected = None
+
+        for line in lines :
+
+            if line[:3] == '*AO' : connected = line[3:]
+
+        wifi = ( services , connected )
+
+    return wifi
+
+def precise ( key , value ) :
+
+    score = 0
+
+    if 'TRUE' in value :
+
+        if any( run( test ).returncode != 0 for test in value['TRUE'] ) :
+
+            return 0
+
+    if 'FALSE' in value :
+
+        if any( run( test ).returncode == 0 for test in value['FALSE'] ) :
+
+            return 0
+
+    if 'true' in value :
+
+        for test in value['true'] :
+
+            if run( test ).returncode == 0 :
+
+                score += 1
+
+    if 'false' in value :
+
+        for test in value['true'] :
+
+            if run( test ).returncode != 0 :
+
+                score += 1
+
+    if 'wifi' in value :
+
+        if 'fingerprint' in value :
+
+            services , _ = getwifiservices( )
+
+            for string in 'fingerprint' :
+
+                if string in services :
+
+                    score += 1
+
+        if 'connected' in value :
+
+            _ , connected = getwifiservices( )
+
+            for string in 'connected' :
+
+                if string in connected :
+
+                    score += 1
+
+    return score
+
+scores = [ ]
+
+for key , value in config["precise"].items( ) :
+
+    scores.append( ( precise( key , value ) , key ) )
+
+score , key = max( scores )
+
+geolocation["precise"] = key
+
+json.dump( geolocation , sys.stdout )

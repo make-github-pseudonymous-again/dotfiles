@@ -254,8 +254,7 @@ bar {
         #bindsym button4 nop
         #bindsym button5 nop
 
-        mode invisible
-        hidden_state show
+        mode dock
 
         workspace_buttons no
         binding_mode_indicator no

@@ -1,0 +1,39 @@
+{
+	"precise" : {
+
+		"home" : {
+
+			"FALSE" : [
+				[ "is.ulb.printer.connected" ] ,
+				[ "is.ulb.ethernet.connected" ] ,
+				[ "is.ulb.ethernet.authenticated" ]
+			] ,
+
+			"wifi" : {
+				"fingerprint" : [ ] ,
+				"connected" : [ ]
+			}
+
+		} ,
+
+		"office" : {
+
+			"true" : [
+				[ "is.ulb.printer.connected" ] ,
+				[ "is.ulb.ethernet.connected" ] ,
+				[ "is.ulb.ethernet.authenticated" ]
+			] ,
+
+			"false" : [
+				[ "is.wifi.enabled" ]
+			] ,
+
+			"wifi" : {
+				"fingerprint" : [ "Waffle" , "eduroam" ] ,
+				"connected" : [ ]
+			}
+
+		}
+
+	}
+}

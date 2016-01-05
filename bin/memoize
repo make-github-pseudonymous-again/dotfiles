@@ -33,4 +33,5 @@ if test $x -lt 0; then
 fi
 
 cat "$O"
+cat "$E" >&2
 exit $(cat "$R")

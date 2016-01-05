@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os , sys , json , arrow
+import os , sys , json , arrow , subprocess
 
 CONFIG = os.path.expanduser( '~/.config/commuting/config' )
 
@@ -19,14 +19,10 @@ with open( CONFIG ) as _config :
 with open( STIBCONFIG ) as _config :
     stibconfig = json.load( _config )
 
-log( config )
-log( stibconfig )
+geolocation = json.loads( subprocess.check_output( [ 'memoize' , '3600' , 'geolocation.fetch' ] ).decode( ) )
 
 pt = frozenset( ( args[0] , args[1] ) for road in config.values( ) for path in road['paths'] for T , *args in
         path if T in 'BTM' )
-
-log( pt )
-
 
 def grab ( halt , line ) :
 
@@ -53,10 +49,6 @@ for halt , line in pt :
         log( 'warning: stib is not configured to fetch' , halt , line )
 
     stib[ ( halt , line ) ] = grab( halt , line )
-
-log( stib )
-
-NOW = arrow.now( )
 
 def allroutes ( ) :
 
@@ -93,19 +85,24 @@ def routes ( path , leave = None , total = 0 , prev = ( ) ) :
 
             for timestamp in stib[ ( halt , line ) ] :
 
-                yield from routes( path[1:] , timestamp - total , total +
-                        duration , prev + ( path[0], ) )
+                yield from routes( path[1:] , timestamp.replace( seconds =-
+                    total) , total + duration , prev + ( path[0], ) )
         else :
 
             for timestamp in stib[ ( halt , line ) ] :
 
-                waiting = timestamp - leave - total
+                # not sure if best option
+
+                waiting = timestamp.datetime.timestamp( ) - leave.datetime.timestamp( ) - total
 
                 if waiting < 0 : continue
 
                 yield from routes( path[1:] , leave , total + waiting +
                         duration , prev + ( path[0], ) )
 
+NOW = arrow.now( )
+
+myroutes = [ ]
 
 for name , route in allroutes ( ) :
 
@@ -113,12 +110,32 @@ for name , route in allroutes ( ) :
 
     if _leave is None : _leave = NOW
 
-    _arrival = _leave.update( seconds = +_total )
+    if _leave < NOW : continue
 
-    leave = _leave.humanize( )
-    arrival = _arrival.humanize( )
-    total = arrival.humanize( leave )
+    _arrival = _leave.replace( seconds = +_total )
+
+    myroutes.append( ( name , _path , _leave , _arrival ) )
+
+myroutes = sorted( myroutes , key = lambda x : ( x[0] , x[3] , x[2] , x[1] ) )
+
+def myfilter ( name ) :
+
+    for key , value in config[name]['geolocation'].items( ) :
+
+        if not key in geolocation or geolocation[key] != value :
+
+            return False
+
+    return True
+
+for name , _path , _leave , _arrival in myroutes :
+
+    if not myfilter( name ) : continue
+
+    leave = _leave.humanize( NOW )
+    arrival = _arrival.humanize( NOW )
+    total = _arrival.humanize( _leave )[3:] # remove "in " prefix
     path = _repr( _path )
 
-    log( name , leave , arrival , total , path )
+    log( name , leave , arrival , path , total )
 
