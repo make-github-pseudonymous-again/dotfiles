@@ -207,9 +207,9 @@ function v() {
 # location
 function o() {
 	if [ $# -eq 0 ]; then
-		nautilus .;
+		thunar .;
 	else
-		nautilus "$@";
+		thunar "$@";
 	fi;
 }
 
