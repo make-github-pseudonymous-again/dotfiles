@@ -35,7 +35,7 @@ hourly = _data['hourly']['data']
 
 if NOW.to('local').hour + 3 >= 24 :
     TIME2 = NOW.replace( days = +1 ).format( 'YYYY-MM-DDTHH:mm:ssZZ' )
-    URL2 = URLFMT.format( APIKEY , LONGITUDE , LATITUDE , TIME2 )
+    URL2 = URLFMT.format( APIKEY , LATITUDE , LONGITUDE , TIME2 )
     _data2 = json.load( reader( urllib.request.urlopen( URL2 ) ) )
     hourly.extend( _data2['hourly']['data'] )
 
