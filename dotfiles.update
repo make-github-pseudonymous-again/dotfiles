@@ -20,7 +20,7 @@ function doIt() {
 	rsync \
 		--exclude ".git/" \
 		--exclude ".gitmodules" \
-		--exclude "files" \
+		--exclude "files/" \
 		--exclude "apt-get.sh" \
 		--exclude "dotfiles.list-diff" \
 		--exclude "dotfiles.diff" \
