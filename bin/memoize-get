@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+tmp=$(mktemp /tmp/.memoize_XXXXXXXXXX)
+
+for a in "$@" ; do
+	echo "$a" >> "$tmp"
+done
+
+cache="$HOME/.cache/memoize/$(sha1sum "$tmp" | head -c 40)"
+rm "$tmp"
+
+O="$cache""/O"
+E="$cache""/E"
+R="$cache""/R"
+T="$cache""/T"
+
+now=$(date +%s)
+if [ -e "$O" ]; then
+	cat "$O"
+	cat "$E" >&2
+	exit $(cat "$R")
+else
+	echo "no entry for '$@'" >&2
+	exit 1
+fi
+
