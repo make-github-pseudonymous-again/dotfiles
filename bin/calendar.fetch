@@ -8,6 +8,8 @@ import urllib.error
 import arrow
 import ics
 
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
 CALENDARS = os.path.expanduser('~/.calendars')
 
 with open(CALENDARS, 'r') as _calendars:
@@ -20,6 +22,8 @@ for _calendar in _calendars:
 
     try:
 
+        log( 'downloading {}'.format( _calendar ) )
+
         data = urllib.request.urlopen(_calendar).read().decode()
         calendar = ics.Calendar(data)
 
@@ -28,7 +32,14 @@ for _calendar in _calendars:
 
     except urllib.error.URLError as err:
 
-        print('Error opening url: {}'.format(_calendar), file=sys.stderr)
+        log('Error opening url: {}'.format(_calendar))
+        log( err )
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
+
+    except ics.parse.ParseError as err:
+
+        log('Error parsing file: {}'.format(_calendar))
+        log( err )
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
 try:

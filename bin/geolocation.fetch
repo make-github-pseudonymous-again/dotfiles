@@ -19,7 +19,9 @@ try:
     geolocation = json.loads(check_output(
         ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
 
-except:
+except Exception as err:
+
+    log( err )
 
     geolocation = {}
 
@@ -28,7 +30,9 @@ try:
     fingerprint = dict(json.loads(check_output(
         ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
 
-except:
+except Exception as err:
+
+    log( err )
 
     fingerprint = {}
 
