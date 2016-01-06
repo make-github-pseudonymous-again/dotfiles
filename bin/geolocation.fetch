@@ -14,8 +14,21 @@ log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 with open(CONFIG) as _config:
     config = json.load(_config)
 
-geolocation = json.loads(check_output(
-    ['memoize-get', 'ipgeolocation.fetch']).decode())
+try:
+
+    geolocation = json.loads(check_output( ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
+
+except :
+
+    geolocation = { }
+
+try:
+
+    fingerprint = dict(json.loads(check_output( ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
+
+except :
+
+    fingerprint = { }
 
 wifi = None
 
@@ -44,88 +57,87 @@ def getwifiservices():
     return wifi
 
 
-def precise(key, value):
+def evaluate(tag, tests):
 
     score = 0
 
-    if 'TRUE' in value:
+    if 'TRUE' in tests:
 
-        if any(run(test).returncode != 0 for test in value['TRUE']):
-
-            return 0
-
-        score += len(value['TRUE'])
-
-        log('[{}] ok TRUE'.format(key))
-
-    if 'FALSE' in value:
-
-        if any(run(test).returncode == 0 for test in value['FALSE']):
+        if any(run(test).returncode != 0 for test in tests['TRUE']):
 
             return 0
 
-        score += len(value['FALSE'])
+        score += len(tests['TRUE']) * 3
 
-        log('[{}] ok FALSE'.format(key))
+        log('[{}] ok TRUE'.format(tag))
 
-    if 'true' in value:
+    if 'FALSE' in tests:
 
-        for test in value['true']:
+        if any(run(test).returncode == 0 for test in tests['FALSE']):
+
+            return 0
+
+        score += len(tests['FALSE']) * 3
+
+        log('[{}] ok FALSE'.format(tag))
+
+    if 'true' in tests:
+
+        for test in tests['true']:
 
             if run(test).returncode == 0:
 
                 score += 1
 
-                log('[{}] ok true {}'.format(key, test))
+                log('[{}] ok true {}'.format(tag, test))
 
-    if 'false' in value:
+    if 'false' in tests:
 
-        for test in value['false']:
+        for test in tests['false']:
 
             if run(test).returncode != 0:
 
                 score += 1
 
-                log('[{}] ok false {}'.format(key, test))
+                log('[{}] ok false {}'.format(tag, test))
 
-    if 'wifi' in value:
+    if 'wifi' in tests:
 
-        if 'fingerprint' in value['wifi']:
+        _, connected = getwifiservices()
 
-            services, _ = getwifiservices()
+        for string in tests['wifi']:
 
-            for string in value['wifi']['fingerprint']:
+            if string in connected:
 
-                if string in services:
+                score += 5
 
-                    score += 1
+                log('[{}] ok connected {}'.format(tag, string))
 
-                    log('[{}] ok fingerprint {}'.format(key, string))
+    if 'wifi-fingerprint' in tests :
 
-        if 'connected' in value['wifi']:
+        for wifitag in tests['wifi-fingerprint'] :
 
-            _, connected = getwifiservices()
+            if wifitag in fingerprint :
 
-            for string in value['wifi']['connected']:
+                distance = fingerprint[wifitag]
 
-                if string in connected:
+                score += (1-distance) * 10
 
-                    score += 1
+                log('[{}] ok fingerprint {} ({})'.format(tag, wifitag , distance))
 
-                    log('[{}] ok connected {}'.format(key, string))
 
     return score
 
 scores = []
 
-for key, value in config["precise"].items():
+for tag, tests in config["tag"].items():
 
-    scores.append((precise(key, value), key))
+    scores.append((evaluate(tag, tests), tag))
 
 log(scores)
 
-score, key = max(scores)
+score, tag = max(scores)
 
-geolocation["precise"] = key
+geolocation["tag"] = tag
 
 json.dump(geolocation, sys.stdout)

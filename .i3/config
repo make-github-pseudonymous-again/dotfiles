@@ -324,3 +324,4 @@ exec --no-startup-id /usr/bin/systemctl --user start weather
 exec --no-startup-id /usr/bin/systemctl --user start ipgeolocation
 exec --no-startup-id /usr/bin/systemctl --user start geolocation
 exec --no-startup-id /usr/bin/systemctl --user start stib
+exec --no-startup-id /usr/bin/systemctl --user start wifi-fingerprint

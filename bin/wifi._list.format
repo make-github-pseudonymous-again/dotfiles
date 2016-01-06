@@ -4,6 +4,8 @@ import sys , json
 
 def by ( n , iterable ) :
 
+    iterator = iter( iterable )
+
     try :
 
         while True :
@@ -12,7 +14,7 @@ def by ( n , iterable ) :
 
             while len( group ) < n :
 
-                group.append( next( iterable ) )
+                group.append( next( iterator ) )
 
             yield group
 

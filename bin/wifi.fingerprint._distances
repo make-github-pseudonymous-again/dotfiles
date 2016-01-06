@@ -50,8 +50,6 @@ for arg in args :
 
     rmsd = ( distance / n )**(1/2)
 
-    candidates.append( ( rmsd  , tag ) )
+    candidates.append( ( tag , rmsd ) )
 
-for rmsd , candidate in sorted( candidates ) :
-
-    print( candidate , rmsd )
+json.dump( sorted( candidates , key = lambda x : ( x[1] , x[0] ) ) , sys.stdout )

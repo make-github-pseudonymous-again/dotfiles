@@ -2,7 +2,7 @@
 
 	"office-to-home" : {
 		"title" : " home" ,
-		"geolocation" : { "precise" : "office" } ,
+		"geolocation" : { "tag" : "office" } ,
 		"paths" : [
 			[ [ "W" , 1080 ] ] ,
 			[ [ "W" , 300 ] , [ "B" , "3558" , "95" , 60 ] , [ "W" , 480 ] ] ,
@@ -15,7 +15,7 @@
 
 	"home-to-office" : {
 		"title" : " office" ,
-		"geolocation" : { "precise" : "home" },
+		"geolocation" : { "tag" : "home" },
 		"paths" : [
 			[ [ "W" , 1080 ] ] ,
 			[ [ "W" , 480 ] , [ "B" , "4360" , "95" , 60 ] , [ "W" , 300 ] ] ,

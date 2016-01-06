@@ -1,5 +1,5 @@
 {
-	"precise" : {
+	"tag" : {
 
 		"home" : {
 
@@ -9,10 +9,8 @@
 				[ "is.ulb.ethernet.authenticated" ]
 			] ,
 
-			"wifi" : {
-				"fingerprint" : [ ] ,
-				"connected" : [ ]
-			}
+			"wifi" : [] ,
+			"wifi-fingerprint" : [ "home" ]
 
 		} ,
 
@@ -28,10 +26,8 @@
 				[ "is.wifi.enabled" ]
 			] ,
 
-			"wifi" : {
-				"fingerprint" : [ "Waffle" , "eduroam" ] ,
-				"connected" : [ "eduroam" ]
-			}
+			"wifi" : [ "eduroam" ] ,
+			"wifi-fingerprint" : [ "office" ]
 
 		}
 

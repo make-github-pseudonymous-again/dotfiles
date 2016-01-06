@@ -3,4 +3,4 @@
 CACHE="$HOME/.cache/wifi/fingerprint"
 FILES=$(find "$CACHE" -type f)
 
-wifi.fingerprint | wifi.fingerprint._distances $FILES | head -n 1 | awk '{$NF=""; print $0}' | head -c -2
+wifi.fingerprint | wifi.fingerprint._distances $FILES | jq -r '.[0][0]'

@@ -9,5 +9,4 @@ CACHE="$HOME/.cache/wifi/fingerprint"
 HASH=$(echo -n "$1" | sha1sum | head -c 40)
 FILE="$CACHE/$HASH"
 
-
-wifi.fingerprint | wifi.fingerprint._distances "$FILE" | awk '{print $NF}'
+wifi.fingerprint | wifi.fingerprint._distances "$FILE" | jq '.[0][1]'
