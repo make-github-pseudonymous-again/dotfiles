@@ -1,57 +1,61 @@
 #!/usr/bin/env python3
 
-import urllib.request
-import json
+import sys
+import os
 import codecs
-import os.path
-import arrow
-import heapq
 import subprocess
+import json
+import arrow
+import urllib.request
 
-HALFHOUR = 60 * 60 // 2
-ONEDAY = 60 * 60 * 24
+URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
 
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-def ftoc(c):
-    return (c - 32) * 5 / 9
+CACHE = os.path.expanduser('~/.cache/weather/{}')
 
+try :
+    os.makedirs( CACHE.format('') )
+except:
+    pass
 
-def itom(i):
-    return i * 25.4
 
 reader = codecs.getreader('utf8')
 
 APIKEY = subprocess.check_output(
     ['pass', 'api.forecast.io/aurelien.ooms@gmail.com']).decode().strip()
 
-GEOLOCATION = json.loads(subprocess.check_output(
-    ['memoize-get', '1800', 'geolocation.fetch']).decode())
-LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
+try :
+
+    GEOLOCATION = json.loads(subprocess.check_output(
+        ['memoize-get', '1800', 'geolocation.fetch']).decode())
+
+    LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
+
+except Exception as err :
+
+    log( 'could not load geolocation' )
+    raise err
+
 
 NOW = arrow.utcnow()
-TIME = NOW.format('YYYY-MM-DDTHH:mm:ssZZ')
 
-URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
-URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
+timefmt = lambda t : t.format('YYYY-MM-DDTHH:mm:ssZZ')
 
-_data = json.load(reader(urllib.request.urlopen(URL)))
-hourly = _data['hourly']['data']
+TIMES = [ NOW , NOW.replace(days=+1) ]
 
-if NOW.to('local').hour + 3 >= 24:
-    TIME2 = NOW.replace(days=+1).format('YYYY-MM-DDTHH:mm:ssZZ')
-    URL2 = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME2)
-    _data2 = json.load(reader(urllib.request.urlopen(URL2)))
-    hourly.extend(_data2['hourly']['data'])
+data = { }
+hourly = None
 
-BEGIN = arrow.now().timestamp - HALFHOUR
+for TIME in map( timefmt , TIMES ) :
+    URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
+    log( 'loading {}'.format( URL ) )
+    _data = json.load(reader(urllib.request.urlopen(URL)))
+    if not data :
+        data = _data
+        hourly = _data['hourly']['data']
+    else:
+        hourly.extend(_data['hourly']['data'])
 
-data = heapq.nsmallest(
-    3, filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
-t = list(map(round, map(ftoc, map(lambda x: x['apparentTemperature'], data))))
-p = list(map(lambda x: round(100 * x['precipProbability']), data))
-i = list(map(lambda x: round(itom(x['precipIntensity']), 1), data))
-
-if all(map(lambda x: x == 0, p)):
-    print('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
-else:
-    print('☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(*t, *p, *i))
+with open( CACHE.format( 'cache' ) , 'w' ) as fd :
+    json.dump( data , fd )

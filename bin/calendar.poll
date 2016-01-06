@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 while true; do
-	if memoize-ft 0 calendar.fetch; then
+	if calendar.fetch; then
 		memoize-ft 0 calendar.now
 		sleep 600
 	else

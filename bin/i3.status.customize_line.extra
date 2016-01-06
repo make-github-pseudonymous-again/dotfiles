@@ -11,7 +11,7 @@ if [ "$calendar" != '' ]; then
 	prepend='{"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"},'"$prepend"
 fi
 
-weather="$(memoize-get 3600 weather.fetch)"
+weather="$(memoize-get 3600 weather.now)"
 if [ "$weather" != '' ]; then
 	prepend='{"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"},'"$prepend"
 fi

@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import subprocess
+import heapq
+import json
+import arrow
+import math
+
+HALFHOUR = 60 * 60 // 2
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+CACHE = os.path.expanduser('~/.cache/weather/{}')
+
+try :
+
+    GEOLOCATION = json.loads(subprocess.check_output(
+        ['memoize-get', '1800', 'geolocation.fetch']).decode())
+
+    LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
+
+except Exception as err :
+
+    log( 'could not load geolocation' )
+    raise err
+
+with open( CACHE.format( 'cache') ) as fd :
+
+    data = json.load( fd )
+
+def distance_on_unit_sphere(lat1, long1, lat2, long2):
+
+    '''
+        from http://www.johndcook.com/blog/python_longitude_latitude/
+    '''
+
+    # Convert latitude and longitude to
+    # spherical coordinates in radians.
+    degrees_to_radians = math.pi/180.0
+
+    # phi = 90 - latitude
+    phi1 = (90.0 - lat1)*degrees_to_radians
+    phi2 = (90.0 - lat2)*degrees_to_radians
+
+    # theta = longitude
+    theta1 = long1*degrees_to_radians
+    theta2 = long2*degrees_to_radians
+
+    # Compute spherical distance from spherical coordinates.
+
+    # For two locations in spherical coordinates
+    # (1, theta, phi) and (1, theta', phi')
+    # cosine( arc length ) =
+    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
+    # distance = rho * arc length
+
+    cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) +
+           math.cos(phi1)*math.cos(phi2))
+    arc = math.acos( cos )
+
+    # Remember to multiply arc by the radius of the earth
+    # in your favorite set of units to get length.
+    return arc
+
+def km ( *args ) :
+
+    radius_km = 6373
+
+    return distance_on_unit_sphere( *args ) * radius_km
+
+current = GEOLOCATION['lat'] , GEOLOCATION['lon']
+old = data['latitude'] , data['longitude']
+threshold = 100
+if km ( *current , *old ) > threshold :
+
+    log( 'weather cache data is not usable:' )
+    log( '> {} is more than {} km away from {}'.format( current , threshold , old ) )
+    sys.exit( 1 )
+
+hourly = data['hourly']['data']
+
+def ftoc(c):
+    return (c - 32) * 5 / 9
+
+
+def itom(i):
+    return i * 25.4
+
+BEGIN = arrow.now().timestamp - HALFHOUR
+
+data = heapq.nsmallest(
+    3, filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
+t = list(map(round, map(ftoc, map(lambda x: x['apparentTemperature'], data))))
+p = list(map(lambda x: round(100 * x['precipProbability']), data))
+i = list(map(lambda x: round(itom(x['precipIntensity']), 1), data))
+
+if all(map(lambda x: x == 0, p)):
+    print('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
+else:
+    print('☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(*t, *p, *i))
