@@ -25,6 +25,7 @@ if [ -e "$O" ]; then
 	x=`expr $previous + $validity - $now`
 else
 	mkdir -p "$cache"
+	touch "$O"
 	x=-1
 fi
 
