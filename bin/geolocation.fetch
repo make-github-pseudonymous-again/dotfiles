@@ -32,12 +32,14 @@ def getwifiservices():
 
         connected = None
 
-        for line in lines:
+        for line in data:
 
             if line[:3] == '*AO':
                 connected = line[3:]
 
         wifi = (services, connected)
+
+        log( *wifi )
 
     return wifi
 
@@ -88,11 +90,11 @@ def precise(key, value):
 
     if 'wifi' in value:
 
-        if 'fingerprint' in value:
+        if 'fingerprint' in value['wifi']:
 
             services, _ = getwifiservices()
 
-            for string in 'fingerprint':
+            for string in value['wifi']['fingerprint']:
 
                 if string in services:
 
@@ -100,11 +102,11 @@ def precise(key, value):
 
                     log('[{}] ok fingerprint {}'.format(key, string))
 
-        if 'connected' in value:
+        if 'connected' in value['wifi']:
 
             _, connected = getwifiservices()
 
-            for string in 'connected':
+            for string in value['wifi']['connected']:
 
                 if string in connected:
 
