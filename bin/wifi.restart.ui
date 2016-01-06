@@ -4,6 +4,7 @@ if is.wifi.enabled
 then
 wifi.disconnect.ui
 connmanctl disable wifi
+sleep 10
 connmanctl enable wifi
 else
 connmanctl enable wifi

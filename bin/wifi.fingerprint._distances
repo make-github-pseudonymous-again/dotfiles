@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+import sys , json
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+_current = json.load(sys.stdin)
+
+def makedict ( data ) :
+
+    out = { }
+
+    for cell in data :
+
+        key = cell['ESSID'] , cell['address'] , cell['channel']
+        value = cell['strength']
+
+        out[key] = value
+
+    return out
+
+current = makedict( _current )
+currentkeys = set( current.keys( ) )
+log( current )
+
+args = sys.argv[1:]
+
+candidates = []
+
+for arg in args :
+
+    with open(arg) as _data:
+        data = json.load(_data)
+
+    tag = data['tag']
+    _reference = data['fingerprint']
+    reference = makedict( _reference )
+    log( tag , reference )
+
+    referencekeys = set( reference.keys( ) )
+    allkeys = referencekeys.union( currentkeys )
+
+    distance = 0
+
+    for key in allkeys :
+
+        distance += abs( current.get( key , 0 ) - reference.get( key,0) )
+
+    candidates.append( ( distance , tag ) )
+
+for distance , candidate in sorted( candidates ) :
+
+    print( candidate , distance )

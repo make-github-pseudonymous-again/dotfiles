@@ -6,10 +6,11 @@ if [ "$1" = '' ] ; then
 fi
 
 CACHE="$HOME/.cache/wifi/fingerprint"
-HASH=$(echo -n "$1" | sha1sum | head -c 40)
+TAG="$1"
+HASH=$(echo -n "$TAG" | sha1sum | head -c 40)
 FILE="$CACHE/$HASH"
 
 mkdir -p "$CACHE"
 
 echo "saving to $FILE"
-wifi.fingerprint | tee "$FILE"
+wifi.fingerprint | jq -Mc "{ \"tag\" : \"$TAG\" , \"fingerprint\" : . }" | tee "$FILE"
