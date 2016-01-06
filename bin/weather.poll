@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 while true; do
-	if memoize 0 weather.fetch; then
+	if memoize-ft 0 weather.fetch; then
 		sleep 600
 	else
 		sleep 100
