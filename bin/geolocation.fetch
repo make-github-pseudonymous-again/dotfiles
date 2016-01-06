@@ -15,7 +15,7 @@ with open(CONFIG) as _config:
     config = json.load(_config)
 
 geolocation = json.loads(check_output(
-    ['memoize', '3600', 'ipgeolocation.fetch']).decode())
+    ['memoize-get', 'ipgeolocation.fetch']).decode())
 
 wifi = None
 

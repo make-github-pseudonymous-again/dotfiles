@@ -24,7 +24,7 @@ with open(STIBCONFIG) as _config:
     stibconfig = json.load(_config)
 
 geolocation = json.loads(subprocess.check_output(
-    ['memoize', '3600', 'geolocation.fetch']).decode())
+    ['memoize-get', 'geolocation.fetch']).decode())
 
 pt = frozenset((args[0], args[1]) for road in config.values() for path in road['paths'] for T, *args in
                path if T in 'BTM')
