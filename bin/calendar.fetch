@@ -3,6 +3,7 @@
 import sys
 import os.path
 import traceback
+import hashlib
 import urllib.request
 import urllib.error
 import arrow
@@ -10,13 +11,17 @@ import ics
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
+CACHE = os.path.expanduser('~/.cache/calendar/{}')
 CALENDARS = os.path.expanduser('~/.calendars')
+
+try :
+    os.makedirs( CACHE.format('') )
+except:
+    pass
 
 with open(CALENDARS, 'r') as _calendars:
 
-    _calendars = list(line.rstrip('\n') for line in _calendars)
-
-events = ics.eventlist.EventList()
+    _calendars = list(line.rstrip('\n') for line in _calendars if line[0] != '#')
 
 for _calendar in _calendars:
 
@@ -24,11 +29,18 @@ for _calendar in _calendars:
 
         log( 'downloading {}'.format( _calendar ) )
 
-        data = urllib.request.urlopen(_calendar).read().decode()
-        calendar = ics.Calendar(data)
+        data = urllib.request.urlopen(_calendar).read()
+        calendar = ics.Calendar(data.decode()) # to check that we can parse the data
 
-        for event in calendar.events:
-            events.append(event)
+        h = hashlib.sha1(_calendar.encode()).hexdigest()
+        filename = CACHE.format( h )
+
+        log( 'writing {} to {}'.format( _calendar , filename ) )
+
+        with open( filename , 'wb' ) as fd :
+
+            fd.write( data )
+
 
     except urllib.error.URLError as err:
 
@@ -42,48 +54,8 @@ for _calendar in _calendars:
         log( err )
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
-try:
+    except FileNotFoundError as err :
 
-    now = arrow.now()
-
-    _fresh = list(filter(lambda x: x.end >= now, events))
-    _future = filter(lambda x: x.begin >= now, _fresh)
-    _happening = filter(lambda x: x.begin < now, _fresh)
-    _current = min(_happening, key=lambda x: x.end, default=None)
-    _next = min(_future, key=lambda x: x.begin, default=None)
-
-    if _current is None:
-
-        if _next is None:
-
-            raise ValueError('no main event')
-
-        else:
-
-            _main = _next
-
-    else:
-
-        _main = _current if _next is None or _next.begin >= _current.end else _next
-
-    name = _next.name
-    begin = _next.begin.to('local')
-
-    ef = '{} - {} ({})'
-    if begin < now:
-        ef = '(started {2})'
-    bf = 'YYYY, MMM D, HH:mm'
-    if begin.year == now.year:
-        if begin.month == now.month:
-            if begin.day == now.day:
-                bf = 'HH:mm'
-            else:
-                bf = 'ddd D, HH:mm'
-        else:
-            bf = 'MMM D, HH:mm'
-
-    print(ef.format(name, begin.format(bf), begin.humanize()))
-
-except ValueError:
-
-    print()
+        log('Error writing file for {}'.format(_calendar))
+        log( err )
+        traceback.print_tb(err.__traceback__, file=sys.stderr)

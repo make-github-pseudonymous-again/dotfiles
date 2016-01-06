@@ -6,7 +6,7 @@ PREPEND_INIT=''
 
 prepend="$PREPEND_INIT"
 
-calendar="$(memoize-get 3600 calendar.fetch)"
+calendar="$(memoize-get 3600 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend='{"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"},'"$prepend"
 fi
