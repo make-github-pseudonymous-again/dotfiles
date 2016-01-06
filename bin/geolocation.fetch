@@ -16,19 +16,21 @@ with open(CONFIG) as _config:
 
 try:
 
-    geolocation = json.loads(check_output( ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
+    geolocation = json.loads(check_output(
+        ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
 
-except :
+except:
 
-    geolocation = { }
+    geolocation = {}
 
 try:
 
-    fingerprint = dict(json.loads(check_output( ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
+    fingerprint = dict(json.loads(check_output(
+        ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
 
-except :
+except:
 
-    fingerprint = { }
+    fingerprint = {}
 
 wifi = None
 
@@ -52,7 +54,7 @@ def getwifiservices():
 
         wifi = (services, connected)
 
-        log( *wifi )
+        log(*wifi)
 
     return wifi
 
@@ -113,18 +115,17 @@ def evaluate(tag, tests):
 
                 log('[{}] ok connected {}'.format(tag, string))
 
-    if 'wifi-fingerprint' in tests :
+    if 'wifi-fingerprint' in tests:
 
-        for wifitag in tests['wifi-fingerprint'] :
+        for wifitag in tests['wifi-fingerprint']:
 
-            if wifitag in fingerprint :
+            if wifitag in fingerprint:
 
                 distance = fingerprint[wifitag]
 
-                score += (1-distance) * 10
+                score += (1 - distance) * 10
 
-                log('[{}] ok fingerprint {} ({})'.format(tag, wifitag , distance))
-
+                log('[{}] ok fingerprint {} ({})'.format(tag, wifitag, distance))
 
     return score
 

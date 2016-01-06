@@ -25,7 +25,7 @@ APIKEY = subprocess.check_output(
     ['pass', 'api.forecast.io/aurelien.ooms@gmail.com']).decode().strip()
 
 GEOLOCATION = json.loads(subprocess.check_output(
-    ['memoize-get', '1800' , 'geolocation.fetch']).decode())
+    ['memoize-get', '1800', 'geolocation.fetch']).decode())
 LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
 
 NOW = arrow.utcnow()

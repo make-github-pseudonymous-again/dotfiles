@@ -1,53 +1,56 @@
 #!/usr/bin/env python3
 
-import sys , json
+import sys
+import json
 
-def by ( n , iterable ) :
 
-    iterator = iter( iterable )
+def by(n, iterable):
 
-    try :
+    iterator = iter(iterable)
 
-        while True :
+    try:
 
-            group = [ ]
+        while True:
 
-            while len( group ) < n :
+            group = []
 
-                group.append( next( iterator ) )
+            while len(group) < n:
+
+                group.append(next(iterator))
 
             yield group
 
-    except StopIteration :
+    except StopIteration:
 
-        if group : yield group
+        if group:
+            yield group
 
-data = [ ]
+data = []
 
-for _cell in by( 4 , map( str.strip , sys.stdin ) ) :
+for _cell in by(4, map(str.strip, sys.stdin)):
 
-    _address , _frequency , _strength , _ESSID = _cell
+    _address, _frequency, _strength, _ESSID = _cell
 
-    address = _address.split( ': ' )[1]
+    address = _address.split(': ')[1]
 
     _tmp = _frequency.split(':')[1].split(' (')
-    channel = int( _tmp[1].split(' ')[1].split( ')')[0] )
-    frequency = float( _tmp[0].split(' ')[0] )
+    channel = int(_tmp[1].split(' ')[1].split(')')[0])
+    frequency = float(_tmp[0].split(' ')[0])
 
-    v , m = _strength.split( '  ' )[0].split( '=' )[1].split( '/' )
+    v, m = _strength.split('  ')[0].split('=')[1].split('/')
 
     strength = int(v) / int(m)
 
     ESSID = _ESSID[7:-1]
 
     cell = {
-        "ESSID" : ESSID ,
-        "address" : address ,
-        "channel" : channel ,
-        "frequency" : frequency ,
-        "strength" : strength
+        "ESSID": ESSID,
+        "address": address,
+        "channel": channel,
+        "frequency": frequency,
+        "strength": strength
     }
 
-    data.append( cell )
+    data.append(cell)
 
-json.dump( data , sys.stdout )
+json.dump(data, sys.stdout)
