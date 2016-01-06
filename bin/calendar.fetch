@@ -3,70 +3,76 @@
 import sys
 import os.path
 import traceback
-import urllib.request , urllib.error
+import urllib.request
+import urllib.error
 import arrow
 import ics
 
-CALENDARS = os.path.expanduser( '~/.calendars' ) ;
+CALENDARS = os.path.expanduser('~/.calendars')
 
-with open( CALENDARS , 'r' ) as _calendars :
+with open(CALENDARS, 'r') as _calendars:
 
-    _calendars = list( line.rstrip( '\n' ) for line in _calendars )
+    _calendars = list(line.rstrip('\n') for line in _calendars)
 
-events = ics.eventlist.EventList( )
+events = ics.eventlist.EventList()
 
-for _calendar in _calendars :
+for _calendar in _calendars:
 
-    try :
+    try:
 
-        data = urllib.request.urlopen( _calendar ).read( ).decode( )
-        calendar = ics.Calendar( data )
+        data = urllib.request.urlopen(_calendar).read().decode()
+        calendar = ics.Calendar(data)
 
-        for event in calendar.events : events.append( event )
+        for event in calendar.events:
+            events.append(event)
 
-    except urllib.error.URLError as err :
+    except urllib.error.URLError as err:
 
-        print( 'Error opening url: {}'.format( _calendar ) , file = sys.stderr )
-        traceback.print_tb( err.__traceback__ , file = sys.stderr )
+        print('Error opening url: {}'.format(_calendar), file=sys.stderr)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
 
-try :
+try:
 
-    now = arrow.now( )
+    now = arrow.now()
 
-    _fresh = list( filter( lambda x : x.end >= now , events ) )
-    _future = filter( lambda x : x.begin >= now , _fresh )
-    _happening = filter( lambda x : x.begin < now , _fresh )
-    _current = min( _happening , key = lambda x : x.end , default = None )
-    _next = min( _future , key = lambda x : x.begin , default = None )
+    _fresh = list(filter(lambda x: x.end >= now, events))
+    _future = filter(lambda x: x.begin >= now, _fresh)
+    _happening = filter(lambda x: x.begin < now, _fresh)
+    _current = min(_happening, key=lambda x: x.end, default=None)
+    _next = min(_future, key=lambda x: x.begin, default=None)
 
-    if _current is None :
+    if _current is None:
 
-        if _next is None :
+        if _next is None:
 
-            raise ValueError( 'no main event' )
+            raise ValueError('no main event')
 
-        else :
+        else:
 
             _main = _next
 
-    else :
+    else:
 
         _main = _current if _next is None or _next.begin >= _current.end else _next
 
     name = _next.name
-    begin = _next.begin.to( 'local' )
+    begin = _next.begin.to('local')
 
     ef = '{} - {} ({})'
-    if begin < now : ef = '(started {2})'
+    if begin < now:
+        ef = '(started {2})'
     bf = 'YYYY, MMM D, HH:mm'
-    if begin.year == now.year :
-        if begin.month == now.month :
-            if begin.day == now.day : bf = 'HH:mm'
-            else : bf = 'ddd D, HH:mm'
-        else : bf = 'MMM D, HH:mm'
+    if begin.year == now.year:
+        if begin.month == now.month:
+            if begin.day == now.day:
+                bf = 'HH:mm'
+            else:
+                bf = 'ddd D, HH:mm'
+        else:
+            bf = 'MMM D, HH:mm'
 
-    print( ef.format( name , begin.format( bf ) , begin.humanize( ) ) )
+    print(ef.format(name, begin.format(bf), begin.humanize()))
 
-except ValueError :
+except ValueError:
 
-    print( )
+    print()

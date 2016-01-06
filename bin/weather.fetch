@@ -11,42 +11,47 @@ import subprocess
 HALFHOUR = 60 * 60 // 2
 ONEDAY = 60 * 60 * 24
 
-def ftoc ( c ) :
-    return ( c - 32 ) * 5 / 9
 
-def itom ( i ) :
+def ftoc(c):
+    return (c - 32) * 5 / 9
+
+
+def itom(i):
     return i * 25.4
 
-reader = codecs.getreader( 'utf8' )
+reader = codecs.getreader('utf8')
 
-APIKEY = subprocess.check_output( [ 'pass' , 'api.forecast.io/aurelien.ooms@gmail.com' ] ).decode( ).strip( )
+APIKEY = subprocess.check_output(
+    ['pass', 'api.forecast.io/aurelien.ooms@gmail.com']).decode().strip()
 
-GEOLOCATION = json.loads( subprocess.check_output( [ 'memoize' , '3600' , 'geolocation.fetch' ] ).decode( ) )
-LATITUDE , LONGITUDE = GEOLOCATION['lat'] , GEOLOCATION['lon']
+GEOLOCATION = json.loads(subprocess.check_output(
+    ['memoize', '3600', 'geolocation.fetch']).decode())
+LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
 
-NOW = arrow.utcnow( )
-TIME = NOW.format( 'YYYY-MM-DDTHH:mm:ssZZ' )
+NOW = arrow.utcnow()
+TIME = NOW.format('YYYY-MM-DDTHH:mm:ssZZ')
 
 URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
-URL = URLFMT.format( APIKEY , LATITUDE , LONGITUDE , TIME )
+URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
 
-_data = json.load( reader( urllib.request.urlopen( URL ) ) )
+_data = json.load(reader(urllib.request.urlopen(URL)))
 hourly = _data['hourly']['data']
 
-if NOW.to('local').hour + 3 >= 24 :
-    TIME2 = NOW.replace( days = +1 ).format( 'YYYY-MM-DDTHH:mm:ssZZ' )
-    URL2 = URLFMT.format( APIKEY , LATITUDE , LONGITUDE , TIME2 )
-    _data2 = json.load( reader( urllib.request.urlopen( URL2 ) ) )
-    hourly.extend( _data2['hourly']['data'] )
+if NOW.to('local').hour + 3 >= 24:
+    TIME2 = NOW.replace(days=+1).format('YYYY-MM-DDTHH:mm:ssZZ')
+    URL2 = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME2)
+    _data2 = json.load(reader(urllib.request.urlopen(URL2)))
+    hourly.extend(_data2['hourly']['data'])
 
-BEGIN = arrow.now( ).timestamp - HALFHOUR
+BEGIN = arrow.now().timestamp - HALFHOUR
 
-data = heapq.nsmallest( 3 , filter( lambda x : x['time'] >= BEGIN , hourly ) , key = lambda x : x['time'] )
-t = list( map( round , map( ftoc , map( lambda x : x['apparentTemperature'] , data ) ) ) )
-p = list( map( lambda x : round( 100 * x['precipProbability'] ) , data ) )
-i = list( map( lambda x : round( itom( x['precipIntensity'] ) , 1 ) , data ) )
+data = heapq.nsmallest(
+    3, filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
+t = list(map(round, map(ftoc, map(lambda x: x['apparentTemperature'], data))))
+p = list(map(lambda x: round(100 * x['precipProbability']), data))
+i = list(map(lambda x: round(itom(x['precipIntensity']), 1), data))
 
-if all( map( lambda x : x == 0 , p ) ) :
-    print( '☀ {:d},{:d},{:d}'.format( *t , *p , *i ) )
+if all(map(lambda x: x == 0, p)):
+    print('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
 else:
-    print( '☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format( *t , *p , *i ) )
+    print('☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(*t, *p, *i))

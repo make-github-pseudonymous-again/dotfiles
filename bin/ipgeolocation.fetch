@@ -5,8 +5,8 @@ import json
 import codecs
 import urllib.request
 
-reader = codecs.getreader( 'utf8' )
+reader = codecs.getreader('utf8')
 
-data = json.load( reader( urllib.request.urlopen( 'http://ip-api.com/json' ) ) )
+data = json.load(reader(urllib.request.urlopen('http://ip-api.com/json')))
 
-json.dump( data , sys.stdout )
+json.dump(data, sys.stdout)

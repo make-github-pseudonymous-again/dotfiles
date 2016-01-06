@@ -3,29 +3,31 @@
 from tkinter import *
 import sys
 
-class MyDialog ( object ) :
 
-    def __init__ ( self , top , prompt = 'input' ) :
+class MyDialog (object):
+
+    def __init__(self, top, prompt='input'):
 
         self.top = top
         self.exit_code = 0
 
-        self.prompt = Label(top, text=prompt+':',padx=3)
+        self.prompt = Label(top, text=prompt + ':', padx=3)
         self.prompt.pack(side='left')
 
         # http://effbot.org/tkinterbook/entry.htm
         self.input = Entry(top)
-        self.input.pack(side='left',padx=2)
-        self.input.bind('<Return>',self.ok)
-        self.input.bind('<Escape>',self.ko)
-        self.input.config(highlightthickness=0,borderwidth=0,insertbackground='white')
+        self.input.pack(side='left', padx=2)
+        self.input.bind('<Return>', self.ok)
+        self.input.bind('<Escape>', self.ko)
+        self.input.config(highlightthickness=0, borderwidth=0,
+                          insertbackground='white')
 
-    def ok ( self , *args ) :
+    def ok(self, *args):
 
-        print( self.input.get() )
+        print(self.input.get())
         self.top.destroy()
 
-    def ko ( self , *args ) :
+    def ko(self, *args):
 
         self.exit_code = 1
         self.top.destroy()
@@ -34,7 +36,7 @@ class MyDialog ( object ) :
 prompt = sys.argv[1]
 
 root = Tk()
-root.geometry('{}x{}+{}+{}'.format(400,30,50,50))
+root.geometry('{}x{}+{}+{}'.format(400, 30, 50, 50))
 root.resizable(width=FALSE, height=FALSE)
 
 dialog = MyDialog(root, prompt)

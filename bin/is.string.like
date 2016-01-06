@@ -2,13 +2,13 @@
 
 import sys
 
-try :
+try:
 
-    a , b = sys.argv[1:]
+    a, b = sys.argv[1:]
 
-    sys.exit( 0 if a == b else 1 )
+    sys.exit(0 if a == b else 1)
 
-except ValueError as e :
+except ValueError as e:
 
-    print( e )
-    sys.exit( 127 )
+    print(e)
+    sys.exit(127)

@@ -1,228 +1,245 @@
 #!/usr/bin/env python3
 
-import os , sys , json , arrow , subprocess
+import os
+import sys
+import json
+import arrow
+import subprocess
 
-CONFIG = os.path.expanduser( '~/.config/commuting/config' )
+CONFIG = os.path.expanduser('~/.config/commuting/config')
 
-STIBCACHE = os.path.expanduser( '~/.cache/stib' )
-STIBCONFIG = os.path.expanduser( '~/.config/stib/config' )
+STIBCACHE = os.path.expanduser('~/.cache/stib')
+STIBCONFIG = os.path.expanduser('~/.config/stib/config')
 
 HALT = STIBCACHE + '/{}'
 LINE = HALT + '/{}'
 TIME = LINE + '/{}'
 
-log = lambda *x , **y : print( *x , **y , file = sys.stderr )
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-with open( CONFIG ) as _config :
-    config = json.load( _config )
+with open(CONFIG) as _config:
+    config = json.load(_config)
 
-with open( STIBCONFIG ) as _config :
-    stibconfig = json.load( _config )
+with open(STIBCONFIG) as _config:
+    stibconfig = json.load(_config)
 
-geolocation = json.loads( subprocess.check_output( [ 'memoize' , '3600' , 'geolocation.fetch' ] ).decode( ) )
+geolocation = json.loads(subprocess.check_output(
+    ['memoize', '3600', 'geolocation.fetch']).decode())
 
-pt = frozenset( ( args[0] , args[1] ) for road in config.values( ) for path in road['paths'] for T , *args in
-        path if T in 'BTM' )
+pt = frozenset((args[0], args[1]) for road in config.values() for path in road['paths'] for T, *args in
+               path if T in 'BTM')
 
-def grab ( halt , line ) :
 
-    try :
+def grab(halt, line):
 
-        return sorted( map( arrow.get , os.listdir( LINE.format( halt , line ) ) ) )
+    try:
 
-    except FileNotFoundError :
+        return sorted(map(arrow.get, os.listdir(LINE.format(halt, line))))
 
-        log( 'no data for' , halt , line )
+    except FileNotFoundError:
 
-        return [ ]
+        log('no data for', halt, line)
 
-def _repr ( path ) :
+        return []
+
+
+def _repr(path):
 
     _map = {
-        "w" : lambda A , B : '  ({})'.format( _shortduration( A , B ) ) ,
-        "W" : lambda s : '  ' ,
-        "T" : lambda halt , line , s : '  {}'.format( line ) ,
-        "B" : lambda halt , line , s : '  {}'.format( line ) ,
-        "M" : lambda halt , line , s : '  {}'.format( line )
+        "w": lambda A, B: '  ({})'.format(_shortduration(A, B)),
+        "W": lambda s: '  ',
+        "T": lambda halt, line, s: '  {}'.format(line),
+        "B": lambda halt, line, s: '  {}'.format(line),
+        "M": lambda halt, line, s: '  {}'.format(line)
     }
 
-    return '  '.join( _map[T](*args) for T , *args in path )
+    return '  '.join(_map[T](*args) for T, *args in path)
 
-def _humanize ( time , ref ) :
 
-    x = time.humanize( ref )
+def _humanize(time, ref):
 
-    if x == "in seconds" :
+    x = time.humanize(ref)
 
-        return "in {} seconds".format( ( time - ref ).seconds )
+    if x == "in seconds":
 
-    if x == "just now" :
+        return "in {} seconds".format((time - ref).seconds)
+
+    if x == "just now":
 
         return "now"
 
     return x
 
-def _duration ( A , B ) :
 
-    x = _humanize( B , A )
+def _duration(A, B):
 
-    if x == 'now' :
+    x = _humanize(B, A)
 
-        return '{} seconds'.format( ( B - A ).seconds )
+    if x == 'now':
 
-    if x == 'in a minute' :
+        return '{} seconds'.format((B - A).seconds)
+
+    if x == 'in a minute':
 
         return '1 minute'
 
     return x[3:]
 
-def _shortduration ( A , B ) :
 
-    x = _duration( A , B )
+def _shortduration(A, B):
 
-    if 'minutes' in x or 'seconds' in x :
+    x = _duration(A, B)
+
+    if 'minutes' in x or 'seconds' in x:
 
         return x[:-4]
 
-    if 'minute' in x :
+    if 'minute' in x:
 
         return x[:-3]
 
     return x
 
-def _diff ( a , b ) :
 
-    return a.datetime.timestamp( ) - b.datetime.timestamp( )
+def _diff(a, b):
 
-stib = { }
+    return a.datetime.timestamp() - b.datetime.timestamp()
 
-for halt , line in pt :
+stib = {}
 
-    if halt not in stibconfig or line not in stibconfig[halt] :
+for halt, line in pt:
 
-        log( 'warning: stib is not configured to fetch' , halt , line )
+    if halt not in stibconfig or line not in stibconfig[halt]:
 
-    stib[ ( halt , line ) ] = grab( halt , line )
+        log('warning: stib is not configured to fetch', halt, line)
 
-def allroutes ( ) :
+    stib[(halt, line)] = grab(halt, line)
 
-    for name , road in config.items( ) :
 
-        for path in road['paths'] :
+def allroutes():
 
-            for route in routes( path ) :
+    for name, road in config.items():
 
-                yield name , route
+        for path in road['paths']:
 
-def routes ( path , leave = None , total = 0 , prev = ( ) ) :
+            for route in routes(path):
 
-    if not path :
+                yield name, route
 
-        yield leave , total , prev
+
+def routes(path, leave=None, total=0, prev=()):
+
+    if not path:
+
+        yield leave, total, prev
 
         return
 
-    T , *args = path[0]
+    T, *args = path[0]
 
-    if T == 'W' :
+    if T == 'W':
 
         duration = args[0]
 
-        yield from routes( path[1:] , leave , total + duration , prev + (
-            path[0], ) )
+        yield from routes(path[1:], leave, total + duration, prev + (
+            path[0], ))
 
-    else :
+    else:
 
-        halt , line , duration = args
+        halt, line, duration = args
 
-        if leave is None :
+        if leave is None:
 
-            for timestamp in stib[ ( halt , line ) ] :
+            for timestamp in stib[(halt, line)]:
 
-                yield from routes( path[1:] , timestamp.replace( seconds =-
-                    total) , total + duration , prev + ( path[0], ) )
-        else :
+                yield from routes(path[1:], timestamp.replace(seconds=-
+                                                              total), total + duration, prev + (path[0], ))
+        else:
 
-            for timestamp in stib[ ( halt , line ) ] :
+            for timestamp in stib[(halt, line)]:
+
+                waiting = _diff(timestamp, leave) - total
+
+                if waiting < 0:
+                    continue
+
+                elif waiting == 0:
+
+                    yield from routes(path[1:], leave, total + waiting +
+                                      duration, prev + (path[0], ))
+
+                else:
+
+                    A = leave.replace(seconds=+total)
+                    B = A.replace(seconds=+waiting)
+
+                    yield from routes(path[1:], leave, total + waiting +
+                                      duration, prev + (['w', A, B], path[0]))
+
+NOW = arrow.now()
+
+myroutes = []
+
+for name, route in allroutes():
+
+    _leave, _total, _path = route
+
+    if _leave is None:
+        _leave = NOW
+
+    if _leave < NOW:
+        continue
+
+    _arrival = _leave.replace(seconds=+_total)
+
+    myroutes.append((name, _path, _leave, _arrival))
+
+myroutes = sorted(myroutes, key=lambda x: (x[0], x[3], x[2], x[1]))
 
 
-                waiting = _diff( timestamp , leave ) - total
+def myfilter(name):
 
-                if waiting < 0 : continue
+    for key, value in config[name]['geolocation'].items():
 
-                elif waiting == 0 :
-
-                    yield from routes( path[1:] , leave , total + waiting +
-                        duration , prev + ( path[0], ) )
-
-                else :
-
-                    A = leave.replace( seconds = +total )
-                    B = A.replace( seconds = +waiting )
-
-                    yield from routes( path[1:] , leave , total + waiting +
-                        duration , prev + ( [ 'w' , A , B ] , path[0] ) )
-
-NOW = arrow.now( )
-
-myroutes = [ ]
-
-for name , route in allroutes ( ) :
-
-    _leave , _total , _path = route
-
-    if _leave is None : _leave = NOW
-
-    if _leave < NOW : continue
-
-    _arrival = _leave.replace( seconds = +_total )
-
-    myroutes.append( ( name , _path , _leave , _arrival ) )
-
-myroutes = sorted( myroutes , key = lambda x : ( x[0] , x[3] , x[2] , x[1] ) )
-
-def myfilter ( name ) :
-
-    for key , value in config[name]['geolocation'].items( ) :
-
-        if not key in geolocation or geolocation[key] != value :
+        if not key in geolocation or geolocation[key] != value:
 
             return False
 
     return True
 
-for name , _path , _leave , _arrival in myroutes :
+for name, _path, _leave, _arrival in myroutes:
 
-    if not myfilter( name ) : continue
+    if not myfilter(name):
+        continue
 
     title = config[name]['title']
-    leave = _humanize( _leave , NOW )
-    arrival = _humanize( _arrival , NOW )
-    total = _duration( _leave , _arrival ) # remove "in " prefix
-    path = _repr( _path )
-    eta = _arrival.format( 'HH:mm:ss' )
+    leave = _humanize(_leave, NOW)
+    arrival = _humanize(_arrival, NOW)
+    total = _duration(_leave, _arrival)  # remove "in " prefix
+    path = _repr(_path)
+    eta = _arrival.format('HH:mm:ss')
 
     full_text = ' [{}]  {},  {},  {} :{} : ETA  {}'.format(
-        title , leave , total , arrival , path , eta
+        title, leave, total, arrival, path, eta
     )
 
     color = "#6DE256"
 
-    if len( _path ) > 1 :
+    if len(_path) > 1:
 
-        d = _diff( _leave , NOW )
+        d = _diff(_leave, NOW)
 
-        if d < 600 :
+        if d < 600:
 
-            if d < 60 :
+            if d < 60:
 
                 color = "#FA2A00"
 
-            else :
+            else:
 
                 color = "#C5E946"
 
-    data = { "name" : "commuting" , "color" : color , "full_text" : full_text }
+    data = {"name": "commuting", "color": color, "full_text": full_text}
 
-    json.dump( data , sys.stdout )
-    sys.stdout.write( '\n' )
+    json.dump(data, sys.stdout)
+    sys.stdout.write('\n')

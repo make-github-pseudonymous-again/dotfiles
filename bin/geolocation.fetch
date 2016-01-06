@@ -1,122 +1,129 @@
 #!/usr/bin/env python3
 
-import os , sys , json , arrow
+import os
+import sys
+import json
+import arrow
 
-from subprocess import run , check_output
+from subprocess import run, check_output
 
-CONFIG = os.path.expanduser( '~/.config/geolocation/config' )
+CONFIG = os.path.expanduser('~/.config/geolocation/config')
 
-log = lambda *x , **y : print( *x , **y , file = sys.stderr )
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-with open( CONFIG ) as _config :
-    config = json.load( _config )
+with open(CONFIG) as _config:
+    config = json.load(_config)
 
-geolocation = json.loads( check_output( [ 'memoize' , '3600' , 'ipgeolocation.fetch' ] ).decode( ) )
+geolocation = json.loads(check_output(
+    ['memoize', '3600', 'ipgeolocation.fetch']).decode())
 
 wifi = None
 
-def getwifiservices ( ) :
+
+def getwifiservices():
 
     global wifi
 
-    if wifi is None :
+    if wifi is None:
 
-        services = check_output( [ 'connmanctl' , 'services' ] ).decode( )
+        services = check_output(['connmanctl', 'services']).decode()
 
-        data = services.splitlines( )
+        data = services.splitlines()
 
         connected = None
 
-        for line in lines :
+        for line in lines:
 
-            if line[:3] == '*AO' : connected = line[3:]
+            if line[:3] == '*AO':
+                connected = line[3:]
 
-        wifi = ( services , connected )
+        wifi = (services, connected)
 
     return wifi
 
-def precise ( key , value ) :
+
+def precise(key, value):
 
     score = 0
 
-    if 'TRUE' in value :
+    if 'TRUE' in value:
 
-        if any( run( test ).returncode != 0 for test in value['TRUE'] ) :
-
-            return 0
-
-        score += len( value['TRUE'] )
-
-        log( '[{}] ok TRUE'.format( key ) )
-
-    if 'FALSE' in value :
-
-        if any( run( test ).returncode == 0 for test in value['FALSE'] ) :
+        if any(run(test).returncode != 0 for test in value['TRUE']):
 
             return 0
 
-        score += len( value['FALSE'] )
+        score += len(value['TRUE'])
 
-        log( '[{}] ok FALSE'.format( key ) )
+        log('[{}] ok TRUE'.format(key))
 
-    if 'true' in value :
+    if 'FALSE' in value:
 
-        for test in value['true'] :
+        if any(run(test).returncode == 0 for test in value['FALSE']):
 
-            if run( test ).returncode == 0 :
+            return 0
+
+        score += len(value['FALSE'])
+
+        log('[{}] ok FALSE'.format(key))
+
+    if 'true' in value:
+
+        for test in value['true']:
+
+            if run(test).returncode == 0:
 
                 score += 1
 
-                log( '[{}] ok true {}'.format( key , test ) )
+                log('[{}] ok true {}'.format(key, test))
 
-    if 'false' in value :
+    if 'false' in value:
 
-        for test in value['false'] :
+        for test in value['false']:
 
-            if run( test ).returncode != 0 :
+            if run(test).returncode != 0:
 
                 score += 1
 
-                log( '[{}] ok false {}'.format( key , test ) )
+                log('[{}] ok false {}'.format(key, test))
 
-    if 'wifi' in value :
+    if 'wifi' in value:
 
-        if 'fingerprint' in value :
+        if 'fingerprint' in value:
 
-            services , _ = getwifiservices( )
+            services, _ = getwifiservices()
 
-            for string in 'fingerprint' :
+            for string in 'fingerprint':
 
-                if string in services :
-
-                    score += 1
-
-                    log( '[{}] ok fingerprint {}'.format( key , string ) )
-
-        if 'connected' in value :
-
-            _ , connected = getwifiservices( )
-
-            for string in 'connected' :
-
-                if string in connected :
+                if string in services:
 
                     score += 1
 
-                    log( '[{}] ok connected {}'.format( key , string ) )
+                    log('[{}] ok fingerprint {}'.format(key, string))
+
+        if 'connected' in value:
+
+            _, connected = getwifiservices()
+
+            for string in 'connected':
+
+                if string in connected:
+
+                    score += 1
+
+                    log('[{}] ok connected {}'.format(key, string))
 
     return score
 
-scores = [ ]
+scores = []
 
-for key , value in config["precise"].items( ) :
+for key, value in config["precise"].items():
 
-    scores.append( ( precise( key , value ) , key ) )
+    scores.append((precise(key, value), key))
 
-log( scores )
+log(scores)
 
-score , key = max( scores )
+score, key = max(scores)
 
 geolocation["precise"] = key
 
-json.dump( geolocation , sys.stdout )
+json.dump(geolocation, sys.stdout)
