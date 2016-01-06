@@ -44,10 +44,14 @@ for arg in args :
 
     for key in allkeys :
 
-        distance += abs( current.get( key , 0 ) - reference.get( key,0) )
+        distance += ( current.get( key , 0 ) - reference.get( key,0) )**2
 
-    candidates.append( ( distance , tag ) )
+    n = len( allkeys )
 
-for distance , candidate in sorted( candidates ) :
+    rmsd = ( distance / n )**(1/2)
 
-    print( candidate , distance )
+    candidates.append( ( rmsd  , tag ) )
+
+for rmsd , candidate in sorted( candidates ) :
+
+    print( candidate , rmsd )
