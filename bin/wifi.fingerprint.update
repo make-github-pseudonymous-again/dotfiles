@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+if [ "$1" = '' ] ; then
+	echo 'tag missing' >&2
+	exit 1
+fi
+
+CACHE="$HOME/.cache/wifi/fingerprint"
+HASH=$(echo -n "$1" | sha1sum | head -c 40)
+FILE="$CACHE/$HASH"
+
+mkdir -p "$CACHE"
+
+echo "saving to $FILE"
+wifi.fingerprint | tee "$FILE"

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+chip=$(wifi.chips | head -n 1)
+
+wifi.list "$chip"

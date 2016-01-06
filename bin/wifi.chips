@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+iwconfig | grep ESSID | awk '{print $1}'
