@@ -1,9 +1,0 @@
-auto-reload yes
-browser firefox
-refresh-on-startup yes
-reload-time 5
-reload-threads 3
-
-reset-unread-on-update http://arxiv.org/rss/cs.DS
-reset-unread-on-update http://arxiv.org/rss/cs.CC
-reset-unread-on-update http://arxiv.org/rss/cs.CG
