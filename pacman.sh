@@ -77,6 +77,7 @@ pacman -S --needed --noconfirm tumbler thunar
 # image manipulation
 
 pacman -S --needed --noconfirm scrot
+pacman -S --needed --noconfirm screenfetch
 pacman -S --needed --noconfirm libjpeg-turbo gifsicle optipng
 pacman -S --needed --noconfirm feh imagemagick
 pacman -S --needed --noconfirm gimp
