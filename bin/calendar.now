@@ -10,7 +10,7 @@ import ics
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 CACHE = os.path.expanduser('~/.cache/calendar/{}')
-CALENDARS = os.path.expanduser('~/.calendars')
+CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
 with open(CALENDARS, 'r') as _calendars:
 
