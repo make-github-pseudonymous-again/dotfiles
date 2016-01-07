@@ -218,6 +218,7 @@ mode "apps" {
         bindsym h exec hangouts; mode "default"
         bindsym i exec ipe; mode "default"
         bindsym t exec thunar; mode "default"
+        bindsym r exec terminator -b -p ranger; mode "default"
         bindsym p exec courriel.fetch; mode "default"
         bindsym m exec maps; mode "default"
         bindsym n exec news; mode "default"
