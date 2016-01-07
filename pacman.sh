@@ -29,6 +29,7 @@ pacman -S --needed --noconfirm nodejs npm
 pacman -S --needed --noconfirm pypy3
 pacman -S --needed --noconfirm python-pip
 pacman -S --needed --noconfirm python-lxml
+pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
