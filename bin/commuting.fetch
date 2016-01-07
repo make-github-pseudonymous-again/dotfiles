@@ -88,13 +88,15 @@ def _duration(A, B):
 
 def _shortduration(A, B):
 
-    return _shorten( _duration(A, B) )
+    return _shorten(_duration(A, B))
 
-def _shorthumanize(time , ref):
 
-    return _shorten( _humanize(time,ref))
+def _shorthumanize(time, ref):
 
-def _shorten ( x ) :
+    return _shorten(_humanize(time, ref))
+
+
+def _shorten(x):
 
     if 'minutes' in x or 'seconds' in x:
 

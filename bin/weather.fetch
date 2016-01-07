@@ -14,8 +14,8 @@ log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 CACHE = os.path.expanduser('~/.cache/weather/{}')
 
-try :
-    os.makedirs( CACHE.format('') )
+try:
+    os.makedirs(CACHE.format(''))
 except:
     pass
 
@@ -25,47 +25,47 @@ reader = codecs.getreader('utf8')
 APIKEY = subprocess.check_output(
     ['pass', 'api.forecast.io/aurelien.ooms@gmail.com']).decode().strip()
 
-try :
+try:
 
     GEOLOCATION = json.loads(subprocess.check_output(
         ['memoize-get', '1800', 'geolocation.fetch']).decode())
 
     LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
 
-except Exception as err :
+except Exception as err:
 
-    log( 'could not load geolocation' )
+    log('could not load geolocation')
     raise err
 
 
 NOW = arrow.utcnow()
 
-timefmt = lambda t : t.format('YYYY-MM-DDTHH:mm:ssZZ')
+timefmt = lambda t: t.format('YYYY-MM-DDTHH:mm:ssZZ')
 
-TIMES = [ NOW , NOW.replace(days=+1) ]
+TIMES = [NOW, NOW.replace(days=+1)]
 
-data = { }
+data = {}
 hourly = None
 
-for i , TIME in enumerate( map( timefmt , TIMES ) ) :
+for i, TIME in enumerate(map(timefmt, TIMES)):
     URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
-    log( 'loading {}'.format( URL ) )
+    log('loading {}'.format(URL))
     _data = json.load(reader(urllib.request.urlopen(URL)))
-    if not data :
+    if not data:
         data = _data
-        if 'hourly' in _data :
+        if 'hourly' in _data:
             hourly = _data['hourly']['data']
     else:
-        if hourly is not None and 'hourly' in _data :
+        if hourly is not None and 'hourly' in _data:
             hourly.extend(_data['hourly']['data'])
 
         # TODO properly merge all data
 
-        if 'daily' in data and 'daily' in _data :
+        if 'daily' in data and 'daily' in _data:
 
-            if len( data['daily']['data'] ) == i :
+            if len(data['daily']['data']) == i:
 
                 data['daily']['data'].extend(_data['daily']['data'])
 
-with open( CACHE.format( 'cache' ) , 'w' ) as fd :
-    json.dump( data , fd )
+with open(CACHE.format('cache'), 'w') as fd:
+    json.dump(data, fd)

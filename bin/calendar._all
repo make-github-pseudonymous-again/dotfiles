@@ -14,10 +14,11 @@ CALENDARS = os.path.expanduser('~/.calendars')
 
 with open(CALENDARS, 'r') as _calendars:
 
-    _calendars = list(line.rstrip('\n') for line in _calendars if line[0] != '#')
+    _calendars = list(line.rstrip('\n')
+                      for line in _calendars if line[0] != '#')
 
 
-calendar = ics.Calendar( )
+calendar = ics.Calendar()
 
 events = calendar.events
 
@@ -25,32 +26,32 @@ for _calendar in _calendars:
 
     h = hashlib.sha1(_calendar.encode()).hexdigest()
 
-    filename = CACHE.format( h )
+    filename = CACHE.format(h)
 
-    log( 'loading {} from {}'.format( _calendar , filename ) )
+    log('loading {} from {}'.format(_calendar, filename))
 
     try:
 
-        with open( filename , 'rb' ) as fd :
+        with open(filename, 'rb') as fd:
 
             data = fd.read()
             text = data.decode()
 
-            calendar = ics.Calendar( text )
+            calendar = ics.Calendar(text)
 
             for event in calendar.events:
                 events.append(event)
 
-    except FileNotFoundError as err :
+    except FileNotFoundError as err:
 
         log('Error reading cache for: {}'.format(_calendar))
-        log( err )
+        log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
 
 now = arrow.now()
 
-_fresh = sorted(filter(lambda x: x.end >= now, events),key=lambda x:x.begin)
+_fresh = sorted(filter(lambda x: x.end >= now, events), key=lambda x: x.begin)
 _future = set(filter(lambda x: x.begin >= now, _fresh))
 _happening = set(filter(lambda x: x.begin < now, _fresh))
 _current = min(_happening, key=lambda x: x.end, default=None)
@@ -74,7 +75,7 @@ BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 ENDC = '\033[0m'
 
-for event in _fresh :
+for event in _fresh:
 
     name = event.name
     begin = event.begin.to('local')
@@ -92,10 +93,13 @@ for event in _fresh :
         else:
             bf = 'MMM D, HH:mm'
 
-    if event == _main : ef = UNDERLINE+ef+ENDC
-    if event == _next : ef = YELLOW+ef+ENDC
-    if event == _current : ef = BLUE+ef+ENDC
-    if event in _happening : ef = BOLD+ef+ENDC
+    if event == _main:
+        ef = UNDERLINE + ef + ENDC
+    if event == _next:
+        ef = YELLOW + ef + ENDC
+    if event == _current:
+        ef = BLUE + ef + ENDC
+    if event in _happening:
+        ef = BOLD + ef + ENDC
 
     print(ef.format(name, begin.format(bf), begin.humanize()))
-

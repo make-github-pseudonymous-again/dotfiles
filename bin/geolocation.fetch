@@ -21,7 +21,7 @@ try:
 
 except Exception as err:
 
-    log( err )
+    log(err)
 
     geolocation = {}
 
@@ -32,7 +32,7 @@ try:
 
 except Exception as err:
 
-    log( err )
+    log(err)
 
     fingerprint = {}
 

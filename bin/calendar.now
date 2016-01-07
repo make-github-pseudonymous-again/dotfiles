@@ -14,10 +14,11 @@ CALENDARS = os.path.expanduser('~/.calendars')
 
 with open(CALENDARS, 'r') as _calendars:
 
-    _calendars = list(line.rstrip('\n') for line in _calendars if line[0] != '#')
+    _calendars = list(line.rstrip('\n')
+                      for line in _calendars if line[0] != '#')
 
 
-calendar = ics.Calendar( )
+calendar = ics.Calendar()
 
 events = calendar.events
 
@@ -25,26 +26,26 @@ for _calendar in _calendars:
 
     h = hashlib.sha1(_calendar.encode()).hexdigest()
 
-    filename = CACHE.format( h )
+    filename = CACHE.format(h)
 
-    log( 'loading {} from {}'.format( _calendar , filename ) )
+    log('loading {} from {}'.format(_calendar, filename))
 
     try:
 
-        with open( filename , 'rb' ) as fd :
+        with open(filename, 'rb') as fd:
 
             data = fd.read()
             text = data.decode()
 
-            calendar = ics.Calendar( text )
+            calendar = ics.Calendar(text)
 
             for event in calendar.events:
                 events.append(event)
 
-    except FileNotFoundError as err :
+    except FileNotFoundError as err:
 
         log('Error reading cache for: {}'.format(_calendar))
-        log( err )
+        log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
 

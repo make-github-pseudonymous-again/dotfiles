@@ -14,48 +14,49 @@ log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 CACHE = os.path.expanduser('~/.cache/calendar/{}')
 CALENDARS = os.path.expanduser('~/.calendars')
 
-try :
-    os.makedirs( CACHE.format('') )
+try:
+    os.makedirs(CACHE.format(''))
 except:
     pass
 
 with open(CALENDARS, 'r') as _calendars:
 
-    _calendars = list(line.rstrip('\n') for line in _calendars if line[0] != '#')
+    _calendars = list(line.rstrip('\n')
+                      for line in _calendars if line[0] != '#')
 
 for _calendar in _calendars:
 
     try:
 
-        log( 'downloading {}'.format( _calendar ) )
+        log('downloading {}'.format(_calendar))
 
         data = urllib.request.urlopen(_calendar).read()
-        calendar = ics.Calendar(data.decode()) # to check that we can parse the data
+        # to check that we can parse the data
+        calendar = ics.Calendar(data.decode())
 
         h = hashlib.sha1(_calendar.encode()).hexdigest()
-        filename = CACHE.format( h )
+        filename = CACHE.format(h)
 
-        log( 'writing {} to {}'.format( _calendar , filename ) )
+        log('writing {} to {}'.format(_calendar, filename))
 
-        with open( filename , 'wb' ) as fd :
+        with open(filename, 'wb') as fd:
 
-            fd.write( data )
-
+            fd.write(data)
 
     except urllib.error.URLError as err:
 
         log('Error opening url: {}'.format(_calendar))
-        log( err )
+        log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
     except ics.parse.ParseError as err:
 
         log('Error parsing file: {}'.format(_calendar))
-        log( err )
+        log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
-    except FileNotFoundError as err :
+    except FileNotFoundError as err:
 
         log('Error writing file for {}'.format(_calendar))
-        log( err )
+        log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
