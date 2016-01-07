@@ -2,9 +2,11 @@
 
 read line || exit 1
 
-PREPEND_INIT=''
+PREPEND_INIT='{}'
+APPEND_INIT='{}'
 
 prepend="$PREPEND_INIT"
+append="$APPEND_INIT"
 
 calendar="$(memoize-get 3600 calendar.now)"
 if [ "$calendar" != '' ]; then
@@ -33,8 +35,11 @@ if [ "$geolocation" != '' ]; then
 	prepend='{"name":"geolocation","color":"#FF6600","full_text":" '"$geolocation"'"},'"$prepend"
 fi
 
+status="$(system.status.color)"
+append='{"name":"status","color":"'"$status"'","full_text":""},'"$append"
+
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line="[""$(echo "$prepend")""$(echo "$line" | tail -c +2)"
+	line=$(echo '{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}' | jq -Mc '.a[:-1] + .b + .c[:-1]')
 fi
 
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+failures1=$(cat "$HOME/".cache/memoize/*/R | grep '1' | wc -l)
+failures2=$(systemctl --user show | grep '^NFailedJobs=' | cut -d '=' -f 2)
+
+echo "memoize failures: $failures1" >&2
+echo "systemctl failures: $failures2" >&2
+
+failures=`expr $failures1 + $failures2`
+
+if test $failures -ge 3; then
+	echo '#FF0000'
+elif test $failures -ge 1; then
+	echo '#FFFF00'
+else
+	echo '#00FF00'
+fi

@@ -88,7 +88,13 @@ def _duration(A, B):
 
 def _shortduration(A, B):
 
-    x = _duration(A, B)
+    return _shorten( _duration(A, B) )
+
+def _shorthumanize(time , ref):
+
+    return _shorten( _humanize(time,ref))
+
+def _shorten ( x ) :
 
     if 'minutes' in x or 'seconds' in x:
 
@@ -213,9 +219,9 @@ for name, _path, _leave, _arrival in myroutes:
         continue
 
     title = config[name]['title']
-    leave = _humanize(_leave, NOW)
-    arrival = _humanize(_arrival, NOW)
-    total = _duration(_leave, _arrival)  # remove "in " prefix
+    leave = _shorthumanize(_leave, NOW)
+    arrival = _shorthumanize(_arrival, NOW)
+    total = _shortduration(_leave, _arrival)  # remove "in " prefix
     path = _repr(_path)
     eta = _arrival.format('HH:mm:ss')
 
