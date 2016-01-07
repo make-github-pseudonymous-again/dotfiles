@@ -47,15 +47,25 @@ TIMES = [ NOW , NOW.replace(days=+1) ]
 data = { }
 hourly = None
 
-for TIME in map( timefmt , TIMES ) :
+for i , TIME in enumerate( map( timefmt , TIMES ) ) :
     URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
     log( 'loading {}'.format( URL ) )
     _data = json.load(reader(urllib.request.urlopen(URL)))
     if not data :
         data = _data
-        hourly = _data['hourly']['data']
+        if 'hourly' in _data :
+            hourly = _data['hourly']['data']
     else:
-        hourly.extend(_data['hourly']['data'])
+        if hourly is not None and 'hourly' in _data :
+            hourly.extend(_data['hourly']['data'])
+
+        # TODO properly merge all data
+
+        if 'daily' in data and 'daily' in _data :
+
+            if len( data['daily']['data'] ) == i :
+
+                data['daily']['data'].extend(_data['daily']['data'])
 
 with open( CACHE.format( 'cache' ) , 'w' ) as fd :
     json.dump( data , fd )

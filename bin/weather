@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+terminator -b -T weather -p weather

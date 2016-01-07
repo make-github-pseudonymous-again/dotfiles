@@ -79,7 +79,16 @@ if km ( *current , *old ) > threshold :
     log( '> {} is more than {} km away from {}'.format( current , threshold , old ) )
     sys.exit( 1 )
 
+if 'hourly' not in data :
+
+    # TODO properly check that the 3 hours range is available
+
+    log( 'hourly data not available' )
+    sys.exit( 2 )
+
 hourly = data['hourly']['data']
+
+
 
 def ftoc(c):
     return (c - 32) * 5 / 9
