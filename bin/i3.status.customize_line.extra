@@ -10,12 +10,12 @@ append="$APPEND_INIT"
 
 calendar="$(memoize-get 3600 calendar.now)"
 if [ "$calendar" != '' ]; then
-	prepend='{"name":"calendar","color":"#FF00FF","full_text":" '"$calendar"'"},'"$prepend"
+	prepend='{"name":"calendar","color":"#A7C5BD","full_text":" '"$calendar"'"},'"$prepend"
 fi
 
 weather="$(memoize-get 3600 weather.now)"
 if [ "$weather" != '' ]; then
-	prepend='{"name":"weather","color":"#FF00FF","full_text":"'"$weather"'"},'"$prepend"
+	prepend="$weather"','"$prepend"
 fi
 
 urlab_data="$(memoize-get 1800 urlab.fetch)"
@@ -32,11 +32,11 @@ fi
 
 geolocation="$(memoize-get 900 geolocation.fetch | jq -r '.tag')"
 if [ "$geolocation" != '' ]; then
-	prepend='{"name":"geolocation","color":"#FF6600","full_text":" '"$geolocation"'"},'"$prepend"
+	prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocation"'"},'"$prepend"
 fi
 
-status="$(system.status.color)"
-append='{"name":"status","color":"'"$status"'","full_text":""},'"$append"
+badge="$(system.status.badge)"
+append="$badge"','"$append"
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
 	line=$(echo '{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}' | jq -Mc '.a[:-1] + .b + .c[:-1]')

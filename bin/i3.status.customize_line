@@ -17,27 +17,27 @@ fi
 
 if is.ulb.ethernet.connected; then
 	if is.internet.accessible; then
-		prepend='{"name":"ulb ethernet","color":"#00FF00","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb ethernet","color":"#6DE256","full_text":" ulb"},'"$prepend"
 		if is.cups.running && is.papercut.running; then
-			prepend='{"name":"ulb printer","color":"#00FF00","full_text":" ulb"},'"$prepend"
+			prepend='{"name":"ulb printer","color":"#6DE256","full_text":" ulb"},'"$prepend"
 		else
 			ulb.printer.connect > /dev/null 2>&1 &
-			prepend='{"name":"ulb printer","color":"#FFFF00","full_text":" ulb"},'"$prepend"
+			prepend='{"name":"ulb printer","color":"#C5E946","full_text":" ulb"},'"$prepend"
 		fi
 	else
 		ulb.ethernet.connect > /dev/null 2>&1 &
-		prepend='{"name":"ulb ethernet","color":"#FFFF00","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb ethernet","color":"#C5E946","full_text":" ulb"},'"$prepend"
 	fi
 fi
 
 mail_count="$(mail.new_count)"
 if test "$mail_count" -gt 0; then
-	prepend='{"name":"new mail","color":"#00FF00","full_text":" '"$mail_count"'"},'"$prepend"
+	prepend='{"name":"new mail","color":"#6DE256","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
 rss_count="$(rss.new_count)"
 if test "$rss_count" -gt 0; then
-	prepend='{"name":"new rss","color":"#00FF00","full_text":" '"$rss_count"'"},'"$prepend"
+	prepend='{"name":"new rss","color":"#6DE256","full_text":" '"$rss_count"'"},'"$prepend"
 fi
 
 volume="$(volume.get)"
@@ -62,6 +62,7 @@ if power.battery.has; then
 			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
 		else
 			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").color |= "#CF4647" )'
 		fi
 	fi
 fi

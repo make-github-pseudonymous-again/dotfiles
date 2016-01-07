@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+
+cache="$HOME/.cache/memoize"
+
+rm -rf "$cache"

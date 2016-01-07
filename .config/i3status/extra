@@ -7,10 +7,15 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
-        output_format = i3bar
-        colors = true
-        interval = 5
+	output_format = i3bar
+	interval = 5
+
+	colors = true
+	color_good = "#6DE256"
+	color_degraded = "#C5E946"
+	color_bad = "#CF4647"
 }
+
 
 order += "disk /"
 order += "load"

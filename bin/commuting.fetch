@@ -241,7 +241,7 @@ for name, _path, _leave, _arrival in myroutes:
 
             if d < 60:
 
-                color = "#FA2A00"
+                color = "#CF4647"
 
             else:
 

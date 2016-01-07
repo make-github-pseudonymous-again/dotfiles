@@ -105,7 +105,13 @@ t = list(map(round, map(ftoc, map(lambda x: x['apparentTemperature'], data))))
 p = list(map(lambda x: round(100 * x['precipProbability']), data))
 i = list(map(lambda x: round(itom(x['precipIntensity']), 1), data))
 
+entry={"name":"weather"}
+
 if all(map(lambda x: x == 0, p)):
-    print('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
+    entry['color'] = "#FA2A00"
+    entry['full_text'] = ('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
 else:
-    print('☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(*t, *p, *i))
+    entry['color'] = "#3FB8AF"
+    entry['full_text'] = ('☔ {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(*t, *p, *i))
+
+json.dump( entry , sys.stdout )
