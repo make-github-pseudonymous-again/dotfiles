@@ -1,7 +1,8 @@
 # ~/. dotfiles for Arch Linux
 
-![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/lockscreen.png)
 ![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot-weather.png)
+![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/lockscreen.png)
 
 ## Getting started
 
