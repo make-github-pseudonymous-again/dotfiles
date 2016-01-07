@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+calendar._all 2>/dev/null | less -R

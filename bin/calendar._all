@@ -48,32 +48,36 @@ for _calendar in _calendars:
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
 
-try:
+now = arrow.now()
 
-    now = arrow.now()
+_fresh = sorted(filter(lambda x: x.end >= now, events),key=lambda x:x.begin)
+_future = set(filter(lambda x: x.begin >= now, _fresh))
+_happening = set(filter(lambda x: x.begin < now, _fresh))
+_current = min(_happening, key=lambda x: x.end, default=None)
+_next = min(_future, key=lambda x: x.begin, default=None)
 
-    _fresh = list(filter(lambda x: x.end >= now, events))
-    _future = filter(lambda x: x.begin >= now, _fresh)
-    _happening = filter(lambda x: x.begin < now, _fresh)
-    _current = min(_happening, key=lambda x: x.end, default=None)
-    _next = min(_future, key=lambda x: x.begin, default=None)
+_main = None
 
-    if _current is None:
+if _current is None:
 
-        if _next is None:
+    if _next is not None:
 
-            raise ValueError('no main event')
+        _main = _next
 
-        else:
+else:
 
-            _main = _next
+    _main = _current if _next is None or _next.begin >= _current.end else _next
 
-    else:
+BLUE = '\033[94m'
+YELLOW = '\033[93m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
+ENDC = '\033[0m'
 
-        _main = _current if _next is None or _next.begin >= _current.end else _next
+for event in _fresh :
 
-    name = _main.name
-    begin = _main.begin.to('local')
+    name = event.name
+    begin = event.begin.to('local')
 
     ef = '{} - {} ({})'
     if begin < now:
@@ -88,8 +92,10 @@ try:
         else:
             bf = 'MMM D, HH:mm'
 
+    if event == _main : ef = UNDERLINE+ef+ENDC
+    if event == _next : ef = YELLOW+ef+ENDC
+    if event == _current : ef = BLUE+ef+ENDC
+    if event in _happening : ef = BOLD+ef+ENDC
+
     print(ef.format(name, begin.format(bf), begin.humanize()))
 
-except ValueError:
-
-    print()
