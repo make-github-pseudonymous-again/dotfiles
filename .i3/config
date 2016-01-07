@@ -221,6 +221,7 @@ mode "apps" {
         bindsym p exec courriel.fetch; mode "default"
         bindsym m exec maps; mode "default"
         bindsym n exec news; mode "default"
+        bindsym Shift+C exec calendar; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
