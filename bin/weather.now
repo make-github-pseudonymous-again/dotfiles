@@ -122,7 +122,7 @@ elif 'partly cloudy' in summary:
     entry['full_text'] = ('☁ {:d},{:d},{:d}'.format(*t, *p, *i))
 
 elif 'mostly cloudy' in summary:
-    entry['color'] = "#555555"
+    entry['color'] = "#666666"
     entry['full_text'] = ('☁ {:d},{:d},{:d}'.format(*t, *p, *i))
 
 else:
