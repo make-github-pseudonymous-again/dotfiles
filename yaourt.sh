@@ -28,6 +28,7 @@ if ! which yaourt 1>/dev/null 2>&1 ; then
 fail
 fi
 
+yaourt -S dmenu2
 yaourt -S fasd
 yaourt -S ttf-font-awesome
 yaourt -S ruby-gpgme-1
