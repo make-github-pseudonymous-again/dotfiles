@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-dmenu_center --rest -t -p app

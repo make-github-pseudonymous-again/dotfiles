@@ -28,15 +28,17 @@ def parse_dmenu_args(args):
     argc = len(args)
     # Get arguments from the command line.
 
+    runnable = args[0] if argc > 0 else 'dmenu'
+
     # 20% padding means only 80% of the screen is used by dmenu with 10%
     # padding on each side.
-    padding = float(args[0]) if argc > 0 else .24
+    padding = float(args[1]) if argc > 1 else .24
 
     # Font size and lineheight are in points
-    line_height = int(args[1]) if argc > 1 else 24
-    font_size = int(args[2]) if argc > 2 else 11
+    line_height = int(args[2]) if argc > 2 else 24
+    font_size = int(args[3]) if argc > 3 else 11
 
-    typeface = args[3] if argc > 3 else 'Inconsolata'
+    typeface = args[4] if argc > 4 else 'Inconsolata'
 
     current_display = display.Display()
     current_screen = current_display.screen()
@@ -57,6 +59,7 @@ def parse_dmenu_args(args):
 
     # Set some default values for dmenu args
     dmenu_run_args = {
+        'runnable' : runnable ,
         'xoffset' : str(xoffset),
         'yoffset' : str(yoffset),
         'width' : str(width),
@@ -69,7 +72,7 @@ def parse_dmenu_args(args):
 
 def main(args):
     dmenu_run_args, rest = parse_dmenu_args(args)
-    cmd = ['dmenu_run']
+    cmd = [dmenu_run_args['runnable']]
     cmd += [ '-fn' , dmenu_run_args['font'] ]
     cmd += [ '-x' , dmenu_run_args['xoffset'] ]
     cmd += [ '-y' , dmenu_run_args['yoffset'] ]
