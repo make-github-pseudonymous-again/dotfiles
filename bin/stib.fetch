@@ -9,6 +9,8 @@ import urllib.request
 
 from xml.etree import ElementTree
 
+TZ = 'Europe/Brussels'
+
 CACHE = os.path.expanduser('~/.cache/stib')
 CONFIG = os.path.expanduser('~/.config/stib/config')
 
@@ -62,7 +64,7 @@ for halt, lines in config.items():
         log('failed to download', url)
         continue
 
-    now = arrow.now()
+    now = arrow.now(TZ)
 
     waitingtimes = list(W.iter('waitingtime'))
 

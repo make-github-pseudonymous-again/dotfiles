@@ -10,6 +10,8 @@ import urllib.request
 import lxml.html as html
 from lxml.cssselect import CSSSelector
 
+TZ = 'Europe/Paris'
+
 sel = lambda h , s : CSSSelector(s)(h)
 
 CACHE = os.path.expanduser('~/.cache/rtm')
@@ -56,7 +58,7 @@ for halt in config:
 
     url = REQUEST.format(halt)
 
-    now = arrow.now()
+    now = arrow.now(TZ)
 
     log(url)
 
