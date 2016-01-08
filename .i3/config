@@ -248,7 +248,7 @@ bar {
 	tray_output none
 
 	colors {
-		background #111111
+		background #1c1c1c
 		statusline #dddddd
 	}
 }
@@ -269,7 +269,7 @@ bar {
 	binding_mode_indicator no
 
 	colors {
-		background #111111
+		background #1c1c1c
 		statusline #dddddd
 	}
 }

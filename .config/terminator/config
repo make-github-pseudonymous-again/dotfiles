@@ -18,7 +18,7 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     background_image = None
     copy_on_selection = True
@@ -29,7 +29,7 @@
     show_titlebar = False
     use_system_font = False
   [[newsbeuter]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     copy_on_selection = True
     custom_command = newsbeuter
@@ -39,7 +39,7 @@
     use_custom_command = True
     use_system_font = False
   [[ranger]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     copy_on_selection = True
     custom_command = ranger
@@ -49,7 +49,7 @@
     use_custom_command = True
     use_system_font = False
   [[python]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     copy_on_selection = True
     custom_command = python
@@ -59,7 +59,7 @@
     use_custom_command = True
     use_system_font = False
   [[calendar]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     copy_on_selection = True
     custom_command = calendar.all
@@ -69,7 +69,7 @@
     use_custom_command = True
     use_system_font = False
   [[weather]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     copy_on_selection = True
     custom_command = weather.forecast
@@ -79,7 +79,7 @@
     use_custom_command = True
     use_system_font = False
   [[sup]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     background_image = None
     backspace_binding = control-h
@@ -91,7 +91,7 @@
     use_custom_command = True
     use_system_font = False
   [[sup.compose]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     background_image = None
     backspace_binding = control-h
@@ -101,7 +101,7 @@
     show_titlebar = False
     use_system_font = False
   [[urlab.irc]]
-    background_color = "#111111"
+    background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"
     background_image = None
     copy_on_selection = True
