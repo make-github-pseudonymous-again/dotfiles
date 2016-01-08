@@ -11,9 +11,17 @@ CONFIG = os.path.expanduser('~/.config/commuting/config')
 STIBCACHE = os.path.expanduser('~/.cache/stib')
 STIBCONFIG = os.path.expanduser('~/.config/stib/config')
 
-HALT = STIBCACHE + '/{}'
-LINE = HALT + '/{}'
-TIME = LINE + '/{}'
+STIBHALT = STIBCACHE + '/{}'
+STIBLINE = STIBHALT + '/{}'
+
+RTMCACHE = os.path.expanduser('~/.cache/rtm')
+RTMCONFIG = os.path.expanduser('~/.config/rtm/config')
+
+RTMHALT = RTMCACHE + '/{}'
+RTMLINE = RTMHALT + '/{}'
+RTMDEST = RTMLINE + '/{}'
+RTMTIME = RTMDEST + '/{}'
+
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -23,22 +31,37 @@ with open(CONFIG) as _config:
 with open(STIBCONFIG) as _config:
     stibconfig = json.load(_config)
 
+with open(RTMCONFIG) as _config:
+    rtmconfig = json.load(_config)
+
 geolocation = json.loads(subprocess.check_output(
     ['memoize-get', '1200', 'geolocation.fetch']).decode())
 
-pt = frozenset((args[0], args[1]) for road in config.values() for path in road['paths'] for T, *args in
+pt = frozenset(tuple(args[:-1]) for road in config.values() for path in road['paths'] for T, *args in
                path if T in 'BTM')
 
 
-def grab(halt, line):
+def stibgrab(halt, line):
 
     try:
 
-        return sorted(map(arrow.get, os.listdir(LINE.format(halt, line))))
+        return sorted(map(arrow.get, os.listdir(STIBLINE.format(halt, line))))
 
     except FileNotFoundError:
 
-        log('no data for', halt, line)
+        log('no STIB data for', halt, line)
+
+        return []
+
+def rtmgrab(halt, line, dest):
+
+    try:
+
+        return sorted(map(arrow.get, os.listdir(RTMDEST.format(halt, line, dest))))
+
+    except FileNotFoundError:
+
+        log('no RTM data for', halt, line, dest)
 
         return []
 
@@ -48,9 +71,18 @@ def _repr(path):
     _map = {
         "w": lambda A, B: '  ({})'.format(_shortduration(A, B)),
         "W": lambda s: '  ',
-        "T": lambda halt, line, s: '  {}'.format(line),
-        "B": lambda halt, line, s: '  {}'.format(line),
-        "M": lambda halt, line, s: '  {}'.format(line)
+        "T" : lambda provider , *args : {
+            "stib" : lambda halt, line, s: '  {}'.format(line),
+            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args),
+        "B" : lambda provider , *args : {
+            "stib" : lambda halt, line, s: '  {}'.format(line),
+            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args),
+        "M" : lambda provider , *args : {
+            "stib" : lambda halt, line, s: '  {}'.format(line),
+            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args)
     }
 
     return '  '.join(_map[T](*args) for T, *args in path)
@@ -114,14 +146,41 @@ def _diff(a, b):
     return a.datetime.timestamp() - b.datetime.timestamp()
 
 stib = {}
+rtm = {}
 
-for halt, line in pt:
+PT = {
+    'stib' : stib ,
+    'rtm' : rtm
+}
 
-    if halt not in stibconfig or line not in stibconfig[halt]:
+for provider, *args in pt:
 
-        log('warning: stib is not configured to fetch', halt, line)
+    if provider == 'stib' :
 
-    stib[(halt, line)] = grab(halt, line)
+        halt = args[0]
+        line = args[1]
+
+        if halt not in stibconfig or line not in stibconfig[halt]:
+
+            log('warning: stib is not configured to fetch', halt, line)
+
+        stib[(halt, line)] = stibgrab(halt, line)
+
+    elif provider == 'rtm' :
+
+        halt = args[0]
+        line = args[1]
+        dest = args[2]
+
+        if halt not in stibconfig:
+
+            log('warning: rtm is not configured to fetch', halt)
+
+        rtm[(halt, line, dest)] = rtmgrab(halt, line, dest)
+
+    else :
+
+        log( 'warning: unknown provider ', provider)
 
 
 def allroutes():
@@ -154,17 +213,24 @@ def routes(path, leave=None, total=0, prev=()):
 
     else:
 
-        halt, line, duration = args
+        provider , *rest = args
+        duration = rest[-1]
+        key = tuple(rest[:-1])
+        times = PT[provider][key]
 
         if leave is None:
 
-            for timestamp in stib[(halt, line)]:
+            for timestamp in times:
 
-                yield from routes(path[1:], timestamp.replace(seconds=-
-                                                              total), total + duration, prev + (path[0], ))
+                _path = path[1:]
+                _leave = timestamp.replace(seconds=-total)
+                _total = total + duration
+                _prev = prev + (path[0], )
+
+                yield from routes(_path, _leave, _total , _prev )
         else:
 
-            for timestamp in stib[(halt, line)]:
+            for timestamp in times:
 
                 waiting = _diff(timestamp, leave) - total
 
@@ -173,16 +239,24 @@ def routes(path, leave=None, total=0, prev=()):
 
                 elif waiting == 0:
 
-                    yield from routes(path[1:], leave, total + waiting +
-                                      duration, prev + (path[0], ))
+                    _path = path[1:]
+                    _leave = leave
+                    _total = total + duration
+                    _prev = prev + (path[0], )
+
+                    yield from routes(_path, _leave, _total , _prev )
 
                 else:
 
                     A = leave.replace(seconds=+total)
                     B = A.replace(seconds=+waiting)
 
-                    yield from routes(path[1:], leave, total + waiting +
-                                      duration, prev + (['w', A, B], path[0]))
+                    _path = path[1:]
+                    _leave = leave
+                    _total = total + waiting + duration
+                    _prev = prev + (['w', A, B], path[0])
+
+                    yield from routes(_path, _leave, _total , _prev )
 
 NOW = arrow.now()
 
