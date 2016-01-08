@@ -105,28 +105,34 @@ t = list(map(round, map(ftoc, map(lambda x: x['apparentTemperature'], data))))
 p = list(map(lambda x: round(100 * x['precipProbability']), data))
 i = list(map(lambda x: round(itom(x['precipIntensity']), 1), data))
 
-entry={"name":"weather"}
-summary = data[0]['summary'].lower()
+iconname = data[0]['icon']
+
+icons = {
+    "clear-day" : ( "" , "#FFEC5E" ),
+    "clear-night" : ("","#EEE6AB"),
+    "rain" : ( "☔", "#3FB8AF" ),
+    "snow" : ("❄","#FFFFFF"),
+    "sleet" : ("❅","#AAAAAA"),
+    "wind" : ("","#EEEEEE"),
+    "fog" : ("☁","#808080"),
+    "cloudy" : ("","#666666"),
+    "partly-cloudy-day" : ("☀☁","#999999"),
+    "partly-cloudy-night" : ("☁","#C5BC8E"),
+    "hail" : ("☄","#CCCCCC"),
+    "thunderstorm" : ("","#FDEA4F"),
+    "tornado" : ("","#779893"),
+}
+
+icon , color = icons.get(iconname, ( "?" , "#CF4647" ))
 
 if any(map(lambda x: x > 0, p)):
-    entry['color'] = "#3FB8AF"
-    symbol = '' if 'snow' in summary else '☔'
-    entry['full_text'] = ('{} {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'.format(symbol,*t, *p, *i))
-
-elif 'sun' in summary:
-    entry['color'] = "#C5E946"
-    entry['full_text'] = ('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
-
-elif 'partly cloudy' in summary:
-    entry['color'] = "#999999"
-    entry['full_text'] = ('☁ {:d},{:d},{:d}'.format(*t, *p, *i))
-
-elif 'mostly cloudy' in summary:
-    entry['color'] = "#666666"
-    entry['full_text'] = ('☁ {:d},{:d},{:d}'.format(*t, *p, *i))
-
+    fmt = '{} {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'
 else:
-    entry['color'] = "#FFFFFF"
-    entry['full_text'] = ('☀ {:d},{:d},{:d}'.format(*t, *p, *i))
+    fmt = '{} {:d},{:d},{:d}'
+
+entry={}
+entry['name'] = 'weather'
+entry['color'] = color
+entry['full_text'] = (fmt.format(icon,*t, *p, *i))
 
 json.dump( entry , sys.stdout )

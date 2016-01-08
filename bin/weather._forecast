@@ -105,13 +105,33 @@ def itom(i):
     return i * 25.4
 
 
-BLUE = '\033[94m'
-YELLOW = '\033[93m'
-DARKGRAY = '\033[90m'
+YELLOW = '\033[33m'
 LIGHTGRAY = '\033[37m'
+DARKGRAY = '\033[90m'
+RED = '\033[91m'
+BRIGHTYELLOW = '\033[93m'
+BLUE = '\033[94m'
+WHITE = '\033[97m'
 BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 ENDC = '\033[0m'
+
+icons = {
+    "clear-day" : ( "" , BRIGHTYELLOW ),
+    "clear-night" : ("", YELLOW),
+    "rain" : ( "☔", BLUE ),
+    "snow" : ("❄", LIGHTGRAY),
+    "sleet" : ("❅",LIGHTGRAY),
+    "wind" : ("",LIGHTGRAY),
+    "fog" : ("☁",DARKGRAY),
+    "cloudy" : ("",DARKGRAY),
+    "partly-cloudy-day" : ("☀☁",LIGHTGRAY),
+    "partly-cloudy-night" : ("☁",LIGHTGRAY),
+    "hail" : ("☄",LIGHTGRAY),
+    "thunderstorm" : ("",DARKGRAY),
+    "tornado" : ("",DARKGRAY),
+}
+
 
 for day in daily:
 
@@ -123,22 +143,17 @@ for day in daily:
     p = round(100 * day['precipProbability'])
     i = round(itom(day['precipIntensity']), 1)
 
-    fmt = '[{}] - {: >2}°C < {: >2}°C - {}'
+    fmt = '[{}] - {: >2}°C < {: >2}°C - {} {}'
 
     dtime = time.format('dddd DD MMMM YYYY')
     summary = day['summary']
 
     if p > 0:
-        fmt = BLUE + fmt + ' ({}% - {}mm/h)' + ENDC
+        fmt = fmt + ' ({}% - {}mm/h)'
 
-    elif 'sun' in summary.lower():
-        fmt = YELLOW + fmt + ENDC
-
-    elif 'clear' in summary.lower():
-        fmt = LIGHTGRAY + fmt + ENDC
-
-    elif 'mostly cloudy' in summary.lower():
-        fmt = DARKGRAY + fmt + ENDC
+    iconname = day['icon']
+    icon , color = icons.get(iconname, ( "?" , RED ))
+    fmt = color + fmt + ENDC
 
     if time < NOW.replace(hours=+3):
         fmt = BOLD + fmt + ENDC
@@ -146,7 +161,7 @@ for day in daily:
     fmt = UNDERLINE + fmt + ENDC
 
     print()
-    print(fmt.format(dtime, t1, t2, summary, p, i))
+    print(fmt.format(dtime, t1, t2, icon ,summary, p, i))
     print()
 
     for hour in hourly:
@@ -160,25 +175,20 @@ for day in daily:
         p = round(100 * hour['precipProbability'])
         i = round(itom(hour['precipIntensity']), 1)
 
-        fmt = ' * {} - {: >2}°C - {} ({})'
+        fmt = ' * {} - {: >2}°C - {: <2} {} ({})'
 
         dtime = time.format('hh A')
         htime = time.humanize()
         summary = hour['summary']
 
         if p > 0:
-            fmt = BLUE + fmt + ' ({}% - {}mm/h)' + ENDC
+            fmt = fmt + ' ({}% - {}mm/h)'
 
-        elif 'sun' in summary.lower():
-            fmt = YELLOW + fmt + ENDC
-
-        elif 'clear' in summary.lower():
-            fmt = LIGHTGRAY + fmt + ENDC
-
-        elif 'mostly cloudy' in summary.lower():
-            fmt = DARKGRAY + fmt + ENDC
+        iconname = hour['icon']
+        icon , color = icons.get(iconname, ( "?" , RED ))
+        fmt = color + fmt + ENDC
 
         if time < NOW.replace(hours=+3):
             fmt = BOLD + fmt + ENDC
 
-        print(fmt.format(dtime, t, summary, htime, p, i))
+        print(fmt.format(dtime, t, icon,summary, htime, p, i))
