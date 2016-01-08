@@ -20,7 +20,7 @@ with open(CALENDARS, 'r') as _calendars:
 
 calendar = ics.Calendar()
 
-events = calendar.events
+allevents = calendar.events
 
 for _calendar in _calendars:
 
@@ -40,7 +40,7 @@ for _calendar in _calendars:
             calendar = ics.Calendar(text)
 
             for event in calendar.events:
-                events.append(event)
+                allevents.append(event)
 
     except FileNotFoundError as err:
 
@@ -50,10 +50,44 @@ for _calendar in _calendars:
 
 
 now = arrow.now()
+today = now.floor('day')
+tomorrow = today.replace(days=+1)
+dayaftertomorrow = tomorrow.replace(days=+1)
+nextweek = now.floor('week').replace(weeks=+1)
+weekafternextweek = nextweek.replace(weeks=+1)
+nextmonth = now.floor('month').replace(months=+1)
+monthafternextmonth = nextmonth.replace(months=+1)
 
-_fresh = sorted(filter(lambda x: x.end >= now, events), key=lambda x: x.begin)
-_future = set(filter(lambda x: x.begin >= now, _fresh))
+_fresh = set(filter(lambda x: x.end >= now, allevents))
+
+sections = [ ]
+
+timesections = [
+    [ "Past" , None , today ] ,
+    [ "Today" , today , tomorrow ] ,
+    [ "Tomorrow" , tomorrow , dayaftertomorrow ] ,
+    [ "Rest of week" , dayaftertomorrow , nextweek ] ,
+    [ "Next week" , nextweek , weekafternextweek ] ,
+    [ "Rest of month" , weekafternextweek , nextmonth ] ,
+    [ "Next month" , nextmonth , monthafternextmonth ] ,
+    [ "Future" , monthafternextmonth , None ] ,
+]
+
+for name , begin , end in timesections :
+
+    predicate = lambda x : ( begin is None or x.begin >= begin ) and ( end is None or x.begin < end )
+
+    events = set(filter( predicate , _fresh ))
+
+    A = 'the beginning of the Universe' if begin is None else begin.format('YYYY-MM-DD HH:mm:ss')
+    B = 'the end of the Universe' if end is None else end.format('YYYY-MM-DD HH:mm:ss')
+
+    title = (name+', from {} to {}').format(A,B)
+
+    sections.append( ( title , events ) )
+
 _happening = set(filter(lambda x: x.begin < now, _fresh))
+_future = _fresh - _happening
 _current = min(_happening, key=lambda x: x.end, default=None)
 _next = min(_future, key=lambda x: x.begin, default=None)
 
@@ -75,31 +109,40 @@ BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 ENDC = '\033[0m'
 
-for event in _fresh:
 
-    name = event.name
-    begin = event.begin.to('local')
+for title , events in sections :
 
-    ef = '{} - {} ({})'
-    if begin < now:
-        ef = '{0} (started {2})'
-    bf = 'YYYY, MMM D, HH:mm'
-    if begin.year == now.year:
-        if begin.month == now.month:
-            if begin.day == now.day:
-                bf = 'HH:mm'
+    if not events : continue
+
+    print( )
+    print( UNDERLINE + title + ENDC)
+    print( )
+
+    for event in sorted( events , key = lambda x : x.begin ):
+
+        name = event.name
+        begin = event.begin.to('local')
+
+        ef = '{} ({}) - {}'
+        if begin < now:
+            ef = '(started {1}) - {2}'
+        bf = 'YYYY, MMM DD, HH:mm'
+        if begin.year == now.year:
+            if begin.month == now.month:
+                if begin.day == now.day:
+                    bf = 'HH:mm'
+                else:
+                    bf = 'ddd DD, HH:mm'
             else:
-                bf = 'ddd D, HH:mm'
-        else:
-            bf = 'MMM D, HH:mm'
+                bf = 'MMM DD, HH:mm'
 
-    if event == _main:
-        ef = UNDERLINE + ef + ENDC
-    if event == _next:
-        ef = YELLOW + ef + ENDC
-    if event == _current:
-        ef = BLUE + ef + ENDC
-    if event in _happening:
-        ef = BOLD + ef + ENDC
+        if event == _main:
+            ef = UNDERLINE + ef + ENDC
+        if event == _next:
+            ef = YELLOW + ef + ENDC
+        if event == _current:
+            ef = BLUE + ef + ENDC
+        if event in _happening:
+            ef = BOLD + ef + ENDC
 
-    print(ef.format(name, begin.format(bf), begin.humanize()))
+        print(' * '+ef.format(begin.format(bf), begin.humanize() ,name))
