@@ -15,9 +15,41 @@
 # limitations under the License.
 
 import sys
-from subprocess import call
-from Xlib import display
+import os
 
+# to redirect xlib output
+# note that there is a dedicated method to do this in python >3.4
+# called contextlib.redirect_stdout
+from contextlib import contextmanager
+
+def fileno(file_or_fd):
+    fd = getattr(file_or_fd, 'fileno', lambda: file_or_fd)()
+    if not isinstance(fd, int):
+        raise ValueError("Expected a file (`.fileno()`) or a file descriptor")
+    return fd
+
+@contextmanager
+def redirect(fro,to):
+
+    stdout_fd = fileno(fro)
+    # copy stdout_fd before it is overwritten
+    #NOTE: `copied` is inheritable on Windows when duplicating a standard stream
+    with os.fdopen(os.dup(stdout_fd), 'wb') as copied:
+        fro.flush()  # flush library buffers that dup2 knows nothing about
+        try:
+            os.dup2(fileno(to), stdout_fd)  # $ exec >&to
+        except ValueError:  # filename
+            with open(to, 'wb') as to_file:
+                os.dup2(to_file.fileno(), stdout_fd)  # $ exec > to
+        try:
+            yield fro # allow code to be run with the redirected fro
+        finally:
+            # restore fro to its previous value
+            #NOTE: dup2 makes stdout_fd inheritable unconditionally
+            fro.flush()
+            os.dup2(copied.fileno(), stdout_fd)  # $ exec >&copied
+
+from subprocess import call
 
 def parse_dmenu_args(args):
 
@@ -40,8 +72,10 @@ def parse_dmenu_args(args):
 
     typeface = args[4] if argc > 4 else 'Inconsolata'
 
-    current_display = display.Display()
-    current_screen = current_display.screen()
+    with redirect ( sys.stdout , sys.stderr ) :
+        from Xlib import display
+        current_display = display.Display()
+        current_screen = current_display.screen()
 
     screenwidth = current_screen['width_in_pixels']
     xoffset = int(round(padding/2*screenwidth))
