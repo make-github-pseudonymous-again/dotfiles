@@ -172,7 +172,7 @@ for provider, *args in pt:
         line = args[1]
         dest = args[2]
 
-        if halt not in stibconfig:
+        if halt not in rtmconfig:
 
             log('warning: rtm is not configured to fetch', halt)
 
