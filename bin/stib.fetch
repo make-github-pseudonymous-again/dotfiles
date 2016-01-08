@@ -73,7 +73,7 @@ for halt, lines in config.items():
 
     init(halt)
 
-    for waitingtime in W.iter('waitingtime'):
+    for waitingtime in waitingtimes:
 
         w = {tag.tag: tag.text for tag in waitingtime}
 

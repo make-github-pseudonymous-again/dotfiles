@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import arrow
+import shutil
+import urllib.request
+
+import lxml.html as html
+from lxml.cssselect import CSSSelector
+
+sel = lambda h , s : CSSSelector(s)(h)
+
+CACHE = os.path.expanduser('~/.cache/rtm')
+CONFIG = os.path.expanduser('~/.config/rtm/config')
+
+HALT = CACHE + '/{}'
+LINE = HALT + '/{}'
+DEST = LINE + '/{}'
+TIME = DEST + '/{}'
+
+REQUEST = 'http://www.rtm.fr/node/2091832?codesigep={}'
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+
+def init(halt):
+
+    # dangerous
+    assert(isinstance(halt, str))
+    assert(all(c >= "A" and c <= "Z" for c in halt))
+
+    path = HALT.format(halt)
+
+    shutil.rmtree(path, True)  # True to ignore errors
+    os.makedirs(path)
+
+
+def save(halt, line, dest, timestamp):
+
+    log('x', halt, line, dest, timestamp)
+
+    try:
+        os.makedirs(DEST.format(halt, line, dest))
+    except FileExistsError:
+        pass
+
+    with open(TIME.format(halt, line, dest, timestamp), 'w') as fd:
+        pass
+
+with open(CONFIG) as _config:
+    config = json.load(_config)
+
+for halt in config:
+
+    url = REQUEST.format(halt)
+
+    now = arrow.now()
+
+    log(url)
+
+    try:
+
+        tree = html.parse( url )
+
+    except urllib.error.HTTPError:
+        log('failed to download', url)
+        continue
+
+    waitingtimes = sel( tree , '.sticky-enabled > tbody:nth-child(2) > tr' )
+
+    waitingtimes = [ sel( tr , 'td' ) for tr in waitingtimes ]
+
+    waitingtimes = [ [ td.text for td in tr ] for tr in waitingtimes ]
+
+    # in case of a bug do not erase previously known information
+
+    if not waitingtimes:
+        continue
+
+    init(halt)
+
+    for line , time , dest in waitingtimes:
+
+        hour , minute = map( int , time.split( ':' ) )
+
+        timestamp = now.replace(hour=hour,minute=minute,second=0,microsecond=0)
+
+        # let's say it is 23:57 and time == '00:05'
+        if timestamp < now.replace(minutes=-1) :
+            timestamp = timestamp.replace(days=+1)
+
+        save(halt , line , dest , timestamp)
