@@ -42,30 +42,57 @@ NOW = arrow.utcnow()
 
 timefmt = lambda t: t.format('YYYY-MM-DDTHH:mm:ssZZ')
 
-TIMES = [NOW, NOW.replace(days=+1)]
+# get forecast for the whole week
+TIMES = [ NOW.replace(days=+d) for d in range(7) ]
 
-data = {}
-hourly = None
+data = {
+  "hourly": {
+    "data": [ ],
+  },
+  "daily": {
+    "data": []
+  }
+}
 
-for i, TIME in enumerate(map(timefmt, TIMES)):
+hourly = data['hourly']['data']
+daily = data['daily']['data']
+
+# we assume data lists are sorted according to time value
+
+for TIME in map(timefmt, TIMES):
+
     URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
     log('loading {}'.format(URL))
     _data = json.load(reader(urllib.request.urlopen(URL)))
-    if not data:
-        data = _data
-        if 'hourly' in _data:
-            hourly = _data['hourly']['data']
-    else:
-        if hourly is not None and 'hourly' in _data:
-            hourly.extend(_data['hourly']['data'])
 
-        # TODO properly merge all data
+    # TODO could use a loop instead of the same code twice
 
-        if 'daily' in data and 'daily' in _data:
+    if 'hourly' in _data:
+        last = 0 if not hourly else hourly[-1]['time']
+        hourly.extend(x for x in _data['hourly']['data'] if x['time'] > last )
 
-            if len(data['daily']['data']) == i:
+        for key , value in _data['hourly'].items() :
 
-                data['daily']['data'].extend(_data['daily']['data'])
+            if key != 'data' and key not in data['hourly'] :
+
+                data['hourly'][key] = value
+
+    if 'daily' in _data:
+        last = 0 if not daily else daily[-1]['time']
+        daily.extend(x for x in _data['daily']['data'] if x['time'] > last )
+
+        for key , value in _data['daily'].items() :
+
+            if key != 'data' and key not in data['daily'] :
+
+                data['daily'][key] = value
+
+    for key , value in _data.items( ) :
+
+        if key not in [ 'hourly' , 'daily' ] and key not in data :
+
+            data[key] = value
+
 
 with open(CACHE.format('cache'), 'w') as fd:
     json.dump(data, fd)
