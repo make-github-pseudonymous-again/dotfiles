@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+actions="restart\nstop\nstart\nenable\ndisable"
+action=$(echo -e "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
+
+if [ "$action" = '' ]; then
+	exit 101
+fi
+
+services=$(ls "$HOME/.config/systemd/user")
+service=$(echo "$services" | dmenu_center --rest -z -sb '#D24858' -p "$action")
+
+if [ "$service" = '' ]; then
+	exit 102
+fi
+
+systemctl --user "$action" "$service"

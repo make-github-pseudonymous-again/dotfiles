@@ -13,3 +13,4 @@ pip install arrow
 pip install ics
 pip install tldr
 pip install autopep8
+pip install ptpython

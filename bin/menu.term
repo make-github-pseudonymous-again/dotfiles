@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+wd=$(fasd -dRl | dmenu_center --rest -z -p 'term' -sb '#555555')
+
+if [ "$wd" != '' ]; then
+	terminator -b --working-directory "$wd"
+fi

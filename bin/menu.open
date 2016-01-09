@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+file=$(fasd -aRl | dmenu_center --rest -z -p 'open' -sb '#285577')
+
+if [ "$file" != '' ]; then
+	xdg-open "$file"
+fi

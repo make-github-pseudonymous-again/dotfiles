@@ -28,7 +28,11 @@ pacman -S --needed --noconfirm evince
 pacman -S --needed --noconfirm nodejs npm
 pacman -S --needed --noconfirm pypy3
 pacman -S --needed --noconfirm python-pip
+pacman -S --needed --noconfirm python-six
 pacman -S --needed --noconfirm python-lxml
+pacman -S --needed --noconfirm python-jedi
+pacman -S --needed --noconfirm python-docopt
+pacman -S --needed --noconfirm python-pygments
 pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk

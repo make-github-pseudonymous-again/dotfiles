@@ -215,12 +215,17 @@ mode "apps" {
         bindsym d exec dropbox; mode "default"
         bindsym f exec firefox; mode "default"
         bindsym c exec courriel; mode "default"
+        bindsym Shift+P exec courriel.fetch; mode "default"
         bindsym h exec hangouts; mode "default"
         bindsym i exec ipe; mode "default"
-        bindsym t exec thunar; mode "default"
-        bindsym r exec terminator -b -p ranger; mode "default"
-        bindsym p exec terminator -b -p python; mode "default"
-        bindsym Shift+P exec courriel.fetch; mode "default"
+        bindsym Shift+T exec thunar; mode "default"
+        bindsym Shift+R exec terminator -b -x ranger; mode "default"
+        bindsym r exec menu.nav; mode "default"
+        bindsym t exec menu.term; mode "default"
+        bindsym o exec menu.open; mode "default"
+        bindsym v exec menu.edit; mode "default"
+        bindsym Shift+S exec menu.systemctl; mode "default"
+        bindsym p exec terminator -b -x ptpython --vi; mode "default"
         bindsym m exec maps; mode "default"
         bindsym n exec news; mode "default"
         bindsym Shift+C exec calendar; mode "default"
@@ -250,6 +255,14 @@ bar {
 	colors {
 		background #1c1c1c
 		statusline #dddddd
+
+		separator #666666
+
+		focused_workspace  #4c7899 #285577 #ffffff
+		active_workspace   #333333 #5f676a #ffffff
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2f343a #CF4647 #ffffff
+		#binding_mode       #2f343a #CF4647 #ffffff
 	}
 }
 
@@ -271,6 +284,14 @@ bar {
 	colors {
 		background #1c1c1c
 		statusline #dddddd
+
+		separator #666666
+
+		focused_workspace  #4c7899 #285577 #ffffff
+		active_workspace   #333333 #5f676a #ffffff
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2f343a #CF4647 #ffffff
+		#binding_mode       #2f343a #CF4647 #ffffff
 	}
 }
 
