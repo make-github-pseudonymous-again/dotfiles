@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-SSID=$(ui.dialog.input 'SSID')
+SSIDs=$(wifi.fingerprint | jq -r '.[] | select( .ESSID != "" ) | .ESSID')
+SSID=$(echo "$SSIDs" | dmenu_center --rest -z -p 'SSID')
 
 if [ "$SSID" != '' ] ; then
 	wifi.connect "$SSID"
