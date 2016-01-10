@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+echo '{"version":1}'
+
+echo '['
+
+echo '[]'
+
+while :
+do
+	sleep "$1"
+	echo ',[]'
+done
+
+echo ']'

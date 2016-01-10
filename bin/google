@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+query=$(ui.dialog.input 'google' | xargs echo -n | urlencode)
+
+if [ "$query" != '' ] ; then
+	firefox --new-window https://google.com/search?q="$query"
+fi

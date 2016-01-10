@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
-i3-input -F "exec wifi.connect %s" -P 'SSID: '
+SSID=$(ui.dialog.input 'SSID')
+
+if [ "$SSID" != '' ] ; then
+	wifi.connect "$SSID"
+fi
