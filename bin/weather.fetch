@@ -43,15 +43,15 @@ NOW = arrow.utcnow()
 timefmt = lambda t: t.format('YYYY-MM-DDTHH:mm:ssZZ')
 
 # get forecast for the whole week
-TIMES = [ NOW.replace(days=+d) for d in range(7) ]
+TIMES = [NOW.replace(days=+d) for d in range(7)]
 
 data = {
-  "hourly": {
-    "data": [ ],
-  },
-  "daily": {
-    "data": []
-  }
+    "hourly": {
+        "data": [],
+    },
+    "daily": {
+        "data": []
+    }
 }
 
 hourly = data['hourly']['data']
@@ -69,27 +69,27 @@ for TIME in map(timefmt, TIMES):
 
     if 'hourly' in _data:
         last = 0 if not hourly else hourly[-1]['time']
-        hourly.extend(x for x in _data['hourly']['data'] if x['time'] > last )
+        hourly.extend(x for x in _data['hourly']['data'] if x['time'] > last)
 
-        for key , value in _data['hourly'].items() :
+        for key, value in _data['hourly'].items():
 
-            if key != 'data' and key not in data['hourly'] :
+            if key != 'data' and key not in data['hourly']:
 
                 data['hourly'][key] = value
 
     if 'daily' in _data:
         last = 0 if not daily else daily[-1]['time']
-        daily.extend(x for x in _data['daily']['data'] if x['time'] > last )
+        daily.extend(x for x in _data['daily']['data'] if x['time'] > last)
 
-        for key , value in _data['daily'].items() :
+        for key, value in _data['daily'].items():
 
-            if key != 'data' and key not in data['daily'] :
+            if key != 'data' and key not in data['daily']:
 
                 data['daily'][key] = value
 
-    for key , value in _data.items( ) :
+    for key, value in _data.items():
 
-        if key not in [ 'hourly' , 'daily' ] and key not in data :
+        if key not in ['hourly', 'daily'] and key not in data:
 
             data[key] = value
 

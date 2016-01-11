@@ -12,7 +12,7 @@ from lxml.cssselect import CSSSelector
 
 TZ = 'Europe/Paris'
 
-sel = lambda h , s : CSSSelector(s)(h)
+sel = lambda h, s: CSSSelector(s)(h)
 
 CACHE = os.path.expanduser('~/.cache/rtm')
 CONFIG = os.path.expanduser('~/.config/rtm/config')
@@ -64,17 +64,17 @@ for halt in config:
 
     try:
 
-        tree = html.parse( url )
+        tree = html.parse(url)
 
     except urllib.error.HTTPError:
         log('failed to download', url)
         continue
 
-    waitingtimes = sel( tree , '.sticky-enabled > tbody:nth-child(2) > tr' )
+    waitingtimes = sel(tree, '.sticky-enabled > tbody:nth-child(2) > tr')
 
-    waitingtimes = [ sel( tr , 'td' ) for tr in waitingtimes ]
+    waitingtimes = [sel(tr, 'td') for tr in waitingtimes]
 
-    waitingtimes = [ [ td.text for td in tr ] for tr in waitingtimes ]
+    waitingtimes = [[td.text for td in tr] for tr in waitingtimes]
 
     # in case of a bug do not erase previously known information
 
@@ -83,14 +83,15 @@ for halt in config:
 
     init(halt)
 
-    for line , time , dest in waitingtimes:
+    for line, time, dest in waitingtimes:
 
-        hour , minute = map( int , time.split( ':' ) )
+        hour, minute = map(int, time.split(':'))
 
-        timestamp = now.replace(hour=hour,minute=minute,second=0,microsecond=0)
+        timestamp = now.replace(hour=hour, minute=minute,
+                                second=0, microsecond=0)
 
         # let's say it is 23:57 and time == '00:05'
-        if timestamp < now.replace(minutes=-1) :
+        if timestamp < now.replace(minutes=-1):
             timestamp = timestamp.replace(days=+1)
 
-        save(halt , line , dest , timestamp)
+        save(halt, line, dest, timestamp)

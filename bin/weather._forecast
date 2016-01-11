@@ -70,7 +70,7 @@ def km(*args):
 
     return distance_on_unit_sphere(*args) * radius_km
 
-current = LATITUDE , LONGITUDE
+current = LATITUDE, LONGITUDE
 old = data['latitude'], data['longitude']
 threshold = 100
 if km(*current, *old) > threshold:
@@ -117,19 +117,19 @@ UNDERLINE = '\033[4m'
 ENDC = '\033[0m'
 
 icons = {
-    "clear-day" : ( "" , BRIGHTYELLOW ),
-    "clear-night" : ("", YELLOW),
-    "rain" : ( "☔", BLUE ),
-    "snow" : ("❄", LIGHTGRAY),
-    "sleet" : ("❅",LIGHTGRAY),
-    "wind" : ("",LIGHTGRAY),
-    "fog" : ("☁",DARKGRAY),
-    "cloudy" : ("",DARKGRAY),
-    "partly-cloudy-day" : ("☀☁",LIGHTGRAY),
-    "partly-cloudy-night" : ("☁",LIGHTGRAY),
-    "hail" : ("☄",LIGHTGRAY),
-    "thunderstorm" : ("",DARKGRAY),
-    "tornado" : ("",DARKGRAY),
+    "clear-day": ("", BRIGHTYELLOW),
+    "clear-night": ("", YELLOW),
+    "rain": ("☔", BLUE),
+    "snow": ("❄", LIGHTGRAY),
+    "sleet": ("❅", LIGHTGRAY),
+    "wind": ("", LIGHTGRAY),
+    "fog": ("☁", DARKGRAY),
+    "cloudy": ("", DARKGRAY),
+    "partly-cloudy-day": ("☀☁", LIGHTGRAY),
+    "partly-cloudy-night": ("☁", LIGHTGRAY),
+    "hail": ("☄", LIGHTGRAY),
+    "thunderstorm": ("", DARKGRAY),
+    "tornado": ("", DARKGRAY),
 }
 
 
@@ -152,7 +152,7 @@ for day in daily:
         fmt = fmt + ' ({}% - {}mm/h)'
 
     iconname = day['icon']
-    icon , color = icons.get(iconname, ( "?" , RED ))
+    icon, color = icons.get(iconname, ("?", RED))
     fmt = color + fmt + ENDC
 
     if time < NOW.replace(hours=+3):
@@ -161,7 +161,7 @@ for day in daily:
     fmt = UNDERLINE + fmt + ENDC
 
     print()
-    print(fmt.format(dtime, t1, t2, icon ,summary, p, i))
+    print(fmt.format(dtime, t1, t2, icon, summary, p, i))
     print()
 
     for hour in hourly:
@@ -185,10 +185,10 @@ for day in daily:
             fmt = fmt + ' ({}% - {}mm/h)'
 
         iconname = hour['icon']
-        icon , color = icons.get(iconname, ( "?" , RED ))
+        icon, color = icons.get(iconname, ("?", RED))
         fmt = color + fmt + ENDC
 
         if time < NOW.replace(hours=+3):
             fmt = BOLD + fmt + ENDC
 
-        print(fmt.format(dtime, t, icon,summary, htime, p, i))
+        print(fmt.format(dtime, t, icon, summary, htime, p, i))

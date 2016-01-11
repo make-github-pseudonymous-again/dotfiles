@@ -15,7 +15,7 @@ log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 with open(CONFIG) as _config:
     config = json.load(_config)
 
-geolocation = { }
+geolocation = {}
 
 try:
 
@@ -67,6 +67,7 @@ def getwifiservices():
 
     return wifi
 
+
 def distance_on_unit_sphere(lat1, long1, lat2, long2):
     '''
         from http://www.johndcook.com/blog/python_longitude_latitude/
@@ -106,7 +107,6 @@ def km(*args):
     radius_km = 6373
 
     return distance_on_unit_sphere(*args) * radius_km
-
 
 
 def evaluate(tag, tests):
@@ -177,28 +177,28 @@ def evaluate(tag, tests):
 
                 log('[{}] ok fingerprint {} ({})'.format(tag, wifitag, distance))
 
-    if 'latitude' in geolocation and 'longitude' in geolocation :
+    if 'latitude' in geolocation and 'longitude' in geolocation:
 
-        if 'latitude' not in tests :
+        if 'latitude' not in tests:
 
             log('[{}] warning missing latitude'.format(tag))
 
-        elif 'longitude' not in tests :
+        elif 'longitude' not in tests:
 
             log('[{}] warning missing longitude'.format(tag))
 
-        else :
+        else:
 
-            distance = km( tests['latitude'] , tests['longitude'] ,
-                    geolocation['latitude'] , geolocation['longitude'] )
+            distance = km(tests['latitude'], tests['longitude'],
+                          geolocation['latitude'], geolocation['longitude'])
 
-            if distance < 15 :
+            if distance < 15:
 
                 score += 5
 
                 log('[{}] ok geolocation ({} km)'.format(tag, distance))
 
-            else :
+            else:
 
                 log('[{}] ko geolocation ({} km)'.format(tag, distance))
 
@@ -210,7 +210,7 @@ for tag, tests in config["tag"].items():
 
     scores.append((evaluate(tag, tests), tag))
 
-log(sorted(scores,reverse=True))
+log(sorted(scores, reverse=True))
 
 score, tag = max(scores)
 
@@ -218,10 +218,10 @@ tests = config['tag'][tag]
 
 geolocation['tag'] = tag
 
-if 'latitude' in tests :
+if 'latitude' in tests:
     geolocation['latitude'] = tests['latitude']
 
-if 'longitude' in tests :
+if 'longitude' in tests:
     geolocation['longitude'] = tests['longitude']
 
 json.dump(geolocation, sys.stdout)

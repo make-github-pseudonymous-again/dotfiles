@@ -53,6 +53,7 @@ def stibgrab(halt, line):
 
         return []
 
+
 def rtmgrab(halt, line, dest):
 
     try:
@@ -71,17 +72,17 @@ def _repr(path):
     _map = {
         "w": lambda A, B: '  ({})'.format(_shortduration(A, B)),
         "W": lambda s: '  ',
-        "T" : lambda provider , *args : {
-            "stib" : lambda halt, line, s: '  {}'.format(line),
-            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        "T": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
         }[provider](*args),
-        "B" : lambda provider , *args : {
-            "stib" : lambda halt, line, s: '  {}'.format(line),
-            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        "B": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
         }[provider](*args),
-        "M" : lambda provider , *args : {
-            "stib" : lambda halt, line, s: '  {}'.format(line),
-            "rtm" : lambda halt, line, dest, s: '  {}'.format(line)
+        "M": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
         }[provider](*args)
     }
 
@@ -149,13 +150,13 @@ stib = {}
 rtm = {}
 
 PT = {
-    'stib' : stib ,
-    'rtm' : rtm
+    'stib': stib,
+    'rtm': rtm
 }
 
 for provider, *args in pt:
 
-    if provider == 'stib' :
+    if provider == 'stib':
 
         halt = args[0]
         line = args[1]
@@ -166,7 +167,7 @@ for provider, *args in pt:
 
         stib[(halt, line)] = stibgrab(halt, line)
 
-    elif provider == 'rtm' :
+    elif provider == 'rtm':
 
         halt = args[0]
         line = args[1]
@@ -178,9 +179,9 @@ for provider, *args in pt:
 
         rtm[(halt, line, dest)] = rtmgrab(halt, line, dest)
 
-    else :
+    else:
 
-        log( 'warning: unknown provider ', provider)
+        log('warning: unknown provider ', provider)
 
 
 def allroutes():
@@ -213,7 +214,7 @@ def routes(path, leave=None, total=0, prev=()):
 
     else:
 
-        provider , *rest = args
+        provider, *rest = args
         duration = rest[-1]
         key = tuple(rest[:-1])
         times = PT[provider][key]
@@ -227,7 +228,7 @@ def routes(path, leave=None, total=0, prev=()):
                 _total = total + duration
                 _prev = prev + (path[0], )
 
-                yield from routes(_path, _leave, _total , _prev )
+                yield from routes(_path, _leave, _total, _prev)
         else:
 
             for timestamp in times:
@@ -244,7 +245,7 @@ def routes(path, leave=None, total=0, prev=()):
                     _total = total + duration
                     _prev = prev + (path[0], )
 
-                    yield from routes(_path, _leave, _total , _prev )
+                    yield from routes(_path, _leave, _total, _prev)
 
                 else:
 
@@ -256,7 +257,7 @@ def routes(path, leave=None, total=0, prev=()):
                     _total = total + waiting + duration
                     _prev = prev + (['w', A, B], path[0])
 
-                    yield from routes(_path, _leave, _total , _prev )
+                    yield from routes(_path, _leave, _total, _prev)
 
 NOW = arrow.now()
 
