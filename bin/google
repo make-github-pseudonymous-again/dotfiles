@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
-query=$(ui.dialog.input 'google' | xargs echo -n | urlencode)
+q=$(ui.dialog.input 'google')
 
-if [ "$query" != '' ] ; then
-	firefox --new-window https://google.com/search?q="$query"
+if [ "$q" = '' ] ; then
+	exit 1
 fi
+
+query=$(echo -n "$q" | urlencode)
+
+firefox --new-window https://google.com/search?q="$query"

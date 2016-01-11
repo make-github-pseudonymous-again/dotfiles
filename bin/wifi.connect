@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-wifi.find "$1" | xargs wifi connect
+name=$(wifi.find "$1")
+wifi connect "$name"

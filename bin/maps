@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
-address=$(ui.dialog.input 'address' | xargs echo -n | urlencode)
+a=$(ui.dialog.input 'address')
 
-if [ "$address" != '' ] ; then
-	firefox --new-window https://maps.google.com?q="$address"
+if [ "$a" = '' ] ; then
+	exit 1
 fi
+
+address=$(echo -n "$a" | urlencode)
+
+firefox --new-window https://maps.google.com?q="$address"

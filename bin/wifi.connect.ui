@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-SSIDs=$(wifi.fingerprint | jq -r '.[] | select( .ESSID != "" ) | .ESSID')
+SSIDs=$(wifi.fingerprint | jq -r '.[] | select( .ESSID != "" ) | .ESSID' | sort | uniq)
 SSID=$(echo "$SSIDs" | dmenu_center --rest -z -p 'SSID')
 
 if [ "$SSID" != '' ] ; then

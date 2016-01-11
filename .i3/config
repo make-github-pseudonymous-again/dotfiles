@@ -224,6 +224,7 @@ mode "internet" {
         bindsym f exec firefox; mode "default"
         bindsym s exec search; mode "default"
         bindsym g exec google; mode "default"
+        bindsym t exec translate; mode "default"
         bindsym m exec maps; mode "default"
         bindsym h exec hangouts; mode "default"
         bindsym d exec dropbox; mode "default"
