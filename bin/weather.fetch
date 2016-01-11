@@ -30,7 +30,7 @@ try:
     GEOLOCATION = json.loads(subprocess.check_output(
         ['memoize-get', '1800', 'geolocation.fetch']).decode())
 
-    LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
+    LATITUDE, LONGITUDE = GEOLOCATION['latitude'], GEOLOCATION['longitude']
 
 except Exception as err:
 

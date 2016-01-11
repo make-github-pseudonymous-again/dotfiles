@@ -19,7 +19,7 @@ try:
     GEOLOCATION = json.loads(subprocess.check_output(
         ['memoize-get', '1800', 'geolocation.fetch']).decode())
 
-    LATITUDE, LONGITUDE = GEOLOCATION['lat'], GEOLOCATION['lon']
+    LATITUDE, LONGITUDE = GEOLOCATION['latitude'], GEOLOCATION['longitude']
 
 except Exception as err:
 
@@ -71,7 +71,7 @@ def km(*args):
 
     return distance_on_unit_sphere(*args) * radius_km
 
-current = GEOLOCATION['lat'], GEOLOCATION['lon']
+current = LATITUDE, LONGITUDE
 old = data['latitude'], data['longitude']
 threshold = 100
 if km(*current, *old) > threshold:
