@@ -122,7 +122,7 @@ icons = {
     "rain": ("☔", BLUE),
     "snow": ("❄", LIGHTGRAY),
     "sleet": ("❅", LIGHTGRAY),
-    "wind": ("", LIGHTGRAY),
+    "wind": ("", LIGHTGRAY),
     "fog": ("☁", DARKGRAY),
     "cloudy": ("", DARKGRAY),
     "partly-cloudy-day": ("☀☁", LIGHTGRAY),
@@ -136,6 +136,8 @@ icons = {
 for day in daily:
 
     daytime = arrow.get(day['time']).to('local')
+    sunrise = arrow.get(day['sunriseTime']).to('local').format('HH:mm:ss')
+    sunset = arrow.get(day['sunsetTime']).to('local').format('HH:mm:ss')
     time = daytime
 
     t1 = round(ftoc(day['apparentTemperatureMin']))
@@ -143,7 +145,7 @@ for day in daily:
     p = round(100 * day['precipProbability'])
     i = round(itom(day['precipIntensity']), 1)
 
-    fmt = '[{}] - {: >2}°C < {: >2}°C - {} {}'
+    fmt = '[{}]  {}  {} - {: >2}°C < {: >2}°C - {} {}'
 
     dtime = time.format('dddd DD MMMM YYYY')
     summary = day['summary']
@@ -161,7 +163,7 @@ for day in daily:
     fmt = UNDERLINE + fmt + ENDC
 
     print()
-    print(fmt.format(dtime, t1, t2, icon, summary, p, i))
+    print(fmt.format(dtime, sunrise , sunset , t1, t2, icon, summary, p, i))
     print()
 
     for hour in hourly:

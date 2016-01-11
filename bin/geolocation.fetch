@@ -157,13 +157,15 @@ def evaluate(tag, tests):
 
         _, connected = getwifiservices()
 
-        for string in tests['wifi']:
+        if connected is not None:
 
-            if string in connected:
+            for string in tests['wifi']:
 
-                score += 5
+                if string in connected:
 
-                log('[{}] ok connected {}'.format(tag, string))
+                    score += 5
+
+                    log('[{}] ok connected {}'.format(tag, string))
 
     if 'wifi-fingerprint' in tests:
 

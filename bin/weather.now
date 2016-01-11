@@ -113,7 +113,7 @@ icons = {
     "rain": ("☔", "#3FB8AF"),
     "snow": ("❄", "#FFFFFF"),
     "sleet": ("❅", "#AAAAAA"),
-    "wind": ("", "#EEEEEE"),
+    "wind": ("", "#EEEEEE"),
     "fog": ("☁", "#808080"),
     "cloudy": ("", "#666666"),
     "partly-cloudy-day": ("☀☁", "#999999"),
@@ -126,7 +126,7 @@ icons = {
 icon, color = icons.get(iconname, ("?", "#CF4647"))
 
 if any(map(lambda x: x > 0, p)):
-    fmt = '{} {:d},{:d},{:d} % {},{},{} ☁ {:.1f},{:.1f},{:.1f}'
+    fmt = '{} {:d},{:d},{:d} % {},{},{}  {:.1f},{:.1f},{:.1f}'
 else:
     fmt = '{} {:d},{:d},{:d}'
 
