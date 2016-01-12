@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-name=$(cat "$HOME/.cache/dmenu_run" | dmenu_center --rest -p 'man' -sb '#24A946')
+name=$(cat "$HOME/.cache/dmenu_run" | dmenu_center --rest -i -p 'man' -sb '#24A946')
 
 if [ "$name" != '' ]; then
 	if man "$name" > /dev/null 2>&1; then

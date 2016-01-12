@@ -30,6 +30,7 @@ fi
 
 yaourt -S dmenu2
 yaourt -S fasd
+yaourt -S fzf
 yaourt -S ttf-font-awesome
 yaourt -S ruby-gpgme-1
 yaourt -S sup-git

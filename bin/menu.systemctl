@@ -7,7 +7,7 @@ if [ "$action" = '' ]; then
 fi
 
 services=$(ls "$HOME/.config/systemd/user")
-service=$(echo "$services" | dmenu_center --rest -z -sb '#D24858' -p "$action")
+service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "$action")
 
 if [ "$service" = '' ]; then
 	exit 102
