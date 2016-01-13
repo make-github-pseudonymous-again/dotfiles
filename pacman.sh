@@ -86,6 +86,7 @@ pacman -S --needed --noconfirm screenfetch
 pacman -S --needed --noconfirm libjpeg-turbo gifsicle optipng
 pacman -S --needed --noconfirm feh imagemagick
 pacman -S --needed --noconfirm gimp
+pacman -S --needed --noconfirm viewnior
 
 # libre office
 
