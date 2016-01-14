@@ -37,3 +37,4 @@ yaourt -S sup-git
 yaourt -S solaar
 yaourt -S ipe
 yaourt -S keybase-release
+yaourt -S astroid
