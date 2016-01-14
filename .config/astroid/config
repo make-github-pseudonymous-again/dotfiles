@@ -1,0 +1,121 @@
+{
+    "astroid": {
+        "config": {
+            "version": "2"
+        },
+        "notmuch": {
+            "db": "~\/mail",
+            "excluded_tags": "muted,spam,deleted",
+            "sent_tags": "sent"
+        },
+        "debug": {
+            "dryrun_sending": "false"
+        }
+    },
+    "thread_index": {
+        "page_jump_rows": "6",
+        "sort_order": "newest",
+        "cell": {
+            "font_description": "default",
+            "line_spacing": "2",
+            "date_length": "10",
+            "message_count_length": "4",
+            "authors_length": "20",
+            "tags_length": "80",
+            "subject_color": "#807d74",
+            "subject_color_selected": "#000000",
+            "tags_color": "#31587a"
+        }
+    },
+    "general": {
+        "time": {
+            "clock_format": "local",
+            "same_year": "%b %-e",
+            "diff_year": "%x"
+        }
+    },
+    "editor": {
+        "gvim": {
+            "cmd": "gvim",
+            "args": "-f -c 'set ft=mail' '+set fileencoding=utf-8' '+set ff=unix' '+set enc=utf-8'"
+        },
+        "charset": "utf-8"
+    },
+    "mail": {
+        "reply": {
+            "quote_line": "Excerpts from %1's message of %2:"
+        },
+        "forward": {
+            "quote_line": "Forwarding %1's message of %2:",
+            "disposition": "inline"
+        }
+    },
+    "poll": {
+        "interval": "30"
+    },
+    "attachment": {
+        "external_open_cmd": "xdg-open"
+    },
+    "thread_view": {
+        "open_html_part_external": "true",
+        "open_external_link": "xdg-open",
+        "indent_messages": "true",
+        "mathjax": {
+            "enable": "true",
+            "uri_prefix": "https:\/\/cdn.mathjax.org\/mathjax\/latest\/",
+            "for_tags": ""
+        },
+        "code_prettify": {
+            "enable": "true",
+            "uri_prefix": "https:\/\/google-code-prettify.googlecode.com\/svn\/loader\/",
+            "for_tags": "",
+            "code_tag": "```",
+            "enable_for_patches": "true"
+        }
+    },
+    "crypto": {
+        "gpg": {
+            "path": "gpg"
+        }
+    },
+    "accounts": {
+        "personal": {
+            "name": "personal",
+            "email": "aurelien.ooms@gmail.com",
+            "gpgkey": "72A5A850",
+            "sendmail": "msmtp -t --read-envelope-from",
+            "default": "false",
+            "save_sent": "true",
+            "save_sent_to": "~\/sandbox\/sent\/",
+            "additional_sent_tags": "",
+            "save_drafts_to": "~\/sandbox\/drafts\/"
+        },
+        "riseup": {
+            "name": "riseup",
+            "email": "aurelien.ooms@riseup.net",
+            "gpgkey": "72A5A850",
+            "sendmail": "msmtp -t --read-envelope-from",
+            "default": "true",
+            "save_sent": "true",
+            "save_sent_to": "~\/sandbox\/sent\/",
+            "additional_sent_tags": "",
+            "save_drafts_to": "~\/sandbox\/drafts\/"
+        },
+        "ulb": {
+            "name": "ulb",
+            "email": "aureooms@ulb.ac.be",
+            "gpgkey": "72A5A850",
+            "sendmail": "msmtp -t --read-envelope-from",
+            "default": "false",
+            "save_sent": "true",
+            "save_sent_to": "~\/sandbox\/sent\/",
+            "additional_sent_tags": "",
+            "save_drafts_to": "~\/sandbox\/drafts\/"
+        }
+    },
+    "startup": {
+        "queries": {
+            "inbox": "tag:inbox"
+        }
+    }
+}
