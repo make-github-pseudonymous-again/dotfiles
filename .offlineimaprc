@@ -6,6 +6,7 @@ ui = ttyui
 maxsyncaccounts = 3
 
 [Account personal]
+postsynchook = notmuch new
 localrepository = personal-local
 remoterepository = personal-remote
 status_backend = sqlite
@@ -51,6 +52,7 @@ keepalive = 60
 holdconnectionopen = yes
 
 [Account riseup]
+postsynchook = notmuch new
 localrepository = riseup-local
 remoterepository = riseup-remote
 status_backend = sqlite
@@ -87,6 +89,7 @@ keepalive = 60
 holdconnectionopen = yes
 
 [Account ulb]
+postsynchook = notmuch new
 localrepository = ulb-local
 remoterepository = ulb-remote
 status_backend = sqlite
