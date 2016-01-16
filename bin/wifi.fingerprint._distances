@@ -21,31 +21,46 @@ def makedict(data):
 
     return out
 
-current = makedict(_current)
-log(current)
+def distance ( A , B , q = 2 ) :
 
-args = sys.argv[1:]
-
-candidates = []
-
-def distance ( A , B ) :
+    '''
+        returns distance between 0 and 1
+    '''
 
     keys = set(A.keys()).union(B.keys())
 
     if not keys :
-        return 0
+        return 1
 
     d = 0
 
     for key in keys :
 
-        d += ( A.get( key , 0 ) - B.get( key , 0 ) )**2
+        a = A.get( key , 0 )
+        b = B.get( key , 0 )
+
+        d += ( a - b )**q
 
     n = len(keys)
 
-    return (d / n)**(1 / 2)
+    rmsd = (d / n)**(1 / q) # between 0 and 1
 
+    # inspired from
+    # http://www.hindawi.com/journals/ijdsn/2015/429104/
+    # take into account common AP
 
+    common = set(A.keys()).intersection(B.keys())
+
+    c = len( common ) # if c is low, return value will be close to one
+
+    return rmsd ** (c/n)
+
+current = makedict(_current)
+log(current)
+
+args = sys.argv[1:]
+
+candidates = [ ( '?' , 0.99 ) ]
 
 for arg in args:
 

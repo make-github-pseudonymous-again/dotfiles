@@ -175,7 +175,7 @@ def evaluate(tag, tests):
 
                 distance = fingerprint[wifitag]
 
-                score += (1 - distance) * 10
+                score += (1 - distance) * 100
 
                 log('[{}] ok fingerprint {} ({})'.format(tag, wifitag, distance))
 
