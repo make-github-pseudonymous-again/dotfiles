@@ -1,0 +1,10 @@
+# from http://superuser.com/questions/415553/setting-dead-area-background-colour-in-gvim
+
+# this goes in your ~/.gtkrc-2.0 file
+
+style "vimfix" {
+  bg[NORMAL] = "#1D1F21" # this matches my gvim theme 'Normal' bg color.
+}
+widget "vim-main-window.*GtkForm" style "vimfix"
+
+# taken from a very helpful post here: https://bbs.archlinux.org/viewtopic.php?id=65285
