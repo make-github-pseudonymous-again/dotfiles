@@ -38,7 +38,7 @@ fi
 badge="$(system.status.badge)"
 append="$badge"','"$append"
 
-if [ "$prepend" != "$PREPEND_INIT" ] ; then
+if [ "$prepend" != "$PREPEND_INIT" ] || [ "$append" != "$APPEND_INIT" ] ; then
 	line=$(echo '{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}' | jq -Mc '.a[:-1] + .b + .c[:-1]')
 fi
 
