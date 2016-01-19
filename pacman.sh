@@ -31,7 +31,7 @@ pacman -S --needed --noconfirm python-lxml
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
-pacman -S --needed --noconfirm vlc
+pacman -S --needed --noconfirm ffmpeg vlc
 pacman -S --needed --noconfirm testdisk
 pacman -S --needed --noconfirm pkgfile
 pacman -S --needed --noconfirm bind-tools
@@ -46,6 +46,7 @@ pacman -S --needed --noconfirm xorg-xkill
 pacman -S --needed --noconfirm xclip
 pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
+pacman -S --needed --noconfirm qtox
 
 pacman -S --needed --noconfirm offlineimap
 pacman -S --needed --noconfirm msmtp
