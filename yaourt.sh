@@ -28,13 +28,13 @@ if ! which yaourt 1>/dev/null 2>&1 ; then
 fail
 fi
 
-yaourt -S dmenu2
-yaourt -S fasd
-yaourt -S fzf
-yaourt -S ttf-font-awesome
-yaourt -S ruby-gpgme-1
-yaourt -S sup-git
-yaourt -S solaar
-yaourt -S ipe
-yaourt -S keybase-release
-yaourt -S astroid
+yaourt -S --needed dmenu2
+yaourt -S --needed fasd
+yaourt -S --needed fzf
+yaourt -S --needed ttf-font-awesome
+yaourt -S --needed ruby-gpgme-1
+yaourt -S --needed sup-git
+yaourt -S --needed solaar
+yaourt -S --needed ipe
+yaourt -S --needed keybase-release
+yaourt -S --needed astroid
