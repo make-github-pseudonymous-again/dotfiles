@@ -21,13 +21,46 @@ def makedict(data):
 
     return out
 
+def distance ( A , B , q = 2 ) :
+
+    '''
+        returns distance between 0 and 1
+    '''
+
+    keys = set(A.keys()).union(B.keys())
+
+    if not keys :
+        return 1
+
+    d = 0
+
+    for key in keys :
+
+        a = A.get( key , 0 )
+        b = B.get( key , 0 )
+
+        d += ( a - b )**q
+
+    n = len(keys)
+
+    rmsd = (d / n)**(1 / q) # between 0 and 1
+
+    # inspired from
+    # http://www.hindawi.com/journals/ijdsn/2015/429104/
+    # take into account common AP
+
+    common = set(A.keys()).intersection(B.keys())
+
+    c = len( common ) # if c is low, return value will be close to one
+
+    return rmsd ** (c/n)
+
 current = makedict(_current)
-currentkeys = set(current.keys())
 log(current)
 
 args = sys.argv[1:]
 
-candidates = []
+candidates = [ ( '?' , 0.99 ) ]
 
 for arg in args:
 
@@ -39,19 +72,8 @@ for arg in args:
     reference = makedict(_reference)
     log(tag, reference)
 
-    referencekeys = set(reference.keys())
-    allkeys = referencekeys.union(currentkeys)
+    d = distance( current , reference )
 
-    distance = 0
-
-    for key in allkeys:
-
-        distance += (current.get(key, 0) - reference.get(key, 0))**2
-
-    n = len(allkeys)
-
-    rmsd = (distance / n)**(1 / 2)
-
-    candidates.append((tag, rmsd))
+    candidates.append((tag, d))
 
 json.dump(sorted(candidates, key=lambda x: (x[1], x[0])), sys.stdout)
