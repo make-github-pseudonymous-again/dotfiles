@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+while true; do
+	if weather.fetch; then
+		memoize-ft 0 weather.now
+		sleep 900
+	else
+		sleep 100
+	fi
+done

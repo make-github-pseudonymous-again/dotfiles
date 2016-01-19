@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-wifi.find "$1" | xargs wifi disconnect
+name=$(wifi.find "$1")
+wifi disconnect "$name"

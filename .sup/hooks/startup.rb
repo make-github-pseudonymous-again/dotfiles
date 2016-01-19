@@ -32,3 +32,9 @@ class Redwood::ThreadViewMode
   end
 end
 
+class Redwood::InboxMode
+  def remove_draft_label
+    t = cursor_thread or return
+    t.remove_label :draft
+  end
+end

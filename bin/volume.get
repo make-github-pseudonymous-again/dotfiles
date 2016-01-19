@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-amixer get Master | tail -1 | grep -o '\[[0-9]*%\]' | tail -c +2 | head -c -3 | xargs echo
+amixer get Master | tail -1 | grep -o '\[[0-9]*%\]' | tail -c +2 | head -c -3
+echo

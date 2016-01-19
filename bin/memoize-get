@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+
+# retrieves memoized value if not older that "$1" seconds
+# use "$1"=-1 to bypass the validity check
+
+validity="$1"
+shift
+
+tmp=$(mktemp /tmp/.memoize_XXXXXXXXXX)
+
+for a in "$@" ; do
+	echo "$a" >> "$tmp"
+done
+
+cache="$HOME/.cache/memoize/$(sha1sum "$tmp" | head -c 40)"
+rm "$tmp"
+
+O="$cache""/O"
+E="$cache""/E"
+R="$cache""/R"
+T="$cache""/T"
+
+if [ ! -e "$O" ]; then
+	echo "no entry for '$@'" >&2
+	exit 1
+fi
+
+if test $validity -ge 0; then
+
+	now=$(date +%s)
+	previous=$(cat "$T")
+	x=`expr $previous + $validity - $now`
+
+	if test $x -lt 0; then
+		echo "entry expired for '$@'" >&2
+		exit 2
+	fi
+
+fi
+
+cat "$O"
+cat "$E" >&2
+exit $(cat "$R")

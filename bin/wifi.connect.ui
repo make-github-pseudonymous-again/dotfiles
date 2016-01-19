@@ -1,3 +1,8 @@
 #!/usr/bin/env sh
 
-i3-input -F "exec wifi.connect %s" -P 'SSID: '
+SSIDs=$(wifi.fingerprint | jq -r '.[] | select( .ESSID != "" ) | .ESSID' | sort | uniq)
+SSID=$(echo "$SSIDs" | dmenu_center --rest -z -p 'SSID')
+
+if [ "$SSID" != '' ] ; then
+	wifi.connect "$SSID"
+fi

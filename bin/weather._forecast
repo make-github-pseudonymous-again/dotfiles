@@ -1,0 +1,196 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import subprocess
+import json
+import arrow
+import math
+
+HALFHOUR = 60 * 60 // 2
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+CACHE = os.path.expanduser('~/.cache/weather/{}')
+
+try:
+
+    GEOLOCATION = json.loads(subprocess.check_output(
+        ['memoize-get', '1800', 'geolocation.fetch']).decode())
+
+    LATITUDE, LONGITUDE = GEOLOCATION['latitude'], GEOLOCATION['longitude']
+
+except Exception as err:
+
+    log('could not load geolocation')
+    raise err
+
+with open(CACHE.format('cache')) as fd:
+
+    data = json.load(fd)
+
+
+def distance_on_unit_sphere(lat1, long1, lat2, long2):
+    '''
+        from http://www.johndcook.com/blog/python_longitude_latitude/
+    '''
+
+    # Convert latitude and longitude to
+    # spherical coordinates in radians.
+    degrees_to_radians = math.pi / 180.0
+
+    # phi = 90 - latitude
+    phi1 = (90.0 - lat1) * degrees_to_radians
+    phi2 = (90.0 - lat2) * degrees_to_radians
+
+    # theta = longitude
+    theta1 = long1 * degrees_to_radians
+    theta2 = long2 * degrees_to_radians
+
+    # Compute spherical distance from spherical coordinates.
+
+    # For two locations in spherical coordinates
+    # (1, theta, phi) and (1, theta', phi')
+    # cosine( arc length ) =
+    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
+    # distance = rho * arc length
+
+    cos = (math.sin(phi1) * math.sin(phi2) * math.cos(theta1 - theta2) +
+           math.cos(phi1) * math.cos(phi2))
+    arc = math.acos(cos)
+
+    # Remember to multiply arc by the radius of the earth
+    # in your favorite set of units to get length.
+    return arc
+
+
+def km(*args):
+
+    radius_km = 6373
+
+    return distance_on_unit_sphere(*args) * radius_km
+
+current = LATITUDE, LONGITUDE
+old = data['latitude'], data['longitude']
+threshold = 100
+if km(*current, *old) > threshold:
+
+    log('weather cache data is not usable:')
+    log('> {} is more than {} km away from {}'.format(current, threshold, old))
+    sys.exit(1)
+
+
+NOW = arrow.now()
+BEGIN = NOW.timestamp - HALFHOUR
+
+if 'daily' in data:
+    daily = data['daily']['data']
+    daily = sorted(daily, key=lambda x: x['time'])
+else:
+    daily = []
+
+if 'hourly' in data:
+    hourly = data['hourly']['data']
+    hourly = sorted(
+        filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
+else:
+    hourly = []
+
+
+def ftoc(c):
+    return (c - 32) * 5 / 9
+
+
+def itom(i):
+    return i * 25.4
+
+
+YELLOW = '\033[33m'
+LIGHTGRAY = '\033[37m'
+DARKGRAY = '\033[90m'
+RED = '\033[91m'
+BRIGHTYELLOW = '\033[93m'
+BLUE = '\033[94m'
+WHITE = '\033[97m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
+ENDC = '\033[0m'
+
+icons = {
+    "clear-day": ("", BRIGHTYELLOW),
+    "clear-night": ("", YELLOW),
+    "rain": ("☔", BLUE),
+    "snow": ("❄", LIGHTGRAY),
+    "sleet": ("❅", LIGHTGRAY),
+    "wind": ("", LIGHTGRAY),
+    "fog": ("☁", DARKGRAY),
+    "cloudy": ("", DARKGRAY),
+    "partly-cloudy-day": ("☀☁", LIGHTGRAY),
+    "partly-cloudy-night": ("☁", LIGHTGRAY),
+    "hail": ("☄", LIGHTGRAY),
+    "thunderstorm": ("", DARKGRAY),
+    "tornado": ("", DARKGRAY),
+}
+
+
+for day in daily:
+
+    daytime = arrow.get(day['time']).to('local')
+    sunrise = arrow.get(day['sunriseTime']).to('local').format('HH:mm:ss')
+    sunset = arrow.get(day['sunsetTime']).to('local').format('HH:mm:ss')
+    time = daytime
+
+    t1 = round(ftoc(day['apparentTemperatureMin']))
+    t2 = round(ftoc(day['apparentTemperatureMax']))
+    p = round(100 * day['precipProbability'])
+    i = round(itom(day['precipIntensity']), 1)
+
+    fmt = '[{}]  {}  {} - {: >2}°C < {: >2}°C - {} {}'
+
+    dtime = time.format('dddd DD MMMM YYYY')
+    summary = day['summary']
+
+    if p > 0:
+        fmt = fmt + ' ({}% - {}mm/h)'
+
+    iconname = day['icon']
+    icon, color = icons.get(iconname, ("?", RED))
+    fmt = color + fmt + ENDC
+
+    if time < NOW.replace(hours=+3):
+        fmt = BOLD + fmt + ENDC
+
+    fmt = UNDERLINE + fmt + ENDC
+
+    print()
+    print(fmt.format(dtime, sunrise , sunset , t1, t2, icon, summary, p, i))
+    print()
+
+    for hour in hourly:
+
+        time = arrow.get(hour['time']).to('local')
+
+        if time < daytime or time >= daytime.replace(days=+1):
+            continue
+
+        t = round(ftoc(hour['apparentTemperature']))
+        p = round(100 * hour['precipProbability'])
+        i = round(itom(hour['precipIntensity']), 1)
+
+        fmt = ' * {} - {: >2}°C - {: <2} {} ({})'
+
+        dtime = time.format('hh A')
+        htime = time.humanize()
+        summary = hour['summary']
+
+        if p > 0:
+            fmt = fmt + ' ({}% - {}mm/h)'
+
+        iconname = hour['icon']
+        icon, color = icons.get(iconname, ("?", RED))
+        fmt = color + fmt + ENDC
+
+        if time < NOW.replace(hours=+3):
+            fmt = BOLD + fmt + ENDC
+
+        print(fmt.format(dtime, t, icon, summary, htime, p, i))

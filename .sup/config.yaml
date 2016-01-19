@@ -4,7 +4,7 @@
 :edit_signature: false
 :ask_for_from: false
 :ask_for_to: true
-:ask_for_cc: true
+:ask_for_cc: false
 :ask_for_bcc: false
 :ask_for_subject: true
 :account_selector: true

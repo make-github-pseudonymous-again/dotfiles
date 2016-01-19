@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+xrandr --fb 1680x1050 --output LVDS --primary --auto --panning 1680x1050 --output DisplayPort-0 --auto
+~/bin/wallpaper.refresh
+
+

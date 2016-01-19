@@ -1,0 +1,126 @@
+#!/usr/bin/env python2
+
+# Copyright 2013 Ryan McGowan
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import sys
+import os
+
+# to redirect xlib output
+# note that there is a dedicated method to do this in python >3.4
+# called contextlib.redirect_stdout
+from contextlib import contextmanager
+
+
+def fileno(file_or_fd):
+    fd = getattr(file_or_fd, 'fileno', lambda: file_or_fd)()
+    if not isinstance(fd, int):
+        raise ValueError("Expected a file (`.fileno()`) or a file descriptor")
+    return fd
+
+
+@contextmanager
+def redirect(fro, to):
+
+    stdout_fd = fileno(fro)
+    # copy stdout_fd before it is overwritten
+    # NOTE: `copied` is inheritable on Windows when duplicating a standard
+    # stream
+    with os.fdopen(os.dup(stdout_fd), 'wb') as copied:
+        fro.flush()  # flush library buffers that dup2 knows nothing about
+        try:
+            os.dup2(fileno(to), stdout_fd)  # $ exec >&to
+        except ValueError:  # filename
+            with open(to, 'wb') as to_file:
+                os.dup2(to_file.fileno(), stdout_fd)  # $ exec > to
+        try:
+            yield fro  # allow code to be run with the redirected fro
+        finally:
+            # restore fro to its previous value
+            # NOTE: dup2 makes stdout_fd inheritable unconditionally
+            fro.flush()
+            os.dup2(copied.fileno(), stdout_fd)  # $ exec >&copied
+
+from subprocess import call
+
+
+def parse_dmenu_args(args):
+
+    split = args.index('--rest') if '--rest' in args else len(args)
+
+    args, rest = args[:split], args[split + 1:]
+
+    argc = len(args)
+    # Get arguments from the command line.
+
+    runnable = args[0] if argc > 0 else 'dmenu'
+
+    # 20% padding means only 80% of the screen is used by dmenu with 10%
+    # padding on each side.
+    padding = float(args[1]) if argc > 1 else .24
+
+    # Font size and lineheight are in points
+    line_height = int(args[2]) if argc > 2 else 24
+    font_size = int(args[3]) if argc > 3 else 11
+
+    typeface = args[4] if argc > 4 else 'Inconsolata'
+
+    with redirect(sys.stdout, sys.stderr):
+        from Xlib import display
+        current_display = display.Display()
+        current_screen = current_display.screen()
+
+    screenwidth = current_screen['width_in_pixels']
+    xoffset = int(round(padding / 2 * screenwidth))
+    width = screenwidth - 2 * xoffset
+
+    screenheight = current_screen['height_in_pixels']
+    height_in_inches = current_screen['height_in_mms'] / 25.4
+    height_in_points = height_in_inches * 72
+    pixels_per_point = screenheight / height_in_points
+
+    height = int(round(line_height * pixels_per_point, 0))
+    yoffset = int(round((screenheight - height) / 2))
+    height = screenheight - 2 * yoffset
+
+    # Set some default values for dmenu args
+    dmenu_run_args = {
+        'runnable': runnable,
+        'xoffset': str(xoffset),
+        'yoffset': str(yoffset),
+        'width': str(width),
+        'height': str(height),
+        'font': '{0}:size={1}'.format(typeface, font_size)
+    }
+
+    return dmenu_run_args, rest
+
+
+def main(args):
+    dmenu_run_args, rest = parse_dmenu_args(args)
+    cmd = [dmenu_run_args['runnable']]
+    cmd += ['-fn', dmenu_run_args['font']]
+    cmd += ['-x', dmenu_run_args['xoffset']]
+    cmd += ['-y', dmenu_run_args['yoffset']]
+    cmd += ['-h', dmenu_run_args['height']]
+    cmd += ['-w', dmenu_run_args['width']]
+    cmd.extend(rest)
+    return call(cmd)
+
+
+def console_main():
+    sys.exit(main(sys.argv[1:]))
+
+if __name__ == '__main__':
+    console_main()

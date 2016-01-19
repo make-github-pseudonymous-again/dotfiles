@@ -1,6 +1,8 @@
 # ~/. dotfiles for Arch Linux
 
 ![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot-weather.png)
+![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/lockscreen.png)
 
 ## Getting started
 
@@ -15,6 +17,7 @@
     sh yaourt.sh
     sudo sh npm.sh
     sudo sh gem.sh
+    sudo sh pip.sh
 
 ### Install fonts
 
@@ -83,6 +86,10 @@ Add those two lines to /etc/sudoers
 ### Gimp in single-window mode
 
 Open gimp and select Windows > Single-Window Mode.
+
+### Enable services
+
+	systemctl enable atd
 
 ## Credits
 

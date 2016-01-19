@@ -2,15 +2,18 @@
 
 import urllib.request
 import urllib.parse
-import socket , ssl
+import socket
+import ssl
 import http.client
 import getpass
 import subprocess
 
 # see https://gist.github.com/flandr/74be22d1c3d7c1dfefdd
 
+
 class SSLv2Connection(http.client.HTTPSConnection):
     """Like HTTPSConnection but more specific"""
+
     def __init__(self, host, **kwargs):
         http.client.HTTPSConnection.__init__(self, host, **kwargs)
 
@@ -19,17 +22,19 @@ class SSLv2Connection(http.client.HTTPSConnection):
         # Standard implementation from HTTPSConnection, which is not
         # designed for extension, unfortunately
         sock = socket.create_connection((self.host, self.port),
-                self.timeout, self.source_address)
+                                        self.timeout, self.source_address)
         if getattr(self, '_tunnel_host', None):
             self.sock = sock
             self._tunnel()
 
         # This is the only difference; default wrap_socket uses SSLv23
         self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
-                ssl_version=ssl.PROTOCOL_SSLv2)
+                                    ssl_version=ssl.PROTOCOL_SSLv2)
+
 
 class SSLv2Handler(urllib.request.HTTPSHandler):
     """Like HTTPSHandler but more specific"""
+
     def __init__(self):
         urllib.request.HTTPSHandler.__init__(self)
 
@@ -40,28 +45,30 @@ class SSLv2Handler(urllib.request.HTTPSHandler):
 # Override default handler
 urllib.request.install_opener(urllib.request.build_opener(SSLv2Handler()))
 
-username = subprocess.check_output(['$','config','get-user','ulb.ethernet']).decode('utf-8')[:-1]
-password = subprocess.check_output(['$','config','get-password','ulb.ethernet']).decode('utf-8')[:-1]
+username = subprocess.check_output(
+    ['pass', 'ulb.ethernet/user']).decode('utf-8')[:-1]
+password = subprocess.check_output(
+    ['pass', 'ulb.ethernet/login']).decode('utf-8')[:-1]
 
-if username == 'None' or password == 'None' :
-    username = input( 'username: ' )
-    password = getpass.getpass( 'password: ' )
+if username == 'None' or password == 'None':
+    username = input('username: ')
+    password = getpass.getpass('password: ')
 
-while True :
+while True:
 
     url = 'https://172.19.78.1/web_auth/index.html'
-    values = {'edit_cookies' : '' ,
-              'admin_id' : username ,
-              'admin_pw' : password }
+    values = {'edit_cookies': '',
+              'admin_id': username,
+              'admin_pw': password}
 
     headers = {
-    'Host': '172.19.78.1',
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Accept-Encoding': 'gzip, deflate',
-    'Referer': 'https://172.19.78.1/web_auth/index.html',
-    'Connection': 'keep-alive'
+        'Host': '172.19.78.1',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Referer': 'https://172.19.78.1/web_auth/index.html',
+        'Connection': 'keep-alive'
     }
 
     data = urllib.parse.urlencode(values)
@@ -69,11 +76,11 @@ while True :
     req = urllib.request.Request(url, data, headers)
 
     with urllib.request.urlopen(req) as response:
-        if 'Success' in response.read( ).decode( ) :
-            print( 'connected' )
+        if 'Success' in response.read().decode():
+            print('connected')
             break
-        else : print( 'bad credentials' )
+        else:
+            print('bad credentials')
 
-    username = input( 'username: ' )
-    password = getpass.getpass( 'password: ' )
-
+    username = input('username: ')
+    password = getpass.getpass('password: ')

@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+lang="en\nfr"
+
+
+fro=$(echo -e "auto\n$lang" | dmenu_center --rest -p 'from')
+
+if [ "$fro" = '' ] ; then
+	exit 1
+fi
+
+
+to=$(echo -e "$lang" | dmenu_center --rest -p 'to')
+
+if [ "$to" = '' ] ; then
+	exit 2
+fi
+
+
+q=$(ui.dialog.input 'query')
+
+if [ "$q" = '' ] ; then
+	exit 3
+fi
+
+query=$(echo -n "$q" | urlencode)
+
+firefox --new-window "https://translate.google.com/#$fro/$to/$query"
+

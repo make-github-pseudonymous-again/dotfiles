@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import arrow
+import shutil
+import urllib.request
+
+from xml.etree import ElementTree
+
+TZ = 'Europe/Brussels'
+
+CACHE = os.path.expanduser('~/.cache/stib')
+CONFIG = os.path.expanduser('~/.config/stib/config')
+
+HALT = CACHE + '/{}'
+LINE = HALT + '/{}'
+TIME = LINE + '/{}'
+
+REQUEST = 'http://m.stib.be/api/getwaitingtimes.php?halt={}'
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+
+def init(halt):
+
+    # dangerous
+    assert(isinstance(halt, str))
+    assert(all(c >= "0" and c <= "9" for c in halt))
+
+    path = HALT.format(halt)
+
+    shutil.rmtree(path, True)  # True to ignore errors
+    os.makedirs(path)
+
+
+def save(halt, line, timestamp):
+
+    log('x', halt, line, timestamp)
+
+    try:
+        os.mkdir(LINE.format(halt, line))
+    except FileExistsError:
+        pass
+
+    with open(TIME.format(halt, line, timestamp), 'w') as fd:
+        pass
+
+with open(CONFIG) as _config:
+    config = json.load(_config)
+
+for halt, lines in config.items():
+
+    url = REQUEST.format(halt)
+
+    log(url)
+
+    try:
+
+        W = ElementTree.parse(urllib.request.urlopen(url)).getroot()
+
+    except urllib.error.HTTPError:
+        log('failed to download', url)
+        continue
+
+    now = arrow.now(TZ)
+
+    waitingtimes = list(W.iter('waitingtime'))
+
+    # in case of a bug do not erase previously known information
+
+    if not waitingtimes:
+        continue
+
+    init(halt)
+
+    for waitingtime in waitingtimes:
+
+        w = {tag.tag: tag.text for tag in waitingtime}
+
+        timestamp = now.replace(minutes=+int(w['minutes']))
+
+        if w['line'] in lines:
+
+            save(halt, w['line'], timestamp)
+
+        else:
+
+            log(' ', halt, w['line'], timestamp)

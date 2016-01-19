@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+file=$(fasd -fRl | dmenu_center --rest -i -t -p 'edit' -sb '#24A946')
+
+if [ "$file" != '' ]; then
+	terminator -b -x vim "$file"
+fi

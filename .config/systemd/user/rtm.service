@@ -1,0 +1,9 @@
+[Unit]
+Description=RTM updates daemon
+
+[Service]
+ExecStart=/usr/bin/env sh rtm.poll
+Restart=always
+
+[Install]
+WantedBy=default.target

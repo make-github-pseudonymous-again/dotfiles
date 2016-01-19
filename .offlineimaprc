@@ -1,11 +1,12 @@
 [general]
 pythonfile = ~/.offlineimap.py
-accounts = personal, riseup, ulb
+accounts = personal, riseup, ulb, gmail
 ui = ttyui
 # Controls how many accounts may be synced simultaneously
-maxsyncaccounts = 3
+maxsyncaccounts = 4
 
 [Account personal]
+postsynchook = notmuch new
 localrepository = personal-local
 remoterepository = personal-remote
 status_backend = sqlite
@@ -34,7 +35,7 @@ type = Gmail
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 # Remember that GMail requires full mail address as username
 remoteuser = aurelien.ooms@gmail.com
-remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@gmail.com']).strip()
+remotepasseval = subprocess.check_output(['pass','google.com/app/mail/aurelien.ooms@gmail.com']).strip()
 nametrans = lambda folder: {'[Gmail]/Tous les messages': 'archive',
                             }.get(folder, folder)
 folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Tous les messages']
@@ -51,6 +52,7 @@ keepalive = 60
 holdconnectionopen = yes
 
 [Account riseup]
+postsynchook = notmuch new
 localrepository = riseup-local
 remoterepository = riseup-remote
 status_backend = sqlite
@@ -63,7 +65,7 @@ quick = 10
 [Repository riseup-local]
 type = Maildir
 localfolders = ~/mail/riseup
-nametrans = lambda folder: {}.get(folder, folder)
+nametrans = lambda folder: folder
 
 [Repository riseup-remote]
 type = IMAP
@@ -71,8 +73,8 @@ remotehost = mail.riseup.net
 tls = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 remoteuser = aurelien.ooms
-remotepasseval = subprocess.check_output(['$','cfg','us','aurelien.ooms@riseup.net']).strip()
-nametrans = lambda folder: {}.get(folder, folder)
+remotepasseval = subprocess.check_output(['pass','riseup.net/aurelien.ooms@riseup.net']).strip()
+nametrans = lambda folder: folder
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
 # Instead of closing the connection once a sync is complete, offlineimap will
 # send empty data to the server to hold the connection open. A value of 60
@@ -87,6 +89,7 @@ keepalive = 60
 holdconnectionopen = yes
 
 [Account ulb]
+postsynchook = notmuch new
 localrepository = ulb-local
 remoterepository = ulb-remote
 status_backend = sqlite
@@ -99,7 +102,7 @@ quick = 10
 [Repository ulb-local]
 type = Maildir
 localfolders = ~/mail/ulb
-nametrans = lambda folder: {}.get(folder, folder)
+nametrans = lambda folder: folder
 
 [Repository ulb-remote]
 type = IMAP
@@ -107,9 +110,51 @@ remotehost = imap.ulb.ac.be
 ssl = yes
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 remoteuser = aureooms
-remotepasseval = subprocess.check_output(['$','cfg','us','aureooms@ulb.ac.be']).strip()
-nametrans = lambda folder: {}.get(folder, folder)
+remotepasseval = subprocess.check_output(['pass','ULB/aureooms']).strip()
+nametrans = lambda folder: folder
 folderfilter = lambda folder: folder in [ 'INBOX' , 'Trash' ]
+# Instead of closing the connection once a sync is complete, offlineimap will
+# send empty data to the server to hold the connection open. A value of 60
+# attempts to hold the connection for a minute between syncs (both quick and
+# autorefresh).This setting has no effect if autorefresh and holdconnectionopen
+# are not both set.
+keepalive = 60
+# OfflineIMAP normally closes IMAP server connections between refreshes if
+# the global option autorefresh is specified.  If you wish it to keep the
+# connection open, set this to true. This setting has no effect if autorefresh
+# is not set.
+holdconnectionopen = yes
+
+[Account gmail]
+postsynchook = notmuch new
+localrepository = gmail-local
+remoterepository = gmail-remote
+status_backend = sqlite
+# Minutes between syncs
+autorefresh = 5
+# Number of quick-syncs between autorefreshes. Quick-syncs do not update if the
+# only changes were to IMAP flags
+quick = 10
+synclabels = yes
+# This header is where labels go.  Usually you will be fine
+# with default value (X-Keywords), but in case you want it
+# different, here we go:
+labelsheader = X-Keywords
+
+[Repository gmail-local]
+type = GmailMaildir
+localfolders = ~/mail/gmail
+nametrans = lambda folder: folder
+
+[Repository gmail-remote]
+# IMAP with hardcoded GMail config
+type = Gmail
+# The path of ca-certfile might be different on your system.
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# Remember that GMail requires full mail address as username
+remoteuser = aurelien.ooms@gmail.com
+remotepasseval = subprocess.check_output(['pass','google.com/app/mail/aurelien.ooms@gmail.com']).strip()
+nametrans = lambda folder: folder
 # Instead of closing the connection once a sync is complete, offlineimap will
 # send empty data to the server to hold the connection open. A value of 60
 # attempts to hold the connection for a minute between syncs (both quick and

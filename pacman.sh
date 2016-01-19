@@ -26,8 +26,14 @@ pacman -S --needed --noconfirm gvim
 pacman -S --needed --noconfirm firefox
 pacman -S --needed --noconfirm evince
 pacman -S --needed --noconfirm nodejs npm
+pacman -S --needed --noconfirm pypy3
 pacman -S --needed --noconfirm python-pip
+pacman -S --needed --noconfirm python-six
 pacman -S --needed --noconfirm python-lxml
+pacman -S --needed --noconfirm python-jedi
+pacman -S --needed --noconfirm python-docopt
+pacman -S --needed --noconfirm python-pygments
+pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
@@ -40,6 +46,7 @@ pacman -S --needed --noconfirm inkscape
 pacman -S --needed --noconfirm thefuck
 pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
+pacman -S --needed --noconfirm at
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
 pacman -S --needed --noconfirm xorg-xkill
@@ -48,12 +55,18 @@ pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
 pacman -S --needed --noconfirm qtox
 
+pacman -S --needed --noconfirm newsbeuter
+
 pacman -S --needed --noconfirm offlineimap
 pacman -S --needed --noconfirm msmtp
 
 pacman -S --needed --noconfirm openssh
 pacman -S --needed --noconfirm python2-keyring
 pacman -S --needed --noconfirm python-keyring
+
+# json CLI processor
+
+pacman -S --needed --noconfirm jq
 
 # replace ugly default font
 pacman -S --needed --noconfirm extra/ttf-dejavu
@@ -70,9 +83,11 @@ pacman -S --needed --noconfirm tumbler thunar
 # image manipulation
 
 pacman -S --needed --noconfirm scrot
+pacman -S --needed --noconfirm screenfetch
 pacman -S --needed --noconfirm libjpeg-turbo gifsicle optipng
 pacman -S --needed --noconfirm feh imagemagick
 pacman -S --needed --noconfirm gimp
+pacman -S --needed --noconfirm viewnior
 
 # libre office
 

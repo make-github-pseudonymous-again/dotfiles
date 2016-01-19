@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+when=$(ui.dialog.input 'when')
+message=$(ui.dialog.input 'message')
+alarm.new "$when" "$message"

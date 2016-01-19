@@ -27,7 +27,7 @@ floating_modifier $mod
 bindsym $mod+p exec i3-sensible-terminal
 
 # start dmenu (a program launcher)
-bindsym $mod+o exec dmenu_run
+bindsym $mod+o exec dmenu_center_run
 
 # kill focused window
 bindsym $mod+Shift+A kill
@@ -180,6 +180,7 @@ bindsym $mod+r mode "resize"
 
 mode "wifi" {
 
+        bindsym r exec wifi.restart.ui; mode "default"
         bindsym t exec wifi.toggle.ui; mode "default"
         bindsym d exec wifi.disconnect.ui; mode "default"
         bindsym c exec wifi.connect.ui; mode "default"
@@ -204,39 +205,124 @@ mode "layout" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+b mode "layout"
+bindsym $mod+y mode "layout"
 
 mode "apps" {
+	bindsym i mode "internet"
+	bindsym o mode "organization"
+	bindsym t mode "tools"
 
-        bindsym e exec evince; mode "default"
+	# back to normal: Enter or Escape
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+bindsym $mod+i mode "apps"
+
+mode "internet" {
+
         bindsym f exec firefox; mode "default"
-        bindsym c exec courriel; mode "default"
+        bindsym s exec search; mode "default"
+        bindsym g exec google; mode "default"
+        bindsym t exec translate; mode "default"
+        bindsym m exec maps; mode "default"
         bindsym h exec hangouts; mode "default"
-        bindsym i exec ipe; mode "default"
-        bindsym t exec thunar; mode "default"
-        bindsym p exec courriel.poll; mode "default"
+        bindsym d exec dropbox; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 
-bindsym $mod+i mode "apps"
+mode "organization" {
+        bindsym a exec alarm.new.ui; mode "default"
+        bindsym m exec courriel; mode "default"
+        bindsym f exec courriel.fetch; mode "default"
+        bindsym n exec news; mode "default"
+        bindsym c exec calendar; mode "default"
+        bindsym w exec weather; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "tools" {
+        bindsym f exec thunar; mode "default"
+        bindsym r exec terminator -b -x ranger; mode "default"
+        bindsym m exec menu.man; mode "default"
+        bindsym n exec menu.nav; mode "default"
+        bindsym t exec menu.term; mode "default"
+        bindsym o exec menu.open; mode "default"
+        bindsym e exec menu.edit; mode "default"
+        bindsym p exec terminator -b -x ptpython --vi; mode "default"
+        bindsym s exec menu.systemctl; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command ~/bin/system.status
+	id main
+	position bottom
+	status_command ~/bin/system.status
+
+	wheel_up_cmd nop
+	wheel_down_cmd nop
+	#bindsym button4 nop
+	#bindsym button5 nop
+
+	tray_output none
+
+	colors {
+		background #1c1c1c
+		statusline #dddddd
+
+		separator #666666
+
+		focused_workspace  #4c7899 #285577 #ffffff
+		active_workspace   #333333 #5f676a #ffffff
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2f343a #CF4647 #ffffff
+		#binding_mode       #2f343a #CF4647 #ffffff
+	}
 }
 
-# enable volume control ( and others )
-exec --no-startup-id /usr/bin/gnome-settings-daemon
-# ... and restore mouse cursor
-exec --no-startup-id /usr/bin/gsettings set org.gnome.settings-daemon.plugins.cursor active false
+bar {
+	id extra
+	position top
+	status_command ~/bin/system.status.extra
 
-# set background black
-# exec /usr/bin/xsetroot -solid "#000000"
-exec --no-startup-id ~/bin/wallpaper.refresh
+	wheel_up_cmd nop
+	wheel_down_cmd nop
+	#bindsym button4 nop
+	#bindsym button5 nop
+
+	mode dock
+
+	workspace_buttons no
+	binding_mode_indicator no
+
+	colors {
+		background #1c1c1c
+		statusline #dddddd
+
+		separator #666666
+
+		focused_workspace  #4c7899 #285577 #ffffff
+		active_workspace   #333333 #5f676a #ffffff
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2f343a #CF4647 #ffffff
+		#binding_mode       #2f343a #CF4647 #ffffff
+	}
+}
+
+bindsym $mod+u bar mode invisible extra
+bindsym $mod+Shift+u bar mode dock extra
+
 
 # volume
 bindsym XF86AudioRaiseVolume exec volume.up
@@ -256,6 +342,12 @@ bindsym --release Print exec screenshot.all
 bindsym --release Shift+Print exec screenshot.selection
 bindsym --release $mod+Print exec screenshot.all+gimp
 bindsym --release $mod+Shift+Print exec screenshot.selection+gimp
+# ... for MacBook Pro
+bindsym --release XF86LaunchA exec screenshot.all
+bindsym --release Shift+XF86LaunchA exec screenshot.selection
+bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
+bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
+
 
 #keyboard layout
 bindsym $mod+dollar exec setxkbmap us
@@ -278,3 +370,19 @@ bindsym $mod+minus scratchpad show
 # Automatically move papercut balance window to the scratchpad.
 for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
 
+
+# set background black
+# exec /usr/bin/xsetroot -solid "#000000"
+exec --no-startup-id ~/bin/wallpaper.refresh
+
+exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
+exec --no-startup-id /usr/bin/systemctl --user start offlineimap
+exec --no-startup-id /usr/bin/systemctl --user start news
+exec --no-startup-id /usr/bin/systemctl --user start calendar
+exec --no-startup-id /usr/bin/systemctl --user start urlab
+exec --no-startup-id /usr/bin/systemctl --user start weather
+exec --no-startup-id /usr/bin/systemctl --user start ipgeolocation
+exec --no-startup-id /usr/bin/systemctl --user start geolocation
+exec --no-startup-id /usr/bin/systemctl --user start stib
+exec --no-startup-id /usr/bin/systemctl --user start rtm
+exec --no-startup-id /usr/bin/systemctl --user start wifi-fingerprint

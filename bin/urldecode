@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+perl -pe 's/\%(\w\w)/chr hex $1/ge'

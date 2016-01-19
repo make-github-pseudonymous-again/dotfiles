@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import codecs
+import urllib.request
+
+reader = codecs.getreader('utf8')
+
+data = json.load(reader(urllib.request.urlopen('http://ip-api.com/json')))
+
+json.dump(data, sys.stdout)

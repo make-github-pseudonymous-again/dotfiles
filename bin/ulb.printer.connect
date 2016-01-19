@@ -5,7 +5,7 @@ if is.cups.running; then
 		echo 'papercut already running'
 	else
 		echo 'start papercut'
-		papercut &
+		systemctl --user start papercut
 	fi
 else
 	echo 'cups is not running, run the following command'

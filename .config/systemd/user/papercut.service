@@ -1,0 +1,9 @@
+[Unit]
+Description=Papercut daemon
+
+[Service]
+ExecStart=/usr/bin/env sh papercut
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+while true; do
+	if calendar.fetch; then
+		memoize-ft 0 calendar.now
+		sleep 600
+	else
+		sleep 100
+	fi
+done

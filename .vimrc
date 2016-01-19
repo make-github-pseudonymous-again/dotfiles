@@ -196,3 +196,13 @@ endfunction
 " You might not want this, so just leave it out if you don't.
 " (http://oli.me.uk/2013/06/29/equipping-vim-for-javascript/)
 let g:syntastic_check_on_open=1
+
+if has('gui_running')
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=r  "remove right-hand scroll bar
+  set guioptions-=L  "remove left-hand scroll bar
+  set lines=60 columns=108 linespace=0
+  set guifont=Liberation\ Mono\ for\ Powerline\ 12
+endif
+
