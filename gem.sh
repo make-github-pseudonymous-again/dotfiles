@@ -8,5 +8,3 @@ fi
 
 gem update --system
 gem i git-up --no-user-install
-gem i mime-types-data --no-user-install
-
