@@ -80,7 +80,7 @@
     },
     "accounts": {
         "personal": {
-            "name": "personal",
+            "name": "Aurélien Ooms",
             "email": "aurelien.ooms@gmail.com",
             "gpgkey": "72A5A850",
             "sendmail": "msmtp -t --read-envelope-from",
@@ -91,7 +91,7 @@
             "save_drafts_to": "~\/sandbox\/drafts\/"
         },
         "riseup": {
-            "name": "riseup",
+            "name": "Aurélien Ooms",
             "email": "aurelien.ooms@riseup.net",
             "gpgkey": "72A5A850",
             "sendmail": "msmtp -t --read-envelope-from",
@@ -102,7 +102,7 @@
             "save_drafts_to": "~\/sandbox\/drafts\/"
         },
         "ulb": {
-            "name": "ulb",
+            "name": "Aurélien Ooms",
             "email": "aureooms@ulb.ac.be",
             "gpgkey": "72A5A850",
             "sendmail": "msmtp -t --read-envelope-from",
