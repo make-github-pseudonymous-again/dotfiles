@@ -38,3 +38,4 @@ yaourt -S --needed solaar
 yaourt -S --needed ipe
 yaourt -S --needed keybase-release
 yaourt -S --needed astroid
+yaourt -S --needed pdftk-bin
