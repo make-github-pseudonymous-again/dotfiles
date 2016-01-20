@@ -7,7 +7,7 @@ mkdir -p ~/ulb
 mkdir -p ~/games
 mkdir -p ~/shots
 mkdir -p ~/sandbox
-mkdir -p ~/mail
+mkdir -p ~/.mail
 
 mkdir -p ~/.config
 mkdir -p ~/.config/newsbeuter
