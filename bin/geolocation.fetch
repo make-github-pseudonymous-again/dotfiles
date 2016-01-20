@@ -117,6 +117,8 @@ def evaluate(tag, tests):
 
         if any(run(test).returncode != 0 for test in tests['TRUE']):
 
+            log('[{}] ko TRUE'.format(tag))
+
             return 0
 
         score += len(tests['TRUE']) * 3
@@ -126,6 +128,8 @@ def evaluate(tag, tests):
     if 'FALSE' in tests:
 
         if any(run(test).returncode == 0 for test in tests['FALSE']):
+
+            log('[{}] ko FALSE'.format(tag))
 
             return 0
 
@@ -200,9 +204,11 @@ def evaluate(tag, tests):
 
                 log('[{}] ok geolocation ({} km)'.format(tag, distance))
 
-            else:
+            elif distance > 500:
 
                 log('[{}] ko geolocation ({} km)'.format(tag, distance))
+
+                return 0
 
     return score
 
