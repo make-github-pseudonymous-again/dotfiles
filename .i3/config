@@ -240,6 +240,7 @@ mode "organization" {
         bindsym f exec courriel.fetch; mode "default"
         bindsym n exec news; mode "default"
         bindsym c exec calendar; mode "default"
+        bindsym Shift+C exec calendar.edit; mode "default"
         bindsym w exec weather; mode "default"
 
         # back to normal: Enter or Escape
