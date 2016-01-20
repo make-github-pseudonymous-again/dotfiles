@@ -26,19 +26,19 @@
 :always_edit_async: false
 :accounts:
   :default:
-    :name: personal
+    :name: Aurélien Ooms
     :email: aurelien.ooms@gmail.com
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
     :gpgkey: '72A5A850'
   :riseup:
-    :name: riseup
+    :name: Aurélien Ooms
     :email: aurelien.ooms@riseup.net
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
     :gpgkey: '72A5A850'
   :ulb:
-    :name: ulb
+    :name: Aurélien Ooms
     :email: aureooms@ulb.ac.be
     :sendmail: "msmtp -t --read-envelope-from"
     :signature: "/home/aureooms/.signature"
