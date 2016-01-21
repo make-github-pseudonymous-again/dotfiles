@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-ls ~/.mail/*/INBOX/new/* 2>/dev/null | wc -l

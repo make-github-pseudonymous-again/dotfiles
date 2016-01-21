@@ -58,18 +58,6 @@
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
-  [[sup]]
-    background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
-    background_image = None
-    backspace_binding = control-h
-    copy_on_selection = True
-    custom_command = sup
-    font = Liberation Mono for Powerline 12
-    scrollbar_position = hidden
-    show_titlebar = False
-    use_custom_command = True
-    use_system_font = False
   [[sup.compose]]
     background_color = "#1c1c1c"
     foreground_color = "#bbbbbb"

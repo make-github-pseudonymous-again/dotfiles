@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+address=$(notmuch-abook export -f email -s name | dmenu_center --rest -p abook -t -i -sb '#655643')
+
+if [ ! -n "$address" ] ; then
+	exit 1
+fi
+
+echo -n "$address" | xclip -i -selection c

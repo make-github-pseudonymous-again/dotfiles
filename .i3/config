@@ -238,6 +238,7 @@ mode "organization" {
         bindsym a exec alarm.new.ui; mode "default"
         bindsym m exec courriel; mode "default"
         bindsym f exec courriel.fetch; mode "default"
+        bindsym b exec courriel.abook; mode "default"
         bindsym n exec news; mode "default"
         bindsym c exec calendar; mode "default"
         bindsym Shift+C exec calendar.edit; mode "default"
