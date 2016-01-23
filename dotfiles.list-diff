@@ -11,6 +11,7 @@ rsync \
 	--exclude "dotfiles.diff" \
 	--exclude "dotfiles.update" \
 	--exclude "dotfiles.upgrade" \
+	--exclude "extra.sh" \
 	--exclude "gem.sh" \
 	--exclude "modules" \
 	--exclude "npm.sh" \
