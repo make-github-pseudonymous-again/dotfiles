@@ -32,8 +32,6 @@ yaourt -S --needed dmenu2
 yaourt -S --needed fasd
 yaourt -S --needed fzf
 yaourt -S --needed ttf-font-awesome
-yaourt -S --needed ruby-gpgme-1
-yaourt -S --needed sup-git
 yaourt -S --needed solaar
 yaourt -S --needed ipe
 yaourt -S --needed keybase-release
