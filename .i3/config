@@ -237,6 +237,7 @@ mode "internet" {
 mode "organization" {
         bindsym a exec alarm.new.ui; mode "default"
         bindsym m exec courriel; mode "default"
+        bindsym Shift+M exec gmail; mode "default"
         bindsym f exec courriel.fetch; mode "default"
         bindsym b exec courriel.abook; mode "default"
         bindsym n exec news; mode "default"
