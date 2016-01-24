@@ -87,7 +87,7 @@ for halt in config:
 
         hour, minute = map(int, time.split(':'))
 
-        timestamp = now.replace(hour=hour, minute=minute,
+        timestamp = now.replace(hour=hour%24, minute=minute,
                                 second=0, microsecond=0)
 
         # let's say it is 23:57 and time == '00:05'
