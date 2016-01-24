@@ -5,6 +5,7 @@ import sys
 import math
 import json
 import arrow
+import socket
 
 from subprocess import run, check_output
 
@@ -115,27 +116,19 @@ def evaluate(tag, tests):
 
     if 'TRUE' in tests:
 
-        if any(run(test).returncode != 0 for test in tests['TRUE']):
+        if all(run(test).returncode == 0 for test in tests['TRUE']):
 
-            log('[{}] ko TRUE'.format(tag))
+            score += 1000
 
-            return 0
-
-        score += len(tests['TRUE']) * 3
-
-        log('[{}] ok TRUE'.format(tag))
+            log('[{}] ok TRUE'.format(tag))
 
     if 'FALSE' in tests:
 
-        if any(run(test).returncode == 0 for test in tests['FALSE']):
+        if all(run(test).returncode != 0 for test in tests['FALSE']):
 
-            log('[{}] ko FALSE'.format(tag))
+            score += 1000
 
-            return 0
-
-        score += len(tests['FALSE']) * 3
-
-        log('[{}] ok FALSE'.format(tag))
+            log('[{}] ok FALSE'.format(tag))
 
     if 'true' in tests:
 
@@ -209,6 +202,14 @@ def evaluate(tag, tests):
                 log('[{}] ko geolocation ({} km)'.format(tag, distance))
 
                 return 0
+
+    if 'host' in tests:
+
+        if socket.gethostname() in tests['host'] :
+
+            score += 1000
+
+            log('[{}] ok host {}'.format(tag, test))
 
     return score
 
