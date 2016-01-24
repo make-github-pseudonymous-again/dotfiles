@@ -31,6 +31,7 @@
 ### Install sak
 
 	git clone https://github.com/aureooms/sak
+	cd sak
 	make install
     
 ### Update vundle plugins
