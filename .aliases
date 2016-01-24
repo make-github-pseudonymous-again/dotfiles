@@ -35,6 +35,9 @@ alias ft="ack"
 # ff to find a file
 alias ff="find . | grep"
 
+# errors from journal
+alias errors="journalctl -b -p err|less"
+
 # List all files colorized in long format
 alias l="ls -lF --color"
 
