@@ -15,6 +15,7 @@
 
     sudo sh pacman.sh
     sh yaourt.sh
+    sh extra.sh
     sudo sh npm.sh
     sudo sh gem.sh
     sudo sh pip.sh
@@ -30,6 +31,7 @@
 ### Install sak
 
 	git clone https://github.com/aureooms/sak
+	cd sak
 	make install
     
 ### Update vundle plugins
