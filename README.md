@@ -15,6 +15,7 @@
 
     sudo sh pacman.sh
     sh yaourt.sh
+    sh extra.sh
     sudo sh npm.sh
     sudo sh gem.sh
     sudo sh pip.sh
