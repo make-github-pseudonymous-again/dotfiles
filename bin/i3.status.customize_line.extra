@@ -8,6 +8,13 @@ APPEND_INIT='{}'
 prepend="$PREPEND_INIT"
 append="$APPEND_INIT"
 
+urlab_data="$(memoize-get 1800 urlab.fetch)"
+urlab_open="$(echo "$urlab_data" | head -1)"
+urlab_people="$(echo "$urlab_data" | tail -1)"
+if [ "$urlab_open" = 'true' ] ; then
+	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
+fi
+
 calendar="$(memoize-get 3600 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend='{"name":"calendar","color":"#A7C5BD","full_text":" '"$calendar"'"},'"$prepend"
@@ -16,13 +23,6 @@ fi
 weather="$(memoize-get 3600 weather.now)"
 if [ "$weather" != '' ]; then
 	prepend="$weather"','"$prepend"
-fi
-
-urlab_data="$(memoize-get 1800 urlab.fetch)"
-urlab_open="$(echo "$urlab_data" | head -1)"
-urlab_people="$(echo "$urlab_data" | tail -1)"
-if [ "$urlab_open" = 'true' ] ; then
-	prepend='{"name":"urlab open","color":"#00FF00","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
 commuting="$(commuting.fetch | head -n 1)"
