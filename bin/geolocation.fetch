@@ -6,6 +6,7 @@ import math
 import json
 import arrow
 import socket
+import struct
 
 from subprocess import run, check_output
 
@@ -111,6 +112,17 @@ def km(*args):
 
     return distance_on_unit_sphere(*args) * radius_km
 
+def get_default_gateway_linux():
+    """Read the default gateway directly from /proc."""
+    with open("/proc/net/route") as fh:
+        for line in fh:
+            fields = line.strip().split()
+            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
+                continue
+
+            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
+
+GATEWAY = get_default_gateway_linux()
 
 def evaluate(tag, tests):
 
@@ -212,6 +224,14 @@ def evaluate(tag, tests):
             score += 1000
 
             log('[{}] ok host {}'.format(tag, test))
+
+    if 'gateway' in tests:
+
+        if GATEWAY in tests['gateway'] :
+
+            score += 5
+
+            log('[{}] ok gateway {}'.format(tag, GATEWAY))
 
     return score
 
