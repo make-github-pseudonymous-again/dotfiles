@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+services=$(ls "$HOME/.config/systemd/user")
+service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch")
+
+if [ "$service" = '' ]; then
+	exit 102
+fi
+
+terminator -b -x watch systemctl --user status "$service" -n 15
