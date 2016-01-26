@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
+FORECAST="$HOME/.cache/weather/forecast"
+
 while true; do
 	if weather.fetch; then
 		memoize-ft 0 weather.now
+		weather._forecast > "$FORECAST"
 		sleep 900
 	else
 		sleep 100
