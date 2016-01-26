@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q=$(ui.dialog.input 'google')
+q=$(ui.dialog.input -p 'google')
 
 if [ "$q" = '' ] ; then
 	exit 1

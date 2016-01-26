@@ -17,7 +17,7 @@ if [ "$to" = '' ] ; then
 fi
 
 
-q=$(ui.dialog.input 'query')
+q=$(ui.dialog.input -p 'query')
 
 if [ "$q" = '' ] ; then
 	exit 3

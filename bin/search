@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-what=$(ui.dialog.input 'search')
+what=$(ui.dialog.input -p 'search')
 
 if [ "$what" != '' ] ; then
 	firefox --search "$what"
