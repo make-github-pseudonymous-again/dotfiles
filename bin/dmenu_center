@@ -17,18 +17,20 @@
 import sys
 import os
 import json
-from subprocess import call , check_output
+from subprocess import call, check_output
 
 # to redirect xlib output
 # note that there is a dedicated method to do this in python >3.4
 # called contextlib.redirect_stdout
 from contextlib import contextmanager
 
+
 def fileno(file_or_fd):
     fd = getattr(file_or_fd, 'fileno', lambda: file_or_fd)()
     if not isinstance(fd, int):
         raise ValueError("Expected a file (`.fileno()`) or a file descriptor")
     return fd
+
 
 @contextmanager
 def redirect(fro, to):
@@ -51,6 +53,7 @@ def redirect(fro, to):
             # NOTE: dup2 makes stdout_fd inheritable unconditionally
             fro.flush()
             os.dup2(copied.fileno(), stdout_fd)  # $ exec >&copied
+
 
 def parse_dmenu_args(args):
 
@@ -78,8 +81,9 @@ def parse_dmenu_args(args):
         current_display = display.Display()
         current_screen = current_display.screen()
 
-    workspaces = json.loads( check_output( [ 'i3-msg', '-t', 'get_workspaces' ] ) )
-    workspace = next( workspace for workspace in workspaces if workspace['focused'] )
+    workspaces = json.loads(check_output(['i3-msg', '-t', 'get_workspaces']))
+    workspace = next(
+        workspace for workspace in workspaces if workspace['focused'])
 
     screenwidth = workspace['rect']['width'] * 1.0
     xoffset = int(round(padding / 2 * screenwidth))

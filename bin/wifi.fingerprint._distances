@@ -21,29 +21,29 @@ def makedict(data):
 
     return out
 
-def distance ( A , B , q = 2 ) :
 
+def distance(A, B, q=2):
     '''
         returns distance between 0 and 1
     '''
 
     keys = set(A.keys()).union(B.keys())
 
-    if not keys :
+    if not keys:
         return 1
 
     d = 0
 
-    for key in keys :
+    for key in keys:
 
-        a = A.get( key , 0 )
-        b = B.get( key , 0 )
+        a = A.get(key, 0)
+        b = B.get(key, 0)
 
-        d += ( a - b )**q
+        d += (a - b)**q
 
     n = len(keys)
 
-    rmsd = (d / n)**(1 / q) # between 0 and 1
+    rmsd = (d / n)**(1 / q)  # between 0 and 1
 
     # inspired from
     # http://www.hindawi.com/journals/ijdsn/2015/429104/
@@ -51,16 +51,16 @@ def distance ( A , B , q = 2 ) :
 
     common = set(A.keys()).intersection(B.keys())
 
-    c = len( common ) # if c is low, return value will be close to one
+    c = len(common)  # if c is low, return value will be close to one
 
-    return rmsd ** (c/n)
+    return rmsd ** (c / n)
 
 current = makedict(_current)
 log(current)
 
 args = sys.argv[1:]
 
-candidates = [ ( '?' , 0.99 ) ]
+candidates = [('?', 0.99)]
 
 for arg in args:
 
@@ -72,7 +72,7 @@ for arg in args:
     reference = makedict(_reference)
     log(tag, reference)
 
-    d = distance( current , reference )
+    d = distance(current, reference)
 
     candidates.append((tag, d))
 

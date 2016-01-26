@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
-## Filename: notmuch_addresses.py
-## Copyright (C) 2010-11 Jesse Rosenthal
-## Author: Jesse Rosenthal <jrosenthal@jhu.edu>
+# Filename: notmuch_addresses.py
+# Copyright (C) 2010-11 Jesse Rosenthal
+# Author: Jesse Rosenthal <jrosenthal@jhu.edu>
 
-## This file is free software; you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published
-## by the Free Software Foundation; either version 2, or (at your
-## option) any later version.
+# This file is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published
+# by the Free Software Foundation; either version 2, or (at your
+# option) any later version.
 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-## NOTE: This script requires the notmuch python bindings.
+# NOTE: This script requires the notmuch python bindings.
 """
 Notmuch Addressbook utility
 
@@ -99,6 +99,7 @@ class InvalidOptionError(Exception):
 
 
 class NotMuchConfig(object):
+
     def __init__(self, config_file):
         if config_file is None:
             config_file = os.environ.get('NOTMUCH_CONFIG', '~/.notmuch-config')
@@ -112,6 +113,7 @@ class NotMuchConfig(object):
 
 
 class Ignorer(object):
+
     def __init__(self, config):
         self.ignorefile = config.get('addressbook', 'ignorefile')
         self.ignore_regexes = None
@@ -127,7 +129,8 @@ class Ignorer(object):
             if not line or line.startswith('#'):
                 continue  # skip blank lines and comments
             if line.startswith('/') and line.endswith('/'):
-                self.ignore_regexes.append(re.compile(line.strip('/'), re.IGNORECASE))
+                self.ignore_regexes.append(
+                    re.compile(line.strip('/'), re.IGNORECASE))
             else:
                 self.ignore_substrings.append(line)
 
@@ -139,13 +142,15 @@ class Ignorer(object):
             return False
         if self.ignore_regexes is None:
             self.create_regexes()
-        substring_match = any(substr in address for substr in self.ignore_substrings)
+        substring_match = any(
+            substr in address for substr in self.ignore_substrings)
         if substring_match:
             return True
         return any(regex.search(address) for regex in self.ignore_regexes)
 
 
 class MailParser(object):
+
     def __init__(self):
         self.addresses = dict()
 
@@ -200,6 +205,7 @@ class NotmuchAddressGetter(object):
 
 class SQLiteStorage():
     """SQL Storage backend"""
+
     def __init__(self, config):
         self.__path = config.get("addressbook", "path")
         self.ignorer = Ignorer(config)
@@ -223,8 +229,10 @@ class SQLiteStorage():
         else:
             with sqlite3.connect(self.__path) as c:
                 cur = c.cursor()
-                cur.execute("CREATE VIRTUAL TABLE AddressBook USING fts4(Name, Address)")
-                cur.execute("CREATE VIEW AddressBookView AS SELECT * FROM addressbook")
+                cur.execute(
+                    "CREATE VIRTUAL TABLE AddressBook USING fts4(Name, Address)")
+                cur.execute(
+                    "CREATE VIEW AddressBookView AS SELECT * FROM addressbook")
                 cur.executescript(
                     "CREATE TRIGGER insert_into_ab " +
                     "INSTEAD OF INSERT ON AddressBookView " +
@@ -263,13 +271,17 @@ class SQLiteStorage():
             with self.connect() as c:
                 cur = c.cursor()
                 if replace:
-                    present = cur.execute("SELECT 1 FROM AddressBook WHERE address = ?", [addr[1]])
+                    present = cur.execute(
+                        "SELECT 1 FROM AddressBook WHERE address = ?", [addr[1]])
                     if present:
-                        cur.execute("UPDATE AddressBook SET name = ? WHERE address = ?", addr)
+                        cur.execute(
+                            "UPDATE AddressBook SET name = ? WHERE address = ?", addr)
                     else:
-                        cur.execute("INSERT INTO AddressBookView VALUES(?,?)", addr)
+                        cur.execute(
+                            "INSERT INTO AddressBookView VALUES(?,?)", addr)
                 else:
-                    cur.execute("INSERT INTO AddressBookView VALUES(?,?)", addr)
+                    cur.execute(
+                        "INSERT INTO AddressBookView VALUES(?,?)", addr)
                 return True
         except sqlite3.IntegrityError:
             return False
@@ -312,7 +324,8 @@ class SQLiteStorage():
         """
         with self.connect() as c:
             cur = c.cursor()
-            cur.execute("UPDATE AddressBook SET name = '{}' WHERE address = '{}'".format(name, address))
+            cur.execute(
+                "UPDATE AddressBook SET name = '{}' WHERE address = '{}'".format(name, address))
             return True
 
     def delete_db(self):
@@ -419,7 +432,8 @@ def delete_action(db, pattern, noinput):
     print_address_list(matches, 'email')
     if not noinput:
         print()
-        response = input('Are you sure you want to delete all these entries? (y/n) ')
+        response = input(
+            'Are you sure you want to delete all these entries? (y/n) ')
         if response.lower() != 'y':
             return
     db.delete_matches(pattern)
@@ -453,7 +467,8 @@ def run():
     options = docopt.docopt(__doc__)
 
     if options['--format'] not in VALID_FORMATS:
-        print('{} is not a valid output option.'.format(options['--format']), file=sys.stderr)
+        print('{} is not a valid output option.'.format(
+            options['--format']), file=sys.stderr)
         return 2
 
     try:
@@ -461,7 +476,8 @@ def run():
         if nm_config.get("addressbook", "backend") == "sqlite3":
             db = SQLiteStorage(nm_config)
         else:
-            print("Database backend '{}' is not implemented.".format(nm_config.get("addressbook", "backend")))
+            print("Database backend '{}' is not implemented.".format(
+                nm_config.get("addressbook", "backend")))
 
         if options['create']:
             create_action(db, nm_config)
@@ -474,9 +490,11 @@ def run():
         elif options['delete']:
             delete_action(db, options['<pattern>'], options['--noinput'])
         elif options['export']:
-            export_action(db, options['--format'], options['--sort'], options['<filename>'])
+            export_action(db, options['--format'],
+                          options['--sort'], options['<filename>'])
         elif options['import']:
-            import_action(db, options['--format'], options['--replace'], options['<filename>'])
+            import_action(db, options['--format'],
+                          options['--replace'], options['<filename>'])
     except Exception as exc:
         if options['--verbose']:
             import traceback
