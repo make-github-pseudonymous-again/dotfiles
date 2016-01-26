@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
 
-calendar._all 2>/dev/null | less -R
+CALENDAR="$HOME/.cache/calendar/_all"
+
+if [ -e "$CALENDAR" ] ; then
+	cat "$CALENDAR" | less -R
+else
+	echo "Calendar: could not find cache file" | less
+fi
