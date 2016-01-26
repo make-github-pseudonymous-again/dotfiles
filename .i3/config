@@ -267,14 +267,16 @@ mode "organization" {
 }
 
 mode "tools" {
-        bindsym f exec thunar; mode "default"
         bindsym r exec terminator -b -x ranger; mode "default"
+        bindsym Shift+T exec terminator -b -x top -o +%CPU; mode "default"
+        bindsym p exec terminator -b -x ptpython --vi; mode "default"
+        bindsym f exec thunar; mode "default"
+
         bindsym m exec menu.man; mode "default"
         bindsym n exec menu.nav; mode "default"
         bindsym t exec menu.term; mode "default"
         bindsym o exec menu.open; mode "default"
         bindsym e exec menu.edit; mode "default"
-        bindsym p exec terminator -b -x ptpython --vi; mode "default"
         bindsym s exec menu.systemctl; mode "default"
 
         # back to normal: Enter or Escape
