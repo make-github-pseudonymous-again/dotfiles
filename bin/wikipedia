@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+q=$(ui.dialog.input -p 'wikipedia')
+
+if [ "$q" = '' ] ; then
+	exit 1
+fi
+
+query=$(echo -n "$q" | urlencode)
+
+firefox --new-window 'https://en.wikipedia.org/wiki/Special:Search?search='"$query"
