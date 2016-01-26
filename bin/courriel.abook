@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-address=$(notmuch-abook export -f email -s name | dmenu_center --rest -p abook -t -i -sb '#655643')
+address=$(notmuch-abook export -f email -s name | dmenu_center --rest -p abook -t -i -sb '#994115')
 
 if [ ! -n "$address" ] ; then
 	exit 1

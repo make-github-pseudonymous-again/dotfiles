@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
-when=$(ui.dialog.input -p 'when')
-message=$(ui.dialog.input -p 'message')
+when=$(ui.dialog.input -p 'when' -sb '#BE0527')
+if [ "$when" = '' ] ; then
+	exit 1
+fi
+
+message=$(ui.dialog.input -p 'message' -sb '#BE0527')
+if [ "$message" = '' ] ; then
+	exit 2
+fi
+
 alarm.new "$when" "$message"

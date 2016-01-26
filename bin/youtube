@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q=$(ui.dialog.input -p 'youtube')
+q=$(ui.dialog.input -p 'youtube' -sb '#C61800')
 
 if [ "$q" = '' ] ; then
 	exit 1

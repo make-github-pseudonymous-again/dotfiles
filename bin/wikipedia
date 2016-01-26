@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q=$(ui.dialog.input -p 'wikipedia')
+q=$(ui.dialog.input -p 'wikipedia' -sb '#9791D9')
 
 if [ "$q" = '' ] ; then
 	exit 1
