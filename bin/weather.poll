@@ -5,7 +5,8 @@ FORECAST="$HOME/.cache/weather/forecast"
 while true; do
 	if weather.fetch; then
 		memoize-ft 0 weather.now
-		weather._forecast > "$FORECAST"
+		echo -en "\n > Generated on $(date -R)\n" > "$FORECAST"
+		weather._forecast >> "$FORECAST"
 		sleep 900
 	else
 		sleep 100
