@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+q=$(ui.dialog.input 'youtube')
+
+if [ "$q" = '' ] ; then
+	exit 1
+fi
+
+query=$(echo -n "$q" | urlencode)
+
+firefox --new-window 'https://www.youtube.com/results?search_query='"$query"
