@@ -30,6 +30,7 @@ Plugin 'heavenshell/vim-jsdoc'
 Plugin 'fatih/vim-go'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lervag/vimtex'
+Plugin 'junegunn/goyo.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
