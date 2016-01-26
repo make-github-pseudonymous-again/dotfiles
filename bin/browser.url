@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+url=$(ui.dialog.input -p 'url')
+
+if [ "$url" = '' ] ; then
+	exit 1
+fi
+
+firefox --new-window "$url"
