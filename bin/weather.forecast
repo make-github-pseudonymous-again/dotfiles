@@ -3,7 +3,7 @@
 FORECAST="$HOME/.cache/weather/forecast"
 
 if [ -e "$FORECAST" ] ; then
-	cat "$FORECAST" | less -R
+	less -R "$FORECAST"
 else
 	echo "Weather forecast: could not find cache file" | less
 fi
