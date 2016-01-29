@@ -125,11 +125,19 @@ for title, events in sections:
     for event in sorted(events, key=lambda x: x.begin):
 
         name = event.name
+        location = event.location
         begin = event.begin.to('local')
+        end = event.end.to('local')
 
-        ef = '{} ({}) - {}'
+        # event format
+        ef = '{begin} ({hbegin}) - {name}'
         if begin < now:
-            ef = '(started {1}) - {2}'
+            ef = '(started {hbegin}, ends {hend}) - {name}'
+
+        if location :
+            ef += ' ( {location})'
+
+        # time format for begin
         bf = 'YYYY, MMM DD, HH:mm'
         if begin.year == now.year:
             if begin.month == now.month:
@@ -149,4 +157,12 @@ for title, events in sections:
         if event in _happening:
             ef = BOLD + ef + ENDC
 
-        print(' * ' + ef.format(begin.format(bf), begin.humanize(), name))
+        line = ef.format(
+            begin = begin.format(bf),
+            hbegin = begin.humanize(),
+            hend = end.humanize( ) ,
+            name = name,
+            location = location
+        )
+
+        print( ' * ' + line )
