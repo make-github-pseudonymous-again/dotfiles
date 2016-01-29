@@ -136,6 +136,8 @@ if has("autocmd")
 	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 	" Treat .md files as Markdown
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+	" Treat .sage files as .py
+	autocmd BufRead,BufNewFile *.sage setfiletype python syntax=python
 endif
 
 set showcmd
