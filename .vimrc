@@ -133,11 +133,11 @@ if has("autocmd")
 	" Enable file type detection
 	filetype on
 	" Treat .json files as .js
-	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+	autocmd BufNewFile,BufRead *.json setlocal filetype=json syntax=javascript
 	" Treat .md files as Markdown
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 	" Treat .sage files as .py
-	autocmd BufRead,BufNewFile *.sage setfiletype python syntax=python
+	autocmd BufNewFile,BufRead *.sage setlocal filetype=python syntax=python softtabstop=4 shiftwidth=4 expandtab
 endif
 
 set showcmd
