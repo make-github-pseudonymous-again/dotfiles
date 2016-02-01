@@ -148,11 +148,11 @@ for title, events in sections:
             else:
                 bf = 'MMM DD, HH:mm'
 
-        if event == _main:
+        if _main is not None and event == _main:
             ef = UNDERLINE + ef + ENDC
-        if event == _next:
+        if _next is not None and event == _next:
             ef = YELLOW + ef + ENDC
-        if event == _current:
+        if _current is not None and event == _current:
             ef = BLUE + ef + ENDC
         if event in _happening:
             ef = BOLD + ef + ENDC
