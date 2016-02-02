@@ -260,6 +260,7 @@ mode "organization" {
 
         bindsym a exec alarm.new.ui; mode "default"
         bindsym b exec courriel.abook; mode "default"
+        bindsym p exec menu.pass; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
