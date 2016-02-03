@@ -15,6 +15,7 @@ pacman -S --needed --noconfirm make
 pacman -S --needed --noconfirm xorg-xrdb
 pacman -S --needed --noconfirm clang
 pacman -S --needed --noconfirm gcc
+pacman -S --needed --noconfirm inotify-tools
 pacman -S --needed --noconfirm curl
 pacman -S --needed --noconfirm wget
 pacman -S --needed --noconfirm zip unzip
