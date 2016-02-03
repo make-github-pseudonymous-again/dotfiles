@@ -43,7 +43,7 @@ class SSLv2Handler(urllib.request.HTTPSHandler):
 
 
 # Override default handler
-urllib.request.install_opener(urllib.request.build_opener(SSLv2Handler()))
+# urllib.request.install_opener(urllib.request.build_opener(SSLv2Handler()))
 
 username = subprocess.check_output(
     ['pass', 'ULB/ethernet/user']).decode('utf-8')[:-1]
@@ -67,7 +67,7 @@ while True:
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
         'Accept-Encoding': 'gzip, deflate',
-        'Referer': 'https://172.19.78.1/web_auth/index.html',
+        'Referer': 'https://172.19.78.1/web_auth',
         'Connection': 'keep-alive'
     }
 
