@@ -25,7 +25,7 @@ if is.ulb.ethernet.connected; then
 			prepend='{"name":"ulb printer","color":"#C5E946","full_text":" ulb"},'"$prepend"
 		fi
 	else
-		# ulb.ethernet.connect > /dev/null 2>&1 &
+		ulb.ethernet.connect > /dev/null 2>&1 &
 		prepend='{"name":"ulb ethernet","color":"#C5E946","full_text":" ulb"},'"$prepend"
 	fi
 fi
