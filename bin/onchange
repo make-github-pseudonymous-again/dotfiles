@@ -55,6 +55,7 @@
 # Can the user specify their own regexes?
 
 gitignore=""
+quiet=0
 
 i=0
 files=()
@@ -67,11 +68,16 @@ shift
 
 i=0
 cmd=()
-while [ "$#" -gt 0 ] ; do
+while [ "$1" != '-q' ] && [ "$#" -gt 0 ] ; do
 	cmd[$i]="$1"
 	((++i))
 	shift
 done
+
+if [ "$#" -gt 0 ] && [ "$1" = '-q' ] ; then
+	quiet=1
+	shift
+fi
 
 if [ "${#files[@]}" -lt 1 ] ; then
 	files[0]="."
@@ -109,7 +115,9 @@ do
 
 	# vim generates that file
 	if [ "$file" = "4913" ] ; then
-		echo "IGNORE $dir$file"
+		if [ "$quiet" -eq 0 ] ; then
+			echo "IGNORE $dir$file"
+		fi
 		continue
 	fi
 
@@ -121,7 +129,9 @@ do
 	done
 
 	if [ "$ignore" -eq 1 ] ; then
-		echo "IGNORE $dir$file"
+		if [ "$quiet" -eq 0 ] ; then
+			echo "IGNORE $dir$file"
+		fi
 		continue
 	fi
 
