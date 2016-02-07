@@ -122,4 +122,4 @@ extra/texlive-science
 
 pacman -S --needed --noconfirm xfig transfig geogebra
 pacman -S --needed --noconfirm xorg-xwininfo xorg-xprop
-pacman -S --needed --noconfirm recoll
+pacman -S --needed --noconfirm recoll python-mutagen
