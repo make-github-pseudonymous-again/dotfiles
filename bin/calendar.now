@@ -73,23 +73,44 @@ try:
 
         _main = _current if _next is None or _next.begin >= _current.end else _next
 
-    name = _main.name
-    begin = _main.begin.to('local')
+    event = _main
 
-    ef = '{} - {} ({})'
+    name = event.name
+    location = event.location
+    begin = event.begin.to('local')
+    end = event.end.to('local')
+
+    # event format
+    ef = '{name}'
+    if location :
+        ef += ' ( {location})'
+
     if begin < now:
-        ef = '{0} (started {2})'
-    bf = 'YYYY, MMM D, HH:mm'
+        ef += ' - (started {hbegin}, ends {hend})'
+    else:
+        ef += ' - {begin} ({hbegin})'
+
+
+    # time format for begin
+    bf = 'YYYY, MMM DD, HH:mm'
     if begin.year == now.year:
         if begin.month == now.month:
             if begin.day == now.day:
                 bf = 'HH:mm'
             else:
-                bf = 'ddd D, HH:mm'
+                bf = 'ddd DD, HH:mm'
         else:
-            bf = 'MMM D, HH:mm'
+            bf = 'MMM DD, HH:mm'
 
-    print(ef.format(name, begin.format(bf), begin.humanize()))
+    line = ef.format(
+        begin = begin.format(bf),
+        hbegin = begin.humanize(),
+        hend = end.humanize( ) ,
+        name = name,
+        location = location
+    )
+
+    print( line )
 
 except ValueError:
 
