@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-xrandr --fb 0x0 --output LVDS --auto --panning 0x0+0+0 --output HDMI-0 --off --output DisplayPort-0 --primary --auto
-xrandr --output DisplayPort-0 --left-of LVDS
+xrandr --fb 0x0 --output LVDS --auto --panning 0x0+0+0 --output DisplayPort-0 --off --output HDMI-0 --primary --auto
+xrandr --output HDMI-0 --left-of LVDS
 ~/bin/wallpaper.refresh
 
 
