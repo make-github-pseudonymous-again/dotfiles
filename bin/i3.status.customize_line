@@ -35,10 +35,10 @@ if test "$mail_count" -gt 0; then
 	prepend='{"name":"new mail","color":"#6DE256","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
-rss_count="$(rss.count)"
-if test "$rss_count" -gt 0; then
-	prepend='{"name":"new rss","color":"#6DE256","full_text":" '"$rss_count"'"},'"$prepend"
-fi
+#rss_count="$(rss.count)"
+#if test "$rss_count" -gt 0; then
+	#prepend='{"name":"new rss","color":"#6DE256","full_text":" '"$rss_count"'"},'"$prepend"
+#fi
 
 volume="$(volume.get)"
 if test "$volume" -lt 50; then

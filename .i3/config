@@ -400,7 +400,7 @@ exec --no-startup-id ~/bin/wallpaper.refresh
 
 exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
 exec --no-startup-id /usr/bin/systemctl --user start offlineimap
-exec --no-startup-id /usr/bin/systemctl --user start news
+#exec --no-startup-id /usr/bin/systemctl --user start news
 exec --no-startup-id /usr/bin/systemctl --user start calendar
 exec --no-startup-id /usr/bin/systemctl --user start urlab
 exec --no-startup-id /usr/bin/systemctl --user start weather
