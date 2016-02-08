@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+focused="$(i3.workspace.focused)"
+outputs="$(i3-msg -t get_outputs | jq -r 'map(select(.active)) | .[].current_workspace')"
+
+for out in $outputs ; do
+	i3-msg workspace "$out"
+	i3-msg move workspace to output right
+done
+
+i3-msg workspace "$focused"

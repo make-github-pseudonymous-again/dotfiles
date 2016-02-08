@@ -380,9 +380,11 @@ bindsym $mod+backslash exec setxkbmap be
 #bindsym XF86WLAN exec wifi.toggle
 
 # Change the workspace output
+bindsym $mod+plus exec i3.workspace.swap
 bindsym $mod+semicolon move workspace to output right
 bindsym $mod+colon move workspace to output left
 # ... and for US keyboard
+bindsym $mod+question exec i3.workspace.swap
 bindsym $mod+comma move workspace to output right
 bindsym $mod+period move workspace to output left
 
