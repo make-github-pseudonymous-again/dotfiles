@@ -1,6 +1,14 @@
 #!/usr/bin/env sh
 
-xrandr --fb 1680x1050 --output LVDS --primary --auto --panning 1680x1050 --output HDMI-0 --auto
+if xrandr.has.hdmi ; then
+	out="HDMI-0"
+	off="DisplayPort-0"
+else
+	out="DisplayPort-0"
+	off="HDMI-0"
+fi
+
+xrandr --fb 1680x1050 --output LVDS --primary --auto --panning 1680x1050 --output "$out" --auto
 ~/bin/wallpaper.refresh
 
 

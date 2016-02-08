@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
-xrandr --fb 0x0 --output LVDS --off --panning 0x0+0+0 --output DisplayPort-0 --off --output HDMI-0 --primary --auto
+if xrandr.has.hdmi ; then
+	out="HDMI-0"
+	off="DisplayPort-0"
+else
+	out="DisplayPort-0"
+	off="HDMI-0"
+fi
+
+xrandr --fb 0x0 --output LVDS --off --panning 0x0+0+0 --output "$off" --off --output "$out" --primary --auto
 ~/bin/wallpaper.refresh
 
