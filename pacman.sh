@@ -122,4 +122,20 @@ extra/texlive-science
 
 pacman -S --needed --noconfirm xfig transfig geogebra
 pacman -S --needed --noconfirm xorg-xwininfo xorg-xprop
-pacman -S --needed --noconfirm recoll python-mutagen
+
+# recoll
+
+## opt dept
+pacman -S --needed --noconfirm pstotext
+pacman -S --needed --noconfirm antiword
+pacman -S --needed --noconfirm catdoc
+pacman -S --needed --noconfirm unrtf
+pacman -S --needed --noconfirm untex
+pacman -S --needed --noconfirm id3lib
+pacman -S --needed --noconfirm mutagen python-mutagen
+pacman -S --needed --noconfirm python2-pychm
+pacman -S --needed --noconfirm perl-image-exiftool
+pacman -S --needed --noconfirm aspell-en
+
+## main
+pacman -S --needed --noconfirm recoll
