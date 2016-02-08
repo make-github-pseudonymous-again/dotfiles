@@ -137,5 +137,12 @@ pacman -S --needed --noconfirm python2-pychm
 pacman -S --needed --noconfirm perl-image-exiftool
 pacman -S --needed --noconfirm aspell-en
 
+## already installed
+pacman -S --needed --noconfirm libxslt
+pacman -S --needed --noconfirm unzip
+pacman -S --needed --noconfirm poppler
+pacman -S --needed --noconfirm djvulibre
+pacman -S --needed --noconfirm python2
+
 ## main
 pacman -S --needed --noconfirm recoll
