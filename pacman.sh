@@ -35,6 +35,7 @@ pacman -S --needed --noconfirm python-jedi
 pacman -S --needed --noconfirm python-docopt
 pacman -S --needed --noconfirm python-pygments
 pacman -S --needed --noconfirm python-networkx
+pacman -S --needed --noconfirm python-numpy
 pacman -S --needed --noconfirm python-scipy
 pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
