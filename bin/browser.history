@@ -5,7 +5,7 @@ if [ "$db" = '' ] ; then
 	exit 2
 fi
 
-url=$(sqlite3 -separator ' -- ' "$db" 'SELECT url, title FROM (SELECT visit_date, visit_type,'\
+url=$(sqlite3 -separator ' -- ' "$db" 'SELECT title, url FROM (SELECT visit_date, visit_type,'\
 'url, title FROM moz_historyvisits JOIN moz_places ON moz_historyvisits.place_id ='\
 'moz_places.id AND visit_type = 1 GROUP BY url ORDER BY visit_date DESC);' |\
 dmenu_center --rest -p 'history' -sb '#54A8A8' -i -t -l 10)
@@ -14,4 +14,4 @@ if [ "$url" = '' ] ; then
 	exit 1
 fi
 
-firefox --new-window $( echo "$url" | cut -d ' ' -f 1 )
+firefox --new-window $( echo "$url" | rev | cut -d ' ' -f 1 | rev )
