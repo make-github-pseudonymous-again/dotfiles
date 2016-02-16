@@ -1,5 +1,6 @@
 [global_config]
 [keybindings]
+  layout_launcher = None
   group_all = <Primary><Super>g
   group_all_toggle = <Super>g
   group_tab = <Primary><Super>t
