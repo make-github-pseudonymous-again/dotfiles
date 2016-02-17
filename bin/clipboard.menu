@@ -19,7 +19,7 @@ files=("/tmp/clipmenu.$USER/"*)
 # ordered_selections from last to first -- that is, newest to oldest. Incoming
 # clipboard entries have a ISO datetime prefixed to the front to aid in this.
 for (( i=${#files[@]}-1; i>=0; i-- )); do
-    file=${files[$i]}
+    file="${files[$i]}"
 
     # We look for the first line matching regex /./ here because we want the
     # first line that can provide reasonable context to the user. That is, if
@@ -34,7 +34,7 @@ for (( i=${#files[@]}-1; i>=0; i-- )); do
     fi
 
     ordered_selections+=("$first_line")
-    selections[$first_line]=$file
+    selections["$first_line"]="$file"
 done
 
 # It's okay to hardcode `-l 10` here as a sensible default without checking
