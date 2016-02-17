@@ -1,0 +1,9 @@
+[Unit]
+Description=Clipboard recording daemon
+
+[Service]
+ExecStart=/bin/bash clipboard.record
+Restart=always
+
+[Install]
+WantedBy=default.target

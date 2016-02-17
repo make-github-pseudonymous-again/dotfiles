@@ -273,6 +273,7 @@ mode "tools" {
         bindsym p exec terminator -b -x ptpython --vi; mode "default"
         bindsym f exec thunar; mode "default"
 
+        bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
         bindsym n exec menu.nav; mode "default"
         bindsym t exec menu.term; mode "default"
@@ -401,6 +402,7 @@ for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.
 exec --no-startup-id ~/bin/wallpaper.refresh
 
 exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
+exec --no-startup-id /usr/bin/systemctl --user start clipboard
 exec --no-startup-id /usr/bin/systemctl --user start offlineimap
 #exec --no-startup-id /usr/bin/systemctl --user start news
 exec --no-startup-id /usr/bin/systemctl --user start calendar

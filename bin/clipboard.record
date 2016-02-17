@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# https://github.com/cdown/clipmenu
+
+cache_dir=/tmp/clipmenu.$USER/
+mkdir -p -m0700 "$cache_dir"
+
+declare -A last_data
+declare -A last_filename
+
+while sleep "${CLIPMENUD_SLEEP:-0.5}"; do
+    for selection in clipboard primary; do
+        if type -p xsel >/dev/null 2>&1; then
+            data=$(xsel --"$selection"; printf x)
+            # Take ownership of the clipboard, in case the original application
+            # is unable to serve the clipboard request (due to being suspended,
+            # etc).
+            #
+            # Primary is excluded from the change of ownership as applications
+            # sometimes act up if clipboard focus is taken away from them --
+            # for example, urxvt will unhilight text, which is undesirable.
+            if [[ $selection != primary ]]; then
+                xsel --"$selection" | xsel -i --"$selection"
+            fi
+        else
+            data=$(xclip -o -sel "$selection"; printf x)
+            # See above comments about taking ownership of the clipboard for
+            # context.
+            if [[ $selection != primary ]]; then
+                xclip -o -sel "$selection" | xclip -i -sel "$selection"
+            fi
+        fi
+
+        # We add and remove the x so that trailing newlines are not stripped.
+        # Otherwise, they would be stripped by the very nature of how POSIX
+        # defines command substitution.
+        data=${data%x}
+
+        [[ $data == *[^[:blank:]]* ]] || continue
+
+        [[ ${last_data[$selection]} == "$data" ]] && continue
+
+        # If we were in the middle of doing a selection when the previous poll
+        # ran, then we may have got a partial clip.
+        possible_partial=${last_data[$selection]}
+        if [[ $possible_partial && $data == "$possible_partial"* ]]; then
+            rm -- "${last_filename[$selection]}"
+        fi
+
+        md5=$(md5sum <<< "$data")
+        md5=${md5%% *}
+        filename="$cache_dir/$(LC_ALL=C date +%F-%H-%M-%S)-$md5"
+
+        last_data[$selection]=$data
+        last_filename[$selection]=$filename
+
+        printf '%s' "$data" > "$filename"
+    done
+done

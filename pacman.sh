@@ -54,7 +54,7 @@ pacman -S --needed --noconfirm at
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
 pacman -S --needed --noconfirm xorg-xkill
-pacman -S --needed --noconfirm xclip
+pacman -S --needed --noconfirm xsel xclip
 pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
 pacman -S --needed --noconfirm qtox
