@@ -41,7 +41,7 @@ except Exception as err:
 
     log(err)
 
-    fingerprint = {}
+    fingerprint = { '?' : 0.99 }
 
 wifi = None
 
