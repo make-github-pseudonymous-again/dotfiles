@@ -288,6 +288,10 @@ def myfilter(name):
 
             return False
 
+    if 'days' in config[name] and not NOW.format('dddd') in config[name]['days']:
+
+        return False
+
     return True
 
 for name, _path, _leave, _arrival in myroutes:
