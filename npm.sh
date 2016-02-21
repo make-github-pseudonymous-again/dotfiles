@@ -27,3 +27,4 @@ npm i -g tick
 npm i -g speed-test
 npm i -g man-n
 npm i -g np
+npm i -g babel-cli
