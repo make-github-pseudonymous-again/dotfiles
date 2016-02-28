@@ -223,6 +223,7 @@ bindsym $mod+i mode "apps"
 mode "internet" {
 
         bindsym f exec firefox; mode "default"
+        bindsym Shift+F exec firefox --private-window; mode "default"
         bindsym d exec dropbox; mode "default"
 
         bindsym u exec browser.url; mode "default"
