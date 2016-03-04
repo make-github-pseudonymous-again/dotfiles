@@ -209,3 +209,5 @@ if has('gui_running')
   set guifont=Liberation\ Mono\ for\ Powerline\ 12
 endif
 
+" Goyo config
+let g:goyo_width=85
