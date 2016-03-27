@@ -11,12 +11,12 @@
 #
 # Instructions:
 # Put it somewhere in your path and maybe rename it:
-# 	mv ~/Downloads/imgurbash.sh ~/bin/imgur
+# 	mv ~/Downloads/imgurbash.sh ~/.bin/imgur
 # Make it executable:
-# 	chmod +x ~/bin/imgur
+# 	chmod +x ~/.bin/imgur
 # Optional, since Alan kindly provided an API key for this script: stick your 
 # API key in the top:
-# 	vim ~/bin/imgur
+# 	vim ~/.bin/imgur
 # Upload an image:
 # 	imgur images/hilarious/manfallingover.jpg
 # Upload multiple images:

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir -p ~/bin
+mkdir -p ~/.bin
 mkdir -p ~/.opt
 mkdir -p ~/.mail
 mkdir -p ~/.config

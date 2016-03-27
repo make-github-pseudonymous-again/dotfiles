@@ -294,7 +294,7 @@ mode "tools" {
 bar {
 	id main
 	position bottom
-	status_command ~/bin/system.status
+	status_command ~/.bin/system.status
 
 	wheel_up_cmd nop
 	wheel_down_cmd nop
@@ -320,7 +320,7 @@ bar {
 bar {
 	id extra
 	position top
-	status_command ~/bin/system.status.extra
+	status_command ~/.bin/system.status.extra
 
 	wheel_up_cmd nop
 	wheel_down_cmd nop
@@ -401,7 +401,7 @@ for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.
 
 # set background black
 # exec /usr/bin/xsetroot -solid "#000000"
-exec --no-startup-id ~/bin/wallpaper.refresh
+exec --no-startup-id ~/.bin/wallpaper.refresh
 
 exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
 exec --no-startup-id /usr/bin/systemctl --user start clipboard

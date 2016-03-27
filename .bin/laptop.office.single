@@ -9,5 +9,5 @@ else
 fi
 
 xrandr --fb 0x0 --output LVDS --off --panning 0x0+0+0 --output "$off" --off --output "$out" --primary --auto
-~/bin/wallpaper.refresh
+~/.bin/wallpaper.refresh
 

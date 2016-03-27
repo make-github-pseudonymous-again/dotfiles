@@ -9,6 +9,6 @@ else
 fi
 
 xrandr --fb 1680x1050 --output LVDS --primary --auto --panning 1680x1050 --output "$out" --auto
-~/bin/wallpaper.refresh
+~/.bin/wallpaper.refresh
 
 

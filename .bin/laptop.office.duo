@@ -10,6 +10,6 @@ fi
 
 xrandr --fb 0x0 --output LVDS --auto --panning 0x0+0+0 --output "$off" --off --output "$out" --primary --auto
 xrandr --output "$out" --left-of LVDS
-~/bin/wallpaper.refresh
+~/.bin/wallpaper.refresh
 
 
