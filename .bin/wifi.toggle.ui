@@ -3,7 +3,7 @@
 if is.wifi.enabled
 then
 wifi.disconnect.ui
-connmanctl disable wifi
+wifi.disable
 else
-connmanctl enable wifi
+wifi.enable
 fi

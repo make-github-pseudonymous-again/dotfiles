@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+services.off
+wifi.disable

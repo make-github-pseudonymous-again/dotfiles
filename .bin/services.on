@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+/usr/bin/systemctl --user import-environment PATH
+/usr/bin/systemctl --user start clipboard
+/usr/bin/systemctl --user start offlineimap
+#/usr/bin/systemctl --user start news
+/usr/bin/systemctl --user start calendar
+/usr/bin/systemctl --user start urlab
+/usr/bin/systemctl --user start weather
+/usr/bin/systemctl --user start ipgeolocation
+/usr/bin/systemctl --user start geolocation
+/usr/bin/systemctl --user start stib
+/usr/bin/systemctl --user start rtm
+/usr/bin/systemctl --user start wifi-fingerprint

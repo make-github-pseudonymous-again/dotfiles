@@ -2,7 +2,7 @@
 
 if is.wifi.enabled
 then
-connmanctl disable wifi
+wifi.disable
 else
-connmanctl enable wifi
+wifi.enable
 fi
