@@ -403,15 +403,4 @@ for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.
 # exec /usr/bin/xsetroot -solid "#000000"
 exec --no-startup-id ~/.bin/wallpaper.refresh
 
-exec --no-startup-id /usr/bin/systemctl --user import-environment PATH
-exec --no-startup-id /usr/bin/systemctl --user start clipboard
-exec --no-startup-id /usr/bin/systemctl --user start offlineimap
-#exec --no-startup-id /usr/bin/systemctl --user start news
-exec --no-startup-id /usr/bin/systemctl --user start calendar
-exec --no-startup-id /usr/bin/systemctl --user start urlab
-exec --no-startup-id /usr/bin/systemctl --user start weather
-exec --no-startup-id /usr/bin/systemctl --user start ipgeolocation
-exec --no-startup-id /usr/bin/systemctl --user start geolocation
-exec --no-startup-id /usr/bin/systemctl --user start stib
-exec --no-startup-id /usr/bin/systemctl --user start rtm
-exec --no-startup-id /usr/bin/systemctl --user start wifi-fingerprint
+exec --no-startup-id ~/.bin/services.on
