@@ -73,12 +73,14 @@ timesections = [
     ["Future", monthafternextmonth, None],
 ]
 
+used = set()
+
 for name, begin, end in timesections:
 
     predicate = lambda x: (begin is None or x.begin >= begin) and (
         end is None or x.begin < end)
 
-    events = set(filter(predicate, _fresh))
+    events = set(filter(predicate, _fresh)) - used
 
     A = 'the beginning of the Universe' if begin is None else begin.format(
         'YYYY-MM-DD HH:mm:ss')
@@ -88,6 +90,8 @@ for name, begin, end in timesections:
     title = (name + ', from {} to {}').format(A, B)
 
     sections.append((title, events))
+
+    used |= events
 
 _happening = set(filter(lambda x: x.begin < now, _fresh))
 _future = _fresh - _happening
