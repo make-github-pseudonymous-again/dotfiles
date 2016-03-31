@@ -10,10 +10,12 @@ if not args :
     log( 'usage: arxiv.get <query>')
     sys.exit( 1 )
 
+import arrow
 import json
 import urllib.request
 
 import lxml.html as html
+import lxml.etree as etree
 from lxml.cssselect import CSSSelector
 
 sel = lambda h, s: CSSSelector(s)(h)
@@ -22,38 +24,113 @@ REQUEST = 'http://dblp.uni-trier.de/search?{}'
 
 query = args[0]
 
-data = { 'q' : query }
-url_values = urllib.parse.urlencode( data )
+def now ( ) :
+    return arrow.now().format('YYYY-MM-DDTHH:mm:ssZZ')
 
-url = REQUEST.format(url_values)
+def dblp_query ( query ) :
 
-log(url)
+    data = { 'q' : query }
+    url_values = urllib.parse.urlencode( data )
+    url = REQUEST.format(url_values)
 
-try:
+    log(url)
 
-    tree = html.parse(urllib.request.urlopen(url))
+    output = {
+        'time' : { } ,
+        'query' : query ,
+        'url' : url
+    }
 
-except urllib.error.HTTPError:
-    log('failed to download', url)
-    sys.exit( 2 )
+    try:
 
-entries = sel( tree , '.publ-list > .entry' )
+        output['time']['send'] = now()
+        tree = html.parse(urllib.request.urlopen(url))
+        output['time']['receive'] = now()
 
-if not entries :
-    log('no results for query', query)
-    sys.exit(3)
+    except urllib.error.HTTPError:
+        output['time']['receive'] = now()
+        log('failed to download', url)
+        output['returncode'] = 2
+        output['error'] = { 'message' : 'failed to download url' }
+        return output
 
-entry = entries[0]
+    # authors
 
-url = 'http://dblp.uni-trier.de/rec/bib0/{}.bib'.format(entry.get('id'))
-log( url )
-try:
+    AUTHORS_SELECTOR = '#completesearch-authors a[itemprop="url"]'
+    entries = sel( tree , AUTHORS_SELECTOR )
 
-    with urllib.request.urlopen(url) as response :
-        raw = response.read()
+    authors = []
 
-except urllib.error.HTTPError:
-    log('failed to download', url)
-    sys.exit( 4 )
+    for entry in entries :
 
-print( raw.decode() )
+        url = entry.get('href')
+
+        # do at the end
+        etree.strip_tags(entry,'*')
+        name = entry.text
+
+        x = {
+            'url' : url ,
+            'name' : name ,
+        }
+
+        authors.append(x)
+
+    # venues
+
+    VENUES_SELECTOR = '#completesearch-venues > div.body ul li a'
+    entries = sel( tree , VENUES_SELECTOR )
+
+    venues = []
+
+    for entry in entries :
+
+        url = entry.get('href')
+
+        # do at the end
+        etree.strip_tags(entry,'*')
+        name = entry.text
+
+        x = {
+            'url' : url ,
+            'name' : name ,
+        }
+
+        venues.append(x)
+
+    # publications
+
+    PUBLICATIONS_SELECTOR = '.publ-list > .entry'
+    entries = sel( tree , PUBLICATIONS_SELECTOR )
+
+    publications = []
+
+    for entry in entries :
+
+        id = entry.get('id')
+
+        x = {
+            'id' : id ,
+            'bibtex' : {
+                'condensed' : 'http://dblp.uni-trier.de/rec/bib0/{}.bib'.format(id) ,
+                'standard' : 'http://dblp.uni-trier.de/rec/bib1/{}.bib'.format(id) ,
+                'crossref' : 'http://dblp.uni-trier.de/rec/bib2/{}.bib'.format(id) ,
+            } ,
+            'xml' : 'http://dblp.uni-trier.de/rec/xml/{}.xml'.format(id),
+            'rdf' : 'http://dblp.uni-trier.de/rec/rdf/{}.rdf'.format(id),
+            'authors' : [ 'TODO' ] ,
+        }
+
+        publications.append(x)
+
+    output['results'] = {
+        'authors' : authors ,
+        'venues' : venues ,
+        'publications' : publications ,
+    }
+    output['returncode'] = 0
+    return output
+
+data = dblp_query( query )
+json.dump( data , sys.stdout )
+sys.exit( data['returncode'] )
