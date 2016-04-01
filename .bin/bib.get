@@ -109,8 +109,43 @@ def dblp_query ( query ) :
 
         id = entry.get('id')
 
+        publication_authors = []
+
+        for author_entry in sel( entry , '.data > span[itemprop="author"] > a' ) :
+
+            url = author_entry.get('href')
+
+            # do at the end
+            etree.strip_tags(author_entry,'*')
+            name = author_entry.text
+
+            author = {
+                'url' : url ,
+                'name' : name
+            }
+
+
+            publication_authors.append( author )
+
+        metadata = { }
+
+        for ispartof_entry in sel( entry , '.data span[itemprop="isPartOf"]' ) :
+
+            key = ispartof_entry.get('itemtype')
+
+            # do at the end
+            etree.strip_tags(ispartof_entry,'*')
+            value = ispartof_entry.text
+
+            metadata[key] = value
+
+        title = sel( entry , 'span.title' )[0].text
+        date = sel( entry , 'span[itemprop="datePublished"]' )[0].text
+
         x = {
             'id' : id ,
+            'title' : title ,
+            'date' : date ,
             'bibtex' : {
                 'condensed' : 'http://dblp.uni-trier.de/rec/bib0/{}.bib'.format(id) ,
                 'standard' : 'http://dblp.uni-trier.de/rec/bib1/{}.bib'.format(id) ,
@@ -118,7 +153,8 @@ def dblp_query ( query ) :
             } ,
             'xml' : 'http://dblp.uni-trier.de/rec/xml/{}.xml'.format(id),
             'rdf' : 'http://dblp.uni-trier.de/rec/rdf/{}.rdf'.format(id),
-            'authors' : [ 'TODO' ] ,
+            'authors' : publication_authors ,
+            'metadata' : metadata ,
         }
 
         publications.append(x)
