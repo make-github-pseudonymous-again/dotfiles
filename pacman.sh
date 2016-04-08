@@ -123,6 +123,7 @@ extra/texlive-pstricks \
 extra/texlive-publishers \
 extra/texlive-science
 
+pacman -S --needed --noconfirm gnuplot
 pacman -S --needed --noconfirm xfig transfig geogebra
 pacman -S --needed --noconfirm xorg-xwininfo xorg-xprop
 
