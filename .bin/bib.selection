@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import json
+import urwid
+import urllib.request
+import urllib.error
+import argparse
+import subprocess
+
+parser = argparse.ArgumentParser(description="bibtex entries via DBLP search")
+parser.add_argument('query', type=str, help='query')
+args = parser.parse_args()
+
+data = subprocess.check_output( [ 'bib.get' , args.query ] )
+object = json.loads( data.decode() )
+results = object['results']
+publications = results['publications']
+
+choices = sorted( publications , key = lambda x : ( -int(x['date']) , x['title'] ) )
+
+def menu(title, choices):
+    body = [urwid.Text(title), urwid.Divider()]
+    for c in choices:
+        button = urwid.Button('{date} {title}'.format( **c ) )
+        urwid.connect_signal(button, 'click', item_chosen, c)
+        body.append(urwid.AttrMap(button, None, focus_map='reversed'))
+    return urwid.ListBox(urwid.SimpleFocusListWalker(body))
+
+def item_chosen(button, choice):
+
+    head = urwid.Text(['You chose ', choice['title'], '\n'])
+    url = choice['bibtex']['condensed']
+    downloading = urwid.Text( ['Downloading ', url, '\n'])
+    main.original_widget = urwid.Filler(urwid.Pile([head,downloading]))
+
+    try:
+        with urllib.request.urlopen( url ) as response :
+            raw = response.read( )
+        bibtex = raw.decode()
+        result = urwid.Text(['Copied to clipboard\n\n',bibtex])
+        p = subprocess.Popen( [ 'xsel' , '-bi' ] , stdin = subprocess.PIPE )
+        p.communicate( raw )
+
+    except urllib.error.HTTPError:
+        result = urwid.Text(['Failed to download', url, '\n'])
+
+
+    head = urwid.Text(['You chose ', choice['title'], '\n'])
+    done = urwid.Button('Ok')
+    urwid.connect_signal(done, 'click', exit_program)
+    main.original_widget = urwid.Filler(urwid.Pile([head,result,
+        urwid.AttrMap(done, None, focus_map='reversed')]))
+
+def exit_program(button):
+    raise urwid.ExitMainLoop()
+
+main = urwid.Padding(menu('List of publications', choices), left=2, right=2)
+top = urwid.Overlay(main, urwid.SolidFill('\N{MEDIUM SHADE}'),
+    align='center', width=('relative', 60),
+    valign='middle', height=('relative', 60),
+    min_width=20, min_height=9)
+urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()

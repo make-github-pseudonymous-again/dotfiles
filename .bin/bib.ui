@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+query=$(ui.dialog.input -p 'dblp' -sb '#8080ff')
+
+if [ "$query" = '' ] ; then
+	exit 1
+fi
+
+terminator -b -x bib.selection "$query"

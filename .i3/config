@@ -276,6 +276,7 @@ mode "tools" {
         bindsym p exec terminator -b -x ptpython --vi; mode "default"
         bindsym f exec thunar; mode "default"
 
+        bindsym b exec bib.ui; mode "default"
         bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
         bindsym n exec menu.nav; mode "default"
