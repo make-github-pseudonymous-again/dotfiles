@@ -238,7 +238,8 @@ mode "internet" {
 
 mode "google" {
 
-        bindsym h exec hangouts; mode "default"
+        bindsym h exec hangups; mode "default"
+        bindsym Shift+H exec hangouts; mode "default"
 
         bindsym s exec google; mode "default"
         bindsym y exec youtube; mode "default"
