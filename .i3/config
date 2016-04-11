@@ -238,7 +238,7 @@ mode "internet" {
 
 mode "google" {
 
-        bindsym h exec hangups; mode "default"
+        bindsym h exec terminator -b -x hangups; mode "default"
         bindsym Shift+H exec hangouts; mode "default"
 
         bindsym s exec google; mode "default"
