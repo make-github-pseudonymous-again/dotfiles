@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if mobile.mode.plane.is.on ; then
+	mobile.mode.plane.off
+else
+	mobile.mode.plane.on
+fi

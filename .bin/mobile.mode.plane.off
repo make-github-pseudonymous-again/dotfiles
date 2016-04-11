@@ -2,3 +2,5 @@
 
 services.on
 wifi.enable
+mkdir -p "$HOME/.cache/mobile/mode/plane"
+rm -f "$HOME/.cache/mobile/mode/plane/on"

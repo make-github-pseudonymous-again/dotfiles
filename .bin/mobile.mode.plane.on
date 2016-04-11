@@ -2,3 +2,5 @@
 
 services.off
 wifi.disable
+mkdir -p "$HOME/.cache/mobile/mode/plane"
+touch "$HOME/.cache/mobile/mode/plane/on"

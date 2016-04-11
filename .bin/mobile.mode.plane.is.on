@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+ls "$HOME/.cache/mobile/mode/plane/on" > /dev/null || exit 1

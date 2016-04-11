@@ -35,6 +35,10 @@ if [ "$geolocation" != '' ]; then
 	prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocation"'"},'"$prepend"
 fi
 
+if mobile.mode.plane.is.on ; then
+	prepend='{"name":"mobile.mode.plane.on","color":"#F45D4C","full_text":""},'"$prepend"
+fi
+
 badge="$(system.status.badge)"
 append="$badge"','"$append"
 

@@ -208,6 +208,7 @@ mode "layout" {
 bindsym $mod+y mode "layout"
 
 mode "apps" {
+	bindsym m mode "mode"
 	bindsym i mode "internet"
 	bindsym g mode "google"
 	bindsym o mode "organization"
@@ -219,6 +220,15 @@ mode "apps" {
 }
 
 bindsym $mod+i mode "apps"
+
+mode "mode" {
+
+        bindsym p exec mobile.mode.plane.toggle; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
 
 mode "internet" {
 
