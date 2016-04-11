@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+terminator -b -x hangups --col-scheme solarized-dark --col-palette-colors 256
