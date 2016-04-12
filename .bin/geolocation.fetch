@@ -219,7 +219,16 @@ def evaluate(tag, tests):
 
                 log('[{}] ko geolocation ({} km)'.format(tag, distance))
 
-                return 0
+                if not 'country' in tests or\
+                not 'ipgeolocation' in geolocation or\
+                not 'country' in geolocation['ipgeolocation'] or\
+                tests['country'] != geolocation['ipgeolocation']['country'] :
+                    log('[{}] ko country'.format(tag))
+                    return 0
+
+                else:
+                    log('[{}] ok country'.format(tag))
+
 
     if 'host' in tests:
 
