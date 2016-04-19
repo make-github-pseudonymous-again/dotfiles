@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import sys
+
+args = sys.argv[1:]
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+if not args :
+    log( 'usage: sciencedirect.get <uid>')
+    sys.exit( 1 )
+
+import io
+import re
+import json
+import gzip
+import urllib.request
+
+import lxml.html as html
+import lxml.etree as etree
+from lxml.cssselect import CSSSelector
+
+sel = lambda h, s: CSSSelector(s)(h)
+
+REQUEST = 'http://www.sciencedirect.com/science/article/pii/{}'
+
+uid = args[0]
+
+url = REQUEST.format(uid)
+
+log(url)
+
+try:
+
+    headers={
+        'Host': 'www.sciencedirect.com',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0',
+        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'max-age=0'
+    }
+    request = urllib.request.Request(url,headers=headers)
+    response = urllib.request.urlopen(request)
+
+except urllib.error.HTTPError:
+    log('failed to download', url)
+    sys.exit( 2 )
+
+if response.info().get('Content-Encoding') == 'gzip':
+    buf = io.BytesIO( response.read())
+    f = gzip.GzipFile(fileobj=buf)
+    data = f.read().decode()
+
+else :
+    data = response.read().decode()
+
+for line in data.split('\n') :
+    match = re.search(r"(?<=SDM\.doi = ').*(?=')",line)
+    if match :
+        doi = match.group(0)
+        break
+    match = re.search(r'(?<=<meta name="citation_doi" content=").*(?=">)',line)
+    if match :
+        doi = match.group(0)
+        break
+
+doiurl = 'http://dx.doi.org/{}'.format(doi)
+
+log(doiurl)
+
+try:
+
+    headers = {'Accept': 'application/citeproc+json'}
+    request = urllib.request.Request( doiurl , headers = headers)
+    raw = urllib.request.urlopen(request).read()
+
+except urllib.error.HTTPError:
+    log('failed to download', doiurl)
+    sys.exit( 3 )
+
+data = json.loads(raw.decode())
+authors = data['author']
+date = str(data["issued"]["date-parts"][0][0])
+abbr = ''.join( sorted(map( lambda x : x["family"][0] , authors ) ) ) + date[2:4]
+data['abbr'] = abbr
+
+json.dump( data , sys.stdout )

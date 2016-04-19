@@ -10,8 +10,6 @@ if not args :
     log( 'usage: arxiv.get <uid>')
     sys.exit( 1 )
 
-uid = args[0]
-
 import json
 import urllib.request
 
