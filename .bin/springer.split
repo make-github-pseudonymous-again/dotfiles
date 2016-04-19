@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+echo "$1" | urldecode | tail -c +5 | head -c -5
