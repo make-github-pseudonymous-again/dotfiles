@@ -41,7 +41,7 @@ authors = list( map( lambda x : x.get( 'content' ) , sel( tree ,
     'meta[name="citation_author"]' ) ) )
 date = sel( tree , 'meta[name="citation_date"]' )[0].get( 'content' )
 
-abbr = ''.join( sorted(map( lambda x : x.split(', ')[1][0] , authors ) ) ) + date[2:4]
+abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + date[2:4]
 
 data = {
         'title' : title , 'date' : date , 'authors': authors , 'abbr' : abbr
