@@ -1,10 +1,11 @@
 [global_config]
 [keybindings]
-  layout_launcher = None
   group_all = <Primary><Super>g
   group_all_toggle = <Super>g
   group_tab = <Primary><Super>t
   group_tab_toggle = <Super>t
+  help = None
+  layout_launcher = None
   new_terminator = <Super>p
   rotate_ccw = <Shift><Alt>k
   rotate_cw = <Alt>k
@@ -20,62 +21,65 @@
 [profiles]
   [[default]]
     background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
     background_image = None
     copy_on_selection = True
     font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
     scroll_on_output = False
     scrollback_infinite = True
     scrollbar_position = hidden
     show_titlebar = False
     use_system_font = False
-  [[newsbeuter]]
-    background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
-    copy_on_selection = True
-    custom_command = newsbeuter
-    font = Liberation Mono for Powerline 12
-    scrollbar_position = hidden
-    show_titlebar = False
-    use_custom_command = True
-    use_system_font = False
   [[calendar]]
     background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
+    background_image = None
     copy_on_selection = True
     custom_command = calendar.all
     font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
     scrollbar_position = hidden
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
-  [[weather]]
+  [[newsbeuter]]
     background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
+    background_image = None
     copy_on_selection = True
-    custom_command = weather.forecast
+    custom_command = newsbeuter
     font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
     scrollbar_position = hidden
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
   [[sup.compose]]
     background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
     background_image = None
     backspace_binding = control-h
     copy_on_selection = True
     font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
     scrollbar_position = hidden
     show_titlebar = False
     use_system_font = False
   [[urlab.irc]]
     background_color = "#1c1c1c"
-    foreground_color = "#bbbbbb"
     background_image = None
     copy_on_selection = True
     custom_command = 'ssh -t rarity.urlab.be "TERM=xterm screen -dRR"'
     font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_custom_command = True
+    use_system_font = False
+  [[weather]]
+    background_color = "#1c1c1c"
+    background_image = None
+    copy_on_selection = True
+    custom_command = weather.forecast
+    font = Liberation Mono for Powerline 12
+    foreground_color = "#bbbbbb"
     scrollbar_position = hidden
     show_titlebar = False
     use_custom_command = True
