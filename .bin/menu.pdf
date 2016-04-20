@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+file=$(recoll -t -b -q ext:pdf | grep \
+'^file://'"$HOME"'.*pdf$' -o | cut -c8- | sort | dmenu_center \
+--rest -i -t -p 'pdf' -sb '#545151' -l 10)
+
+if [ "$file" != '' ]; then
+	xdg-open "$file"
+fi

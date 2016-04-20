@@ -116,7 +116,7 @@ bindsym $mod+Shift+R restart
 
 # system actions
 
-# set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+# set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+S) shutdown
 
 mode "system" {
 
@@ -210,6 +210,7 @@ bindsym $mod+y mode "layout"
 mode "apps" {
 	bindsym m mode "mode"
 	bindsym i mode "internet"
+	bindsym f mode "files"
 	bindsym g mode "google"
 	bindsym o mode "organization"
 	bindsym t mode "tools"
@@ -284,19 +285,29 @@ mode "tools" {
         bindsym r exec terminator -b -x ranger; mode "default"
         bindsym Shift+T exec terminator -b -x top -o +%CPU; mode "default"
         bindsym p exec terminator -b -x ptpython --vi; mode "default"
-        bindsym f exec thunar; mode "default"
 
         bindsym b exec bib.ui; mode "default"
         bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
-        bindsym n exec menu.nav; mode "default"
         bindsym t exec menu.term; mode "default"
-        bindsym o exec menu.open; mode "default"
-        bindsym e exec menu.edit; mode "default"
         bindsym s exec menu.systemctl; mode "default"
         bindsym Shift+S exec menu.systemctl.status; mode "default"
 
         # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "files" {
+        bindsym t exec thunar; mode "default"
+
+        bindsym n exec menu.nav; mode "default"
+        bindsym o exec menu.open; mode "default"
+        bindsym e exec menu.edit; mode "default"
+        bindsym r exec menu.references; mode "default"
+        bindsym p exec menu.pdf; mode "default"
+
+        # back to normal: enter or escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
@@ -359,7 +370,7 @@ bar {
 }
 
 bindsym $mod+u bar mode invisible extra
-bindsym $mod+Shift+u bar mode dock extra
+bindsym $mod+Shift+U bar mode dock extra
 
 
 # volume

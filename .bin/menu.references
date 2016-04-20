@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+file=$({ recoll -t -b -q ext:pdf | grep \
+'^file://'"$HOME/ulb/references/"'.*pdf$' -o | cut -c8- ; find \
+"$HOME/ulb/references/"* | grep 'pdf$' ; } | sort | uniq | dmenu_center \
+--rest -i -t -p 'references' -sb '#FF4E50' -l 10)
+
+if [ "$file" != '' ]; then
+	xdg-open "$file"
+fi
