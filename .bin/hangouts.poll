@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+while true; do
+	memoize-ft 0 hangouts.count
+	sleep 60
+done

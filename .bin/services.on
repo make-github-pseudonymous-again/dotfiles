@@ -12,3 +12,4 @@
 /usr/bin/systemctl --user start stib
 /usr/bin/systemctl --user start rtm
 /usr/bin/systemctl --user start wifi-fingerprint
+/usr/bin/systemctl --user start hangouts

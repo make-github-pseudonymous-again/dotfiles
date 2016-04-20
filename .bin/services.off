@@ -12,3 +12,4 @@
 /usr/bin/systemctl --user stop stib
 /usr/bin/systemctl --user stop rtm
 /usr/bin/systemctl --user stop wifi-fingerprint
+/usr/bin/systemctl --user stop hangouts
