@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 services=$(ls "$HOME/.config/systemd/user")
-service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch")
+service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)
 
 if [ "$service" = '' ]; then
 	exit 102
