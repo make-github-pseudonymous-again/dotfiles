@@ -17,7 +17,7 @@ fi
 
 calendar="$(memoize-get 3600 calendar.now)"
 if [ "$calendar" != '' ]; then
-	prepend='{"name":"calendar","color":"#A7C5BD","full_text":" '"$calendar"'"},'"$prepend"
+	prepend="$calendar"','"$prepend"
 fi
 
 weather="$(memoize-get 3600 weather.now)"
