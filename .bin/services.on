@@ -13,3 +13,4 @@
 /usr/bin/systemctl --user start rtm
 /usr/bin/systemctl --user start wifi-fingerprint
 /usr/bin/systemctl --user start hangouts
+/usr/bin/systemctl --user start recoll
