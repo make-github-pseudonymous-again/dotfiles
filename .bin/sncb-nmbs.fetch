@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import arrow
+import urllib.request
+
+TZ = 'Europe/Brussels'
+
+CACHE = os.path.expanduser('~/.cache/sncb-nmbs')
+CONFIG = os.path.expanduser('~/.config/sncb-nmbs/config')
+
+CONNECTIONS = CACHE + '/{}/{}/connections'
+
+REQUEST = 'https://api.irail.be/connections/?'
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+with open(CONFIG) as _config:
+    config = json.load(_config)
+
+for connection in config['connections']:
+
+    _from = connection['from']
+    _to = connection['to']
+
+    now = arrow.now(TZ)
+
+    params = {
+        'lang' : 'en' ,
+        'format' : 'json' ,
+        'timeSel' : 'depart' ,
+        'date' : now.format('DDMMYY') ,
+        'time' : now.format('HHmm') ,
+        'from' : _from ,
+        'to' : _to
+    }
+
+    url = REQUEST + urllib.parse.urlencode(params)
+    key = '[{from}-{to}]'.format(**params)
+
+    log( key , url)
+
+    try:
+        response = urllib.request.urlopen(url)
+        results = json.loads(response.read().decode())
+
+        path = CONNECTIONS.format( _from , _to )
+
+        log(key , 'SUCCESS' )
+
+        os.makedirs(os.path.dirname( path ) , exist_ok = True)
+
+        with open(path, 'w') as fd:
+            json.dump( results , fd )
+
+    except urllib.error.HTTPError:
+        log(key , 'FAIL')
+
