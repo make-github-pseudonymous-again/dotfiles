@@ -67,27 +67,6 @@ def rtmgrab(halt, line, dest):
         return []
 
 
-def _repr(path):
-
-    _map = {
-        "w": lambda A, B: '  ({})'.format(_shortduration(A, B)),
-        "W": lambda s: '  ',
-        "T": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args),
-        "B": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args),
-        "M": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args)
-    }
-
-    return '  '.join(_map[T](*args) for T, *args in path)
-
 
 def _humanize(time, ref):
 
@@ -128,6 +107,15 @@ def _shorthumanize(time, ref):
 
     return _shorten(_humanize(time, ref))
 
+def _tinyduration(A, B):
+
+    return _tinier(_duration(A, B))
+
+
+def _tinyhumanize(time, ref):
+
+    return _tinier(_humanize(time, ref))
+
 
 def _shorten(x):
 
@@ -140,6 +128,41 @@ def _shorten(x):
         return x[:-3]
 
     return x
+
+def _tinier(x):
+
+    if 'minutes' in x or 'seconds' in x:
+
+        return x[:-6]
+
+    if 'minute' in x:
+
+        return x[:-5]
+
+    return x
+
+
+def _repr(path,fduration=_shortduration):
+
+    _map = {
+        "w": lambda A, B: '  ({})'.format(fduration(A, B)),
+        "W": lambda s: '  ',
+        "T": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args),
+        "B": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args),
+        "M": lambda provider, *args: {
+            "stib": lambda halt, line, s: '  {}'.format(line),
+            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
+        }[provider](*args)
+    }
+
+    return '  '.join(_map[T](*args) for T, *args in path)
+
 
 
 def _diff(a, b):
@@ -310,6 +333,15 @@ for name, _path, _leave, _arrival in myroutes:
         title, leave, total, arrival, path, eta
     )
 
+    sleave = _tinyduration(NOW, _leave)
+    sarrival = _tinyduration(NOW, _arrival)
+    stotal = _tinyduration(_leave, _arrival)
+    spath = _repr(_path,fduration=_tinyduration)
+
+    short_text = ' [{}] {}|{}|{} :{} :   {}'.format(
+        title, sleave, stotal, sarrival, spath, eta
+    )
+
     color = "#6DE256"
 
     if len(_path) > 1:
@@ -326,7 +358,12 @@ for name, _path, _leave, _arrival in myroutes:
 
                 color = "#C5E946"
 
-    data = {"name": "commuting", "color": color, "full_text": full_text}
+    data = {
+        "name"       : "commuting",
+        "color"      : color,
+        "full_text"  : full_text,
+        "short_text" : short_text
+    }
 
     json.dump(data, sys.stdout)
     sys.stdout.write('\n')
