@@ -50,6 +50,7 @@ pacman -S --needed --noconfirm inkscape
 pacman -S --needed --noconfirm thefuck
 pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
+pacman -S --needed --noconfirm fzf
 pacman -S --needed --noconfirm at
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
@@ -57,6 +58,7 @@ pacman -S --needed --noconfirm xorg-xkill
 pacman -S --needed --noconfirm xsel xclip
 pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
+pacman -S --needed --noconfirm keybase
 pacman -S --needed --noconfirm qtox
 
 pacman -S --needed --noconfirm newsbeuter
@@ -134,7 +136,7 @@ pacman -S --needed --noconfirm pstotext
 pacman -S --needed --noconfirm antiword
 pacman -S --needed --noconfirm catdoc
 pacman -S --needed --noconfirm unrtf
-pacman -S --needed --noconfirm untex
+# pacman -S --needed --noconfirm untex
 pacman -S --needed --noconfirm id3lib
 pacman -S --needed --noconfirm mutagen python-mutagen
 pacman -S --needed --noconfirm python2-pychm

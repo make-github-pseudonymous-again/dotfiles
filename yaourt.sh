@@ -30,12 +30,11 @@ fi
 
 yaourt -S --needed dmenu2
 yaourt -S --needed fasd
-yaourt -S --needed fzf
 yaourt -S --needed ttf-font-awesome
 yaourt -S --needed solaar
 yaourt -S --needed ipe
-yaourt -S --needed keybase-release
 yaourt -S --needed astroid
 yaourt -S --needed pdftk-bin
 yaourt -S --needed yank
 yaourt -S --needed hangups-git
+yaourt -S --needed untex
