@@ -214,6 +214,7 @@ mode "apps" {
 	bindsym g mode "google"
 	bindsym o mode "organization"
 	bindsym t mode "tools"
+	bindsym s mode "system"
 
 	# back to normal: Enter or Escape
 	bindsym Return mode "default"
@@ -283,15 +284,26 @@ mode "organization" {
 
 mode "tools" {
         bindsym r exec terminator -b -x ranger; mode "default"
-        bindsym Shift+T exec terminator -b -x top -o +%CPU; mode "default"
         bindsym p exec terminator -b -x ptpython --vi; mode "default"
 
         bindsym b exec bib.ui; mode "default"
         bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
         bindsym t exec menu.term; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "system" {
+        bindsym m exec terminator -b -x top -o +%CPU; mode "default"
+        bindsym a exec terminator -b -x alsamixer; mode "default"
+
         bindsym s exec menu.systemctl; mode "default"
-        bindsym Shift+S exec menu.systemctl.status; mode "default"
+
+        bindsym x exec menu.systemctl.status; mode "default"
+        bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
