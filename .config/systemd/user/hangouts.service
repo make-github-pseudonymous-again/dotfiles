@@ -2,7 +2,7 @@
 Description=Hangouts unread messages polling daemon
 
 [Service]
-ExecStart=/usr/bin/env sh hangouts.poll
+ExecStart=/usr/bin/env hangouts.poll
 Restart=always
 
 [Install]

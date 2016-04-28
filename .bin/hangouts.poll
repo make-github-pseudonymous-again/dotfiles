@@ -1,6 +1,94 @@
-#!/usr/bin/env sh
+#!/usr/bin/env python3
 
-while true; do
-	memoize-ft 0 hangouts.count
-	sleep 60
-done
+"""Example of using hangups to count the number of unread messages."""
+
+import sys
+import os
+import time
+import random
+import asyncio
+import hangups
+import logging
+
+logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s',
+        datefmt='%Y-%m-%d %I:%M:%S %p')
+
+# Path where OAuth refresh token is saved, allowing hangups to remember your
+# credentials.
+REFRESH_TOKEN_PATH = os.path.expanduser('~/.cache/hangups/refresh_token.txt')
+CACHE = os.path.expanduser('~/.cache/hangups/_unread')
+
+def main():
+    """Main entry point."""
+
+    logging.info('Attempt to connect')
+
+    try:
+        # Obtain hangups authentication cookies, raising an error if not found.
+
+        def handler ( *x, **y ) :
+            raise hangups.auth.GoogleAuthError('Could not find refresh token file')
+
+        cookies = hangups.auth.get_auth(handler , REFRESH_TOKEN_PATH)
+
+        # Instantiate hangups Client instance.
+        client = hangups.Client(cookies)
+
+        # Add an observer to the on_connect event to run the
+        # poll coroutine when hangups has finished
+        # connecting.
+        client.on_connect.add_observer(lambda: asyncio.async(
+            poll(client)
+        ))
+
+        # Start an asyncio event loop by running Client.connect. This will not
+        # return until Client.disconnect is called, or hangups becomes
+        # disconnected.
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(client.connect())
+        logging.info('Connected!')
+
+
+    except hangups.auth.GoogleAuthError as e :
+        logging.info('Failed to connect :(')
+        output('?')
+
+def num_unread ( conv ) :
+    return len([conv_event for conv_event in conv.unread_events if
+        isinstance(conv_event, hangups.ChatMessageEvent) and
+        not conv.get_user(conv_event.user_id).is_self])
+
+def output(x) :
+    os.makedirs(os.path.dirname(CACHE),exist_ok=True)
+    logging.info( '{} UNREAD'.format(x) )
+    with open(CACHE,'w') as fd :
+        fd.write(str(x)+'\n')
+
+@asyncio.coroutine
+def poll(client):
+
+    try:
+
+        while True :
+
+            users, conversations = yield from hangups.build_user_conversation_list(client)
+            count = sum( map( num_unread , conversations.get_all( )))
+
+            output(count)
+
+            time.sleep(3.5)
+
+    finally:
+        # Disconnect the hangups Client to make client.connect return.
+        yield from client.disconnect()
+
+
+if __name__ == '__main__':
+    while True :
+        try:
+            main()
+        except Exception as e :
+            logging.info( e )
+        wait = 60 + random.randint(0,60)
+        logging.info('Waiting {} seconds before connecting again.'.format(wait))
+        time.sleep(wait)

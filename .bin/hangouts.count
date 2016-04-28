@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Example of using hangups to lookup contacts by id."""
+"""Example of using hangups to count the number of unread messages."""
 
 import sys
 import os
@@ -16,8 +16,7 @@ def main():
     """Main entry point."""
 
     try:
-        # Obtain hangups authentication cookies, prompting for username and
-        # password from standard in if necessary.
+        # Obtain hangups authentication cookies, raising an error if not found.
 
         def handler ( *x, **y ) :
             raise hangups.auth.GoogleAuthError('Could not find refresh token file')
@@ -28,10 +27,10 @@ def main():
         client = hangups.Client(cookies)
 
         # Add an observer to the on_connect event to run the
-        # retrieve_suggested_contacts coroutine when hangups has finished
+        # retrieve_count coroutine when hangups has finished
         # connecting.
         client.on_connect.add_observer(lambda: asyncio.async(
-            retrieve_suggested_contacts(client)
+            retrieve_count(client)
         ))
 
         # Start an asyncio event loop by running Client.connect. This will not
@@ -50,7 +49,7 @@ def num_unread ( conv ) :
         not conv.get_user(conv_event.user_id).is_self])
 
 @asyncio.coroutine
-def retrieve_suggested_contacts(client):
+def retrieve_count(client):
 
     try:
         users, conversations = yield from hangups.build_user_conversation_list(client)

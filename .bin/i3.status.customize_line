@@ -35,7 +35,7 @@ if test "$mail_count" -gt 0; then
 	prepend='{"name":"new mail","color":"#6DE256","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
-hangouts_count="$(memoize-get 1800 hangouts.count)"
+hangouts_count="$(cat "$HOME"'/.cache/hangups/_unread')"
 if [ "$hangouts_count" = '?' ]; then
 	prepend='{"name":"new hangouts messages","color":"#CF4647","full_text":" ?"},'"$prepend"
 elif [ "$hangouts_count" -gt 0 ]; then
