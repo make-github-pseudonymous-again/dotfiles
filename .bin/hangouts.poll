@@ -9,6 +9,7 @@ import random
 import asyncio
 import hangups
 import logging
+import json
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s',
         datefmt='%Y-%m-%d %I:%M:%S %p')
@@ -16,7 +17,7 @@ logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s',
 # Path where OAuth refresh token is saved, allowing hangups to remember your
 # credentials.
 REFRESH_TOKEN_PATH = os.path.expanduser('~/.cache/hangups/refresh_token.txt')
-CACHE = os.path.expanduser('~/.cache/hangups/_unread')
+CACHE = os.path.expanduser('~/.cache/hangups/_status')
 
 conv_list = None
 typing_status = None
@@ -67,21 +68,22 @@ def num_unread ( conv ) :
 
 def output(x) :
     os.makedirs(os.path.dirname(CACHE),exist_ok=True)
-    logging.info( '{} UNREAD'.format(x) )
+    logging.info( "writing '{}' to '{}'".format(str(x),CACHE) )
     with open(CACHE,'w') as fd :
-        fd.write(str(x)+'\n')
+        json.dump(x,fd)
 
 def error() :
-    return output('?')
+    return output({ 'status' : 'error' })
 
 def update() :
 
     if any( t == hangups.TYPING_TYPE_STARTED for t in typing_status.values()):
-        return output('')
+        status = 'typing'
+    else :
+        status = 'normal'
 
-    else:
-        count = sum( map( num_unread , conv_list.get_all() ) )
-        return output( count )
+    count = sum( map( num_unread , conv_list.get_all() ) )
+    return output( { 'status' : status , 'unread' : count } )
 
 def _on_state_update ( state_update ) :
     notification_type = state_update.WhichOneof('state_update')
