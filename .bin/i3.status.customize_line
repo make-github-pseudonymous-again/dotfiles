@@ -36,18 +36,18 @@ if test "$mail_count" -gt 0; then
 fi
 
 hangouts_status="$(cat "$HOME"'/.cache/hangups/_status')"
-hangouts_type="$(echo "$hangouts_status" | jq .status)"
+hangouts_type="$(echo "$hangouts_status" | jq -r '.status')"
 if [ "$hangouts_type" = 'error' ]; then
 	prepend='{"name":"new hangouts messages","color":"#CF4647","full_text":" "},'"$prepend"
 elif [ "$hangouts_type" = 'typing' ]; then
-	hangouts_count="$(echo "$hangouts_status" | jq .unread)"
+	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
 	if [ "$hangouts_count" -gt 0 ]; then
-		prepend='{"name":"new hangouts messages","color":"#CF4647","full_text":" '"$hangouts_count"'"},'"$prepend"
+		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":" '"$hangouts_count"'"},'"$prepend"
 	else
-		prepend='{"name":"new hangouts messages","color":"#CF4647","full_text":""},'"$prepend"
+		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":""},'"$prepend"
 	fi
 elif [ "$hangouts_type" = 'normal' ]; then
-	hangouts_count="$(echo "$hangouts_status" | jq .unread)"
+	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
 	if [ "$hangouts_count" -gt 0 ]; then
 		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":" '"$hangouts_count"'"},'"$prepend"
 	fi
