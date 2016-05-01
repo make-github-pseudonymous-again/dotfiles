@@ -77,7 +77,7 @@ def error() :
 def update() :
 
     if any( t == hangups.TYPING_TYPE_STARTED for t in typing_status.values()):
-        return output('...')
+        return output('')
 
     else:
         count = sum( map( num_unread , conv_list.get_all() ) )
