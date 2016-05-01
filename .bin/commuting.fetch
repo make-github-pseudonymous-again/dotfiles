@@ -5,6 +5,7 @@ import sys
 import json
 import arrow
 import subprocess
+from collections import defaultdict
 
 CONFIG = os.path.expanduser('~/.config/commuting/config')
 
@@ -37,8 +38,12 @@ with open(RTMCONFIG) as _config:
 geolocation = json.loads(subprocess.check_output(
     ['memoize-get', '1200', 'geolocation.fetch']).decode())
 
-pt = frozenset(tuple(args[:-1]) for road in config.values() for path in road['paths'] for T, *args in
-               path if T in 'BTM')
+def istransit(method):
+    return method in [ 'train' , 'tram' , 'metro' , 'bus' ]
+
+pt = (part for road in config.values() for path in
+        road['paths'] for part in
+               path['path'] if istransit(part['method']))
 
 
 def stibgrab(halt, line):
@@ -145,23 +150,27 @@ def _tinier(x):
 def _repr(path,fduration=_shortduration):
 
     _map = {
-        "w": lambda A, B: '  ({})'.format(fduration(A, B)),
-        "W": lambda s: '  ',
-        "T": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args),
-        "B": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args),
-        "M": lambda provider, *args: {
-            "stib": lambda halt, line, s: '  {}'.format(line),
-            "rtm": lambda halt, line, dest, s: '  {}'.format(line)
-        }[provider](*args)
+        "wait": lambda part : '  ({})'.format(fduration(part['seconds'])),
+        "walk": lambda part : '  ',
+        "tram": lambda part : {
+            "stib-mivb" : lambda part: '  {line}'.format(**part),
+            "rtm"       : lambda part: '  {line}'.format(**part),
+        }[part['vendor']](part),
+        "bus": lambda part: {
+            "stib-mivb" : lambda part: '  {line}'.format(**part),
+            "rtm"       : lambda part: '  {line}'.format(**part),
+            "tec"       : lambda part: '  {line}'.format(**part),
+        }[part['vendor']](part),
+        "metro": lambda part: {
+            "stib-mivb" : lambda part: '  {line}'.format(**part),
+            "rtm"       : lambda part: '  {line}'.format(**part),
+        }[part['vendor']](part),
+        "train": lambda part : {
+            "sncb-nmbs" : lambda part: '  {line}'.format(**part),
+        }[part['vendor']](part),
     }
 
-    return '  '.join(_map[T](*args) for T, *args in path)
+    return '  '.join(_map[part['method']](part) for part in path)
 
 
 
@@ -169,42 +178,45 @@ def _diff(a, b):
 
     return a.datetime.timestamp() - b.datetime.timestamp()
 
-stib = {}
-rtm = {}
+PT = defaultdict(list)
 
-PT = {
-    'stib': stib,
-    'rtm': rtm
-}
+def _key ( x ) :
+    return frozenset( ( k , x[k] ) for k in x.keys() if k != 'seconds' )
 
-for provider, *args in pt:
+for part in pt:
 
-    if provider == 'stib':
+    vendor = part['vendor']
 
-        halt = args[0]
-        line = args[1]
+    if vendor == 'stib-mivb':
+
+        halt = part['halt']
+        line = part['line']
 
         if halt not in stibconfig or line not in stibconfig[halt]:
 
-            log('warning: stib is not configured to fetch', halt, line)
+            log('warning: stib-mivb is not configured to fetch', halt, line)
 
-        stib[(halt, line)] = stibgrab(halt, line)
+        k = _key(part)
+        if k not in PT:
+            PT[k] = stibgrab(halt, line)
 
-    elif provider == 'rtm':
+    elif vendor == 'rtm':
 
-        halt = args[0]
-        line = args[1]
-        dest = args[2]
+        halt = part['halt']
+        line = part['line']
+        dest = part['dest']
 
         if halt not in rtmconfig:
 
             log('warning: rtm is not configured to fetch', halt)
 
-        rtm[(halt, line, dest)] = rtmgrab(halt, line, dest)
+        k = _key(part)
+        if k not in PT:
+            PT[k] = rtmgrab(halt, line, dest)
 
     else:
 
-        log('warning: unknown provider ', provider)
+        log('warning: unknown vendor ', vendor)
 
 
 def allroutes():
@@ -213,7 +225,7 @@ def allroutes():
 
         for path in road['paths']:
 
-            for route in routes(path):
+            for route in routes(path['path']):
 
                 yield name, route
 
@@ -226,21 +238,16 @@ def routes(path, leave=None, total=0, prev=()):
 
         return
 
-    T, *args = path[0]
+    if path[0]['method'] == 'walk':
 
-    if T == 'W':
+        duration = path[0]['seconds']
 
-        duration = args[0]
+        yield from routes(path[1:], leave, total + duration, prev + ( path[0], ))
 
-        yield from routes(path[1:], leave, total + duration, prev + (
-            path[0], ))
+    elif _key(path[0]) in PT :
 
-    else:
-
-        provider, *rest = args
-        duration = rest[-1]
-        key = tuple(rest[:-1])
-        times = PT[provider][key]
+        duration = path[0]['seconds']
+        times = PT[_key(path[0])]
 
         if leave is None:
 
@@ -278,7 +285,11 @@ def routes(path, leave=None, total=0, prev=()):
                     _path = path[1:]
                     _leave = leave
                     _total = total + waiting + duration
-                    _prev = prev + (['w', A, B], path[0])
+                    part = {
+                        'method' : 'wait',
+                        'seconds' : waiting
+                    }
+                    _prev = prev + (part, path[0])
 
                     yield from routes(_path, _leave, _total, _prev)
 
@@ -293,14 +304,14 @@ for name, route in allroutes():
     if _leave is None:
         _leave = NOW
 
-    if _leave < NOW:
+    elif _leave < NOW:
         continue
 
     _arrival = _leave.replace(seconds=+_total)
 
     myroutes.append((name, _path, _leave, _arrival))
 
-myroutes = sorted(myroutes, key=lambda x: (x[0], x[3], x[2], x[1]))
+myroutes = sorted(myroutes, key=lambda x: (x[0], x[3], x[2]))
 
 
 def myfilter(name):
