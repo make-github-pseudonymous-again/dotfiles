@@ -19,6 +19,7 @@ REFRESH_TOKEN_PATH = os.path.expanduser('~/.cache/hangups/refresh_token.txt')
 CACHE = os.path.expanduser('~/.cache/hangups/_unread')
 
 conv_list = None
+typing_status = None
 
 def main():
     """Main entry point."""
@@ -74,17 +75,30 @@ def error() :
     return output('?')
 
 def update() :
-    count = sum( map( num_unread , conv_list.get_all() ) )
-    return output( count )
 
-def _on_state_update ( event ) :
-    logging.info( 'state update !')
+    if any( t == hangups.TYPING_TYPE_STARTED for t in typing_status.values()):
+        return output('...')
+
+    else:
+        count = sum( map( num_unread , conv_list.get_all() ) )
+        return output( count )
+
+def _on_state_update ( state_update ) :
+    notification_type = state_update.WhichOneof('state_update')
+    if notification_type == 'typing_notification':
+        typing_notification = state_update.typing_notification
+        conv_id = typing_notification.conversation_id.id
+        user_id = typing_notification.sender_id.chat_id
+        typing_status[(conv_id,user_id)] = typing_notification.type
     update()
 
 @asyncio.coroutine
 def _on_connect(client):
 
     global conv_list
+    global typing_status
+
+    typing_status = {}
 
     logging.info('Connected!')
 
