@@ -18,6 +18,8 @@ logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s',
 REFRESH_TOKEN_PATH = os.path.expanduser('~/.cache/hangups/refresh_token.txt')
 CACHE = os.path.expanduser('~/.cache/hangups/_unread')
 
+conv_list = None
+
 def main():
     """Main entry point."""
 
@@ -35,23 +37,27 @@ def main():
         client = hangups.Client(cookies)
 
         # Add an observer to the on_connect event to run the
-        # poll coroutine when hangups has finished
+        # _on_connect coroutine when hangups has finished
         # connecting.
         client.on_connect.add_observer(lambda: asyncio.async(
-            poll(client)
+            _on_connect(client)
         ))
+
+        client.on_state_update.add_observer( _on_state_update )
 
         # Start an asyncio event loop by running Client.connect. This will not
         # return until Client.disconnect is called, or hangups becomes
         # disconnected.
         loop = asyncio.get_event_loop()
         loop.run_until_complete(client.connect())
-        logging.info('Connected!')
 
 
     except hangups.auth.GoogleAuthError as e :
         logging.info('Failed to connect :(')
-        output('?')
+        error()
+
+    finally:
+        client.disconnect()
 
 def num_unread ( conv ) :
     return len([conv_event for conv_event in conv.unread_events if
@@ -64,23 +70,33 @@ def output(x) :
     with open(CACHE,'w') as fd :
         fd.write(str(x)+'\n')
 
+def error() :
+    return output('?')
+
+def update() :
+    count = sum( map( num_unread , conv_list.get_all() ) )
+    return output( count )
+
+def _on_state_update ( event ) :
+    logging.info( 'state update !')
+    update()
+
 @asyncio.coroutine
-def poll(client):
+def _on_connect(client):
 
-    try:
+    global conv_list
 
-        while True :
+    logging.info('Connected!')
 
-            users, conversations = yield from hangups.build_user_conversation_list(client)
-            count = sum( map( num_unread , conversations.get_all( )))
+    try :
+        _, conv_list = yield from hangups.build_user_conversation_list(client)
+        update()
 
-            output(count)
-
-            time.sleep(3.5)
-
-    finally:
-        # Disconnect the hangups Client to make client.connect return.
+    except Exception as e :
+        logging.info(e)
+        error()
         yield from client.disconnect()
+
 
 
 if __name__ == '__main__':
