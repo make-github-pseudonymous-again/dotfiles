@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipestyle SYSTEM "ipe.dtd">
+<ipestyle name="basic">
+<color name="red" value="1 0.5 0.5"/>
+<color name="green" value="0.5 1 0.5"/>
+<color name="blue" value="0.5 0.5 1"/>
+<color name="yellow" value="1 1 0.5"/>
+<color name="orange" value="1 0.8235 0.5"/>
+<color name="gold" value="1 0.9215 0.5"/>
+</ipestyle>
+
