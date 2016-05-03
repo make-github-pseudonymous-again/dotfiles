@@ -91,7 +91,11 @@ def _on_state_update ( state_update ) :
         typing_notification = state_update.typing_notification
         conv_id = typing_notification.conversation_id.id
         user_id = typing_notification.sender_id.chat_id
-        typing_status[(conv_id,user_id)] = typing_notification.type
+
+        if user_id in conv_list.get(conv_id)._user_list._user_dict and\
+        not conv_list.get(conv_id).get_user(user_id).is_self :
+            typing_status[(conv_id,user_id)] = typing_notification.type
+
     update()
 
 @asyncio.coroutine
@@ -121,6 +125,7 @@ if __name__ == '__main__':
             main()
         except Exception as e :
             logging.info( e )
+            error()
         wait = 60 + random.randint(0,60)
         logging.info('Waiting {} seconds before connecting again.'.format(wait))
         time.sleep(wait)
