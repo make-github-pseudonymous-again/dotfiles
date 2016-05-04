@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+
+matches="$(ack --nocolor --smart-case --nogroup --column --output=' ' "$@")"
+if [ "$matches" = '' ] ; then
+	exit 1
+fi
+
+args="$(echo "$matches" | yank -l -d $'\n\r' | rev)"
+
+if [ "$args" = '' ] ; then
+	exit 2
+fi
+
+line="$(echo "$args" | cut -d: -f3 | rev)"
+column="$(echo "$args" | cut -d: -f2 | rev)"
+filename="$(echo "$args" | cut -d: -f1-3 --complement | rev)"
+
+vim "+call cursor($line,$column)" "$filename"
