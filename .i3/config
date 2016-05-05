@@ -258,6 +258,7 @@ mode "google" {
         bindsym t exec translate; mode "default"
         bindsym m exec maps; mode "default"
         bindsym p exec photos; mode "default"
+        bindsym f exec flights; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
