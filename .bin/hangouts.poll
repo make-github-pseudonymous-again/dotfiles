@@ -90,10 +90,10 @@ def _on_state_update ( state_update ) :
     if notification_type == 'typing_notification':
         typing_notification = state_update.typing_notification
         conv_id = typing_notification.conversation_id.id
-        user_id = typing_notification.sender_id.chat_id
+        user_id = UserID(chat_id=typing_notification.sender_id.chat_id,
+                         gaia_id=typing_notification.sender_id.gaia_id)
 
-        if user_id in conv_list.get(conv_id)._user_list._user_dict and\
-        not conv_list.get(conv_id).get_user(user_id).is_self :
+        if not conv_list.get(conv_id).get_user(user_id).is_self :
             typing_status[(conv_id,user_id)] = typing_notification.type
 
     update()
