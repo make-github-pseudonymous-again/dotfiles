@@ -7,5 +7,7 @@
 <color name="yellow" value="1 1 0.5"/>
 <color name="orange" value="1 0.8235 0.5"/>
 <color name="gold" value="1 0.9215 0.5"/>
+<color name="dark grey" value="0.2 0.2 0.2"/>
+<color name="light grey" value="0.8 0.8 0.8"/>
 </ipestyle>
 
