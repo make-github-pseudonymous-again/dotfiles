@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+if test "$#" -lt 1 ; then
+	echo 'usage: x2mp3 <file> <...files>' >&2
+	exit 1
+fi
+
+for INPUT in "$@"; do
+	DIRNAME=$(dirname "$INPUT")
+	BASENAME=$(basename "$INPUT")
+	ID="${BASENAME%.*}"
+	OUTPUT="$DIRNAME"'/'"$ID"'.mp3'
+
+	ffmpeg -i "$INPUT" -codec:a libmp3lame -qscale:a 0 "$OUTPUT"
+
+	if [ "$?" != 0 ] ; then
+		echo 'failed to convert '"$INPUT" >&2
+	fi
+
+done
