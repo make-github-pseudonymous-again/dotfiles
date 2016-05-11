@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if xrandr.has.hdmi ; then
+if xrandr.is.hdmi.connected ; then
 	out="HDMI-0"
 	off="DisplayPort-0"
 else
