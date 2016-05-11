@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
 if
-xrandr.list | while read output ; do
+xrandr.list | while read line ; do
+	output="$(echo "$line" | cut -d' ' -f1)"
 	if [ "$output" = "DisplayPort-0" ] ; then
 		exit 1
 	fi
