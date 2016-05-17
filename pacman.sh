@@ -60,6 +60,7 @@ pacman -S --needed --noconfirm gnupg
 pacman -S --needed --noconfirm pass
 pacman -S --needed --noconfirm keybase
 pacman -S --needed --noconfirm qtox
+pacman -S --needed --noconfirm impressive
 
 pacman -S --needed --noconfirm newsbeuter
 

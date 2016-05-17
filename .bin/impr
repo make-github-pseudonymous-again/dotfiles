@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+impressive --nologo -d 10m --tracking -x "$@"
