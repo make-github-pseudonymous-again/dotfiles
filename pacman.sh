@@ -42,6 +42,7 @@ pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
 pacman -S --needed --noconfirm ffmpeg vlc
+pacman -S --needed --noconfirm pulseaudio pulseaudio-alsa pavucontrol
 pacman -S --needed --noconfirm testdisk
 pacman -S --needed --noconfirm pkgfile
 pacman -S --needed --noconfirm bind-tools
