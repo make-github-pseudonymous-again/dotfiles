@@ -15,10 +15,10 @@
 <textsize name="huge" value="\LARGE"/>
 <textsize name="small" value="\normalsize"/>
 <textsize name="title" value="\LARGE"/>
-<textstretch name="normal" value="5.2"/>
-<textstretch name="large" value="5.2"/>
-<textstretch name="huge" value="5.2"/>
-<textstretch name="small" value="4.4"/>
+<textstretch name="normal" value="4.6"/>
+<textstretch name="large" value="4.6"/>
+<textstretch name="huge" value="4.6"/>
+<textstretch name="small" value="3.2"/>
 <textstretch name="title" value="8.1"/>
 <symbolsize name="normal" value="9"/>
 <symbolsize name="large" value="15"/>
