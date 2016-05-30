@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipestyle SYSTEM "ipe.dtd">
-<ipestyle name="basic colors">
+<ipestyle name="basic-colors">
 <color name="red" value="1 0 0"/>
 <color name="green" value="0 1 0"/>
 <color name="blue" value="0 0 1"/>
