@@ -300,7 +300,7 @@ mode "tools" {
 mode "system" {
         bindsym m exec terminator -b -x top -o +%CPU; mode "default"
         bindsym a exec terminator -b -x alsamixer; mode "default"
-		bindsym Shift+A exec pavucontrol; mode "default"
+        bindsym Shift+A exec pavucontrol; mode "default"
 
         bindsym s exec menu.systemctl; mode "default"
 
