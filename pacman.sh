@@ -37,6 +37,7 @@ pacman -S --needed --noconfirm python-pygments
 pacman -S --needed --noconfirm python-networkx
 pacman -S --needed --noconfirm python-numpy
 pacman -S --needed --noconfirm python-scipy
+pacman -S --needed --noconfirm python-pillow
 pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
