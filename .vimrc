@@ -25,7 +25,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'evidens/vim-twig'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'fatih/vim-go'
 Plugin 'scrooloose/nerdcommenter'
@@ -187,13 +187,13 @@ let g:delimitMate_expand_cr = 1
 " the numerous Cursor events cause great slowness
 " (https://github.com/kristijanhusak/vim-multiple-cursors/issues/4)
 
-function! Multiple_cursors_before()
-let s:old_ycm_whitelist = g:ycm_filetype_whitelist
-let g:ycm_filetype_whitelist = {}
-endfunction
-function! Multiple_cursors_after()
-let g:ycm_filetype_whitelist = s:old_ycm_whitelist
-endfunction
+"function! Multiple_cursors_before()
+"let s:old_ycm_whitelist = g:ycm_filetype_whitelist
+"let g:ycm_filetype_whitelist = {}
+"endfunction
+"function! Multiple_cursors_after()
+"let g:ycm_filetype_whitelist = s:old_ycm_whitelist
+"endfunction
 
 " This does what it says on the tin. It will check your file on open too, not just on save.
 " You might not want this, so just leave it out if you don't.
