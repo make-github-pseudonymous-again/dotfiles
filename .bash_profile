@@ -86,3 +86,5 @@ set -o vi
 
 # use fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#If you use vi mode on bash, you need to add set -o vi before source ~/.fzf.bash
+#in your .bashrc, so that it correctly sets up key bindings for vi mode.
