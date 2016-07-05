@@ -100,7 +100,7 @@ if __name__ == '__main__' :
         size -= s
         max_level += 1
 
-    print( max_level )
+    # print( max_level )
 
     if args.short :
         print( data[3] )
