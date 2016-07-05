@@ -81,7 +81,7 @@ if __name__ == '__main__' :
     import argparse
 
     parser = argparse.ArgumentParser(description="Outputs file and directories that are not under version control")
-    parser.add_argument('root', type=str, help='root')
+    parser.add_argument('-r', '--root', type=str, default='.', help='root directory')
     parser.add_argument('-n', '--short', action='store_true', help='short output')
     parser.add_argument('-j', '--json', action='store_true', help='json output')
     parser.add_argument('-c', '--count', type=int, default=5, help='count threshold output')
