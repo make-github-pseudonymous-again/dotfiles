@@ -211,4 +211,4 @@ if has('gui_running')
 endif
 
 " Goyo config
-let g:goyo_width=85
+let g:goyo_width=90
