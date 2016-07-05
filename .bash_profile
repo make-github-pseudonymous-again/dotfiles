@@ -83,3 +83,6 @@ _fasd_bash_hook_cmd_complete v m j o
 
 # bind vi keys
 set -o vi
+
+# use fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
