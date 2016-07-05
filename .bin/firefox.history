@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-db=$(ls "$HOME/.mozilla/firefox/"*".default/places.sqlite" | head -1 )
+profile='default'
+db=$(ls "$HOME/.mozilla/firefox/"*".$profile/places.sqlite" | head -1 )
 if [ "$db" = '' ] ; then
 	exit 2
 fi
@@ -14,4 +15,4 @@ if [ "$url" = '' ] ; then
 	exit 1
 fi
 
-firefox --new-window $( echo "$url" | rev | cut -d ' ' -f 1 | rev )
+firefox -p "$profile" --new-window $( echo "$url" | rev | cut -d ' ' -f 1 | rev )

@@ -3,5 +3,5 @@
 what=$(ui.dialog.input -p 'search' -sb '#3B3242')
 
 if [ "$what" != '' ] ; then
-	firefox --search "$what"
+	wb --search "$what"
 fi

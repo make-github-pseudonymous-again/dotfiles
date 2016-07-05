@@ -18,4 +18,4 @@ fi
 
 query=$(echo -n "$q" | urlencode)
 
-firefox --new-window 'https://'"$lang"'.wikipedia.org/wiki/Special:Search?search='"$query"
+wb --new-window 'https://'"$lang"'.wikipedia.org/wiki/Special:Search?search='"$query"

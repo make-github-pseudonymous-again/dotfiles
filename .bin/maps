@@ -8,4 +8,4 @@ fi
 
 address=$(echo -n "$a" | urlencode)
 
-firefox --new-window https://maps.google.com?q="$address"
+wb --new-window https://maps.google.com?q="$address"

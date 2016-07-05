@@ -8,4 +8,4 @@ fi
 
 query=$(echo -n "$q" | urlencode)
 
-firefox --new-window https://google.com/search?q="$query"
+wb --new-window https://google.com/search?q="$query"

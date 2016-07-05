@@ -6,4 +6,4 @@ if [ "$url" = '' ] ; then
 	exit 1
 fi
 
-firefox --new-window "$url"
+wb --new-window "$url"
