@@ -38,3 +38,4 @@ yaourt -S --needed pdftk-bin
 yaourt -S --needed yank
 yaourt -S --needed hangups-git
 yaourt -S --needed untex
+yoaurt -S --needed git-latexdiff
