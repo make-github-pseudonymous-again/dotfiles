@@ -10,7 +10,6 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim'
 Plug 'ervandew/supertab'
@@ -204,3 +203,6 @@ endif
 
 " Goyo config
 let g:goyo_width=90
+
+" map c-p to fzf
+nn <c-p> :FZF<cr>
