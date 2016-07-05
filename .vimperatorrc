@@ -3,6 +3,8 @@
 command! sourcerc :source ~/.vimperatorrc
 
 set hintchars=abcdefghijkopqrstuvwxyz
+set gui=nonavigation
+set toolbars=noaddons,nobookmarks,nomenu,nonavigation,notabs
 
 " Use sci-hub.org proxy
 javascript <<EOF
