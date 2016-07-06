@@ -23,8 +23,6 @@ Plug 'junegunn/vim-pseudocl'
 
 
 " ## FIXES ##
-" Improved /-search (experimental)
-Plug 'junegunn/vim-oblique'
 " Find-N-Replace helper free of regular expressions
 Plug 'junegunn/vim-fnr'
 " enable repeating supported plugin maps with "."
