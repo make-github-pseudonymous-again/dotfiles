@@ -35,7 +35,9 @@ Plug 'tpope/vim-sleuth'
 " ## VISUAL ##
 " one colorscheme pack to rule them all!
 Plug 'flazz/vim-colorschemes'
+" Vim plugin that displays tags in a window, ordered by scope
 " Lean & mean status/tabline for vim that's light as air.
+" Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'vim-airline/vim-airline'
 " Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
 Plug 'airblade/vim-gitgutter'
@@ -60,8 +62,6 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/goyo.vim'
 " Hyperfocus-writing in Vim
 Plug 'junegunn/limelight.vim'
-" Vim plugin that displays tags in a window, ordered by scope
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
 " ## COMPLETION ##
 " allows you to use <Tab> for all your insert completion needs
@@ -87,7 +87,8 @@ Plug 'jelera/vim-javascript-syntax'
 " Vastly improved Javascript indentation and syntax support in Vim
 Plug 'pangloss/vim-javascript'
 " A code-completion engine for Vim
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+" Compiling requires too much memory, fails every time
 " A modern vim plugin for editing LaTeX files
 Plug 'lervag/vimtex'
 
@@ -223,8 +224,8 @@ syntax on
 set background=dark
 " Use Hybrid, to use ~/.Xresources uncomment next line
 " let g:hybrid_use_Xresources = 1
-"colorscheme hybrid
-colorscheme seoul256
+silent! colorscheme hybrid
+"silent! colorscheme seoul256
 
 
 " Replace search with easymotion multi char search
@@ -255,18 +256,18 @@ let g:delimitMate_expand_cr = 1
 " the numerous Cursor events cause great slowness
 " (https://github.com/kristijanhusak/vim-multiple-cursors/issues/4)
 
-function! Multiple_cursors_before()
-let s:old_ycm_whitelist = g:ycm_filetype_whitelist
-let g:ycm_filetype_whitelist = {}
-endfunction
-function! Multiple_cursors_after()
-let g:ycm_filetype_whitelist = s:old_ycm_whitelist
-endfunction
+" function! Multiple_cursors_before()
+" let s:old_ycm_whitelist = g:ycm_filetype_whitelist
+" let g:ycm_filetype_whitelist = {}
+" endfunction
+" function! Multiple_cursors_after()
+" let g:ycm_filetype_whitelist = s:old_ycm_whitelist
+" endfunction
 
 " syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -284,7 +285,7 @@ endif
 
 " goyo + limelight config
 let g:goyo_width=90
-nmap <silent> <c-m> :Goyo!!<cr>:Limelight!!0.3<cr>
+" nmap <silent> <c-m> :Goyo<cr>:Limelight!!0.3<cr>
 
 " map c-p to fzf
 nn <c-p> :FZF<cr>
