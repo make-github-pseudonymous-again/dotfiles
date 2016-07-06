@@ -12,7 +12,7 @@ function scihubify() {
 	// http://akameco.hatenablog.com/entry/2015/02/06/214913
 	var location = window.content.window.location ;
 	var url = location.origin +
-	                  ".sci-hub.io" +
+	                  ".sci-hub.bz" +
 	                  location.pathname +
 	                  location.search +
 	                  location.hash ;
