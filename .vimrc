@@ -283,7 +283,7 @@ endif
 
 " goyo + limelight config
 let g:goyo_width=90
-" nmap <silent> <c-m> :Goyo<cr>:Limelight!!0.3<cr>
+nmap <silent> <c-m> :Goyo<cr>:Limelight!!0.7<cr>
 
 " map c-p to fzf
 nn <c-p> :FZF<cr>
