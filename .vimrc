@@ -38,6 +38,7 @@ Plug 'flazz/vim-colorschemes'
 " Vim plugin that displays tags in a window, ordered by scope
 " Lean & mean status/tabline for vim that's light as air.
 " Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+" should be loaded before vim-airline but does not work :(
 Plug 'vim-airline/vim-airline'
 " Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
 Plug 'airblade/vim-gitgutter'
@@ -265,9 +266,6 @@ let g:delimitMate_expand_cr = 1
 " endfunction
 
 " syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -292,8 +290,7 @@ nn <c-p> :FZF<cr>
 
 " undotree config
 let g:undotree_WindowLayout = 2
-nnoremap U :UndotreeToggle<cr>
+nnoremap <silent> U :UndotreeToggle<cr>
 
 " search for last function def and call jsdoc
 nmap <silent> <c-l> ?function<cr>:noh<cr><Plug>(jsdoc)
-
