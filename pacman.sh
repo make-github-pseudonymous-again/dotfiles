@@ -6,6 +6,8 @@ echo 'must be run as root'
 exit 1
 fi
 
+pacman -R fzf
+
 pacman -Syu
 
 pacman -S --needed --noconfirm lsb-release
