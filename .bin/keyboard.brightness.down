@@ -2,7 +2,7 @@
 
 max_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/max_brightness)"
 actual_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/brightness)"
-step=`expr "$max_brightness" / 3`
+step=`expr "$max_brightness" / 33`
 brightness=`expr "$actual_brightness" - "$step"`
 
 if [ "$brightness" -lt 0 ] ; then
