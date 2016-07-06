@@ -34,9 +34,9 @@
 	cd sak
 	make install
     
-### Update vundle plugins
+### Update vim plugins (installs fzf)
 
-	vundle.update
+	vim.update
 	
 ## Usage
 

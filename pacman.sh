@@ -52,7 +52,7 @@ pacman -S --needed --noconfirm inkscape
 pacman -S --needed --noconfirm thefuck
 pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
-pacman -S --needed --noconfirm fzf
+pacman -S --needed --noconfirm the_silver_searcher
 pacman -S --needed --noconfirm at
 pacman -S --needed --noconfirm cups
 pacman -S --needed --noconfirm acpi
