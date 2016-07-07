@@ -88,8 +88,12 @@ set -o vi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #If you use vi mode on bash, you need to add set -o vi before source ~/.fzf.bash
 #in your .bashrc, so that it correctly sets up key bindings for vi mode.
-export FZF_DEFAULT_COMMAND='(\
-git ls-tree -r --name-only HEAD ||\
-find . -name .git -prune -o -type f -print -o -type l -print\
-| sed s/^..//\
+export FZF_DEFAULT_COMMAND='( \
+git ls-tree -r --name-only HEAD || \
+find . \
+-name .git -prune -o \
+-name node_modules -prune -o \
+-type f -print -o \
+-type l -print \
+| sed s/^..// \
 ) 2> /dev/null'
