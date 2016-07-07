@@ -420,6 +420,9 @@ bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 bindsym $mod+dollar exec setxkbmap us
 bindsym $mod+backslash exec setxkbmap be
 
+# disable/enable touchpad
+bindsym $mod+t exec touchpad.toggle
+
 #wifi
 #bindsym XF86WLAN exec wifi.toggle
 
