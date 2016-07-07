@@ -224,7 +224,7 @@ function tre() {
 # Image optimization tools (lossless)
 # credits to http://stackoverflow.com/a/19327447/1582182
 
-optigif() {
+function optigif() {
 	for file in "$@"
 	do
 		gifsicle -O "$file" -o "$file." && du -b "$file"{,.}
@@ -238,7 +238,7 @@ optigif() {
 	done
 }
 
-optijpeg() {
+function optijpeg() {
 	for file in "$@"
 	do
 		jpegtran -optimize "$file" > "$file." && du -b "$file"{,.}
@@ -250,4 +250,17 @@ optijpeg() {
 			rm "$file."
 		fi
 	done
+}
+
+## copy history command
+function ch() {
+	local line
+	shopt -u nocaseglob nocasematch
+	HISTTIMEFORMAT= history | \
+	eval "$(__fzfcmd) +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS" | \
+	command grep '^ *[0-9]' | \
+	awk '{$1="";print $0}' | \
+	tail -c +2 | \
+	xargs echo -n | \
+	xsel -b
 }
