@@ -1,7 +1,7 @@
 
 " Load configuration file into current browser, useful for updating after editing this file.
 command! sourcerc :source ~/.vimperatorrc
-
+map x <c-^> " switch between two tabs
 set hintchars=abcdefghijkopqrstuvwxyz
 set gui=nonavigation
 set toolbars=noaddons,nobookmarks,nomenu,nonavigation,notabs

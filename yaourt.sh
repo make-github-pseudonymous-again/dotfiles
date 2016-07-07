@@ -39,3 +39,4 @@ yaourt -S --needed yank
 yaourt -S --needed hangups-git
 yaourt -S --needed untex
 yoaurt -S --needed git-latexdiff
+yoaurt -S --needed ruby-coderay

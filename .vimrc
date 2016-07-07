@@ -61,6 +61,8 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/goyo.vim'
 " Hyperfocus-writing in Vim
 Plug 'junegunn/limelight.vim'
+" Vim plugin for the Perl module / CLI script 'ack'
+Plug 'mileszs/ack.vim'
 
 " ## COMPLETION ##
 " allows you to use <Tab> for all your insert completion needs
@@ -115,7 +117,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 " ## FUZZY FINDER ##
 " A command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 " bundle of fzf-based commands and mappings
 Plug 'junegunn/fzf.vim'
 
@@ -280,13 +282,50 @@ if has('gui_running')
 endif
 
 " goyo + limelight config
-let g:goyo_width=90
-nmap <silent> <c-m> :Goyo<cr>:Limelight!!0.7<cr>
+" let g:goyo_width=90
+let g:limelight_paragraph_span = 1
+let g:limelight_priority = -1
+
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+  endif
+  " hi NonText ctermfg=101
+  Limelight
+endfunction
+
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <Leader>g :Goyo<CR>
 
 " map c-p to fzf
-nn <c-p> :Files<cr>
-nn <c-s> :Ag<cr>
+nn <silent> <leader>f :Files<cr>
+nn <silent> <leader>q :Ag<cr>
 let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules -g ""'
+let g:fzf_files_options = '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+
+" use ag instead of ack if available
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+"ack.vim shortcut
+nn <silent> <leader>a :Ack<cr>
 
 " undotree config
 let g:undotree_WindowLayout = 2
@@ -294,3 +333,6 @@ nnoremap <silent> U :UndotreeToggle<cr>
 
 " search for last function def and call jsdoc
 nmap <silent> <c-l> ?function<cr>:noh<cr><Plug>(jsdoc)
+
+" noh shortcut
+nn <silent> <leader>d :noh<cr>
