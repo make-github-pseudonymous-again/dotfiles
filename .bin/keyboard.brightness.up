@@ -1,9 +1,11 @@
 #!/usr/bin/env sh
 
+i="$1"
+: ${i:=3}
 max_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/max_brightness)"
 actual_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/brightness)"
-step=`expr "$max_brightness" / 33`
-brightness=`expr "$actual_brightness" + "$step"`
+step="$(($max_brightness / 100 * $i))"
+brightness="$(($actual_brightness + $step))"
 
 if [ "$brightness" -gt "$max_brightness" ] ; then
 brightness="$max_brightness"
