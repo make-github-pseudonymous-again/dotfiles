@@ -1,3 +1,7 @@
+# disable Software Control Flow (c-s,c-q)
+# http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator
+stty -ixon
+
 # Add `~/.bin` to the `$PATH`
 # (already done in .xprofile)
 #if [ -d "$HOME/.bin" ] ; then

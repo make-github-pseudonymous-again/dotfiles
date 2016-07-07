@@ -284,7 +284,9 @@ let g:goyo_width=90
 nmap <silent> <c-m> :Goyo<cr>:Limelight!!0.7<cr>
 
 " map c-p to fzf
-nn <c-p> :FZF<cr>
+nn <c-p> :Files<cr>
+nn <c-s> :Ag<cr>
+let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules -g ""'
 
 " undotree config
 let g:undotree_WindowLayout = 2
