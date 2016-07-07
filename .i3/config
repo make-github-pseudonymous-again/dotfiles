@@ -393,12 +393,16 @@ bindsym XF86AudioLowerVolume exec volume.down
 bindsym XF86AudioMute exec volume.toggle
 
 # screen brightness
-bindsym XF86MonBrightnessUp exec screen.brightness.up
-bindsym XF86MonBrightnessDown exec screen.brightness.down
+bindsym XF86MonBrightnessUp exec screen.brightness.up 10
+bindsym XF86MonBrightnessDown exec screen.brightness.down 10
+bindsym Shift+XF86MonBrightnessUp exec screen.brightness.up 1
+bindsym Shift+XF86MonBrightnessDown exec screen.brightness.down 1
 
 # keyboard backlight
-bindsym XF86KbdBrightnessUp exec keyboard.brightness.up
-bindsym XF86KbdBrightnessDown exec keyboard.brightness.down
+bindsym XF86KbdBrightnessUp exec keyboard.brightness.up 10
+bindsym XF86KbdBrightnessDown exec keyboard.brightness.down 10
+bindsym Shift+XF86KbdBrightnessUp exec keyboard.brightness.up 1
+bindsym Shift+XF86KbdBrightnessDown exec keyboard.brightness.down 1
 
 # print screen
 bindsym --release Print exec screenshot.all
