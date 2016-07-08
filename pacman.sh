@@ -6,7 +6,7 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -R fzf
+pacman -R fzf 2>/dev/null
 
 pacman -Syu
 
@@ -46,6 +46,7 @@ pacman -S --needed --noconfirm transmission-gtk
 pacman -S --needed --noconfirm base-devel
 pacman -S --needed --noconfirm ffmpeg vlc
 pacman -S --needed --noconfirm pulseaudio pulseaudio-alsa pavucontrol
+pacman -S --needed --noconfirm rhythmbox brasero
 pacman -S --needed --noconfirm testdisk
 pacman -S --needed --noconfirm pkgfile
 pacman -S --needed --noconfirm bind-tools
