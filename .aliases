@@ -103,8 +103,9 @@ alias vdl='youtube-dl'
 alias adl='youtube-dl -f140 --'
 
 # thefuck aliases
-eval $(thefuck --alias fu)
+alias fu='TF_CMD=$(TF_ALIAS=fu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
 # THIS IS WAY TOO SLOW
+#eval $(thefuck --alias fu)
 #eval $(thefuck --alias fuu)
 #eval $(thefuck --alias fuuu)
 #eval $(thefuck --alias fuk)
