@@ -112,7 +112,7 @@ trap 'timer_start' DEBUG
 
 function prompt_right() {
   # output code and time for last command with newline
-  right="\[${bold}\]$?/${timer_show}s\[${reset}\]"
+  right="\[${bold}\]\$?/${timer_show}s\[${reset}\]"
   echo -e "$right"
 }
 
