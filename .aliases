@@ -102,4 +102,4 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias vdl='youtube-dl'
 alias adl='youtube-dl -f140 --'
 
-eval $(thefuck --alias)
+eval $(thefuck --alias fu)
