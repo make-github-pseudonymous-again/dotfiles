@@ -6,7 +6,7 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -R fzf 2>/dev/null
+pacman -Qi fzf 2>/dev/null && pacman -R fzf
 
 pacman -Syu
 
