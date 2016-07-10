@@ -336,3 +336,10 @@ nmap <silent> <c-l> ?function<cr>:noh<cr><Plug>(jsdoc)
 
 " noh shortcut
 nn <silent> <leader>d :noh<cr>
+
+" shorter window moves
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
