@@ -271,6 +271,26 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+"toggle syntastic on a per buffer basis
+function! SyntasticToggle()
+    if !exists('b:syntastic_disabled')
+        let b:syntastic_disabled = 0
+    endif
+    if !b:syntastic_disabled
+        let b:syntastic_mode = "passive"
+        SyntasticReset
+        let b:syntastic_disabled = 1
+    else
+        SyntasticCheck
+        let b:syntastic_mode = "active"
+        let b:syntastic_disabled = 0
+    endif
+    echo 'Syntastic ' . ['enabled', 'disabled'][b:syntastic_disabled]
+endfunction
+
+command! SyntasticToggle call SyntasticToggle()
+nn <silent> <leader>x :SyntasticToggle<cr>
+
 " clean up gvim interface
 if has('gui_running')
   set guioptions-=m  "remove menu bar
