@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+DATE="$(date +'%Y-%m-%dT%H:%M:%S')"
+
+if test "$#" -lt 1 ; then
+	echo 'usage: backup <file> <...files>' >&2
+	exit 1
+fi
+
+for INPUT in "$@"; do
+	DIRNAME=$(dirname "$INPUT")
+	BASENAME=$(basename "$INPUT")
+	OUTPUT="$DIRNAME"'/'"$DATE"'.'"$BASENAME"
+
+	cp "$INPUT" "$OUTPUT"
+
+	if [ "$?" != 0 ] ; then
+		echo 'failed to backup '"$INPUT" >&2
+	fi
+
+done
+
+
