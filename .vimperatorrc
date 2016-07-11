@@ -1,8 +1,14 @@
 
 " Load configuration file into current browser, useful for updating after editing this file.
 command! sourcerc :source ~/.vimperatorrc
-map x <c-^> " switch between two tabs
+
+" switch between two tabs
+map x <c-^>
+
+" restrict the set of hintchars to avoid confusion
 set hintchars=abcdefghijkopqrstuvwxyz
+
+" clean up the ui
 set gui=nonavigation
 set toolbars=noaddons,nobookmarks,nomenu,nonavigation,notabs
 
