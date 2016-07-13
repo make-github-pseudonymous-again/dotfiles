@@ -2,6 +2,9 @@
 " Load configuration file into current browser, useful for updating after editing this file.
 command! sourcerc :source ~/.vimperatorrc
 
+" do not close with d on last tab
+set! browser.tabs.closeWindowWithLastTab=false
+
 " switch between two tabs
 map x <c-^>
 
