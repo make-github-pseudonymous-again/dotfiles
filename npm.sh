@@ -25,3 +25,4 @@ npm i -g man-n
 npm i -g np
 npm i -g babel-cli
 npm i -g esdoc
+npm i -g ava-codemods
