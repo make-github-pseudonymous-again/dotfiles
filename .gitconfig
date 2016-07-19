@@ -123,6 +123,11 @@
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
 
+[pull]
+
+	# Rebase instead of merge
+	rebase = 1
+
 [push]
 
 	# New git installation default
