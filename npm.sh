@@ -6,6 +6,8 @@ echo 'must be run as root'
 exit 1
 fi
 
+npm i -g semver
+npm i -g npm
 npm i -g n
 npm i -g jshint
 npm i -g peerflix
