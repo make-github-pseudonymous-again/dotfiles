@@ -7,4 +7,3 @@ exit 1
 fi
 
 gem update --system
-gem i git-up --no-user-install
