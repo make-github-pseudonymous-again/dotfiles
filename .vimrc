@@ -44,7 +44,7 @@ Plug 'airblade/vim-gitgutter'
 " A tree explorer plugin for vim.
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Preview colours in source code while editing
-Plug 'ap/vim-css-color'
+Plug 'ap/vim-css-color', { 'for': 'css' }
 " causes all trailing whitespace characters (spaces and tabs) to be highlighted
 Plug 'ntpeters/vim-better-whitespace'
 " A Vim plugin for visually displaying indent levels in code: <leader>ig
@@ -82,7 +82,7 @@ Plug 'heavenshell/vim-jsdoc'
 " Go development plugin for Vim
 Plug 'fatih/vim-go'
 " tern is a JavaScript code analyzer for deep, cross-editor language support
-Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 " Enhanced javascript syntax file for Vim
 Plug 'jelera/vim-javascript-syntax'
 " Vastly improved Javascript indentation and syntax support in Vim
