@@ -6,7 +6,6 @@ echo 'must be run as root'
 exit 1
 fi
 
-pip install semantic_version
 pip install cssselect
 pip install lxml
 pip install arrow
