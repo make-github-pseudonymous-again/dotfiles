@@ -14,3 +14,4 @@
 /usr/bin/systemctl --user start wifi-fingerprint
 /usr/bin/systemctl --user start hangouts
 /usr/bin/systemctl --user start recoll
+/usr/bin/systemctl --user start msmtp

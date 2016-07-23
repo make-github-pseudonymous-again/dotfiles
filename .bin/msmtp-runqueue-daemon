@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+while true; do
+	msmtp-runqueue
+	sleep 300
+done

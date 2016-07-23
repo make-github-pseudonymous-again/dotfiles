@@ -14,3 +14,4 @@
 /usr/bin/systemctl --user stop wifi-fingerprint
 /usr/bin/systemctl --user stop hangouts
 /usr/bin/systemctl --user stop recoll
+/usr/bin/systemctl --user stop msmtp

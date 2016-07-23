@@ -1,0 +1,9 @@
+[Unit]
+Description=msmtp queue daemon
+
+[Service]
+ExecStart=/usr/bin/env sh msmtp-runqueue-daemon
+Restart=always
+
+[Install]
+WantedBy=default.target
