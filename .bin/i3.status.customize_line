@@ -35,6 +35,11 @@ if test "$mail_count" -gt 0; then
 	prepend='{"name":"new mail","color":"#6DE256","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
+pending_count="$(msmtp-pending)"
+if test "$pending_count" -gt 0; then
+	prepend='{"name":"pending sent mail","color":"#6DE256","full_text":" '"$pending_count"'"},'"$prepend"
+fi
+
 hangouts_status="$(cat "$HOME"'/.cache/hangups/_status')"
 hangouts_type="$(echo "$hangouts_status" | jq -r '.status')"
 if [ "$hangouts_type" = 'error' ]; then
