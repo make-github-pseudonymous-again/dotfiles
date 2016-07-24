@@ -15,3 +15,5 @@
 /usr/bin/systemctl --user start hangouts
 /usr/bin/systemctl --user start recoll
 /usr/bin/systemctl --user start msmtp
+/usr/bin/systemctl --user start unhang-offlineimap
+/usr/bin/systemctl --user start unhang-hangouts
