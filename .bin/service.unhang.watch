@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+UNIT="$1"
+
+while true; do
+	sleep 600
+	service.unhang "$UNIT"
+done
