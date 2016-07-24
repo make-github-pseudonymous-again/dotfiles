@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+UNIT="$1"
+
+LASTEVENT=$(journalctl --user-unit "$UNIT" -n 1 -o json)
+
+if [ -z "$LASTEVENT" ] ; then
+	systemctl restart --user "$UNIT"
+	exit "$?"
+fi
+
+LASTTIME=$(echo "$LASTEVENT" | jq -r '.__REALTIME_TIMESTAMP')
+
+NOW=$(date +%s%N)
+
+DELTA="$(($NOW - $LASTTIME))"
+
+if [ "$DELTA" -gt 900000000000 ] ; then
+	systemctl restart --user "$UNIT"
+	exit "$?"
+fi
+
+# service still running
+# nothing to do
+exit 0
