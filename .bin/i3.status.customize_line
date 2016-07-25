@@ -37,7 +37,11 @@ fi
 
 pending_count="$(msmtp-pending)"
 if test "$pending_count" -gt 0; then
-	prepend='{"name":"pending sent mail","color":"#6DE256","full_text":" '"$pending_count"'"},'"$prepend"
+	if msmtp-runqueue-is-running; then
+		prepend='{"name":"pending sent mail","color":"#6DE256","full_text":" '"$pending_count"'"},'"$prepend"
+	else
+		prepend='{"name":"pending sent mail","color":"#C5E946","full_text":" '"$pending_count"'"},'"$prepend"
+	fi
 fi
 
 hangouts_status="$(cat "$HOME"'/.cache/hangups/_status')"

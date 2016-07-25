@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+QUEUEDIR="$HOME/.msmtpqueue"
+LOCKFILE="$QUEUEDIR/.lock"
+
+if [ -e "$LOCKFILE" ]; then
+	exit 0
+else
+	exit 1
+fi
