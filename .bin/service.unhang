@@ -18,12 +18,12 @@ fi
 
 LASTTIME=$(echo "$LASTEVENT" | jq -r '.__REALTIME_TIMESTAMP')
 
-NOW=$(date +%s%N)
+NOW=$(date +%s%6N)
 
 DELTA="$(($NOW - $LASTTIME))"
-WAIT=900000000000
+WAIT=900000000
 if [ "$DELTA" -gt "$WAIT" ] ; then
-	>&2 echo "Last event for '$UNIT' is older than $WAIT nanoseconds. Restarting..."
+	>&2 echo "Last event for '$UNIT' is older than $WAIT microseconds. Restarting..."
 	systemctl restart --user "$UNIT"
 	EC="$?"
 	if [ "$EC" -eq 0 ] ; then
