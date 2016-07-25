@@ -352,7 +352,7 @@ let g:undotree_WindowLayout = 2
 nnoremap <silent> U :UndotreeToggle<cr>
 
 " search for last function def and call jsdoc
-nmap <silent> <c-l> ?function<cr>:noh<cr><Plug>(jsdoc)
+nmap <silent> <leader>j ?function<cr>:noh<cr><Plug>(jsdoc)
 
 " noh shortcut
 nn <silent> <leader>d :noh<cr>
