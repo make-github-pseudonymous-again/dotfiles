@@ -5,8 +5,15 @@ UNIT="$1"
 LASTEVENT=$(journalctl --user-unit "$UNIT" -n 1 -o json)
 
 if [ -z "$LASTEVENT" ] ; then
+	>&2 echo "Couldn't find last event for '$UNIT'. Restarting..."
 	systemctl restart --user "$UNIT"
-	exit "$?"
+	EC="$?"
+	if [ "$EC" -eq 0 ] ; then
+		>&2 echo "Success :)"
+	else
+		>&2 echo "Error :("
+	fi
+	exit "$EC"
 fi
 
 LASTTIME=$(echo "$LASTEVENT" | jq -r '.__REALTIME_TIMESTAMP')
@@ -14,12 +21,22 @@ LASTTIME=$(echo "$LASTEVENT" | jq -r '.__REALTIME_TIMESTAMP')
 NOW=$(date +%s%N)
 
 DELTA="$(($NOW - $LASTTIME))"
-
-if [ "$DELTA" -gt 900000000000 ] ; then
+WAIT=900000000000
+if [ "$DELTA" -gt "$WAIT" ] ; then
+	>&2 echo "Last event for '$UNIT' is older than $WAIT nanoseconds. Restarting..."
+	systemctl restart --user "$UNIT"
+	EC="$?"
+	if [ "$EC" -eq 0 ] ; then
+		>&2 echo "Success :)"
+	else
+		>&2 echo "Error :("
+	fi
+	exit "$EC"
 	systemctl restart --user "$UNIT"
 	exit "$?"
 fi
 
-# service still running
+# unit still running
 # nothing to do
+>&2 echo "The unit '$UNIT' appears to be running fine."
 exit 0

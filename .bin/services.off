@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
 /usr/bin/systemctl --user import-environment PATH
+/usr/bin/systemctl --user stop unhang-offlineimap
+/usr/bin/systemctl --user stop unhang-hangouts
 /usr/bin/systemctl --user stop clipboard
 /usr/bin/systemctl --user stop offlineimap
 #/usr/bin/systemctl --user stop news
@@ -15,5 +17,3 @@
 /usr/bin/systemctl --user stop hangouts
 /usr/bin/systemctl --user stop recoll
 /usr/bin/systemctl --user stop msmtp
-/usr/bin/systemctl --user stop unhang-offlineimap
-/usr/bin/systemctl --user stop unhang-hangouts
