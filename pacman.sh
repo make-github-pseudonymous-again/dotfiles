@@ -7,6 +7,7 @@ exit 1
 fi
 
 pacman -Qi fzf 2>/dev/null && pacman -R fzf
+pacman -Qi keybase-release 2>/dev/null && pacman -R keybase-release
 
 pacman -Syu
 
