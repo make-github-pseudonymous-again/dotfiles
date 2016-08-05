@@ -92,6 +92,7 @@ pacman -S --needed --noconfirm ncdu
 
 pacman -S --needed --noconfirm usbmuxd gvfs-afc
 pacman -S --needed --noconfirm tumbler thunar
+pacman -S --needed --noconfirm exfat-utils
 
 # image manipulation
 
