@@ -32,20 +32,18 @@
 -- if you really want the Control key, write "Control"
 -- you can also write "Command" for the Command key for clarity.
 
-shortcuts = {
-  delete = "backspace",
-  duplicate = "Shift+D",
-  edit_as_xml = "Shift+X",
-  mode_pan = "C",
-  mode_shredder = "W",
-  mode_math = "Shift+M",
-  snapvtx = "&",
-  snapctl = "é",
-  snapbd = "\"",
-  snapint = "'",
-  snapgrid = "(",
-  snapangle = "§",
-  snapauto = "è",
-  grid_visible = "à",
-  fit_page = "Alt+\\",
-}
+shortcuts.delete = "backspace"
+shortcuts.duplicate = "Shift+D"
+shortcuts.edit_as_xml = "Shift+X"
+shortcuts.mode_pan = "C"
+shortcuts.mode_shredder = "W"
+shortcuts.mode_math = "Shift+M"
+shortcuts.snapvtx = "&"
+shortcuts.snapctl = "é"
+shortcuts.snapbd = "\""
+shortcuts.snapint = "'"
+shortcuts.snapgrid = "("
+shortcuts.snapangle = "§"
+shortcuts.snapauto = "è"
+shortcuts.grid_visible = "à"
+shortcuts.fit_page = "Alt+\\"
