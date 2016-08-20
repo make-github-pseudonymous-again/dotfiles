@@ -256,11 +256,11 @@ function optijpeg() {
 function ch() {
 	local line
 	shopt -u nocaseglob nocasematch
-	HISTTIMEFORMAT= history | \
+	line=$(history | \
 	eval "$(__fzfcmd) +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS" | \
 	command grep '^ *[0-9]' | \
 	awk '{$1="";print $0}' | \
 	tail -c +2 | \
-	xargs echo -n | \
-	xsel -b
+	xargs echo -n)
+	xsel -b <<< "$line"
 }
