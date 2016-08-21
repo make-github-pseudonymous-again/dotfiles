@@ -1,0 +1,17 @@
+#!/bin/env sh
+
+if [ "$#" -lt 1 ]; then
+	exit 1
+fi
+if [ "$#" -lt 2 ]; then
+	exit 0
+fi
+
+printf "$2"
+
+for arg in "${@:3}" ; do
+
+	printf "$1"
+	printf "$arg"
+
+done
