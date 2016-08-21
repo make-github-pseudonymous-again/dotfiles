@@ -19,6 +19,7 @@ font pango: Monospace, FontAwesome 8
 # container. In stacked or tabbed containers the title bar(s) will still be
 # shown if there is more than one window in the container.
 for_window [class="^.*"] border pixel 1
+hide_edge_borders both
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
