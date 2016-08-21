@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+wb --new-window https://habitica.com/#/tasks
