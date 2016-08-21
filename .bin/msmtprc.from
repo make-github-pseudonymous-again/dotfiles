@@ -1,2 +1,0 @@
-#!/bin/env sh
-cat "$HOME"'/.msmtprc' | grep '^from ' | cut -d' ' -f2
