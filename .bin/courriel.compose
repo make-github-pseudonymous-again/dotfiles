@@ -1,3 +1,90 @@
-#!/usr/bin/env sh
+#!/bin/env python3
 
-terminator -b -T compose -p sup.compose -x sup --compose "${1#mailto:}"
+import os
+import sys
+# For guessing MIME type based on file name extension
+import mimetypes
+
+from argparse import ArgumentParser
+
+from email import encoders
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+ADDSEP = ', '
+
+parser = ArgumentParser(description='Creates a MIME message. Body is read from stdin')
+
+parser.add_argument('-f', '--from', required=True, dest='sender',
+                    help='The value of the From: header (required)')
+
+parser.add_argument('-t', '--to', required=True, nargs='+', dest='recipients',
+                    help='A To: header value (at least one required)')
+
+parser.add_argument('--cc', nargs='*', dest='cc',
+                    help='Carbon copy header (optional)')
+
+parser.add_argument('--bcc', nargs='*', dest='bcc',
+                    help='Blind carbon copy header (optional)')
+
+parser.add_argument('-s', '--subject', nargs='?', default='', dest='subject',
+                    help='Subject header (optional)')
+
+parser.add_argument('-a', '--attachment', nargs='*', dest='attachments',
+                    help='Files to send as attachment (optional)')
+
+parser.add_argument('--html', action='store_true',
+                    help='Sets the mime-type of body part to html')
+
+args = parser.parse_args()
+
+# Create the enclosing (outer) message
+outer = MIMEMultipart()
+outer['From'] = args.sender
+outer['To'] = ADDSEP.join(args.recipients)
+outer['Cc'] = ADDSEP.join(args.cc)
+outer['Bcc'] = ADDSEP.join(args.bcc)
+outer['Subject'] = args.subject
+
+body = sys.stdin.read()
+if body :
+    outer.attach( MIMEText( body , 'html' if args.html else 'plain' ) )
+
+for path in args.attachments:
+    if not os.path.isfile(path) : continue
+    filename=os.path.basename(path)
+    # Guess the content type based on the file's extension.  Encoding
+    # will be ignored, although we should check for simple things like
+    # gzip'd or compressed files.
+    ctype, encoding = mimetypes.guess_type(path)
+    if ctype is None or encoding is not None:
+        # No guess could be made, or the file is encoded (compressed), so
+        # use a generic bag-of-bits type.
+        ctype = 'application/octet-stream'
+    maintype, subtype = ctype.split('/', 1)
+    if maintype == 'text':
+        with open(path) as fp:
+            # Note: we should handle calculating the charset
+            msg = MIMEText(fp.read(), _subtype=subtype)
+    elif maintype == 'image':
+        with open(path, 'rb') as fp:
+            msg = MIMEImage(fp.read(), _subtype=subtype)
+    elif maintype == 'audio':
+        with open(path, 'rb') as fp:
+            msg = MIMEAudio(fp.read(), _subtype=subtype)
+    else:
+        with open(path, 'rb') as fp:
+            msg = MIMEBase(maintype, subtype)
+            msg.set_payload(fp.read())
+        # Encode the payload using Base64
+        encoders.encode_base64(msg)
+    # Set the filename parameter
+    msg.add_header('Content-Disposition', 'attachment', filename=filename)
+    outer.attach(msg)
+# Now send or store the message
+composed = outer.as_string()
+
+print(composed)
