@@ -15,11 +15,12 @@ bcc=( )
 subject=""
 body=/dev/null
 attachments=( "$@" )
+fzf="$HOME/.fzf/bin/fzf"
 
 function _from {
   clear
   while true ; do
-    from_="$(courriel.from | fzf --header 'From:')"
+    from_="$(courriel.from | $fzf --header 'From:')"
 
     if [ "$?" -ne 0 ] ; then
       if [ "$from" = '' ] ; then
@@ -40,7 +41,7 @@ function _from {
 function _to {
   clear
   while true ; do
-    to_="$(courriel.to | fzf -m --header 'To:')"
+    to_="$(courriel.to | $fzf -m --header 'To:')"
 
     if [ "$?" -ne 0 ] ; then
       if [ "${#to[@]}" -eq 0 ] ; then
@@ -60,7 +61,7 @@ function _to {
 
 function _cc {
   clear
-  cc_="$(courriel.to | fzf -m --header 'Cc:')"
+  cc_="$(courriel.to | $fzf -m --header 'Cc:')"
   if [ "$?" -ne 0 ] ; then
     return
   fi
@@ -73,7 +74,7 @@ function _Dcc {
 
 function _bcc {
   clear
-  bcc_="$(courriel.to | fzf -m --header 'Bcc:')"
+  bcc_="$(courriel.to | $fzf -m --header 'Bcc:')"
   if [ "$?" -ne 0 ] ; then
     return
   fi
@@ -112,7 +113,7 @@ function _Dbody {
 
 function _attachments {
   clear
-  attachments_="$(fzf -m --header 'Attachments:')"
+  attachments_="$($fzf -m --header 'Attachments:')"
   if [ "$?" -ne 0 ] ; then
     return
   fi
