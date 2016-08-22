@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+msmtp-enqueue -t --read-envelope-from

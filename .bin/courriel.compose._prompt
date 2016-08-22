@@ -1,0 +1,217 @@
+#!/bin/env bash
+
+exec 3>&1
+exec 1>&2
+
+declare -a to
+declare -a cc
+declare -a bcc
+declare -a attachments
+
+from=""
+to=( )
+cc=( )
+bcc=( )
+subject=""
+body=/dev/null
+attachments=( "$@" )
+
+function _from {
+  clear
+  while true ; do
+    from_="$(courriel.from | fzf --header 'From:')"
+
+    if [ "$?" -ne 0 ] ; then
+      if [ "$from" = '' ] ; then
+	clear
+	read -p 'Empty From: field (enter to start again, ctrl-c to cancel)'
+	continue
+      else
+	return
+      fi
+    fi
+
+    from="$from_"
+    break
+
+  done
+}
+
+function _to {
+  clear
+  while true ; do
+    to_="$(courriel.to | fzf -m --header 'To:')"
+
+    if [ "$?" -ne 0 ] ; then
+      if [ "${#to[@]}" -eq 0 ] ; then
+	clear
+	read -p 'Empty To: field (enter to start again, ctrl-c to cancel)'
+	continue
+      else
+	return
+      fi
+    fi
+
+    readarray -t to < <(<<< "$to_" sort)
+    break
+
+  done
+}
+
+function _cc {
+  clear
+  cc_="$(courriel.to | fzf -m --header 'Cc:')"
+  if [ "$?" -ne 0 ] ; then
+    return
+  fi
+  readarray -t cc < <(<<< "$cc_" sort)
+}
+
+function _Dcc {
+  cc=( )
+}
+
+function _bcc {
+  clear
+  bcc_="$(courriel.to | fzf -m --header 'Bcc:')"
+  if [ "$?" -ne 0 ] ; then
+    return
+  fi
+  readarray -t bcc < <(<<< "$bcc_" sort)
+}
+
+function _Dbcc {
+  bcc=( )
+}
+
+function _subject {
+  clear
+  if read -e -i "$subject" -p 'Subject (enter to leave as is): ' subject_ ; then
+    subject="$subject_"
+  fi
+}
+
+function _Dsubject {
+  subject=""
+}
+
+function _body {
+  clear
+  if [ "$body" = '/dev/null' ] ; then
+    body=$(mktemp /tmp/courriel_compose_prompt.XXXXXXXXXX)
+    vim "$body"
+  else
+    vim "$body"
+  fi
+}
+
+function _Dbody {
+  _cleanup
+  body='/dev/null'
+}
+
+function _attachments {
+  clear
+  attachments_="$(fzf -m --header 'Attachments:')"
+  if [ "$?" -ne 0 ] ; then
+    return
+  fi
+  readarray -t attachments < <(<<< "$attachments_" sort)
+}
+
+function _Dattachments {
+  attachments=( )
+}
+
+function _sep {
+  printf '=%.0s' {1..80}
+  echo
+}
+
+function _preview {
+  echo 'From: '"$from"
+  echo 'To: '"$(joinarray ', ' "${to[@]}")"
+  if [ "${#cc[@]}" -gt 0 ] ; then
+	echo 'Cc: '"$(joinarray ', ' "${cc[@]}")"
+  fi
+  if [ "${#bcc[@]}" -gt 0 ] ; then
+	echo 'Bcc: '"$(joinarray ', ' "${bcc[@]}")"
+  fi
+  if [ "$subject" != '' ] ; then
+	echo 'Subject: '"$subject"
+  fi
+
+  if [ -s "$body" ] ; then
+    _sep
+    cat "$body"
+  fi
+
+  if [ "${#attachments[@]}" -gt 0 ] ; then
+    _sep
+    if [ "${#attachments[@]}" -eq 1 ] ; then
+      echo '1 attached file:'
+    else
+      echo "${#attachments[@]}"' attached files:'
+    fi
+
+    for file in "${attachments[@]}" ; do
+      echo '  - '"$file"
+    done
+  fi
+}
+
+function _send {
+  >&3 <"$body" courriel.compose -f "$from" -t "${to[@]}" --cc "${cc[@]}" --bcc "${bcc[@]}" -s "$subject" -a "${attachments[@]}"
+}
+
+function _cleanup {
+  if [ "$body" != '/dev/null' ] ; then
+    rm "$body"
+  fi
+}
+
+_from
+_to
+_subject
+
+title="What do you want to do?"
+prompt="Pick an option:"
+options=("send" \
+"edit From" "edit To" "edit Cc" "edit Bcc" "edit Subject" "edit body" "edit attachments" \
+"delete Cc" "delete Bcc" "delete Subject" "delete body" "delete attachments")
+
+PS3="$prompt "
+while true ; do
+
+  clear
+
+  _preview
+  echo
+  echo "$title"
+  select opt in "${options[@]}" "quit"; do
+
+
+    case "$REPLY" in
+
+    1 ) _send; _cleanup; echo "Message sent :)"; exit 0;;
+    2 ) _from; break;;
+    3 ) _to; break;;
+    4 ) _cc; break;;
+    5 ) _bcc; break;;
+    6 ) _subject; break;;
+    7 ) _body; break;;
+    8 ) _attachments; break;;
+    9 ) _Dcc; break;;
+    10 ) _Dbcc; break;;
+    11 ) _Dsubject; break;;
+    12 ) _Dbody; break;;
+    13 ) _Dattachments; break;;
+
+    $(( ${#options[@]}+1 )) ) echo "Canceled by user :("; _cleanup; exit 1;;
+    *) echo "Invalid option."; sleep 1; break;;
+
+    esac
+
+  done
+
+done
