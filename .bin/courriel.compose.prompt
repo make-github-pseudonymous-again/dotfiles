@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-courriel.compose._prompt | courriel.send
+mail="$(courriel.compose._prompt)"
+<<< "$mail" courriel.send

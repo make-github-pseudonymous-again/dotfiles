@@ -8,13 +8,13 @@ import mimetypes
 from argparse import ArgumentParser
 
 from email import encoders
+from email.utils import parseaddr
+from email.utils import formataddr
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-ADDSEP = ', '
 
 parser = ArgumentParser(description='Creates a MIME message. Body is read from stdin')
 
@@ -42,11 +42,13 @@ parser.add_argument('--html', action='store_true',
 args = parser.parse_args()
 
 # Create the enclosing (outer) message
+ADDSEP = ', '
+addfmt = lambda x : formataddr( parseaddr( x ) )
 outer = MIMEMultipart()
-outer['From'] = args.sender
-outer['To'] = ADDSEP.join(args.recipients)
-outer['Cc'] = ADDSEP.join(args.cc)
-outer['Bcc'] = ADDSEP.join(args.bcc)
+outer['From'] = addfmt( args.sender )
+outer['To'] = ADDSEP.join(list(map( addfmt , args.recipients) ) )
+outer['Cc'] = ADDSEP.join(list(map( addfmt , args.cc) ) )
+outer['Bcc'] = ADDSEP.join(list(map( addfmt , args.bcc) ) )
 outer['Subject'] = args.subject
 
 body = sys.stdin.read()
