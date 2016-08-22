@@ -109,7 +109,7 @@ function _Dbody {
 
 function _attachments {
   clear
-  attachments_="$(fzf -m --header 'Attachments: (ctrl-d for none)')"
+  attachments_="$(fzf -m --header 'Attachments:')"
   if [ "$?" -ne 0 ] ; then
     return
   fi
