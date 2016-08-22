@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+while true; do
+	if !is.ulb.ethernet.connected; then
+		ulb.printer.disconnect
+	elif !is.internet.accessible; then
+		if ulb.ethernet.auth && !is.papercut.running; then
+			ulb.printer.connect
+		fi
+	fi
+	sleep 60
+done

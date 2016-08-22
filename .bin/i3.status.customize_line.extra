@@ -31,6 +31,9 @@ if [ "$commuting" != '' ]; then
 fi
 
 geolocation="$(memoize-get 900 geolocation.fetch | jq -r '.tag')"
+if [ "$geolocation" = '' ]; then
+	geolocation="$(memoize-get 900 geolocation.fetch | jq -r '.ipgeolocation.city')"
+fi
 if [ "$geolocation" != '' ]; then
 	prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocation"'"},'"$prepend"
 fi

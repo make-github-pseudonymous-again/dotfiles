@@ -1,0 +1,9 @@
+[Unit]
+Description=ULB daemon
+
+[Service]
+ExecStart=/usr/bin/env sh ulb.poll
+Restart=always
+
+[Install]
+WantedBy=default.target

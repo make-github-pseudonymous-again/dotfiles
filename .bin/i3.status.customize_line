@@ -21,11 +21,9 @@ if is.ulb.ethernet.connected; then
 		if is.cups.running && is.papercut.running; then
 			prepend='{"name":"ulb printer","color":"#6DE256","full_text":" ulb"},'"$prepend"
 		else
-			ulb.printer.connect > /dev/null 2>&1 &
 			prepend='{"name":"ulb printer","color":"#C5E946","full_text":" ulb"},'"$prepend"
 		fi
 	else
-		ulb.ethernet.connect > /dev/null 2>&1 &
 		prepend='{"name":"ulb ethernet","color":"#C5E946","full_text":" ulb"},'"$prepend"
 	fi
 fi

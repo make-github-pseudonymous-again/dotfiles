@@ -17,3 +17,4 @@
 /usr/bin/systemctl --user stop hangouts
 /usr/bin/systemctl --user stop recoll
 /usr/bin/systemctl --user stop msmtp
+/usr/bin/systemctl --user stop ulb
