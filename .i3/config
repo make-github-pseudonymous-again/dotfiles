@@ -308,6 +308,8 @@ mode "system" {
 
         bindsym t exec menu.timezone; mode "default"
 
+        bindsym k exec menu.keyboard; mode "default"
+
         bindsym s exec menu.systemctl; mode "default"
         bindsym x exec menu.systemctl.status; mode "default"
         bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
@@ -420,10 +422,6 @@ bindsym --release Shift+XF86LaunchA exec screenshot.selection
 bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
 bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 
-
-#keyboard layout
-bindsym $mod+dollar exec setxkbmap us
-bindsym $mod+backslash exec setxkbmap be
 
 # disable/enable touchpad
 bindsym $mod+t exec touchpad.toggle
