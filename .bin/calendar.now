@@ -116,7 +116,7 @@ try:
         begin = begin.format(bf),
         hbegin = begin.humanize(),
         hend = end.humanize( ) ,
-        name = name,
+        name = (name[:47] + '..') if len(name) > 49 else name,
         location = short_location
     )
 
