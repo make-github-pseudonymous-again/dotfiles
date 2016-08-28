@@ -5,9 +5,141 @@ import os
 import traceback
 import hashlib
 import arrow
+import datetime
 import ics
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+def _humanize(time, ref):
+
+    x = time.humanize(ref)
+
+    if x == "in seconds":
+
+        return "in {} seconds".format((time - ref).seconds)
+
+    if x == "just now":
+
+        return "now"
+
+    return x
+
+
+def _duration(A, B):
+
+    x = _humanize(B, A)
+
+    if x == 'now':
+
+        return '{} seconds'.format((B - A).seconds)
+
+    if x == 'in a minute':
+
+        return '1 minute'
+
+    return x[3:]
+
+def _range ( now , begin , end ) :
+
+    if end - begin < datetime.timedelta(1) :
+        hour = True
+    elif begin.to('utc').time().minute != end.to('utc').time().minute :
+        hour = True
+    elif begin.to('utc').time().second != end.to('utc').time().second :
+        hour = True
+    elif begin.to('utc').time().hour in [ 22 , 23 , 0 ] and end.to('utc').time().hour in [ 22 , 23 , 0 ] :
+        hour = False
+    else :
+        hour = True
+
+    if hour :
+
+        bf = 'YYYY, MMM DD, HH:mm'
+        if begin.year == now.year:
+            if begin.month == now.month:
+                if begin.day == now.day:
+                    bf = 'HH:mm'
+                else :
+                    bf = 'ddd DD, HH:mm'
+            else:
+                bf = 'MMM DD, HH:mm'
+
+        ef = 'YYYY, MMM DD, HH:mm'
+        if end.year == begin.year:
+            if end.month == begin.month:
+                if end.day == begin.day:
+                    ef = 'HH:mm'
+                else:
+                    ef = 'DD, HH:mm'
+            else:
+                ef = 'MMM DD, HH:mm'
+
+    else :
+
+        bf = 'YYYY, MMM DD'
+        if begin.year == now.year:
+            if begin.month == now.month:
+                if begin.day == now.day:
+                    bf = 'HH:mm'
+                else :
+                    bf = 'ddd DD'
+            else:
+                bf = 'MMM DD'
+
+        ef = 'YYYY, MMM DD'
+        if end - begin < datetime.timedelta(365) :
+            if end.month == begin.month:
+                ef = 'DD'
+            else:
+                ef = 'MMM DD'
+
+    return begin.format( bf ) + ' - ' + end.format( ef )
+
+
+def _shortduration(A, B):
+
+    return _shorten(_duration(A, B))
+
+
+def _shorthumanize(time, ref):
+
+    return _shorten(_humanize(time, ref))
+
+def _tinyduration(A, B):
+
+    return _tinier(_duration(A, B))
+
+
+def _tinyhumanize(time, ref):
+
+    return _tinier(_humanize(time, ref))
+
+
+def _shorten(x):
+
+    if 'minutes' in x or 'seconds' in x:
+
+        return x[:-4]
+
+    if 'minute' in x:
+
+        return x[:-3]
+
+    return x
+
+def _tinier(x):
+
+    if 'minutes' in x or 'seconds' in x:
+
+        return x[:-6]
+
+    if 'minute' in x:
+
+        return x[:-5]
+
+    return x
+
+
 
 CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
@@ -137,23 +269,13 @@ for title, events in sections:
         end = event.end.to('local')
 
         # event format
-        ef = '{begin} ({hbegin}) - {name}'
-        if begin < now:
+        if begin >= now:
+            ef = '{range} ({hbegin}) - {name}'
+        else:
             ef = '(started {hbegin}, ends {hend}) - {name}'
 
         if location :
             ef += ' ( {location})'
-
-        # time format for begin
-        bf = 'YYYY, MMM DD, HH:mm'
-        if begin.year == now.year:
-            if begin.month == now.month:
-                if begin.day == now.day:
-                    bf = 'HH:mm'
-                else:
-                    bf = 'ddd DD, HH:mm'
-            else:
-                bf = 'MMM DD, HH:mm'
 
         if _main is not None and event == _main:
             ef = UNDERLINE + ef + ENDC
@@ -165,9 +287,10 @@ for title, events in sections:
             ef = BOLD + ef + ENDC
 
         line = ef.format(
-            begin = begin.format(bf),
             hbegin = begin.humanize(),
+            range = _range( now , begin , end ) ,
             hend = end.humanize( ) ,
+            hduration = 'lasts ' +  _duration( begin , end ) ,
             name = name,
             location = location
         )
