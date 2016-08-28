@@ -91,7 +91,8 @@ Open gimp and select Windows > Single-Window Mode.
 
 ### Enable services
 
-	systemctl enable atd
+	systemctl enable ntpd # clock sync
+	systemctl enable atd # at program
 
 ## Credits
 
