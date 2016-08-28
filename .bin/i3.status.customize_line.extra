@@ -45,8 +45,11 @@ fi
 badge="$(system.status.badge)"
 append="$badge"','"$append"
 
-kbmap="$(keyboard.layout)"
-append='{"name":"keyboard layout","color":"#FFFFFF","full_text":" '"$kbmap"'"},'"$append"
+kb="$(keyboard.layout)"
+append='{"name":"keyboard","color":"#FFFFFF","full_text":" '"$kb"'"},'"$append"
+
+tz="$(timezone.current)"
+append='{"name":"timezone","color":"#FFFFFF","full_text":" '"$tz"'"},'"$append"
 
 
 if [ "$prepend" != "$PREPEND_INIT" ] || [ "$append" != "$APPEND_INIT" ] ; then

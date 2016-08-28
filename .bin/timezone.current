@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+timedatectl | grep 'Time zone' | sed 's/.*: //g' | cut -d' ' -f1
