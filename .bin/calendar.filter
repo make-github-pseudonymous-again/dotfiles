@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import sys
+import os.path
+import traceback
+import hashlib
+import urllib.request
+import urllib.error
+import arrow
+import ics
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+CACHE = os.path.expanduser('~/.cache/calendar/{}')
+FRESH = os.path.expanduser('~/.cache/calendar/fresh/{}')
+CALENDARS = os.path.expanduser('~/.config/calendar/config')
+
+try:
+    os.makedirs(FRESH.format(''))
+except:
+    pass
+
+with open(CALENDARS, 'r') as _calendars:
+
+    _calendars = list(line.rstrip('\n')
+                      for line in _calendars if line[0] != '#')
+
+now = arrow.now()
+
+for _calendar in _calendars:
+
+    h = hashlib.sha1(_calendar.encode()).hexdigest()
+
+    cachefilename = CACHE.format(h)
+
+    log('loading {} from {}'.format(_calendar, cachefilename))
+
+    try:
+
+        with open(cachefilename, 'rb') as fd:
+
+            data = fd.read()
+            text = data.decode()
+
+        calendar = ics.Calendar(text)
+
+        calendar.events = list(filter(lambda x: x.end >= now, calendar.events))
+
+        freshfilename = FRESH.format(h)
+
+        log('writing {} to {}'.format(_calendar, freshfilename))
+
+        with open(freshfilename, 'w') as fd:
+
+            fd.writelines(calendar)
+
+    except ics.parse.ParseError as err:
+
+        log('Error parsing file: {}'.format(_calendar))
+        log(err)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
+
+    except FileNotFoundError as err:
+
+        log('Error writing file for {}'.format(_calendar))
+        log(err)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)

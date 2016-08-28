@@ -15,7 +15,7 @@ if [ "$urlab_open" = 'true' ] ; then
 	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
-calendar="$(memoize-get 3600 calendar.now)"
+calendar="$(memoize-ft 0 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
 fi

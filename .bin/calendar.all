@@ -1,9 +1,3 @@
 #!/usr/bin/env sh
 
-CALENDAR="$HOME/.cache/calendar/_all"
-
-if [ -e "$CALENDAR" ] ; then
-	less -R "$CALENDAR"
-else
-	echo "Calendar: could not find cache file" | less
-fi
+watchless 5 calendar._all

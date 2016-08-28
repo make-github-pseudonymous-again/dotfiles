@@ -1,12 +1,8 @@
 #!/usr/bin/env sh
 
-CALENDAR="$HOME/.cache/calendar/_all"
-
 while true; do
 	if calendar.fetch; then
-		memoize-ft 0 calendar.now
-		echo -en "\n > Generated on $(date -R)\n" > "$CALENDAR"
-		calendar._all >> "$CALENDAR"
+		calendar.filter
 		sleep 600
 	else
 		sleep 100

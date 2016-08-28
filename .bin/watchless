@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+pollinterval="$1" ; shift
+
+O=$(mktemp /tmp/watchless_buf_XXXXXXXX)
+2>/dev/null $@ > "$O" ;
+
+(while true ; do
+	sleep "$pollinterval";
+	T=$(mktemp /tmp/watchless_src_XXXXXXXX);
+	2>/dev/null $@ > "$T";
+	cat "$T" > "$O"; # avoids less to crash
+	# also `mv` does not work for some reason
+	rm -f "$T"
+done) &
+pid="$!"
+
+function clean {
+	rm -f "$O"
+	kill -9 "$pid"
+	exit
+}
+
+trap clean SIGHUP SIGINT SIGTERM
+
+less -R "$O"
+clean

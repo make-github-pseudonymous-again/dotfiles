@@ -9,7 +9,7 @@ import ics
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-CACHE = os.path.expanduser('~/.cache/calendar/{}')
+CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
 with open(CALENDARS, 'r') as _calendars:
@@ -116,6 +116,9 @@ BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
 ENDC = '\033[0m'
 
+
+print()
+print( ' > Generated on {}'.format(now.format('YYYY, MMM DD, HH:mm:ss')) )
 
 for title, events in sections:
 

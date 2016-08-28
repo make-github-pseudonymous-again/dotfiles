@@ -10,7 +10,7 @@ import json
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-CACHE = os.path.expanduser('~/.cache/calendar/{}')
+CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
 with open(CALENDARS, 'r') as _calendars:
