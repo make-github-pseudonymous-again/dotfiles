@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+timezone=$(timedatectl list-timezones | dmenu_center \
+--rest -i -t -p 'timezone' -sb '#76BF76' -l 10)
+
+if [ "$timezone" != '' ]; then
+	terminator -b -x timedatectl set-timezone "$timezone"
+fi

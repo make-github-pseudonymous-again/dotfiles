@@ -300,12 +300,15 @@ mode "tools" {
 }
 
 mode "system" {
+
         bindsym m exec terminator -b -x top -o +%CPU; mode "default"
+
         bindsym a exec terminator -b -x alsamixer; mode "default"
         bindsym Shift+A exec pavucontrol; mode "default"
 
-        bindsym s exec menu.systemctl; mode "default"
+        bindsym t exec menu.timezone; mode "default"
 
+        bindsym s exec menu.systemctl; mode "default"
         bindsym x exec menu.systemctl.status; mode "default"
         bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
 
