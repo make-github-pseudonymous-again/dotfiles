@@ -22,6 +22,7 @@ pacman -S --needed --noconfirm inotify-tools
 pacman -S --needed --noconfirm curl
 pacman -S --needed --noconfirm wget
 pacman -S --needed --noconfirm zip unzip
+pacman -S --needed --noconfirm unrar
 pacman -S --needed --noconfirm git
 pacman -S --needed --noconfirm rsync
 pacman -S --needed --noconfirm terminator
@@ -67,6 +68,7 @@ pacman -S --needed --noconfirm pass
 pacman -S --needed --noconfirm keybase
 pacman -S --needed --noconfirm qtox
 pacman -S --needed --noconfirm impressive
+pacman -S --needed --noconfirm klavaro
 
 pacman -S --needed --noconfirm newsbeuter
 
@@ -153,7 +155,6 @@ pacman -S --needed --noconfirm aspell-en
 
 ## already installed
 pacman -S --needed --noconfirm libxslt
-pacman -S --needed --noconfirm unzip
 pacman -S --needed --noconfirm poppler
 pacman -S --needed --noconfirm djvulibre
 pacman -S --needed --noconfirm python2
