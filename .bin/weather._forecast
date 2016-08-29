@@ -136,6 +136,20 @@ icons = {
     "tornado": ("", DARKGRAY),
 }
 
+print()
+print( ' > Generated on {}'.format(NOW.format('ddd, DD MMM YYYY HH:mm:ss Z')) )
+print( ' >  lat {latitude} lon {longitude} tz {timezone}'.format(**data) )
+
+print( """
+ > About precipitation intensity
+ ===============================
+ > A very rough guide is that a value of
+ > 0 mm/h corresponds to no precipitation,
+ > 0.05 mm/h corresponds to very light precipitation,
+ > 0.4  mm/h corresponds to light precipitation,
+ > 2.5 mm/h corresponds to moderate precipitation,
+ > and 10 mm/h corresponds to heavy precipitation. """)
+
 
 for day in daily:
 
