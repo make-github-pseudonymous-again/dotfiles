@@ -7,6 +7,8 @@ while true; do
 		if ulb.ethernet.auth && ! is.papercut.running; then
 			ulb.printer.connect
 		fi
+	elif ! is.papercut.running; then
+		ulb.printer.connect
 	fi
 	sleep 60
 done
