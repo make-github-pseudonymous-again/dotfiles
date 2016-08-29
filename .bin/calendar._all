@@ -250,7 +250,7 @@ ENDC = '\033[0m'
 
 
 print()
-print( ' > Generated on {}'.format(now.format('YYYY, MMM DD, HH:mm:ss')) )
+print( ' > Generated on {}'.format(now.format('ddd, DD MMM YYYY HH:mm:ss Z')) )
 
 for title, events in sections:
 
