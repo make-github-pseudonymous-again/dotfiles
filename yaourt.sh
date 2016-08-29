@@ -35,7 +35,7 @@ yaourt -S --needed solaar
 yaourt -S --needed ipe
 yaourt -S --needed astroid
 yaourt -S --needed pdftk-bin
-yaourt -S --needed yank
+yaourt -S --needed yank-git
 yaourt -S --needed hangups-git
 yaourt -S --needed untex
 yaourt -S --needed git-latexdiff
