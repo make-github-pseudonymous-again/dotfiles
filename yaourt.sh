@@ -38,7 +38,7 @@ yaourt -S --needed pdftk-bin
 yaourt -S --needed yank
 yaourt -S --needed hangups-git
 yaourt -S --needed untex
-yoaurt -S --needed git-latexdiff
-yoaurt -S --needed ruby-coderay
+yaourt -S --needed git-latexdiff
+yaourt -S --needed ruby-coderay
 yaourt -S --needed python-semantic_version
 yaourt -S --needed xkblayout-state
