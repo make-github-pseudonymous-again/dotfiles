@@ -15,16 +15,16 @@ if ! is.wifi.enabled; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
 fi
 
-if is.ulb.ethernet.connected; then
+if is.ulb.network.connected; then
 	if is.internet.accessible; then
-		prepend='{"name":"ulb ethernet","color":"#6DE256","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb network","color":"#6DE256","full_text":" ulb"},'"$prepend"
 		if is.cups.running && is.papercut.running; then
 			prepend='{"name":"ulb printer","color":"#6DE256","full_text":" ulb"},'"$prepend"
 		else
 			prepend='{"name":"ulb printer","color":"#C5E946","full_text":" ulb"},'"$prepend"
 		fi
 	else
-		prepend='{"name":"ulb ethernet","color":"#C5E946","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb network","color":"#C5E946","full_text":" ulb"},'"$prepend"
 	fi
 fi
 
