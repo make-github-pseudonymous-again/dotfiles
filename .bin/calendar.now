@@ -5,10 +5,67 @@ import os
 import traceback
 import hashlib
 import arrow
+import datetime
 import ics
 import json
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+def _range ( now , begin , end ) :
+
+    if end - begin < datetime.timedelta(1) :
+        hour = True
+    elif begin.to('utc').time().minute != end.to('utc').time().minute :
+        hour = True
+    elif begin.to('utc').time().second != end.to('utc').time().second :
+        hour = True
+    elif begin.to('utc').time().hour in [ 22 , 23 , 0 ] and end.to('utc').time().hour in [ 22 , 23 , 0 ] :
+        hour = False
+    else :
+        hour = True
+
+    if hour :
+
+        bf = 'YYYY, MMM DD, HH:mm'
+        if begin.year == now.year:
+            if begin.month == now.month:
+                if begin.day == now.day:
+                    bf = 'HH:mm'
+                else :
+                    bf = 'ddd DD, HH:mm'
+            else:
+                bf = 'MMM DD, HH:mm'
+
+        ef = 'YYYY, MMM DD, HH:mm'
+        if end.year == begin.year:
+            if end.month == begin.month:
+                if end.day == begin.day:
+                    ef = 'HH:mm'
+                else:
+                    ef = 'DD, HH:mm'
+            else:
+                ef = 'MMM DD, HH:mm'
+
+    else :
+
+        bf = 'YYYY, MMM DD'
+        if begin.year == now.year:
+            if begin.month == now.month:
+                if begin.day == now.day:
+                    bf = 'HH:mm'
+                else :
+                    bf = 'ddd DD'
+            else:
+                bf = 'MMM DD'
+
+        ef = 'YYYY, MMM DD'
+        if end - begin < datetime.timedelta(365) :
+            if end.month == begin.month:
+                ef = 'DD'
+            else:
+                ef = 'MMM DD'
+
+    return begin.format( bf ) + ' - ' + end.format( ef )
 
 CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
@@ -90,22 +147,12 @@ try:
     if begin < now:
         ef += ' - (started {hbegin}, ends {hend})'
     else:
-        ef += ' - {begin} ({hbegin})'
+        ef += ' - {range} ({hbegin})'
 
 
-    # time format for begin
-    bf = 'YYYY, MMM DD, HH:mm'
-    if begin.year == now.year:
-        if begin.month == now.month:
-            if begin.day == now.day:
-                bf = 'HH:mm'
-            else:
-                bf = 'ddd DD, HH:mm'
-        else:
-            bf = 'MMM DD, HH:mm'
 
     full_text = ef.format(
-        begin = begin.format(bf),
+        range = _range( now , begin , end ) ,
         hbegin = begin.humanize(),
         hend = end.humanize( ) ,
         name = name,
@@ -113,7 +160,7 @@ try:
     )
 
     short_text = ef.format(
-        begin = begin.format(bf),
+        range = _range( now , begin , end ) ,
         hbegin = begin.humanize(),
         hend = end.humanize( ) ,
         name = (name[:47] + '..') if len(name) > 49 else name,
