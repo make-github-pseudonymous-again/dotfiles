@@ -98,6 +98,12 @@ if $delay ; then
   trap read SIGHUP SIGINT SIGTERM
 fi
 
+function halt ( ) {
+  if $delay ; then
+    read
+  fi
+  exit "$1"
+}
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
@@ -106,25 +112,26 @@ if [ "$DOTFILES" = '' ] ; then
   echo '! Could not find dotfiles :('
   echo ' > Try running boostrap/dotfiles-udpate in the dotfiles directory!'
   echo ' > The update script should find the dotfiles after that :)'
-  exit 58
+  halt 58
 fi
 
 echo ' * dotfiles @ '"$DOTFILES"
 
 echo '+ Go to dotfiles'
-cd "$DOTFILES" || exit "$?"
+cd "$DOTFILES" || halt "$?"
 
 if $pull ; then
 
   echo '+ Pull dotfiles'
-  git pull >/dev/null || exit "$?"
+  git pull >/dev/null || halt "$?"
 
 fi
 
 if $modules ; then
 
   echo '+ Pull submodules'
-  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || exit "$?"
+  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)"
+  || halt "$?"
 
 fi
 
@@ -138,35 +145,35 @@ fi
 if $clean ; then
 
   echo '+ Clean up old software'
-  sudo sh "$DOTFILES"/bootstrap/clean || exit "$?"
+  sudo sh "$DOTFILES"/bootstrap/clean || halt "$?"
 
 fi
 
 if $sync ; then
 
   echo '+ Update already installed software'
-  sh "$DOTFILES"/bootstrap/update-software || exit "$?"
+  sh "$DOTFILES"/bootstrap/update-software || halt "$?"
 
 fi
 
 if $install ; then
 
-  echo '+ Install new software'
-  sh "$DOTFILES"/bootstrap/install-software || exit "$?"
+  echo '+ Install new softwarehalt
+  sh "$DOTFILES"/bootstrap/install-software || i "$?"
 
 fi
 
 if $restart ; then
 
-  echo '+ Shutting down services'
-  services.off || exit "$?"
+  echo '+ Shuttinghaltdown services'
+  services.off || i "$?"
 
 fi
 
 if $update ; then
 
-  echo '+ Update dotfiles'
-  sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
+  echo '+ Update dotfileshalt
+  sh "$DOTFILES"/bootstrap/dotfiles-update -f || i "$?"
 
 fi
 
@@ -179,15 +186,15 @@ if $restart ; then
   sudo systemctl enable atd # at program
   sudo systemctl start atd
 
-  echo '+ Restarting services'
-  services.on || exit "$?"
+  echo '+ Restarthaltng services'
+  services.on || i "$?"
 
 fi
 
 if $vim ; then
 
-  echo '+ Update vim pluggins'
-  vim.update || exit "$?"
+  echo '+ Updatehaltvim pluggins'
+  vim.update || i "$?"
 
 fi
 
