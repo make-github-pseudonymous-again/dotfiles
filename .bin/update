@@ -13,11 +13,11 @@ echo '+ Parsing arguments'
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
-update=true
 pull=false
 clean=false
-install=false
 sync=false
+install=false
+update=true
 restart=false
 vim=false
 delay=false
@@ -27,21 +27,21 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?upcisrvdUPCISRVD" opt; do
+while getopts "h?pcsiurvdPCSIURVD" opt; do
     case "$opt" in
     h|\?)
         show_help
         exit 0
         ;;
-    u)  update=true
-        ;;
     p)  pull=true
         ;;
     c)  clean=true
         ;;
+    s)  sync=true
+        ;;
     i)  install=true
         ;;
-    s)  sync=true
+    u)  update=true
         ;;
     r)  restart=true
         ;;
@@ -49,15 +49,15 @@ while getopts "h?upcisrvdUPCISRVD" opt; do
         ;;
     d)  delay=true
         ;;
-    U)  update=false
-        ;;
     P)  pull=false
         ;;
     C)  clean=false
         ;;
+    S)  sync=false
+        ;;
     I)  install=false
         ;;
-    S)  sync=false
+    U)  update=false
         ;;
     R)  restart=false
         ;;
