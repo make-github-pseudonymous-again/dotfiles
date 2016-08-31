@@ -34,6 +34,7 @@ alias gdw="git diff --color-words"
 alias gdws="git diff --color-words --staged"
 
 alias udpate="update"
+alias up="update"
 
 # ff to find a file
 alias ff="fzf"
