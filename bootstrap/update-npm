@@ -8,6 +8,9 @@ fi
 
 npm i -g semver
 npm i -g npm
+
+npm update -g
+
 npm i -g n
 npm i -g jshint
 npm i -g peerflix

@@ -6,25 +6,11 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -Qi fzf 2>/dev/null && pacman -R fzf
-pacman -Qi keybase-release 2>/dev/null && pacman -R keybase-release
+pacman -Syyu
 
-pacman -Syu
-
-pacman -S --needed --noconfirm lsb-release
 pacman -S --needed --noconfirm ranger
-pacman -S --needed --noconfirm cmake
-pacman -S --needed --noconfirm make
 pacman -S --needed --noconfirm xorg-xrdb
-pacman -S --needed --noconfirm clang
-pacman -S --needed --noconfirm gcc
 pacman -S --needed --noconfirm inotify-tools
-pacman -S --needed --noconfirm curl
-pacman -S --needed --noconfirm wget
-pacman -S --needed --noconfirm zip unzip
-pacman -S --needed --noconfirm unrar
-pacman -S --needed --noconfirm git
-pacman -S --needed --noconfirm rsync
 pacman -S --needed --noconfirm terminator
 pacman -S --needed --noconfirm bash-completion
 pacman -S --needed --noconfirm gvim
@@ -42,20 +28,17 @@ pacman -S --needed --noconfirm python-networkx
 pacman -S --needed --noconfirm python-numpy
 pacman -S --needed --noconfirm python-scipy
 pacman -S --needed --noconfirm python-pillow
+pacman -S --needed --noconfirm python-cssselect
+pacman -S --needed --noconfirm autopep8
 pacman -S --needed --noconfirm python2-xlib
 pacman -S --needed --noconfirm go
 pacman -S --needed --noconfirm transmission-gtk
-pacman -S --needed --noconfirm base-devel
 pacman -S --needed --noconfirm ffmpeg vlc
 pacman -S --needed --noconfirm pulseaudio pulseaudio-alsa pavucontrol
 pacman -S --needed --noconfirm rhythmbox brasero
 pacman -S --needed --noconfirm testdisk
-pacman -S --needed --noconfirm pkgfile
-pacman -S --needed --noconfirm bind-tools
 pacman -S --needed --noconfirm pstoedit python2-numpy python2-lxml uniconvertor
 pacman -S --needed --noconfirm inkscape
-pacman -S --needed --noconfirm thefuck
-pacman -S --needed --noconfirm tk
 pacman -S --needed --noconfirm ack
 pacman -S --needed --noconfirm the_silver_searcher
 pacman -S --needed --noconfirm at
@@ -78,10 +61,6 @@ pacman -S --needed --noconfirm msmtp
 pacman -S --needed --noconfirm openssh
 pacman -S --needed --noconfirm python2-keyring
 pacman -S --needed --noconfirm python-keyring
-
-# json CLI processor
-
-pacman -S --needed --noconfirm jq
 
 # replace ugly default font
 pacman -S --needed --noconfirm extra/ttf-dejavu

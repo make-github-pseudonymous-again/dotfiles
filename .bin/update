@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+if [ $(id -u) == "0" ] ; then
+echo 'must NOT be run as root'
+exit 57
+fi
+
+DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
+
+cd "$DOTFILES" || exit "$?"
+git pull || exit "$?"
+
+sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
+sh "$DOTFILES"/bootstrap/update-software || exit "$?"
+
+sh "$DOTFILES"/bootstrap/dotfiles-update || exit "$?"
+
+sudo systemctl enable ntpd # clock sync
+sudo systemctl enable atd # at program
+
+services.restart || exit "$?"
+
+vim.update || exit "$?"

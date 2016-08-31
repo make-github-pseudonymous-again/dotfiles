@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+>&2 echo 'Stoping all services ...'
+services.off
+>&2 echo '... done'
+
+>&2 echo 'Starting all services ...'
+services.on
+>&2 echo '... done'

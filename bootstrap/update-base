@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+if [ $(id -u) != "0" ]
+then
+echo 'must be run as root'
+exit 1
+fi
+
+pacman -Syyu
+
+pacman -S --needed --noconfirm lsb-release
+pacman -S --needed --noconfirm cmake
+pacman -S --needed --noconfirm make
+pacman -S --needed --noconfirm clang
+pacman -S --needed --noconfirm gcc
+pacman -S --needed --noconfirm curl
+pacman -S --needed --noconfirm wget
+pacman -S --needed --noconfirm zip unzip
+pacman -S --needed --noconfirm unrar
+pacman -S --needed --noconfirm git
+pacman -S --needed --noconfirm rsync
+pacman -S --needed --noconfirm jq
+pacman -S --needed --noconfirm base-devel
+pacman -S --needed --noconfirm pkgfile
+pacman -S --needed --noconfirm bind-tools
+pacman -S --needed --noconfirm thefuck
+pacman -S --needed --noconfirm tk

@@ -6,6 +6,12 @@
 
 ## Getting started
 
+### Install sak
+
+    git clone https://github.com/aureooms/sak
+    cd sak
+    make install
+
 ### Clone
 
     git clone https://github.com/aureooms/dotfiles --recursive
@@ -13,31 +19,20 @@
 
 ### Install software
 
-    sudo sh pacman.sh
-    sh yaourt.sh
-    sh extra.sh
-    sudo sh npm.sh
-    sudo sh gem.sh
-    sudo sh pip.sh
+    sudo sh bootstrap/update-base
 
 ### Install fonts
 
     sh modules/powerline-fonts/install.sh
-    
+
 ### Install / update dotfiles
 
-    ./dotfiles.update
-    
-### Install sak
+    sh bootstrap/dotfiles-update
 
-	git clone https://github.com/aureooms/sak
-	cd sak
-	make install
-    
-### Update vim plugins (installs fzf)
+### Install / update system
 
-	vim.update
-	
+    sudo update
+
 ## Usage
 
 ### i3
@@ -91,8 +86,6 @@ Open gimp and select Windows > Single-Window Mode.
 
 ### Enable services
 
-	systemctl enable ntpd # clock sync
-	systemctl enable atd # at program
 
 ## Credits
 

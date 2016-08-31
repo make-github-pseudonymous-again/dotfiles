@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
+cd "$DOTFILES";
+git pull origin master;
+
+"$DOTFILES/bootstrap/dotfiles-diff-list"
+"$DOTFILES/bootstrap/dotfiles-update"

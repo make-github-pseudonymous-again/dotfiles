@@ -5,12 +5,12 @@ echo 'must NOT be run as root'
 exit 1
 fi
 
-cd /tmp
+TMP="$(mktemp /tmp/extra.sh.XXXXXXXX)"
+
+cd "$TMP"
 
 git clone https://github.com/gauteh/abunchoftags || exit $?
 cd abunchoftags/dist/archlinux || exit $?
 makepkg -si
 
-cd /tmp
-
-rm -rf abunchoftags
+rm -rf "$TMP"

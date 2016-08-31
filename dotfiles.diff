@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-cd "$(dirname "${BASH_SOURCE}")";
-
-./dotfiles.list-diff | \
-$ iter imap "git diff --no-index --color-words $HOME/{0} {0}" ;
