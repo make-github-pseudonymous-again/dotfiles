@@ -2,8 +2,7 @@
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
-sudo sh "$DOTFILES"/bootstrap/update-base || exit "$?"
-sudo sh "$DOTFILES"/bootstrap/update-pacman || exit "$?"
-sh "$DOTFILES"/bootstrap/update-yaourt || exit "$?"
-sudo sh "$DOTFILES"/bootstrap/update-npm || exit "$?"
-sudo sh "$DOTFILES"/bootstrap/update-pip || exit "$?"
+sudo pacman -Syyu || exit "$?"
+yaourt -Syyu --aur || exit "$?"
+npm update -g || exit "$?"
+sudo sh "$DOTFILES"/bootstrap/update-pip u || exit "$?"

@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
+sudo sh "$DOTFILES"/bootstrap/install-base || exit "$?"
+sudo sh "$DOTFILES"/bootstrap/install-pacman || exit "$?"
+sh "$DOTFILES"/bootstrap/install-yaourt || exit "$?"
+sudo sh "$DOTFILES"/bootstrap/install-npm || exit "$?"
+sudo sh "$DOTFILES"/bootstrap/update-pip i || exit "$?"

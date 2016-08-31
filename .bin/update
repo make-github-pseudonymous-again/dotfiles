@@ -13,10 +13,12 @@ echo '+ Parsing arguments'
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
-pull=false
 update=true
-software=false
-services=false
+pull=false
+clean=false
+install=false
+sync=false
+restart=false
 vim=false
 delay=false
 
@@ -25,7 +27,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?upasvwUPASVW" opt; do
+while getopts "h?upcisrvdUPCISRVD" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -35,25 +37,33 @@ while getopts "h?upasvwUPASVW" opt; do
         ;;
     p)  pull=true
         ;;
-    a)  software=true
+    c)  clean=true
         ;;
-    s)  services=true
+    i)  install=true
+        ;;
+    s)  sync=true
+        ;;
+    r)  restart=true
         ;;
     v)  vim=true
         ;;
-    w)  delay=true
+    d)  delay=true
         ;;
     U)  update=false
         ;;
     P)  pull=false
         ;;
-    A)  software=false
+    C)  clean=false
         ;;
-    S)  services=false
+    I)  install=false
+        ;;
+    S)  sync=false
+        ;;
+    R)  restart=false
         ;;
     V)  vim=false
         ;;
-    W)  delay=true
+    D)  delay=true
         ;;
     esac
 done
@@ -86,13 +96,24 @@ if $pull ; then
 
 fi
 
-if $software ; then
+if $clean ; then
 
   echo '+ Clean up old software'
-  sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
+  sudo sh "$DOTFILES"/bootstrap/clean || exit "$?"
 
-  echo '+ Install and update software'
+fi
+
+if $sync ; then
+
+  echo '+ Update already installed software'
   sh "$DOTFILES"/bootstrap/update-software || exit "$?"
+
+fi
+
+if $install ; then
+
+  echo '+ Install new software'
+  sh "$DOTFILES"/bootstrap/install-software || exit "$?"
 
 fi
 
@@ -103,7 +124,7 @@ if $update ; then
 
 fi
 
-if $services ; then
+if $restart ; then
 
   echo '+ Enable ntpd'
   sudo systemctl enable ntpd # clock sync
@@ -126,6 +147,7 @@ fi
 
 if $delay ; then
 
+  echo '+ Done!'
   sleep 3
 
 fi

@@ -15,8 +15,6 @@ function _ ( ) {
 _ semver
 _ npm
 
-npm update -g
-
 _ n
 _ jshint
 _ peerflix

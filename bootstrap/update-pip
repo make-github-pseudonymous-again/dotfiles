@@ -6,14 +6,35 @@ echo 'must be run as root'
 exit 1
 fi
 
-function i ( ) {
-  if pip show "$1" 1>/dev/null 2>&1 ; then
-    pip install --upgrade "$1"
-  else
-    pip install "$1"
-  fi
-}
+x="$1"
 
+if [ "$x" = u ] ; then
+
+  function i ( ) {
+    if pip show "$1" 1>/dev/null 2>&1 ; then
+      pip install --upgrade "$1" 1>/dev/null
+    fi
+  }
+
+elif [ "$x" = i ] ; then
+
+  function i ( ) {
+    if ! pip show "$1" 1>/dev/null 2>&1 ; then
+      pip install "$1" 1>/dev/null
+    fi
+  }
+
+else
+
+  function i ( ) {
+    if pip show "$1" 1>/dev/null 2>&1 ; then
+      pip install --upgrade "$1" 1>/dev/null
+    else
+      pip install "$1" 1>/dev/null
+    fi
+  }
+
+fi
 
 i arrow==0.4.2 # for compat with ics
 i ics
