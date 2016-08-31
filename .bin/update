@@ -5,6 +5,60 @@ if [ $(id -u) == "0" ] ; then
   exit 57
 fi
 
+echo '+ Parsing arguments :)'
+
+### PARSING BEGIN ###
+
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+pull=0
+update=1
+software=0
+services=0
+vim=0
+
+function show_help ( ) {
+  echo '! No help for the moment :(' ;
+  echo ' > update script file is '"${BASH_SOURCE}"
+}
+
+while getopts "h?vf:" opt; do
+    case "$opt" in
+    h|\?)
+        show_help
+        exit 0
+        ;;
+    u)  update=1
+        ;;
+    p)  pull=1
+        ;;
+    a)  software=1
+        ;;
+    s)  services=1
+        ;;
+    v)  vim=1
+        ;;
+    U)  update=0
+        ;;
+    P)  pull=0
+        ;;
+    A)  software=0
+        ;;
+    S)  services=0
+        ;;
+    V)  vim=0
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+### PARSING END ###
+
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
 
@@ -20,10 +74,14 @@ echo ' * dotfiles @ '"$DOTFILES"
 echo '+ Go to dotfiles'
 cd "$DOTFILES" || exit "$?"
 
-if [ "$1" != '-q' ] ; then
+if [ "$pull" ] ; then
 
-  echo '+ Update dotfiles'
+  echo '+ Pull dotfiles'
   git pull || exit "$?"
+
+fi
+
+if [ "$software" ] ; then
 
   echo '+ Clean up old software'
   sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
@@ -33,18 +91,28 @@ if [ "$1" != '-q' ] ; then
 
 fi
 
-echo '+ Update dotfiles'
-sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
+if [ "$update" ] ; then
 
-if [ "$1" != '-q' ] ; then
+  echo '+ Update dotfiles'
+  sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
+
+fi
+
+if [ "$services" ] ; then
 
   echo '+ Enable ntpd'
   sudo systemctl enable ntpd # clock sync
+  sudo systemctl start ntpd
   echo '+ Enable atd'
   sudo systemctl enable atd # at program
+  sudo systemctl start atd
 
   echo '+ Restart services'
   services.restart || exit "$?"
+
+fi
+
+if [ "$vim" ] ; then
 
   echo '+ Update vim pluggins'
   vim.update || exit "$?"
