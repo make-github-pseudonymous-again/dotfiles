@@ -24,7 +24,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?vf:" opt; do
+while getopts "h?upasvUPASV" opt; do
     case "$opt" in
     h|\?)
         show_help
