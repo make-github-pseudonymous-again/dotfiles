@@ -19,3 +19,4 @@ i arrow==0.4.2 # for compat with ics
 i ics
 i tldr
 i ptpython
+i semantic_version

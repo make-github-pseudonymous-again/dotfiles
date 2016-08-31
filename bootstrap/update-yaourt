@@ -40,6 +40,5 @@ yaourt -S --needed hangups-git
 yaourt -S --needed untex
 yaourt -S --needed git-latexdiff
 yaourt -S --needed ruby-coderay
-yaourt -S --needed python-semantic_version
 yaourt -S --needed xkblayout-state
 yaourt -S --needed abunchoftags
