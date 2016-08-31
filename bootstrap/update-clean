@@ -5,9 +5,9 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -Qi fzf && pacman -R fzf
-pacman -Qi keybase-release && pacman -R keybase-release
+pacman -Qi fzf 2>/dev/null && pacman -R fzf
+pacman -Qi keybase-release 2>/dev/null && pacman -R keybase-release
 
-{ pacman -Ss python-cssselect | grep '\[installed\]' ; } || { pip show cssselect && pip uninstall cssselect ; }
-{ pacman -Ss autopep8 | grep '\[installed\]' ; } || { pip show autopep8 && pip uninstall autopep8 ; }
-{ pacman -Ss python-lxml | grep '\[installed\]' ; } || { pip show lxml && pip uninstall lxml ; }
+{ pacman -Ss python-cssselect | grep '\[installed\]' 1>/dev/null ; } || { pip show cssselect && pip uninstall cssselect ; }
+{ pacman -Ss autopep8 | grep '\[installed\]' 1>/dev/null ; } || { pip show autopep8 && pip uninstall autopep8 ; }
+{ pacman -Ss python-lxml | grep '\[installed\]' 1>/dev/null ; } || { pip show lxml && pip uninstall lxml ; }
