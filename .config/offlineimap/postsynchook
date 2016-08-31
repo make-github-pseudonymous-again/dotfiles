@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+ALLMAILQUERY='( is:spam OR NOT is:spam ) AND ( is:deleted OR NOT is:deleted ) AND ( is:muted OR NOT is:muted )'
+
+CACHE="$HOME/.cache/keywsync"
+LASTMOD="$CACHE/lastmod"
+BEFORE="$CACHE/before"
+
+# Run notmuch new to detect any new or deleted files, or and renames.
+notmuch new
+
+# Synchronize tags remote-to-local (-k) using a query that filters out anything
+# but the maildir in question. Use the --mtime flag to only sync messages that
+# match the query and are modified after offlineimap was run: echo
+# $before_offlineimap.
+before=$(cat "$BEFORE")
+
+keywsync -m "$HOME/.mail" -k -p -q "$ALLMAILQUERY" --mtime "$before" --no-replace-chars
+
+# Store the current database revision for the next lastmod search in the
+# local-to-remote step of your next search: $ notmuch_get_revision /path/to/db.
+# Alternatively, store the revision from before the local-to-remote sync. In
+# that way it is possible to detect local changes that happened during the
+# sync. This will re-check the messages that were modified as part of the
+# remote-to-local sync.
+# I CHOSE THE ALTERNATIVE WAY, SEE presynchook
+# notmuch_get_revision > $LASTMOD
+
