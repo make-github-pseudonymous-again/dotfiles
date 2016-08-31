@@ -335,12 +335,13 @@ class SQLiteStorage():
         if os.path.exists(self.__path):
             os.remove(self.__path)
 
+fix = lambda a : a.replace('“','').replace('”','')
 
 def format_address(address, output_format):
     if output_format == 'abook':
         return "{}\t{}".format(address['Address'], address['Name'])
     elif output_format == 'email':
-        return email.utils.formataddr((address['Name'], address['Address']))
+        return email.utils.formataddr((address['Name'], fix(address['Address'])))
     else:
         raise InvalidOptionError('Unknown format: {}'.format(output_format))
 
@@ -372,8 +373,12 @@ def print_address_list(address_list, output_format, out=None):
             return
     else:
         for address in address_list:
-            output = format_address(address, output_format)
-            out.write(output + '\n')
+            try:
+                output = format_address(address, output_format)
+                out.write(output + '\n')
+            except Exception as e:
+                print("Failed to format {} <{}>".format(address['Name'],address['Address']),file=sys.stderr)
+                print(e,file=sys.stderr)
 
 
 def import_address_list_from_csv(db, replace_all, infile):
