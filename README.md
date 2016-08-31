@@ -19,7 +19,7 @@
 
 ### Install software
 
-    sudo sh bootstrap/update-base
+    sudo sh bootstrap/install-base
 
 ### Install fonts
 
@@ -31,7 +31,7 @@
 
 ### Install / update system
 
-    sudo update
+    update -a
 
 ## Usage
 

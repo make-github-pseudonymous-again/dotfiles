@@ -27,11 +27,19 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?pcsiurvdPCSIURVD" opt; do
+while getopts "h?apcsiurvdPCSIURVD" opt; do
     case "$opt" in
     h|\?)
         show_help
         exit 0
+        ;;
+    a)  pull=true
+        clean=true
+        sync=true
+        install=true
+        update=true
+        restart=true
+        vim=true
         ;;
     p)  pull=true
         ;;
