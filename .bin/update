@@ -13,11 +13,11 @@ echo '+ Parsing arguments'
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
-pull=0
-update=1
-software=0
-services=0
-vim=0
+pull=false
+update=true
+software=false
+services=false
+vim=false
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
@@ -30,25 +30,25 @@ while getopts "h?vf:" opt; do
         show_help
         exit 0
         ;;
-    u)  update=1
+    u)  update=true
         ;;
-    p)  pull=1
+    p)  pull=true
         ;;
-    a)  software=1
+    a)  software=true
         ;;
-    s)  services=1
+    s)  services=true
         ;;
-    v)  vim=1
+    v)  vim=true
         ;;
-    U)  update=0
+    U)  update=false
         ;;
-    P)  pull=0
+    P)  pull=false
         ;;
-    A)  software=0
+    A)  software=false
         ;;
-    S)  services=0
+    S)  services=false
         ;;
-    V)  vim=0
+    V)  vim=false
         ;;
     esac
 done
@@ -74,14 +74,14 @@ echo ' * dotfiles @ '"$DOTFILES"
 echo '+ Go to dotfiles'
 cd "$DOTFILES" || exit "$?"
 
-if [ "$pull" ] ; then
+if $pull ; then
 
   echo '+ Pull dotfiles'
   git pull || exit "$?"
 
 fi
 
-if [ "$software" ] ; then
+if $software ; then
 
   echo '+ Clean up old software'
   sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
@@ -91,14 +91,14 @@ if [ "$software" ] ; then
 
 fi
 
-if [ "$update" ] ; then
+if $update ; then
 
   echo '+ Update dotfiles'
   sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
 
 fi
 
-if [ "$services" ] ; then
+if $services ; then
 
   echo '+ Enable ntpd'
   sudo systemctl enable ntpd # clock sync
@@ -112,7 +112,7 @@ if [ "$services" ] ; then
 
 fi
 
-if [ "$vim" ] ; then
+if $vim ; then
 
   echo '+ Update vim pluggins'
   vim.update || exit "$?"
