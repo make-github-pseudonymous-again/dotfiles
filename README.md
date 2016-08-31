@@ -23,7 +23,7 @@
 
 ### Install dotfiles
 
-    sh bootstrap/dotfiles-update
+    bash bootstrap/dotfiles-update
 
 Open a new shell, then
 
