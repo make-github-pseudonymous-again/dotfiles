@@ -18,6 +18,7 @@ update=true
 software=false
 services=false
 vim=false
+delay=false
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
@@ -40,6 +41,8 @@ while getopts "h?upasvUPASV" opt; do
         ;;
     v)  vim=true
         ;;
+    w)  delay=true
+        ;;
     U)  update=false
         ;;
     P)  pull=false
@@ -49,6 +52,8 @@ while getopts "h?upasvUPASV" opt; do
     S)  services=false
         ;;
     V)  vim=false
+        ;;
+    W)  delay=true
         ;;
     esac
 done
@@ -77,7 +82,7 @@ cd "$DOTFILES" || exit "$?"
 if $pull ; then
 
   echo '+ Pull dotfiles'
-  git pull || exit "$?"
+  git pull >/dev/null || exit "$?"
 
 fi
 
@@ -116,5 +121,11 @@ if $vim ; then
 
   echo '+ Update vim pluggins'
   vim.update || exit "$?"
+
+fi
+
+if $delay ; then
+
+  sleep 3
 
 fi
