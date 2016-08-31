@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+sink="$(pacmd list-sinks | \
+grep '^\s*\(card:\|alsa.card_name =\)' | \
+sed 's/^\s*\(card:\|alsa.card_name =\) //g' | \
+sed 's/ <.*>//g' | \
+xargs -L 2 echo | \
+dmenu_center --rest -i -t -p 'default sink' -sb '#F24130' -l 10 | \
+cut -d' ' -f1)"
+
+if [ "$sink" = '' ]; then
+	exit 2
+fi
+
+pacmd set-default-sink "$sink"

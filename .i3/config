@@ -216,6 +216,7 @@ mode "apps" {
 	bindsym o mode "organization"
 	bindsym t mode "tools"
 	bindsym s mode "system"
+	bindsym a mode "audio"
 
 	# back to normal: Enter or Escape
 	bindsym Return mode "default"
@@ -303,9 +304,6 @@ mode "system" {
 
         bindsym m exec terminator -b -x top -o +%CPU; mode "default"
 
-        bindsym a exec terminator -b -x alsamixer; mode "default"
-        bindsym Shift+A exec pavucontrol; mode "default"
-
         bindsym t exec menu.timezone; mode "default"
 
         bindsym k exec menu.keyboard; mode "default"
@@ -317,6 +315,22 @@ mode "system" {
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
+}
+
+mode "audio" {
+
+        bindsym a exec terminator -b -x alsamixer; mode "default"
+        bindsym p exec pavucontrol; mode "default"
+
+        bindsym i exec audio.move.sink.input; mode "default"
+        bindsym o exec audio.move.source.output; mode "default"
+        bindsym s exec audio.set.default.sink; mode "default"
+        bindsym Shift+S exec audio.set.default.source; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+
 }
 
 mode "files" {

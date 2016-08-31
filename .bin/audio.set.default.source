@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+source="$(pacmd list-sources | \
+grep '^\s*\(card:\|alsa.card_name =\)' | \
+sed 's/^\s*\(card:\|alsa.card_name =\) //g' | \
+sed 's/ <.*>//g' | \
+xargs -L 2 echo | \
+dmenu_center --rest -i -t -p 'default source' -sb '#F24130' -l 10 | \
+cut -d' ' -f1)"
+
+if [ "$source" = '' ]; then
+	exit 2
+fi
+
+pacmd set-default-source "$source"
