@@ -130,8 +130,7 @@ fi
 if $modules ; then
 
   echo '+ Pull submodules'
-  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)"
-  || halt "$?"
+  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || halt "$?"
 
 fi
 
