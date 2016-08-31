@@ -151,6 +151,13 @@ if $install ; then
 
 fi
 
+if $restart ; then
+
+  echo '+ Shutting down services'
+  services.off || exit "$?"
+
+fi
+
 if $update ; then
 
   echo '+ Update dotfiles'
@@ -167,8 +174,8 @@ if $restart ; then
   sudo systemctl enable atd # at program
   sudo systemctl start atd
 
-  echo '+ Restart services'
-  services.restart || exit "$?"
+  echo '+ Restarting services'
+  services.on || exit "$?"
 
 fi
 
@@ -182,6 +189,6 @@ fi
 if $delay ; then
 
   echo '+ Done!'
-  sleep 3
+  read
 
 fi
