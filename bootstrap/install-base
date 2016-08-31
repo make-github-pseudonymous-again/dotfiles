@@ -6,8 +6,6 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -Syyu
-
 function i ( ) {
   1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
 }
