@@ -98,7 +98,7 @@ if $delay ; then
   trap read SIGHUP SIGINT SIGTERM
 fi
 
-function halt ( ) {
+function _exit ( ) {
   if $delay ; then
     read
   fi
@@ -112,25 +112,25 @@ if [ "$DOTFILES" = '' ] ; then
   echo '! Could not find dotfiles :('
   echo ' > Try running boostrap/dotfiles-udpate in the dotfiles directory!'
   echo ' > The update script should find the dotfiles after that :)'
-  halt 58
+  _exit 58
 fi
 
 echo ' * dotfiles @ '"$DOTFILES"
 
 echo '+ Go to dotfiles'
-cd "$DOTFILES" || halt "$?"
+cd "$DOTFILES" || _exit "$?"
 
 if $pull ; then
 
   echo '+ Pull dotfiles'
-  git pull >/dev/null || halt "$?"
+  git pull >/dev/null || _exit "$?"
 
 fi
 
 if $modules ; then
 
   echo '+ Pull submodules'
-  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || halt "$?"
+  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || _exit "$?"
 
 fi
 
@@ -144,14 +144,14 @@ fi
 if $clean ; then
 
   echo '+ Clean up old software'
-  sudo sh "$DOTFILES"/bootstrap/clean || halt "$?"
+  sudo sh "$DOTFILES"/bootstrap/clean || _exit "$?"
 
 fi
 
 if $sync ; then
 
   echo '+ Update already installed software'
-  sh "$DOTFILES"/bootstrap/update-software || halt "$?"
+  sh "$DOTFILES"/bootstrap/update-software || _exit "$?"
 
 fi
 
