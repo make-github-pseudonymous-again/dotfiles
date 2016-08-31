@@ -14,6 +14,8 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
 pull=false
+modules=false
+fonts=false
 clean=false
 sync=false
 install=false
@@ -27,13 +29,15 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apcsiurvdPCSIURVD" opt; do
+while getopts "h?apmfcsiurvdPMFCSIURVD" opt; do
     case "$opt" in
     h|\?)
         show_help
         exit 0
         ;;
     a)  pull=true
+        modules=true
+        fonts=true
         clean=true
         sync=true
         install=true
@@ -42,6 +46,10 @@ while getopts "h?apcsiurvdPCSIURVD" opt; do
         vim=true
         ;;
     p)  pull=true
+        ;;
+    m)  modules=true
+        ;;
+    f)  fonts=true
         ;;
     c)  clean=true
         ;;
@@ -58,6 +66,10 @@ while getopts "h?apcsiurvdPCSIURVD" opt; do
     d)  delay=true
         ;;
     P)  pull=false
+        ;;
+    M)  modules=false
+        ;;
+    F)  fonts=false
         ;;
     C)  clean=false
         ;;
@@ -101,6 +113,20 @@ if $pull ; then
 
   echo '+ Pull dotfiles'
   git pull >/dev/null || exit "$?"
+
+fi
+
+if $modules ; then
+
+  echo '+ Pull submodules'
+  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || exit "$?"
+
+fi
+
+if $fonts ; then
+
+  echo '+ Install fonts'
+  sh modules/powerline-fonts/install.sh
 
 fi
 

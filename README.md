@@ -21,15 +21,13 @@
 
     sudo sh bootstrap/install-base
 
-### Install fonts
-
-    sh modules/powerline-fonts/install.sh
-
-### Install / update dotfiles
+### Install dotfiles
 
     sh bootstrap/dotfiles-update
 
-### Install / update system
+Open a new shell, then
+
+### Install system
 
     update -a
 
@@ -49,8 +47,8 @@
 | winkey + shift + <kbd>j</kbd>   | Move window (left).                                                                |
 | winkey + shift + <kbd>k</kbd>   | (down).                                                           |
 | winkey + shift + <kbd>l</kbd>   | (up).                                                                  |
-| winkey + shift + <kbd>m</kbd>   | (right).   
-| winkey + <kbd>h</kbd>           | Split in horizontal orientation.    
+| winkey + shift + <kbd>m</kbd>   | (right).
+| winkey + <kbd>h</kbd>           | Split in horizontal orientation.
 | winkey + <kbd>v</kbd>           | Split in vertical orientation.
 | winkey + <kbd>f</kbd>           | Fullscreen the current window.
 | winkey + <kbd>s</kbd>           | Change layout (stacked).
@@ -77,15 +75,12 @@
 
 Add those two lines to /etc/sudoers
 
-    ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/leds/smc\:\:kbd_backlight/brightness 
+    ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/leds/smc\:\:kbd_backlight/brightness
     ALL ALL = (ALL) NOPASSWD: /usr/bin/tee /sys/class/backlight/gmux_backlight/brightness
 
 ### Gimp in single-window mode
 
 Open gimp and select Windows > Single-Window Mode.
-
-### Enable services
-
 
 ## Credits
 
