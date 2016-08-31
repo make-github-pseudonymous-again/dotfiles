@@ -1,23 +1,44 @@
 #!/usr/bin/env bash
 
 if [ $(id -u) == "0" ] ; then
-echo 'must NOT be run as root'
+echo '! must NOT be run as root'
 exit 57
 fi
 
+echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
 
+if [ "$DOTFILES" = '' ] ; then
+  echo '! Could not find dotfiles :('
+  echo ' > Try running boostrap/dotfiles-udpate in the dotfiles directory!'
+  echo ' > The update script should find the dotfiles after that :)'
+  exit 58
+fi
+
+echo ' * dotfiles @ '"$DOTFILES"
+
+echo '+ Go to dotfiles'
 cd "$DOTFILES" || exit "$?"
+
+echo '+ Update dotfiles'
 git pull || exit "$?"
 
+echo '+ Clean up old software'
 sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
+
+echo '+ Install and update software'
 sh "$DOTFILES"/bootstrap/update-software || exit "$?"
 
+echo '+ Update dotfiles'
 sh "$DOTFILES"/bootstrap/dotfiles-update || exit "$?"
 
+echo '+ Enable ntpd'
 sudo systemctl enable ntpd # clock sync
+echo '+ Enable atd'
 sudo systemctl enable atd # at program
 
+echo '+ Restart services'
 services.restart || exit "$?"
 
+echo '+ Update vim pluggins'
 vim.update || exit "$?"
