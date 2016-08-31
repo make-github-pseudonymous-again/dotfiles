@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if [ $(id -u) == "0" ] ; then
-echo '! must NOT be run as root'
-exit 57
+  echo '! must NOT be run as root'
+  exit 57
 fi
 
 echo '+ Looking up dotfiles'
@@ -20,25 +20,33 @@ echo ' * dotfiles @ '"$DOTFILES"
 echo '+ Go to dotfiles'
 cd "$DOTFILES" || exit "$?"
 
+if [ "$1" != '-q' ] ; then
+
+  echo '+ Update dotfiles'
+  git pull || exit "$?"
+
+  echo '+ Clean up old software'
+  sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
+
+  echo '+ Install and update software'
+  sh "$DOTFILES"/bootstrap/update-software || exit "$?"
+
+fi
+
 echo '+ Update dotfiles'
-git pull || exit "$?"
+sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
 
-echo '+ Clean up old software'
-sudo sh "$DOTFILES"/bootstrap/update-clean || exit "$?"
+if [ "$1" != '-q' ] ; then
 
-echo '+ Install and update software'
-sh "$DOTFILES"/bootstrap/update-software || exit "$?"
+  echo '+ Enable ntpd'
+  sudo systemctl enable ntpd # clock sync
+  echo '+ Enable atd'
+  sudo systemctl enable atd # at program
 
-echo '+ Update dotfiles'
-sh "$DOTFILES"/bootstrap/dotfiles-update || exit "$?"
+  echo '+ Restart services'
+  services.restart || exit "$?"
 
-echo '+ Enable ntpd'
-sudo systemctl enable ntpd # clock sync
-echo '+ Enable atd'
-sudo systemctl enable atd # at program
+  echo '+ Update vim pluggins'
+  vim.update || exit "$?"
 
-echo '+ Restart services'
-services.restart || exit "$?"
-
-echo '+ Update vim pluggins'
-vim.update || exit "$?"
+fi

@@ -18,7 +18,6 @@ function doIt() {
 	mkdir -p "$HOME/sandbox"
 
 	DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
-	cd "$DOTFILES";
 
 	rsync \
 		--exclude ".git/" \
@@ -28,7 +27,8 @@ function doIt() {
 		--exclude "modules/" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
-		-avhL --no-perms . ~;
+		-avhL --no-perms \
+		"$DOTFILES"/ "$HOME"/ 1>/dev/null;
 
 	source "$HOME/.bash_profile";
 

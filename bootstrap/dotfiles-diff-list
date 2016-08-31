@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
-cd "$DOTFILES";
 
 rsync \
 	--exclude ".git/" \
@@ -11,7 +10,8 @@ rsync \
 	--exclude "modules/" \
 	--exclude "README.md" \
 	--exclude "LICENSE" \
-	-avnchL . ~  | \
+	-avnchL \
+	"$DOTFILES"/ "$HOME"/ | \
 	tail -n +2 | \
 	head -n -3 | \
 	grep -v '/$' ;

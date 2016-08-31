@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
 sudo sh "$DOTFILES"/bootstrap/update-base || exit "$?"
 sudo sh "$DOTFILES"/bootstrap/update-pacman || exit "$?"
 sh "$DOTFILES"/bootstrap/update-yaourt || exit "$?"
