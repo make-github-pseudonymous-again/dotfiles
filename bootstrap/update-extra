@@ -7,10 +7,11 @@ fi
 
 TMP="$(mktemp -d /tmp/extra.sh.XXXXXXXX)"
 
-cd "$TMP"
+cd "$TMP" || exit $?
 
 git clone https://github.com/gauteh/abunchoftags || exit $?
-cd abunchoftags/dist/archlinux || exit $?
+cd "$TMP"/abunchoftags/dist/archlinux || exit $?
+
 makepkg -si
 
 rm -rf "$TMP"

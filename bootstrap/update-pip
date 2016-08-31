@@ -6,7 +6,16 @@ echo 'must be run as root'
 exit 1
 fi
 
-pip install arrow
-pip install ics
-pip install tldr
-pip install ptpython
+function i ( ) {
+  if pip show "$1" 1>/dev/null 2>&1 ; then
+    pip install --upgrade "$1"
+  else
+    pip install "$1"
+  fi
+}
+
+
+i arrow
+i ics
+i tldr
+i ptpython
