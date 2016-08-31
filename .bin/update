@@ -94,6 +94,11 @@ shift $((OPTIND-1))
 
 ### PARSING END ###
 
+if $delay ; then
+  trap read SIGHUP SIGINT SIGTERM
+fi
+
+
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
 
