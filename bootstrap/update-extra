@@ -5,7 +5,7 @@ echo 'must NOT be run as root'
 exit 1
 fi
 
-TMP="$(mktemp /tmp/extra.sh.XXXXXXXX)"
+TMP="$(mktemp -d /tmp/extra.sh.XXXXXXXX)"
 
 cd "$TMP"
 
