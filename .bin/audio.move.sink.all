@@ -20,4 +20,4 @@ if [ "$sink" = '' ]; then
 	exit 2
 fi
 
-echo "$inputs" | xargs -L 1 pacmd move-sink-input "{}" "$sink"
+echo "$inputs" | xargs -L1 -i{} pacmd move-sink-input "{}" "$sink"

@@ -20,4 +20,4 @@ if [ "$source" = '' ]; then
 	exit 2
 fi
 
-echo "$outputs" | xargs -L 1 pacmd move-source-output "{}" "$source"
+echo "$outputs" | xargs -L1 -i{} pacmd move-source-output "{}" "$source"
