@@ -349,7 +349,7 @@ for name, _path, _leave, _arrival in myroutes:
     stotal = _tinyduration(_leave, _arrival)
     spath = _repr(_path,fduration=_tinyduration)
 
-    short_text = ' [{}] {}|{}|{} :{} :   {}'.format(
+    short_text = ' [{}] {}|{}|{} :{} :  {}'.format(
         title, sleave, stotal, sarrival, spath, eta
     )
 
