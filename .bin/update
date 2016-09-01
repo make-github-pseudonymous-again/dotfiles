@@ -165,7 +165,7 @@ fi
 if $clean ; then
 
   echo '+ Clean up old software'
-  _do sudo sh "$DOTFILES"/bootstrap/clean
+  sudo sh "$DOTFILES"/bootstrap/clean || _exit "$?"
 
 fi
 
