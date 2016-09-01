@@ -22,10 +22,11 @@ fonts=false
 clean=false
 sync=false
 install=false
+diff=true
 update=true
 restart=false
 vim=false
-delay=false
+_wait=false
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
@@ -60,13 +61,15 @@ while getopts "h?apmfcsiurvdPMFCSIURVD" opt; do
         ;;
     i)  install=true
         ;;
+    d)  diff=true
+        ;;
     u)  update=true
         ;;
     r)  restart=true
         ;;
     v)  vim=true
         ;;
-    d)  delay=true
+    w)  _wait=true
         ;;
     P)  pull=false
         ;;
@@ -80,13 +83,15 @@ while getopts "h?apmfcsiurvdPMFCSIURVD" opt; do
         ;;
     I)  install=false
         ;;
+    D)  diff=false
+        ;;
     U)  update=false
         ;;
     R)  restart=false
         ;;
     V)  vim=false
         ;;
-    D)  delay=false
+    W)  _wait=false
         ;;
     esac
 done
@@ -99,7 +104,7 @@ shift $((OPTIND-1))
 
 function _exit ( ) {
   rm -f "$O" "$E"
-  if $delay ; then
+  if $_wait ; then
     read
   fi
   exit "$1"
@@ -122,9 +127,7 @@ function _trap ( ) {
   _exit 70;
 }
 
-if $delay ; then
-  trap _trap SIGHUP SIGINT SIGTERM
-fi
+trap _trap SIGHUP SIGINT SIGTERM
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
@@ -190,6 +193,13 @@ if $restart ; then
 
 fi
 
+if $diff ; then
+
+  echo '+ Diff dotfiles'
+  sh "$DOTFILES"/bootstrap/dotfiles-diff || exit "$?"
+
+fi
+
 if $update ; then
 
   echo '+ Update dotfiles'
@@ -218,7 +228,7 @@ if $vim ; then
 
 fi
 
-if $delay ; then
+if $_wait ; then
   echo '+ Done!'
 fi
 
