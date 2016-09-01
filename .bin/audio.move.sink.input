@@ -12,8 +12,8 @@ if [ "$input" = '' ]; then
 fi
 
 sink="$(pacmd list-sinks | \
-grep  '^\s*\(\(\* \)\?index:\|alsa.card_name =\)' | \
-sed 's/^\s*\(\(\* \)\?index:\|alsa.card_name =\) //g' | \
+grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
+sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
 sed 's/ <.*>//g' | \
 xargs -L 2 echo | \
 dmenu_center --rest -i -t -p 'sink' -sb '#F24130' -l 10 | \

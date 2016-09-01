@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 source="$(pacmd list-sources | \
-grep  '^\s*\(\(\* \)\?index:\|alsa.card_name =\)' | \
-sed 's/^\s*\(\(\* \)\?index:\|alsa.card_name =\) //g' | \
+grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
+sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
 sed 's/ <.*>//g' | \
 xargs -L 2 echo | \
 dmenu_center --rest -i -t -p 'default source' -sb '#F24130' -l 10 | \
