@@ -326,7 +326,9 @@ mode "audio" {
         bindsym p exec pavucontrol; mode "default"
 
         bindsym i exec audio.move.sink.input; mode "default"
+        bindsym Shift+I exec audio.move.sink.all; mode "default"
         bindsym o exec audio.move.source.output; mode "default"
+        bindsym Shift+O exec audio.move.source.all; mode "default"
         bindsym s exec audio.set.default.sink; mode "default"
         bindsym Shift+S exec audio.set.default.source; mode "default"
 

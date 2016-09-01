@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+inputs="$(pacmd list-sink-inputs | \
+grep '^\s*index: ' | \
+sed 's/^\s*index: //g')"
+
+if [ "$inputs" = '' ]; then
+	exit 1
+fi
+
+sink="$(pacmd list-sinks | \
+grep '^\s*\(card:\|alsa.card_name =\)' | \
+sed 's/^\s*\(card:\|alsa.card_name =\) //g' | \
+sed 's/ <.*>//g' | \
+xargs -L 2 echo | \
+dmenu_center --rest -i -t -p 'sink' -sb '#F24130' -l 10 | \
+cut -d' ' -f1)"
+
+if [ "$sink" = '' ]; then
+	exit 2
+fi
+
+echo "$inputs" | xargs -L 1 pacmd move-sink-input "{}" "$sink"
