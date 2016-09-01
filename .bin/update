@@ -5,6 +5,9 @@ if [ $(id -u) == "0" ] ; then
   exit 57
 fi
 
+O="$(mktemp /tmp/update.out.XXXXXXXX)"
+E="$(mktemp /tmp/update.err.XXXXXXXX)"
+
 echo '+ Parsing arguments'
 
 ### PARSING BEGIN ###
@@ -94,16 +97,34 @@ shift $((OPTIND-1))
 
 ### PARSING END ###
 
-if $delay ; then
-  trap read SIGHUP SIGINT SIGTERM
-fi
-
 function _exit ( ) {
+  rm -f "$O" "$E"
   if $delay ; then
     read
   fi
   exit "$1"
 }
+
+function _do ( ) {
+  "$@" 1>"$O" 2>"$E"
+  _check "$?"
+}
+
+function _check ( ) {
+  if [ "$1" -ne 0 ] ; then
+    >&1 cat "$O"
+    >&2 cat "$E"
+    _exit "$1"
+  fi
+}
+
+function _trap ( ) {
+  _exit 70;
+}
+
+if $delay ; then
+  trap _trap SIGHUP SIGINT SIGTERM
+fi
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
@@ -118,88 +139,87 @@ fi
 echo ' * dotfiles @ '"$DOTFILES"
 
 echo '+ Go to dotfiles'
-cd "$DOTFILES" || _exit "$?"
+_do cd "$DOTFILES"
 
 if $pull ; then
 
   echo '+ Pull dotfiles'
-  git pull >/dev/null || _exit "$?"
+  _do git pull
 
 fi
 
 if $modules ; then
 
   echo '+ Pull submodules'
-  git submodule foreach "(git checkout master >/dev/null; git pull >/dev/null)" || _exit "$?"
+  _do git submodule foreach "(git checkout master; git pull)"
 
 fi
 
 if $fonts ; then
 
   echo '+ Install fonts'
-  sh modules/powerline-fonts/install.sh
+  _do sh modules/powerline-fonts/install.sh
 
 fi
 
 if $clean ; then
 
   echo '+ Clean up old software'
-  sudo sh "$DOTFILES"/bootstrap/clean || _exit "$?"
+  _do sudo sh "$DOTFILES"/bootstrap/clean
 
 fi
 
 if $sync ; then
 
   echo '+ Update already installed software'
-  sh "$DOTFILES"/bootstrap/update-software || _exit "$?"
+  _do sh "$DOTFILES"/bootstrap/update-software
 
 fi
 
 if $install ; then
 
   echo '+ Install new software'
-  sh "$DOTFILES"/bootstrap/install-software || _exit "$?"
+  _do sh "$DOTFILES"/bootstrap/install-software
 
 fi
 
 if $restart ; then
 
   echo '+ Shutting down services'
-  services.off || _exit "$?"
+  _do services.off
 
 fi
 
 if $update ; then
 
   echo '+ Update dotfiles'
-  sh "$DOTFILES"/bootstrap/dotfiles-update -f || _exit "$?"
+  _do sh "$DOTFILES"/bootstrap/dotfiles-update -f
 
 fi
 
 if $restart ; then
 
   echo '+ Enable ntpd'
-  sudo systemctl enable ntpd # clock sync
-  sudo systemctl start ntpd
+  _do sudo systemctl enable ntpd # clock sync
+  _do sudo systemctl start ntpd
   echo '+ Enable atd'
-  sudo systemctl enable atd # at program
-  sudo systemctl start atd
+  _do sudo systemctl enable atd # at program
+  _do sudo systemctl start atd
 
   echo '+ Restarting services'
-  services.on || _exit "$?"
+  _do services.on
 
 fi
 
 if $vim ; then
 
   echo '+ Update vim pluggins'
-  vim.update || _exit "$?"
+  _do vim.update
 
 fi
 
 if $delay ; then
-
   echo '+ Done!'
-  read
-
 fi
+
+_exit 0
