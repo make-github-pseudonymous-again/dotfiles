@@ -172,14 +172,14 @@ fi
 if $sync ; then
 
   echo '+ Update already installed software'
-  _do sh "$DOTFILES"/bootstrap/update-software
+  bash "$DOTFILES"/bootstrap/update-software || _exit "$?"
 
 fi
 
 if $install ; then
 
   echo '+ Install new software'
-  _do sh "$DOTFILES"/bootstrap/install-software
+  bash "$DOTFILES"/bootstrap/install-software || _exit "$?"
 
 fi
 

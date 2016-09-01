@@ -4,5 +4,5 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
 sudo pacman -Syyu || exit "$?"
 yaourt -Syyu --aur || exit "$?"
-npm update -g || exit "$?"
+sudo npm update -g || exit "$?"
 sudo sh "$DOTFILES"/bootstrap/update-pip u || exit "$?"
