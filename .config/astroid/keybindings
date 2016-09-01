@@ -1,0 +1,51 @@
+# searching in main window
+main_window.search_tag=?
+main_window.search=/
+main_window.show_help=H
+
+# inbox
+main_window.jump_to_page=1
+
+main_window.close_page=x
+main_window.close_page_force=X
+
+# disable new window
+# by binding to a key that has a low
+# probability of being typed by error
+main_window.open_new_window=@
+
+# switching between buffers
+main_window.previous_page=J
+main_window.next_page=K
+thread_index.previous_page=J
+thread_index.next_page=K
+help.previous_page=J
+help.next_page=K
+
+thread_view.scroll_up=u
+thread_view.scroll_down=d
+help.scroll_up=u
+help.scroll_down=d
+help.page_up=C-u
+help.page_down=C-d
+thread_index.scroll_up=u
+thread_index.scroll_down=d
+
+# undo
+main_window.undo=U
+
+# beginning/end of buffer
+thread_index.scroll_home=g
+thread_index.scroll_end=G
+thread_view.scroll_home=g
+thread_view.scroll_end=G
+
+# replying, composing, etc
+main_window.new_mail=c
+thread_index.reply=r
+thread_index.reply_all=R
+thread_view.reply=r
+thread_view.reply_all=R
+
+# delete attachment when editing mail
+thread_view.delete=D
