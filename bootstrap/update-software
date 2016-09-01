@@ -2,7 +2,11 @@
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
+echo " * pacman"
 sudo pacman -Syyu || exit "$?"
+echo " * yaourt"
 yaourt -Syyu --aur || exit "$?"
+echo " * npm"
 sudo npm update -g || exit "$?"
+echo " * pip"
 sudo sh "$DOTFILES"/bootstrap/update-pip u || exit "$?"

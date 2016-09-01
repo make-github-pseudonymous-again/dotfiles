@@ -193,7 +193,7 @@ fi
 if $update ; then
 
   echo '+ Update dotfiles'
-  _do sh "$DOTFILES"/bootstrap/dotfiles-update -f
+  sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
 
 fi
 
@@ -214,7 +214,7 @@ fi
 if $vim ; then
 
   echo '+ Update vim pluggins'
-  _do vim.update
+  vim.update || _exit "$?"
 
 fi
 

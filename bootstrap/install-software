@@ -2,8 +2,13 @@
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
+echo " * base"
 sudo sh "$DOTFILES"/bootstrap/install-base || exit "$?"
+echo " * pacman"
 sudo sh "$DOTFILES"/bootstrap/install-pacman || exit "$?"
+echo " * yaourt"
 sh "$DOTFILES"/bootstrap/install-yaourt || exit "$?"
+echo " * npm"
 sudo sh "$DOTFILES"/bootstrap/install-npm || exit "$?"
+echo " * pip"
 sudo sh "$DOTFILES"/bootstrap/update-pip i || exit "$?"

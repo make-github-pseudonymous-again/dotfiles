@@ -32,7 +32,10 @@ function doIt() {
 
 	source "$HOME/.bash_profile";
 
-	echo "$(readlink -f "$DOTFILES")" > "$HOME/.config/dotfiles/location"
+	_DOTFILES="$(readlink -f "$DOTFILES")"
+   	_LOCATION="$HOME/.config/dotfiles/location"
+	echo " * writing '$_DOTFILES' to $_LOCATION"
+	echo "$_DOTFILES" > "$_LOCATION"
 
 }
 

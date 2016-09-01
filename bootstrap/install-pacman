@@ -10,34 +10,38 @@ function i ( ) {
   1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
 }
 
-i ranger
-i xorg-xrdb
-i inotify-tools
-i terminator
-i bash-completion
-i gvim
-i firefox
-i evince
-i nodejs npm
+i ranger \
+xorg-xrdb \
+inotify-tools \
+terminator \
+bash-completion \
+gvim \
+firefox \
+evince \
+nodejs npm
+
+i python-pip \
+python-six \
+python-lxml \
+python-jedi \
+python-docopt \
+python-pygments \
+python-networkx \
+python-numpy \
+python-scipy \
+python-pillow \
+python-cssselect \
+autopep8
+
 i pypy3
-i python-pip
-i python-six
-i python-lxml
-i python-jedi
-i python-docopt
-i python-pygments
-i python-networkx
-i python-numpy
-i python-scipy
-i python-pillow
-i python-cssselect
-i autopep8
+
 i python2-xlib
 i go
-i transmission-gtk
-i ffmpeg vlc
-i pulseaudio pulseaudio-alsa pavucontrol
-i rhythmbox brasero
+
+i ffmpeg vlc \
+pulseaudio pulseaudio-alsa pavucontrol \
+rhythmbox brasero
+
 i testdisk
 i pstoedit python2-numpy python2-lxml uniconvertor
 i inkscape
@@ -46,19 +50,23 @@ i the_silver_searcher
 i at
 i cups
 i acpi
-i xorg-xkill
-i xsel xclip
-i gnupg
-i pass
-i keybase
+
+i xorg-xkill \
+xsel xclip
+
+i gnupg \
+pass \
+keybase
+
 i qtox
 i impressive
 i klavaro
 
 i newsbeuter
+i transmission-gtk
 
-i offlineimap
-i msmtp
+i offlineimap \
+msmtp
 
 i openssh
 i python2-keyring
@@ -73,18 +81,18 @@ i ncdu
 
 # iphone / USB
 
-i usbmuxd gvfs-afc
-i tumbler thunar
-i exfat-utils
+i usbmuxd gvfs-afc \
+tumbler thunar \
+exfat-utils
 
 # image manipulation
 
-i scrot
-i screenfetch
-i libjpeg-turbo gifsicle optipng
-i feh imagemagick
-i gimp
-i viewnior
+i scrot \
+screenfetch \
+libjpeg-turbo gifsicle optipng \
+feh imagemagick \
+gimp \
+viewnior
 
 # libre office
 
@@ -116,29 +124,23 @@ extra/texlive-pstricks \
 extra/texlive-publishers \
 extra/texlive-science
 
-i gnuplot
-i xfig transfig geogebra
-i xorg-xwininfo xorg-xprop
+i gnuplot \
+xfig transfig geogebra \
+xorg-xwininfo xorg-xprop
 
 # recoll
 
-## opt dept
-i pstotext
-i antiword
-i catdoc
-i unrtf
-# i untex
-i id3lib
-i mutagen python-mutagen
-i python2-pychm
-i perl-image-exiftool
-i aspell-en
-
-## already installed
-i libxslt
-i poppler
-i djvulibre
-i python2
-
-## main
-i recoll
+i recoll \
+pstotext \
+antiword \
+catdoc \
+unrtf \
+id3lib \
+mutagen python-mutagen \
+python2-pychm \
+perl-image-exiftool \
+aspell-en \
+libxslt \
+poppler \
+djvulibre \
+python2
