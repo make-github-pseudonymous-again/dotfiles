@@ -9,17 +9,72 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+# modifier key
 set $mod Mod4
+
+# colors
+client.background #1c1c1c
+# class                 border  backgr. text    indicator child_border
+client.focused #4F99D3 #4F99D3 #151718 #9FCA56 #CE4045
+client.focused_inactive #9FCA56 #9FCA56 #151718 #A074C4 #A0353B
+client.unfocused #1c1c1c #1c1c1c #AAAAAA #A074C4 #602022
+client.urgent #CE4045 #CE4045 #FFFFFF #DCCD69 #CE4045
+
+# This will set borders on new windows to 1 pixel if they are in a split
+# container. In stacked or tabbed containers the title bar(s) will still be
+# shown if there is more than one window in the container.
+for_window [class="^.*"] border pixel 2
+hide_edge_borders both
 
 # font for window titles. ISO 10646 = Unicode
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango: Monospace, FontAwesome 8
 
-# This will set borders on new windows to 1 pixel if they are in a split
-# container. In stacked or tabbed containers the title bar(s) will still be
-# shown if there is more than one window in the container.
-for_window [class="^.*"] border pixel 1
-hide_edge_borders both
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+  id main
+	position bottom
+	status_command ~/.bin/system.status
+
+	bindsym button4 nop
+	bindsym button5 nop
+
+	tray_output none
+  colors {
+    separator #1c1c1c
+    background #1c1c1c
+    statusline #FFFFFF
+    focused_workspace #9FCA56 #9FCA56 #151718
+    active_workspace #DCCD69 #DCCD69 #151718
+    inactive_workspace #1c1c1c #1c1c1c #AAAAAA
+    urgent_workspace #CE4045 #CE4045 #FFFFFF
+  }
+}
+
+bar {
+  id extra
+	position top
+	status_command ~/.bin/system.status.extra
+
+        bindsym button4 nop
+        bindsym button5 nop
+
+	mode dock
+
+	workspace_buttons no
+	binding_mode_indicator no
+  colors {
+    separator #1c1c1c
+    background #1c1c1c
+    statusline #FFFFFF
+    focused_workspace #9FCA56 #9FCA56 #151718
+    active_workspace #DCCD69 #DCCD69 #151718
+    inactive_workspace #1c1c1c #1c1c1c #AAAAAA
+    urgent_workspace #CE4045 #CE4045 #FFFFFF
+  }
+}
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -352,62 +407,6 @@ mode "files" {
         bindsym Escape mode "default"
 }
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-	id main
-	position bottom
-	status_command ~/.bin/system.status
-
-	wheel_up_cmd nop
-	wheel_down_cmd nop
-	#bindsym button4 nop
-	#bindsym button5 nop
-
-	tray_output none
-
-	colors {
-		background #1c1c1c
-		statusline #dddddd
-
-		separator #666666
-
-		focused_workspace  #4c7899 #285577 #ffffff
-		active_workspace   #333333 #5f676a #ffffff
-		inactive_workspace #333333 #222222 #888888
-		urgent_workspace   #2f343a #CF4647 #ffffff
-		#binding_mode       #2f343a #CF4647 #ffffff
-	}
-}
-
-bar {
-	id extra
-	position top
-	status_command ~/.bin/system.status.extra
-
-	wheel_up_cmd nop
-	wheel_down_cmd nop
-	#bindsym button4 nop
-	#bindsym button5 nop
-
-	mode dock
-
-	workspace_buttons no
-	binding_mode_indicator no
-
-	colors {
-		background #1c1c1c
-		statusline #dddddd
-
-		separator #666666
-
-		focused_workspace  #4c7899 #285577 #ffffff
-		active_workspace   #333333 #5f676a #ffffff
-		inactive_workspace #333333 #222222 #888888
-		urgent_workspace   #2f343a #CF4647 #ffffff
-		#binding_mode       #2f343a #CF4647 #ffffff
-	}
-}
 
 bindsym $mod+u bar mode invisible extra
 bindsym $mod+Shift+U bar mode dock extra
@@ -441,7 +440,6 @@ bindsym --release Shift+XF86LaunchA exec screenshot.selection
 bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
 bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 
-
 # disable/enable touchpad
 bindsym $mod+t exec touchpad.toggle
 
@@ -466,7 +464,7 @@ for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.
 
 
 # set background black
-# exec /usr/bin/xsetroot -solid "#000000"
+# exec /usr/bin/xsetroot -solid "#1c1c1c"
 exec --no-startup-id ~/.bin/wallpaper.refresh
 
 exec --no-startup-id ~/.bin/services.on
