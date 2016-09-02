@@ -33,7 +33,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apmfcsiurvdPMFCSIURVD" opt; do
+while getopts "h?apmfcsiurvdwPMFCSIURVDW" opt; do
     case "$opt" in
     h|\?)
         show_help
