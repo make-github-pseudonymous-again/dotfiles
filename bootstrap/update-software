@@ -2,10 +2,10 @@
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
-echo " * pacman"
-sudo pacman -Syyu || exit "$?"
+#echo " * pacman"
+#sudo pacman -Syyu || exit "$?"
 echo " * yaourt"
-yaourt -Syyu --aur || exit "$?"
+VISUAL=vim yaourt -Syyu || exit "$?"
 echo " * npm"
 sudo npm update -g || exit "$?"
 echo " * pip"

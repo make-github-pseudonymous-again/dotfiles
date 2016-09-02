@@ -176,7 +176,7 @@ fi
 if $sync ; then
 
   echo '+ Update already installed software'
-  bash "$DOTFILES"/bootstrap/update-software || _exit "$?"
+  sh "$DOTFILES"/bootstrap/update-software || _exit "$?"
 
 fi
 
