@@ -82,6 +82,9 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+p exec i3-sensible-terminal
 
+# start ranger
+bindsym $mod+m exec terminator -b -x ranger
+
 # start dmenu (a program launcher)
 bindsym $mod+o exec dmenu_center_run
 
@@ -342,7 +345,6 @@ mode "organization" {
 }
 
 mode "tools" {
-        bindsym r exec terminator -b -x ranger; mode "default"
         bindsym p exec terminator -b -x ptpython --vi; mode "default"
 
         bindsym b exec bib.ui; mode "default"
