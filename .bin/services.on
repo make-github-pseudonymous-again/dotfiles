@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 /usr/bin/systemctl --user import-environment PATH
+/usr/bin/systemctl --user start ssh-agent
 /usr/bin/systemctl --user start clipboard
 /usr/bin/systemctl --user start offlineimap
 #/usr/bin/systemctl --user start news
