@@ -160,6 +160,12 @@
 
 	insteadOf = "gist:"
 
+[url "git@bitbucket.org:"]
+
+	insteadOf = "bb:"
+	pushInsteadOf = "bitbucket:"
+	pushInsteadOf = "git://bitbucket.org/"
+
 [user]
 
 	name = Aurélien Ooms
