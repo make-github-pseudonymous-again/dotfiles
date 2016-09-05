@@ -42,14 +42,15 @@ i ffmpeg vlc \
 pulseaudio pulseaudio-alsa pavucontrol \
 rhythmbox brasero
 
-i testdisk
-i pstoedit python2-numpy python2-lxml uniconvertor
-i inkscape
-i ack
-i the_silver_searcher
-i at
-i cups
-i acpi
+i testdisk \
+pstoedit python2-numpy python2-lxml uniconvertor \
+inkscape \
+ack \
+the_silver_searcher \
+at \
+cups \
+acpi \
+udevil
 
 i xorg-xkill \
 xsel xclip

@@ -216,6 +216,9 @@ if $restart ; then
   echo '+ Enable atd'
   _do sudo systemctl enable atd # at program
   _do sudo systemctl start atd
+  echo '+ Enable devmon'
+  _do sudo systemctl enable devmon@"$USER" # auto mount usb drives program
+  _do sudo systemctl start devmon@"$USER"
 
   echo '+ Restarting services'
   _do services.on
