@@ -103,3 +103,6 @@ find . \
 ) 2> /dev/null'
 export FZF_DEFAULT_COMMAND="$FZFCMD"
 export FZF_CTRL_T_COMMAND="$FZFCMD"
+
+# ssh-agent socket
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
