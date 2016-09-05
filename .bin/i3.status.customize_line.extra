@@ -42,6 +42,10 @@ if mobile.mode.plane.is.on ; then
 	prepend='{"name":"mobile.mode.plane.on","color":"#F45D4C","full_text":""},'"$prepend"
 fi
 
+if screen.is.screensaver.off ; then
+	prepend='{"name":"screen.is.screensaver.off","color":"#FDD949","full_text":""},'"$prepend"
+fi
+
 badge="$(system.status.badge)"
 append="$badge"','"$append"
 

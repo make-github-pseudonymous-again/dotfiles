@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+xset s off -dpms
