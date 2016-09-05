@@ -4,7 +4,7 @@ if is.wifi.enabled
 then
 wifi.disconnect.ui
 wifi.disable
-sleep 10
+sleep 9
 wifi.enable
 else
 wifi.enable
