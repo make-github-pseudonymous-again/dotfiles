@@ -35,13 +35,13 @@ font pango: Monospace, FontAwesome 8
 # finds out, if available)
 bar {
   id main
-	position bottom
-	status_command ~/.bin/system.status
+  position bottom
+  status_command ~/.bin/system.status
 
-	bindsym button4 nop
-	bindsym button5 nop
+  bindsym button4 nop
+  bindsym button5 nop
 
-	tray_output none
+  tray_output none
   colors {
     separator #1c1c1c
     background #1c1c1c
@@ -55,16 +55,16 @@ bar {
 
 bar {
   id extra
-	position top
-	status_command ~/.bin/system.status.extra
+  position top
+  status_command ~/.bin/system.status.extra
 
-        bindsym button4 nop
-        bindsym button5 nop
+  bindsym button4 nop
+  bindsym button5 nop
 
-	mode dock
+  mode dock
 
-	workspace_buttons no
-	binding_mode_indicator no
+  workspace_buttons no
+  binding_mode_indicator no
   colors {
     separator #1c1c1c
     background #1c1c1c
