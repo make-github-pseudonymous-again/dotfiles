@@ -15,10 +15,10 @@ set $mod Mod4
 # colors
 client.background #1c1c1c
 # class                 border  backgr. text    indicator child_border
-client.focused #4F99D3 #4F99D3 #151718 #9FCA56 #CE4045
-client.focused_inactive #9FCA56 #9FCA56 #151718 #A074C4 #A0353B
+client.focused #85bd85 #85bd85 #151718 #9FCA56 #CE4045
+client.focused_inactive #858585 #858585 #151718 #A074C4 #A0353B
 client.unfocused #1c1c1c #1c1c1c #AAAAAA #A074C4 #602022
-client.urgent #CE4045 #CE4045 #FFFFFF #DCCD69 #CE4045
+client.urgent #bd8585 #bd8585 #FFFFFF #DCCD69 #bd8585
 
 # This will set borders on new windows to 1 pixel if they are in a split
 # container. In stacked or tabbed containers the title bar(s) will still be
@@ -46,10 +46,10 @@ bar {
     separator #1c1c1c
     background #1c1c1c
     statusline #FFFFFF
-    focused_workspace #9FCA56 #9FCA56 #151718
-    active_workspace #DCCD69 #DCCD69 #151718
+    focused_workspace #85bd85 #85bd85 #151718
+    active_workspace #858585 #858585 #151718
     inactive_workspace #1c1c1c #1c1c1c #AAAAAA
-    urgent_workspace #CE4045 #CE4045 #FFFFFF
+    urgent_workspace #bd8585 #bd8585 #FFFFFF
   }
 }
 
@@ -69,10 +69,10 @@ bar {
     separator #1c1c1c
     background #1c1c1c
     statusline #FFFFFF
-    focused_workspace #9FCA56 #9FCA56 #151718
+    focused_workspace #85bd85 #85bd85 #151718
     active_workspace #DCCD69 #DCCD69 #151718
     inactive_workspace #1c1c1c #1c1c1c #AAAAAA
-    urgent_workspace #CE4045 #CE4045 #FFFFFF
+    urgent_workspace #bd8585 #bd8585 #FFFFFF
   }
 }
 

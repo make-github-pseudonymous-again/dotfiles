@@ -30,33 +30,33 @@ fi
 
 mail_count="$(courriel.count)"
 if test "$mail_count" -gt 0; then
-	prepend='{"name":"new mail","color":"#6DE256","full_text":" '"$mail_count"'"},'"$prepend"
+	prepend='{"name":"new mail","color":"#85bdbd","full_text":" '"$mail_count"'"},'"$prepend"
 fi
 
 pending_count="$(msmtp-pending)"
 if test "$pending_count" -gt 0; then
 	if msmtp-runqueue-is-running; then
-		prepend='{"name":"pending sent mail","color":"#6DE256","full_text":" '"$pending_count"'"},'"$prepend"
+		prepend='{"name":"pending sent mail","color":"#85bdbd,"full_text":" '"$pending_count"'"},'"$prepend"
 	else
-		prepend='{"name":"pending sent mail","color":"#C5E946","full_text":" '"$pending_count"'"},'"$prepend"
+		prepend='{"name":"pending sent mail","color":"#262626","full_text":" '"$pending_count"'"},'"$prepend"
 	fi
 fi
 
 hangouts_status="$(cat "$HOME"'/.cache/hangups/_status')"
 hangouts_type="$(echo "$hangouts_status" | jq -r '.status')"
 if [ "$hangouts_type" = 'error' ]; then
-	prepend='{"name":"new hangouts messages","color":"#CF4647","full_text":" "},'"$prepend"
+	prepend='{"name":"new hangouts messages","color":"#bd8585","full_text":" "},'"$prepend"
 elif [ "$hangouts_type" = 'typing' ]; then
 	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
 	if [ "$hangouts_count" -gt 0 ]; then
-		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":" '"$hangouts_count"'"},'"$prepend"
+		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":" '"$hangouts_count"'"},'"$prepend"
 	else
-		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":""},'"$prepend"
+		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":""},'"$prepend"
 	fi
 elif [ "$hangouts_type" = 'normal' ]; then
 	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
 	if [ "$hangouts_count" -gt 0 ]; then
-		prepend='{"name":"new hangouts messages","color":"#6DE256","full_text":" '"$hangouts_count"'"},'"$prepend"
+		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":" '"$hangouts_count"'"},'"$prepend"
 	fi
 fi
 

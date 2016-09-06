@@ -353,7 +353,7 @@ for name, _path, _leave, _arrival in myroutes:
         title, sleave, stotal, sarrival, spath, eta
     )
 
-    color = "#6DE256"
+    color = "#85bd85"
 
     if len(_path) > 1:
 

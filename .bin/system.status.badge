@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-color_good="#6DE256"
+color_good="#85bd85"
 color_degraded="#C5E946"
 color_bad="#CF4647"
 
