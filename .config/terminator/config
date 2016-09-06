@@ -30,6 +30,8 @@
     scrollbar_position = hidden
     show_titlebar = False
     use_system_font = False
+	palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
+    cursor_color = "#e3bf21"
   [[calendar]]
     background_color = "#1c1c1c"
     background_image = None
@@ -41,6 +43,8 @@
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
+	palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
+    cursor_color = "#e3bf21"
   [[newsbeuter]]
     background_color = "#1c1c1c"
     background_image = None
@@ -52,6 +56,8 @@
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
+	palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
+    cursor_color = "#e3bf21"
   [[urlab.irc]]
     background_color = "#1c1c1c"
     background_image = None
@@ -63,6 +69,8 @@
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
+	palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
+    cursor_color = "#e3bf21"
   [[weather]]
     background_color = "#1c1c1c"
     background_image = None
@@ -74,3 +82,5 @@
     show_titlebar = False
     use_custom_command = True
     use_system_font = False
+	palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
+    cursor_color = "#e3bf21"
