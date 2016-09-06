@@ -142,29 +142,37 @@
 
 [url "git@github.com:"]
 
-	insteadOf = "gh:"
+	insteadOf = "pgh:"
+	insteadOf = "pgithub:"
+	pushInsteadOf = "gh:"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
 
+	insteadOf = "gh:"
 	insteadOf = "github:"
 
 [url "git@gist.github.com:"]
 
-	insteadOf = "gst:"
+	insteadOf = "pgst:"
+	insteadOf = "pgist:"
+	pushInsteadOf = "gst:"
 	pushInsteadOf = "gist:"
 	pushInsteadOf = "git://gist.github.com/"
 
 [url "git://gist.github.com/"]
 
+	insteadOf = "gst:"
 	insteadOf = "gist:"
+
+# use of bitbucket with private repositories only
 
 [url "git@bitbucket.org:"]
 
 	insteadOf = "bb:"
-	pushInsteadOf = "bitbucket:"
-	pushInsteadOf = "git://bitbucket.org/"
+	insteadOf = "bitbucket:"
+	insteadOf = "git://bitbucket.org/"
 
 [user]
 
