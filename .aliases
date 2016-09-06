@@ -33,6 +33,8 @@ alias gdts="git diff --word-diff-regex=. --staged"
 alias gdw="git diff --color-words"
 alias gdws="git diff --color-words --staged"
 
+alias jrnl=" jrnl"
+
 alias udpate="update"
 alias up="update"
 
