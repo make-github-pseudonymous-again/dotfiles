@@ -11,7 +11,9 @@ function i ( ) {
 }
 
 i ranger \
-xorg-xrdb \
+highlight atool w3m poppler libcaca
+
+i xorg-xrdb \
 inotify-tools \
 terminator \
 bash-completion \
@@ -143,6 +145,5 @@ python2-pychm \
 perl-image-exiftool \
 aspell-en \
 libxslt \
-poppler \
 djvulibre \
 python2
