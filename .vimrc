@@ -38,6 +38,8 @@ Plug 'flazz/vim-colorschemes'
 " Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 " should be loaded before vim-airline but does not work :(
 Plug 'vim-airline/vim-airline'
+" A collection of themes for vim-airline
+Plug 'vim-airline/vim-airline-themes'
 " Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
 Plug 'airblade/vim-gitgutter'
 " Plug 'mhinz/vim-signify' " possible alternative
