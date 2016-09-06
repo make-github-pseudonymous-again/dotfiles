@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if screen.is.screensaver.off; then
+  screen.screensaver.on
+else
+  screen.screensaver.off
+fi

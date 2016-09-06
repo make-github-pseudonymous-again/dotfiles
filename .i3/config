@@ -275,6 +275,7 @@ mode "apps" {
 	bindsym t mode "tools"
 	bindsym s mode "system"
 	bindsym a mode "audio"
+	bindsym v mode "video"
 
 	# back to normal: Enter or Escape
 	bindsym Return mode "default"
@@ -388,6 +389,17 @@ mode "audio" {
         bindsym Shift+O exec audio.move.source.all; mode "default"
         bindsym s exec audio.set.default.sink; mode "default"
         bindsym Shift+S exec audio.set.default.source; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+
+}
+
+mode "video" {
+
+        bindsym o exec screen.off; mode "default"
+        bindsym s exec screen.screensaver.toggle; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
