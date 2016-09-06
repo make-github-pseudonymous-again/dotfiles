@@ -27,13 +27,18 @@ CONTEXT.verify_mode = ssl.CERT_NONE
 username = None
 password = None
 
-up = subprocess.run(['pass', 'ULB/ethernet/user'],stdout=subprocess.PIPE)
-if up.returncode == 0 :
-    username = up.stdout.decode('utf-8')[:-1]
+try:
 
-    pp = subprocess.run(['pass', 'ULB/ethernet/login'],stdout=subprocess.PIPE)
-    if pp.returncode == 0 :
-        password = pp.stdout.decode('utf-8')[:-1]
+    up = subprocess.run(['pass', 'ULB/ethernet/user'],stdout=subprocess.PIPE)
+    if up.returncode == 0 :
+        username = up.stdout.decode('utf-8')[:-1]
+
+        pp = subprocess.run(['pass', 'ULB/ethernet/login'],stdout=subprocess.PIPE)
+        if pp.returncode == 0 :
+            password = pp.stdout.decode('utf-8')[:-1]
+
+except FileNotFoundError :
+    pass
 
 if username is None or password is None :
     username = input('username: ')
