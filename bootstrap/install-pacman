@@ -95,8 +95,7 @@ screenfetch \
 libjpeg-turbo gifsicle optipng \
 feh imagemagick \
 gimp \
-viewnior \
-gpicview
+viewnior
 
 # libre office
 
