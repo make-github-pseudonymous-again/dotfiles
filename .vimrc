@@ -242,11 +242,12 @@ omap / <Plug>(easymotion-tn)
 map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 
-" open a new tab
-noremap <leader>t <Esc>:tabnew<CR>
+" open a new buffer
+noremap <silent> <leader>e :enew<CR>
+
 
 " Strip trailing whitespace (,ss)
-noremap <leader>ss :StripWhitespace<CR>
+noremap <silent> <leader>ss :StripWhitespace<CR>
 autocmd FileType javascript,python,c,cpp,java,html,css,ruby autocmd BufWritePre <buffer> StripWhitespace
 
 " airline
