@@ -368,6 +368,10 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
+" buffer cycling shortcuts
+nn <silent> <leader>n :bn<cr>
+nn <silent> <leader>p :bp<cr>
+
 " Capitalize words and regions easily
 " from http://vim.wikia.com/wiki/Capitalize_words_and_regions_easily
 if (&tildeop)
