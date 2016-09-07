@@ -367,7 +367,7 @@ for name, _path, _leave, _arrival in myroutes:
 
             else:
 
-                color = "#C5E946"
+                color = "#F45D4C"
 
     data = {
         "name"       : "commuting",
