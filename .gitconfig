@@ -146,7 +146,6 @@
 	insteadOf = "pgithub:"
 	pushInsteadOf = "gh:"
 	pushInsteadOf = "github:"
-	pushInsteadOf = "https://github.com/"
 
 [url "https://github.com/"]
 
@@ -159,7 +158,6 @@
 	insteadOf = "pgist:"
 	pushInsteadOf = "gst:"
 	pushInsteadOf = "gist:"
-	pushInsteadOf = "https://gist.github.com/"
 
 [url "https://gist.github.com/"]
 
@@ -172,7 +170,6 @@
 
 	insteadOf = "bb:"
 	insteadOf = "bitbucket:"
-	insteadOf = "https://bitbucket.org/"
 
 [user]
 
