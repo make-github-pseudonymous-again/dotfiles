@@ -8,6 +8,7 @@
 
 ### Install sak
 
+    mkdir ~/.bin
     git clone https://github.com/aureooms/sak
     cd sak
     make install
@@ -25,11 +26,11 @@
 
     bash bootstrap/dotfiles-update
 
-Open a new shell, then
+Restart X, then
 
 ### Install system
 
-    update -a
+    update -aC
 
 ## Usage
 
