@@ -10,6 +10,7 @@ execute="$EXECUTE_INIT"
 
 execute="$execute"'| map( select( .full_text != "no IPV6" ) )'
 execute="$execute"'| map( select( .full_text != "No battery" ) )'
+execute="$execute"'| map( select( .full_text != "can'"'"'t read temp" ) )'
 
 if ! is.wifi.enabled; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
