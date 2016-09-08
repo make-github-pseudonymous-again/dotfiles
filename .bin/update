@@ -125,6 +125,8 @@ function _check ( ) {
 }
 
 function _trap ( ) {
+  echo '! TRAP'
+  echo ' > There was an error!'
   _exit 70;
 }
 
