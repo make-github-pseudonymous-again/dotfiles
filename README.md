@@ -31,6 +31,8 @@ Restart X, then
 ### Install system
 
     update -i
+    sudo npm install -g semver
+    sudo npm install -g npm
 
 ### Update system
 
