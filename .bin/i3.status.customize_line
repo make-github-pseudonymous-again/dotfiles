@@ -18,14 +18,14 @@ fi
 
 if is.ulb.network.connected; then
 	if is.internet.accessible; then
-		prepend='{"name":"ulb network","color":"#6DE256","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb network","color":"#85bd85","full_text":" ulb"},'"$prepend"
 		if is.cups.running && is.papercut.running; then
-			prepend='{"name":"ulb printer","color":"#6DE256","full_text":" ulb"},'"$prepend"
+			prepend='{"name":"ulb printer","color":"#85bd85","full_text":" ulb"},'"$prepend"
 		else
-			prepend='{"name":"ulb printer","color":"#C5E946","full_text":" ulb"},'"$prepend"
+			prepend='{"name":"ulb printer","color":"#bdbd85","full_text":" ulb"},'"$prepend"
 		fi
 	else
-		prepend='{"name":"ulb network","color":"#C5E946","full_text":" ulb"},'"$prepend"
+		prepend='{"name":"ulb network","color":"#bdbd85","full_text":" ulb"},'"$prepend"
 	fi
 fi
 
@@ -63,7 +63,7 @@ fi
 
 #rss_count="$(rss.count)"
 #if test "$rss_count" -gt 0; then
-	#prepend='{"name":"new rss","color":"#6DE256","full_text":" '"$rss_count"'"},'"$prepend"
+	#prepend='{"name":"new rss","color":"#85bd85","full_text":" '"$rss_count"'"},'"$prepend"
 #fi
 
 volume="$(volume.get)"
