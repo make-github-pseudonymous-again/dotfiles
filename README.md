@@ -30,7 +30,11 @@ Restart X, then
 
 ### Install system
 
-    update -aC
+    update -i
+
+### Update system
+
+    update -a
 
 ## Usage
 
