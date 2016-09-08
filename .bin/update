@@ -118,6 +118,8 @@ function _do ( ) {
 
 function _check ( ) {
   if [ "$1" -ne 0 ] ; then
+    echo '! NONZERO RETURN CODE'
+    echo ' > There was an error!'
     >&1 cat "$O"
     >&2 cat "$E"
     _exit "$1"

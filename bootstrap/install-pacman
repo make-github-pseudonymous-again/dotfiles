@@ -52,7 +52,8 @@ the_silver_searcher \
 at \
 cups \
 acpi \
-udevil
+udevil \
+ntp
 
 i xorg-xkill \
 xsel xclip
