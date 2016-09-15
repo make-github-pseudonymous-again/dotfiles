@@ -10,11 +10,14 @@ function i ( ) {
   1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
 }
 
-i ranger \
+i fish ranger \
 highlight atool w3m poppler libcaca
 
 i xorg-xrdb \
 inotify-tools \
+dunst \
+libnotify \
+urxvt \
 terminator \
 bash-completion \
 gvim \
