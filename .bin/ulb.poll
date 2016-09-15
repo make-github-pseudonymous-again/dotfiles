@@ -5,7 +5,11 @@ while true; do
 		ulb.printer.disconnect
 	else
 		ulb.printer.connect
-		ulb.internet.auth
+		if ! is.internet.accessible; then
+			>&2 echo 'Internet is not accessible'
+			>&2 echo 'Authentication for ULB internet'
+			>&2 ulb.internet.auth
+		fi
 	fi
-	sleep 60
+	sleep 5
 done
