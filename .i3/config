@@ -12,6 +12,8 @@
 # modifier key
 set $mod Mod4
 
+# set background black
+exec /usr/bin/xsetroot -solid "#1c1c1c"
 # colors
 client.background #1c1c1c
 # class                 border  backgr. text    indicator child_border
@@ -476,9 +478,6 @@ bindsym $mod+minus scratchpad show
 # Automatically move papercut balance window to the scratchpad.
 for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
 
-
-# set background black
-# exec /usr/bin/xsetroot -solid "#1c1c1c"
 exec --no-startup-id ~/.bin/wallpaper.refresh
 
 exec --no-startup-id ~/.bin/services.on
