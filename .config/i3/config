@@ -91,7 +91,7 @@ bindsym $mod+m exec terminator -b -x ranger
 bindsym $mod+o exec dmenu_center_run
 
 # kill focused window
-bindsym $mod+Shift+A kill
+bindsym $mod+q kill
 
 # change focus
 bindsym $mod+h focus left
@@ -138,7 +138,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+q focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
 #bindcode $mod+d focus child
