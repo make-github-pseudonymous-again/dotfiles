@@ -21,7 +21,7 @@ function fish_mode_prompt --description 'Displays the current mode'
 
 end
 
-function prompt_git
+function prompt_git --description 'Git part of the prompt'
 
 	set -l s ''
 	set -l branchName ''
@@ -85,7 +85,7 @@ end
 
 function fish_prompt --description 'Left prompt'
 
-	set_color -o white
+	set_color -o EDD599
 	echo -n (date +%T)
 
 	set_color normal
@@ -124,17 +124,17 @@ end
 function fish_right_prompt --description 'Right prompt'
 
 	set -l last_status $status
+	set -l last_cmd_line "$history[1]"
 	set -l last_cmd_duration $CMD_DURATION
 
 	# Show last execution time and notify if it took long enough
 	if test "$last_cmd_duration"
 
-		set_color -o white
+		set_color -o EDD599
 		echo -n "$last_cmd_duration ms "
 		set_color normal
 
 		if test "$last_cmd_duration" -gt 10000
-			set -l last_cmd_line "$history[1]"
 			notify-send -u low "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
 		end
 
@@ -146,7 +146,7 @@ function fish_right_prompt --description 'Right prompt'
 		set_color -o green
 	end
 
-	echo -n "$last_status"
+	printf "%3s" "$last_status"
 
 	set_color normal
 
