@@ -3,7 +3,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias -- -="cd -"
+alias -="cd -"
 
 # Shortcuts
 alias db="cd ~/Dropbox"
@@ -61,7 +61,7 @@ alias sudo='sudo '
 alias week='date +%V'
 
 # Stopwatch
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+alias timer='echo "Timer started. Stop with Ctrl-D."; and date; and time cat; and date'
 
 # IP addresses
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -71,24 +71,24 @@ alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 # Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
+command -v hd > /dev/null; or alias hd="hexdump -C"
 
 # OS X has no `md5sum`, so use `md5` as a fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
+command -v md5sum > /dev/null; or alias md5sum="md5"
 
 # OS X has no `sha1sum`, so use `shasum` as a fallback
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
+command -v sha1sum > /dev/null; or alias sha1sum="shasum"
 
 # URL-encode strings
 #alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
 # One of @janmoesen’s ProTip™s
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS
 	alias "$method"="lwp-request -m '$method'"
-done
+end
 
 # Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
+command -v grunt > /dev/null; and alias grunt="grunt --stack"
 
 # Lock the screen (when going AFK)
 alias afk="system.LS"
@@ -100,8 +100,16 @@ alias adl='youtube-dl -f140 --'
 # thefuck aliases
 # THIS IS WAY TOO SLOW
 # eval $(thefuck --alias fu)
-alias fu='sudo $(history -p !!)'
-alias fuu='TF_CMD=$(TF_ALIAS=fuu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
+alias fu='sudo (history | head -1)'
+function fuu -d "Correct your previous console command"
+  set -l fucked_up_command $history[1]
+  env TF_ALIAS=fuu PYTHONIOENCODING=utf-8 thefuck $fucked_up_command | read -l unfucked_command
+  if [ "$unfucked_command" != "" ]
+    eval $unfucked_command
+    history --delete $fucked_up_command
+    history --merge ^ /dev/null
+  end
+end
 alias fuuu=fuu
 alias fuuuu=fuu
 alias fuk=fuu
