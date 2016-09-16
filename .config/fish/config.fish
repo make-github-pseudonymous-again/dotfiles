@@ -5,8 +5,6 @@ set -U VISUAL vim
 
 function fish_mode_prompt --description 'Displays the current mode'
 
-	echo
-
 	switch $fish_bind_mode
 		case default
 			set_color --bold --background red white
@@ -38,22 +36,25 @@ function prompt_git
 			git update-index --really-refresh -q 1>/dev/null 2>&1;
 
 			# Check for uncommitted changes in the index.
-			if [ (git diff --quiet --ignore-submodules --cached; echo "$status") -ne '0' ]
+			git diff --quiet --ignore-submodules --cached
+			if test $status -ne 0
 				set s "$s"'+'
 			end
 
 			# Check for unstaged changes.
-			if [ (git diff-files --quiet --ignore-submodules --; echo "$status") -ne '0' ]
+			git diff-files --quiet --ignore-submodules --
+			if test $status -ne 0
 				set s "$s"'!'
 			end
 
 			# Check for untracked files.
-			if [ -n "(git ls-files --others --exclude-standard)" ]
+			if test (git ls-files --others --exclude-standard)
 				set s "$s"'?'
 			end
 
 			# Check for stashed files.
-			if [ (git rev-parse --verify refs/stash 1>/dev/null 2>&1; echo "$status") -eq '0' ]
+			git rev-parse --verify refs/stash 1>/dev/null 2>&1
+			if test $status -eq 0
 				set s "$s"'$'
 			end
 
@@ -64,7 +65,7 @@ function prompt_git
 		# Otherwise, just give up.
 		set -l branchName (git symbolic-ref --quiet --short HEAD 2>/dev/null ; or git rev-parse --short HEAD 2>/dev/null ; or echo '(unknown)')
 
-		if test -n "$s"
+		if test "$s"
 			set s " [$s]"
 		end
 
@@ -96,7 +97,11 @@ function fish_prompt --description 'Left prompt'
 	set_color -o white
 	echo -n ' at '
 
-	set_color -o yellow
+	if test "$SSH_TTY"
+		set_color -o red
+	else
+		set_color -o yellow
+	end
 	echo -n (hostname)
 
 	set_color -o white
@@ -122,7 +127,7 @@ function fish_right_prompt --description 'Right prompt'
 	set -l last_cmd_duration $CMD_DURATION
 
 	# Show last execution time and notify if it took long enough
-	if test -n "$last_cmd_duration"
+	if test "$last_cmd_duration"
 
 		set_color -o white
 		echo -n "$last_cmd_duration ms "
@@ -130,7 +135,7 @@ function fish_right_prompt --description 'Right prompt'
 
 		if test "$last_cmd_duration" -gt 10000
 			set -l last_cmd_line "$history[1]"
-			notify-send -u low "$last_cmd_line" "Returned $last_status, took $last_cmd_duration seconds"
+			notify-send -u low "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
 		end
 
 	end
@@ -145,5 +150,10 @@ function fish_right_prompt --description 'Right prompt'
 
 	set_color normal
 
+	if test "$SSH_TTY"
+		set_color -o white
+		echo -n 
+		set_color normal
+	end
 
 end
