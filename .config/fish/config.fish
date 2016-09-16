@@ -27,7 +27,8 @@ function prompt_git --description 'Git part of the prompt'
 	set -l branchName ''
 
 	# Check if the current directory is in a Git repository.
-	if [ (git rev-parse --is-inside-work-tree 1>/dev/null 2>&1; echo "$status") -eq '0' ]
+	git rev-parse --is-inside-work-tree 1>/dev/null 2>&1
+	if test $status -eq 0
 
 		# check if the current directory is in .git before running git checks
 		if [ (git rev-parse --is-inside-git-dir 2>/dev/null) = 'false' ]
@@ -116,7 +117,11 @@ function fish_prompt --description 'Left prompt'
 	echo
 
 	set_color -o white
-	echo -n '$ '
+	if test (id -u) -eq 0
+		echo -n '# '
+	else
+		echo -n '$ '
+	end
 	set_color normal
 
 end
