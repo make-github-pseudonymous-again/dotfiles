@@ -135,10 +135,8 @@ function prompt_left() {
 function prompt {
   timer_show=$(($SECONDS - $timer))
   unset timer
-  right="$(prompt_right)"
-  compensate=16
-  pad="$((sright-compensate))"
-  PS1=$(printf "%*s\r%s" "$(($(tput cols)-${pad}))" "$right" "$(prompt_left)")
+  pad=16
+  PS1=$(printf "%*s\r%s" "$(($(tput cols)+${pad}))" "$(prompt_right)" "$(prompt_left)")
 }
 
 if [ "$PROMPT_COMMAND" == "" ]; then
