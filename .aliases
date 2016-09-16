@@ -94,9 +94,6 @@ command -v grunt > /dev/null && alias grunt="grunt --stack"
 # Lock the screen (when going AFK)
 alias afk="system.LS"
 
-# Faster npm for Europeans
-command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu/"
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -106,17 +103,18 @@ alias vdl='youtube-dl'
 alias adl='youtube-dl -f140 --'
 
 # thefuck aliases
-alias fu='TF_CMD=$(TF_ALIAS=fu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
 # THIS IS WAY TOO SLOW
-#eval $(thefuck --alias fu)
-#eval $(thefuck --alias fuu)
-#eval $(thefuck --alias fuuu)
-#eval $(thefuck --alias fuk)
-#eval $(thefuck --alias fuuk)
-#eval $(thefuck --alias fuuuk)
-#eval $(thefuck --alias fuc)
-#eval $(thefuck --alias fuuc)
-#eval $(thefuck --alias fuuuc)
-#eval $(thefuck --alias fuck)
-#eval $(thefuck --alias fuuck)
-#eval $(thefuck --alias fuuuck)
+# eval $(thefuck --alias fu)
+alias fu='TF_CMD=$(TF_ALIAS=fu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
+alias fuu=fu
+alias fuuu=fu
+alias fuuuu=fu
+alias fuk=fu
+alias fuuk=fu
+alias fuuuk=fu
+alias fuc=fu
+alias fuuc=fu
+alias fuuuc=fu
+alias fuck=fu
+alias fuuck=fu
+alias fuuuck=fu
