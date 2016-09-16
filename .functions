@@ -252,6 +252,15 @@ function optijpeg() {
 	done
 }
 
+# "alert" for long running commands.  Use like so:
+#   sleep 10; alert
+function alert {
+
+	last_cmd_status="$?"
+	notify-send -u "$([ $last_cmd_status = 0 ] && echo low || echo critical)" "$([ $last_cmd_status = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//')"
+
+}
+
 ## copy history command
 function ch() {
 	local line
