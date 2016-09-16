@@ -118,3 +118,4 @@ alias fuuuc=fu
 alias fuck=fu
 alias fuuck=fu
 alias fuuuck=fu
+alias sdl='sudo $(history -p !!)'
