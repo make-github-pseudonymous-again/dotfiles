@@ -1,3 +1,6 @@
+# disable fish greeting
+set fish_greeting
+
 set fish_key_bindings fish_vi_key_bindings
 
 set -U EDITOR vim
@@ -49,7 +52,8 @@ function prompt_git --description 'Git part of the prompt'
 			end
 
 			# Check for untracked files.
-			if test (git ls-files --others --exclude-standard)
+			set gitlsfiles (git ls-files --others --exclude-standard)
+			if test "$gitlsfiles"
 				set s "$s"'?'
 			end
 
@@ -117,7 +121,7 @@ function fish_prompt --description 'Left prompt'
 	echo
 
 	set_color -o white
-	if test (id -u) -eq 0
+	if [ (id -u) = '0' ]
 		echo -n '# '
 	else
 		echo -n '$ '
