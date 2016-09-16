@@ -3,4 +3,4 @@
 when="$1"
 message="$2"
 
-echo "env DISPLAY=:0 i3-nagbar -m '$when: $message' &" | at "$when"
+echo "notify-send -u critical '$when' '$message'" | at "$when"
