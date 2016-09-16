@@ -80,8 +80,12 @@ function prompt_git --description 'Git part of the prompt'
 
 		set_color -o white
 		echo -n " on "
+		set_color normal
+
 		set_color -o magenta
 		echo -n "$branchName"
+		set_color normal
+
 		set_color -o cyan
 		echo -n "$s";
 		set_color normal
@@ -96,15 +100,17 @@ function fish_prompt --description 'Left prompt'
 
 	set_color -o EDD599
 	echo -n (date +%T)
-
 	set_color normal
+
 	echo -n ' '
 
 	set_color -o green
 	echo -n (whoami)
+	set_color normal
 
 	set_color -o white
 	echo -n ' at '
+	set_color normal
 
 	if test "$SSH_TTY"
 		set_color -o red
@@ -112,9 +118,11 @@ function fish_prompt --description 'Left prompt'
 		set_color -o yellow
 	end
 	echo -n (hostname)
+	set_color normal
 
 	set_color -o white
 	echo -n ' in '
+	set_color normal
 
 	set_color -o blue
 	echo -n (prompt_pwd)
