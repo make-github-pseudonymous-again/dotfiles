@@ -42,4 +42,5 @@ untex \
 git-latexdiff \
 ruby-coderay \
 xkblayout-state \
-abunchoftags
+abunchoftags \
+fisherman
