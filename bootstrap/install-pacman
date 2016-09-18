@@ -6,8 +6,42 @@ echo 'must be run as root'
 exit 1
 fi
 
+O="$(mktemp /tmp/update.out.XXXXXXXX)"
+E="$(mktemp /tmp/update.err.XXXXXXXX)"
+
+function _exit ( ) {
+  rm -f "$O" "$E"
+  if $_wait ; then
+    read
+  fi
+  exit "$1"
+}
+
+function _do ( ) {
+  "$@" 1>"$O" 2>"$E"
+  _check "$?"
+}
+
+function _check ( ) {
+  if [ "$1" -ne 0 ] ; then
+    echo '! NONZERO RETURN CODE'
+    echo ' > There was an error!'
+    >&1 cat "$O"
+    >&2 cat "$E"
+    _exit "$1"
+  fi
+}
+
+function _trap ( ) {
+  echo '! TRAP'
+  echo ' > There was an error!'
+  _exit 70;
+}
+
+trap _trap SIGHUP SIGINT SIGTERM
+
 function i ( ) {
-  1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
+  _do pacman -S --needed --noconfirm "$@"
 }
 
 i fish ranger \
@@ -17,7 +51,7 @@ i xorg-xrdb \
 inotify-tools \
 dunst \
 libnotify \
-urxvt \
+rxvt-unicode \
 terminator \
 bash-completion \
 gvim \
@@ -161,9 +195,10 @@ unzip \
 unrar \
 p7zip \
 cabextract \
-cdrkit \
+cdrtools \
 html2text \
 antiword \
 unrtf \
 imagemagick
 
+_exit 0
