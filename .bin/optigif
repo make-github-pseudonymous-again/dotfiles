@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Image optimization tools (lossless)
+# credits to http://stackoverflow.com/a/19327447/1582182
+
+for file in "$@"
+do
+	gifsicle -O "$file" -o "$file." && du -b "$file"{,.}
+	newsize=$(wc -c <"$file.")
+	oldsize=$(wc -c <"$file")
+	if [ $oldsize -gt $newsize ] ; then
+		mv "$file"{.,}
+	else
+		rm "$file."
+	fi
+done

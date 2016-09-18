@@ -26,6 +26,7 @@ diff=false
 update=true
 restart=false
 vim=false
+fish=false
 _wait=false
 
 function show_help ( ) {
@@ -33,7 +34,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apmfcsiurvdwPMFCSIURVDW" opt; do
+while getopts "h?apmfcsiurvdzwPMFCSIURVDZW" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -48,6 +49,7 @@ while getopts "h?apmfcsiurvdwPMFCSIURVDW" opt; do
         update=true
         restart=true
         vim=true
+        fish=true
         ;;
     p)  pull=true
         ;;
@@ -70,6 +72,8 @@ while getopts "h?apmfcsiurvdwPMFCSIURVDW" opt; do
         ;;
     v)  vim=true
         ;;
+    z)  fish=true
+        ;;
     w)  _wait=true
         ;;
     P)  pull=false
@@ -91,6 +95,8 @@ while getopts "h?apmfcsiurvdwPMFCSIURVDW" opt; do
     R)  restart=false
         ;;
     V)  vim=false
+        ;;
+    Z)  fish=false
         ;;
     W)  _wait=false
         ;;
@@ -233,6 +239,13 @@ if $vim ; then
 
   echo '+ Update vim pluggins'
   vim.update || _exit "$?"
+
+fi
+
+if $fish ; then
+
+  echo '+ Update fish pluggins'
+  fisher || _exit "$?"
 
 fi
 

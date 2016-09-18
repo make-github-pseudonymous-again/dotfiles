@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+tmpFile="${@%/}.tar";
+tar -cvf "${tmpFile}" "${@}" || exit 1;
+
+size=$(
+	stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
+);
+
+cmd="";
+if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+	# the .tar file is smaller than 50 MB and Zopfli is available; use it
+	cmd="zopfli";
+else
+	if hash pigz 2> /dev/null; then
+		cmd="pigz";
+	else
+		cmd="gzip";
+	fi;
+fi;
+
+echo "Compressing .tar using \`${cmd}\`\u2026";
+"${cmd}" -v "${tmpFile}" || exit 1;
+[ -f "${tmpFile}" ] && rm "${tmpFile}";
+echo "${tmpFile}.gz created successfully.";

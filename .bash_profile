@@ -19,16 +19,8 @@ unset file;
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
 
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell;
@@ -40,9 +32,6 @@ shopt -s checkwinsize;
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar;
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -63,10 +52,6 @@ fi;
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults;
 
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "firefox" killall;
@@ -92,17 +77,3 @@ set -o vi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #If you use vi mode on bash, you need to add set -o vi before source ~/.fzf.bash
 #in your .bashrc, so that it correctly sets up key bindings for vi mode.
-FZFCMD='( \
-find . \
--name .git -prune -o \
--name node_modules -prune -o \
--type d -print -o \
--type f -print -o \
--type l -print \
-| sed s/^..// \
-) 2> /dev/null'
-export FZF_DEFAULT_COMMAND="$FZFCMD"
-export FZF_CTRL_T_COMMAND="$FZFCMD"
-
-# ssh-agent socket
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"

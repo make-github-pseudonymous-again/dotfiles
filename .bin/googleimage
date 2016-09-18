@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+q=$(ui.dialog.input -p 'google image' -sb '#1851CE')
+
+if [ "$q" = '' ] ; then
+	exit 1
+fi
+
+query=$(echo -n "$q" | urlencode)
+
+wb --new-window https://google.com/search?tbm=isch&q="$query"

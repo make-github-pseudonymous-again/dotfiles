@@ -7,8 +7,10 @@ set fish_greeting
 
 set fish_key_bindings fish_vi_key_bindings
 
-set -U EDITOR vim
-set -U VISUAL vim
+set -g EDITOR vim
+set -g VISUAL vim
 
-. ~/.config/fish/prompt.fish
+. ~/.config/fish/exports.fish
 . ~/.config/fish/aliases.fish
+. ~/.config/fish/functions.fish
+. ~/.config/fish/prompt.fish

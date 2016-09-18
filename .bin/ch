@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+## copy history command
+shopt -u nocaseglob nocasematch
+line="$(history | \
+command grep '^\s*[0-9][0-9]*\s\s*' | \
+eval "$(__fzfcmd) +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS" | \
+command sed 's/^\s*[0-9][0-9]*\s\s*//')"
+echo -n "$line" | xsel -b

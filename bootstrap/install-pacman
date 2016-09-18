@@ -150,3 +150,20 @@ aspell-en \
 libxslt \
 djvulibre \
 python2
+
+# lesspipe
+
+i lesspipe \
+perl \
+rpmextract \
+fastjar \
+unzip \
+unrar \
+p7zip \
+cabextract \
+cdrkit \
+html2text \
+antiword \
+unrtf \
+imagemagick
+

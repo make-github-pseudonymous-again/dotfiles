@@ -130,6 +130,12 @@ function fish_prompt --description 'Left prompt'
 
 end
 
+set -g last_cmd_duration_notify 0
+
+function last_cmd_duration_notify_hook --on-event fish_postexec
+	set -g last_cmd_duration_notify 1
+end
+
 function fish_right_prompt --description 'Right prompt'
 
 	set -l last_status $status
@@ -143,8 +149,15 @@ function fish_right_prompt --description 'Right prompt'
 		echo -n "$last_cmd_duration ms "
 		set_color normal
 
-		if test "$last_cmd_duration" -gt 10000
-			notify-send -u low "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
+		switch (echo $last_cmd_line | cut -d' ' -f1)
+		case man ranger r less vim
+		case '*'
+			if test $last_cmd_duration -gt 10000
+				if test $last_cmd_duration_notify -eq 1
+					set -g last_cmd_duration_notify 0
+					notify-send -u critical "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
+				end
+			end
 		end
 
 	end

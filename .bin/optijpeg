@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+for file in "$@"
+do
+	jpegtran -optimize "$file" > "$file." && du -b "$file"{,.}
+	newsize=$(wc -c <"$file.")
+	oldsize=$(wc -c <"$file")
+	if [ $oldsize -gt $newsize ] ; then
+		mv "$file"{.,}
+	else
+		rm "$file."
+	fi
+done

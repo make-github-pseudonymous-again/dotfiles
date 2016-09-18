@@ -20,7 +20,7 @@ client.background #1c1c1c
 client.focused #85bd85 #85bd85 #1c1c1c #9FCA56 #85bd85
 client.focused_inactive #657565 #657565 #1c1c1c #A074C4 #657565
 client.unfocused #1c1c1c #1c1c1c #AAAAAA #A074C4 #657565
-client.urgent #bd8585 #bd8585 #FFFFFF #DCCD69 #bd8585
+client.urgent #F45D4C #F45D4C #FFFFFF #DCCD69 #F45D4C
 
 # This will set borders on new windows to 1 pixel if they are in a split
 # container. In stacked or tabbed containers the title bar(s) will still be
@@ -51,7 +51,7 @@ bar {
     focused_workspace #85bd85 #85bd85 #151718
     active_workspace #858585 #858585 #151718
     inactive_workspace #1c1c1c #1c1c1c #AAAAAA
-    urgent_workspace #bd8585 #bd8585 #FFFFFF
+    urgent_workspace #F45D4C #F45D4C #FFFFFF
   }
 }
 
@@ -74,7 +74,7 @@ bar {
     focused_workspace #85bd85 #85bd85 #151718
     active_workspace #DCCD69 #DCCD69 #151718
     inactive_workspace #1c1c1c #1c1c1c #AAAAAA
-    urgent_workspace #bd8585 #bd8585 #FFFFFF
+    urgent_workspace #F45D4C #F45D4C #FFFFFF
   }
 }
 
@@ -317,6 +317,7 @@ mode "google" {
         bindsym Shift+H exec hangouts; mode "default"
 
         bindsym s exec google; mode "default"
+        bindsym i exec googleimage; mode "default"
         bindsym y exec youtube; mode "default"
         bindsym t exec translate; mode "default"
         bindsym m exec maps; mode "default"
