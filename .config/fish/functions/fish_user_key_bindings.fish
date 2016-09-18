@@ -1,0 +1,2 @@
+fish_vi_key_bindings
+fzf_key_bindings

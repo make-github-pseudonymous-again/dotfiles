@@ -150,7 +150,7 @@ function fish_right_prompt --description 'Right prompt'
 		set_color normal
 
 		switch (echo $last_cmd_line | cut -d' ' -f1)
-		case man ranger r less vim gca
+		case man ranger r less vim gca o gdw gdws gdt gdts gd gds
 		case '*'
 			if test $last_cmd_duration -gt 10000
 				if test $last_cmd_duration_notify -eq 1

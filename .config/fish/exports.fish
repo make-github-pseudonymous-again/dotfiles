@@ -22,17 +22,15 @@ if [ -x /usr/bin/lesspipe ]
   set -x LESS_ADVANCED_PREPROCESSOR 1
 end
 
-set -l FZFCMD '( \
-find . \
+set -l FZFCMD 'find . \
 -name .git -prune -o \
 -name node_modules -prune -o \
 -type d -print -o \
 -type f -print -o \
--type l -print \
-| sed s/^..// \
-) 2> /dev/null'
-set -x FZF_DEFAULT_COMMAND "$FZFCMD"
-set -x FZF_CTRL_T_COMMAND "$FZFCMD"
+-type l -print 2>/dev/null \
+| sed s/^..//' 2>/dev/null
+set -x FZF_DEFAULT_COMMAND $FZFCMD
+set -x FZF_CTRL_T_COMMAND $FZFCMD
 
 # ssh-agent socket
 set -x SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
