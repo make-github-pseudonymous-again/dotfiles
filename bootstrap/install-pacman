@@ -11,9 +11,6 @@ E="$(mktemp /tmp/update.err.XXXXXXXX)"
 
 function _exit ( ) {
   rm -f "$O" "$E"
-  if $_wait ; then
-    read
-  fi
   exit "$1"
 }
 
