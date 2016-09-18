@@ -48,7 +48,6 @@ i xorg-xrdb \
 inotify-tools \
 dunst \
 libnotify \
-rxvt-unicode \
 terminator \
 bash-completion \
 gvim \
