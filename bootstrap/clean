@@ -6,6 +6,8 @@ exit 1
 fi
 
 pacman -Qi fzf 2>/dev/null && pacman -R fzf
+pacman -Qi st 2>/dev/null && pacman -R st
+pacman -Qi rxvt-unicode 2>/dev/null && pacman -R rxvt-unicode
 pacman -Qi keybase-release 2>/dev/null && pacman -R keybase-release
 
 { pacman -Ss python-cssselect | grep '\[installed\]' 1>/dev/null ; } || { pip show cssselect && pip uninstall cssselect ; }
