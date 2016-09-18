@@ -106,16 +106,16 @@ alias adl='youtube-dl -f140 --'
 # thefuck aliases
 # THIS IS WAY TOO SLOW
 # eval $(thefuck --alias fu)
-alias fu='P_CMD=$(history -p !!) echo "$P_CMD" && sudo $P_CMD'
-alias fuu='TF_CMD=$(TF_ALIAS=fuu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
-alias fuuu=fuu
-alias fuuuu=fuu
-alias fuk=fuu
-alias fuuk=fuu
-alias fuuuk=fuu
-alias fuc=fuu
-alias fuuc=fuu
-alias fuuuc=fuu
-alias fuck=fuu
-alias fuuck=fuu
-alias fuuuck=fuu
+alias fu='TF_CMD=$(TF_ALIAS=fu PYTHONIOENCODING=utf-8 TF_SHELL_ALIASES=$(alias) thefuck $(fc -ln -1)) && eval $TF_CMD && history -s $TF_CMD'
+alias fuu=fu
+alias fuuu=fu
+alias fuuuu=fu
+alias fuk=fu
+alias fuuk=fu
+alias fuuuk=fu
+alias fuc=fu
+alias fuuc=fu
+alias fuuuc=fu
+alias fuck=fu
+alias fuuck=fu
+alias fuuuck=fu
