@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
-echo "Hybrid sleep not supported because cannot resume from swap"
+msg="Hybrid sleep not supported because cannot resume from swap"
+echo "$msg"
+notify-send -u critical "Hybrid sleep" "$msg"
 exit 1
 #dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.HybridSleep boolean:false

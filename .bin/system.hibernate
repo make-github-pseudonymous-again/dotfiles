@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
-echo "Hibernate not supported because cannot resume from swap"
+msg="Hibernate not supported because cannot resume from swap"
+echo "$msg"
+notify-send -u critical Hibernate "$msg"
 exit 1
 #dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Hibernate boolean:false
