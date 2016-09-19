@@ -344,7 +344,7 @@ nn <silent> <leader>b :Buffers<cr>
 nn <silent> <leader>o :History<cr>
 nn <silent> <leader>q :Ag<cr>
 let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules -g ""'
-let g:fzf_files_options = '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+let g:fzf_files_options = '--preview "begin; coderay {}; or cat {}; end 2>/dev/null | head -'.&lines.'"'
 
 " use ag instead of ack if available
 if executable('ag')

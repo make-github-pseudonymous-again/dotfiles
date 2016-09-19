@@ -1,6 +1,6 @@
 # disable Software Control Flow (c-s,c-q)
 # http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator
-stty -ixon
+stty -ixon 1>/dev/null 2>&1
 
 # disable fish greeting
 set fish_greeting
