@@ -21,7 +21,9 @@ def main():
         def handler ( *x, **y ) :
             raise hangups.auth.GoogleAuthError('Could not find refresh token file')
 
-        cookies = hangups.auth.get_auth(handler , REFRESH_TOKEN_PATH)
+        refresh_token_cache = hangups.auth.RefreshTokenCache(REFRESH_TOKEN_PATH)
+
+        cookies = hangups.auth.get_auth(handler , refresh_token_cache)
 
         # Instantiate hangups Client instance.
         client = hangups.Client(cookies)
