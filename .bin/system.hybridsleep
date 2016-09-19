@@ -1,11 +1,5 @@
 #!/usr/bin/env sh
 
-if is.distro.arch
-then
 echo "Hybrid sleep not supported because cannot resume from swap"
-false
+exit 1
 #dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.HybridSleep boolean:false
-else
-echo "Hybrid sleep not supported"
-false
-fi

@@ -1,8 +1,3 @@
 #!/usr/bin/env sh
 
-if is.distro.arch
-then
-	thunar "$@"
-else
-	nautilus --no-desktop "$@"
-fi
+thunar "$@"
