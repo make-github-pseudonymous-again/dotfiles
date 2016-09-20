@@ -29,11 +29,11 @@ class fzf_select_file(Voyager):
         # match files and directories
 
         _fzfcmd='( \
-        find . \
+        bfs . \
         -name .git -prune -o \
         -name node_modules -prune -o \
         -type f -print \
-        | sed s/^..// \
+        | sed 1d | cut -b3- \
         ) 2> /dev/null'
         prompt="{} | {} +m".format(_fzfcmd , _fzf)
         Voyager.__init__(self, *args, **kws, prompt=prompt)
@@ -49,11 +49,11 @@ class fzf_select_dir(Voyager):
     def __init__(self, *args, **kws):
         # match files and directories
         _fzfcmd='( \
-        find . \
+        bfs . \
         -name .git -prune -o \
         -name node_modules -prune -o \
         -type d -print \
-        | sed s/^..// \
+        | sed 1d | cut -b3- \
         ) 2> /dev/null'
         prompt="{} | {} +m".format(_fzfcmd , _fzf)
         Voyager.__init__(self, *args, **kws, prompt=prompt)

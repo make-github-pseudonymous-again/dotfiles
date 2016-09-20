@@ -43,4 +43,5 @@ git-latexdiff \
 ruby-coderay \
 xkblayout-state \
 abunchoftags \
-fisherman
+fisherman \
+bfs

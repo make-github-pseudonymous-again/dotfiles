@@ -26,17 +26,41 @@ if [ -x /usr/bin/lesspipe ] ; then
   export LESS_ADVANCED_PREPROCESSOR
 fi
 
-FZFCMD='( \
-find . \
+# fzf config
+FZF_FIND_CMD=find
+if command -v bfs > /dev/null ; then
+  FZF_FIND_CMD=bfs
+fi
+
+FZFCMD="command $FZF_FIND_CMD -L . \
 -name .git -prune -o \
 -name node_modules -prune -o \
 -type d -print -o \
 -type f -print -o \
--type l -print \
-| sed s/^..// \
-) 2> /dev/null'
-export FZF_DEFAULT_COMMAND="$FZFCMD"
-export FZF_CTRL_T_COMMAND="$FZFCMD"
+-type l -print 2>/dev/null \
+| sed 1d | cut -b3-" 2>/dev/null
+FZFOPTS='--preview "begin; test -d {}; and ls -la {}; or coderay {}; or cat {}; end 2>/dev/null | head -$LINES"'
+
+FZF_DEFAULT_COMMAND=$FZFCMD
+export FZF_DEFAULT_COMMAND
+#FZF_DEFAULT_OPTS=$FZFOPTS
+#export FZF_DEFAULT_OPTS # DOES NOT WORK ?
+
+FZF_CTRL_T_COMMAND=$FZFCMD
+FZF_CTRL_T_OPTS=$FZFOPTS
+export FZF_CTRL_T_COMMAND
+export FZF_CTRL_T_OPTS
+
+FZF_ALT_C_COMMAND="command $FZF_FIND_CMD -L . \
+-name .git -prune -o \
+-name node_modules -prune -o \
+-type d -print -o \
+-type l -print 2>/dev/null \
+| sed 1d | cut -b3-" 2>/dev/null
+FZF_ALT_C_OPTS="--preview 'ls -la {} | head -$LINES'"
+export FZF_ALT_C_COMMAND
+export FZF_ALT_C_OPTS
+
 
 # ssh-agent socket
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"

@@ -22,15 +22,32 @@ if [ -x /usr/bin/lesspipe ]
   set -x LESS_ADVANCED_PREPROCESSOR 1
 end
 
-set -l FZFCMD 'find . \
+# fzf config
+set -l FZF_FIND_CMD find
+command -v bfs > /dev/null; and set -l FZF_FIND_CMD bfs
+
+set -l FZFCMD "command $FZF_FIND_CMD -L . \
 -name .git -prune -o \
 -name node_modules -prune -o \
 -type d -print -o \
 -type f -print -o \
 -type l -print 2>/dev/null \
-| sed s/^..//' 2>/dev/null
+| sed 1d | cut -b3-" 2>/dev/null
+set -l FZFOPTS '--preview "begin; test -d {}; and ls -la {}; or coderay {}; or cat {}; end 2>/dev/null | head -$LINES"'
+
 set -x FZF_DEFAULT_COMMAND $FZFCMD
+#set -x FZF_DEFAULT_OPTS $FZFOPTS # DOES NOT WORK ?
+
 set -x FZF_CTRL_T_COMMAND $FZFCMD
+set -x FZF_CTRL_T_OPTS $FZFOPTS
+
+set -x FZF_ALT_C_COMMAND "command $FZF_FIND_CMD -L . \
+-name .git -prune -o \
+-name node_modules -prune -o \
+-type d -print -o \
+-type l -print 2>/dev/null \
+| sed 1d | cut -b3-" 2>/dev/null
+set -x FZF_ALT_C_OPTS "--preview 'ls -la {} | head -$LINES'"
 
 # ssh-agent socket
 set -x SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
