@@ -74,8 +74,7 @@ i python2-xlib
 i go
 
 i ffmpeg vlc \
-pulseaudio pulseaudio-alsa pavucontrol \
-rhythmbox brasero
+pulseaudio pulseaudio-alsa pavucontrol
 
 i testdisk \
 pstoedit python2-numpy python2-lxml uniconvertor \
