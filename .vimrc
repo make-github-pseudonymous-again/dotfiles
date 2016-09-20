@@ -161,8 +161,13 @@ set exrc
 set secure
 " Enable line numbers
 set number
-" Highlight current line
-set cursorline
+" Do not highlight current line and do not use relative line numbers (SLOW)
+" see https://github.com/xolox/vim-easytags/issues/88
+set nocursorline
+if exists("&relativenumber")
+  set norelativenumber
+  "au BufReadPost * set relativenumber
+endif
 " Make tabs as wide as four spaces
 set tabstop=4
 set shiftwidth=4
@@ -197,11 +202,6 @@ set showmode
 set title
 " Show the (partial) command as it’s being typed
 set showcmd
-" Use relative line numbers
-if exists("&relativenumber")
-  set relativenumber
-  au BufReadPost * set relativenumber
-endif
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
 
