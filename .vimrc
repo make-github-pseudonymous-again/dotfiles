@@ -403,3 +403,15 @@ function! s:iea_handler(lines)
 endfunction
 command! InsertEmailAddresses call fzf#run({'source': 'notmuch-abook export -f email -s name', 'sink*': function('<sid>iea_handler'), 'options': '-m'})
 nn <silent> <leader>v :InsertEmailAddress<cr>
+
+" vimtex + surround = magic
+augroup latexSurround
+   autocmd!
+   autocmd FileType tex call s:latexSurround()
+augroup END
+
+function! s:latexSurround()
+   let b:surround_{char2nr("e")}
+     \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
+   let b:surround_{char2nr("c")} = "\\\1command: \1{\r}"
+endfunction
