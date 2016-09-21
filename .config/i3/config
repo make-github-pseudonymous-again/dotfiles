@@ -91,7 +91,7 @@ bindsym $mod+m exec terminator -b -x ranger
 bindsym $mod+o exec dmenu_center_run
 
 # kill focused window
-bindsym $mod+q kill
+bindsym $mod+parenright kill
 
 # change focus
 bindsym $mod+h focus left
