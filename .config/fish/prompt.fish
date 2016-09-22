@@ -155,7 +155,7 @@ function fish_right_prompt --description 'Right prompt'
 			if test $last_cmd_duration -gt 10000
 				if test $last_cmd_duration_notify -eq 1
 					set -g last_cmd_duration_notify 0
-					notify-send -u critical "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
+					notify-send -u normal "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
 				end
 			end
 		end
