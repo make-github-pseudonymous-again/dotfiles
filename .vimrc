@@ -306,7 +306,7 @@ if has('gui_running')
 endif
 
 " goyo + limelight config
-" let g:goyo_width=90
+let g:goyo_width=90
 let g:limelight_paragraph_span = 1
 let g:limelight_priority = -1
 
