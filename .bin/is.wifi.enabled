@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-connmanctl technologies | grep '/net/connman/technology/wifi' -A5 | grep 'Powered = True' 2>&1 1>/dev/null
+ip link | grep '^[0-9][0-9]*: wl' | grep ' state UP ' 1>/dev/null
