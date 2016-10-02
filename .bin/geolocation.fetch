@@ -8,7 +8,7 @@ import arrow
 import socket
 import struct
 
-from subprocess import run, check_output
+from subprocess import run, check_output, CalledProcessError
 
 CONFIG = os.path.expanduser('~/.config/geolocation/config')
 
@@ -50,13 +50,19 @@ def getwifiservices():
 
     global wifi
 
-    if wifi is None:
+    try:
 
-        connected = check_output(['iwgetid', '-r']).decode()
+        if wifi is None:
 
-        wifi = ([], connected)
+            connected = check_output(['iwgetid', '-r']).decode()
 
-        log(*wifi)
+            wifi = ([], connected)
+
+    except CalledProcessError:
+
+        wifi = ([],'')
+
+    log(*wifi)
 
     return wifi
 
