@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-ip link | grep '^[0-9][0-9]*: wl' | grep ' state UP ' 1>/dev/null
+interface="$(wifi.interface)"
+
+systemctl | grep 'netctl-auto@'"$interface"'.service' | grep 'loaded active running' 1>&2
