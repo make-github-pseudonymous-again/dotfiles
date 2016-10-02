@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-connmanctl enable wifi
+interface="$(wifi.interface)"
+
+systemctl start 'netctl-auto@'"$interface"'.service'

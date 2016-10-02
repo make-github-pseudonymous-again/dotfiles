@@ -52,18 +52,9 @@ def getwifiservices():
 
     if wifi is None:
 
-        services = check_output(['connmanctl', 'services']).decode()
+        connected = check_output(['iwgetid', '-r']).decode()
 
-        data = services.splitlines()
-
-        connected = None
-
-        for line in data:
-
-            if line[:3] == '*AO':
-                connected = line[3:]
-
-        wifi = (services, connected)
+        wifi = ([], connected)
 
         log(*wifi)
 

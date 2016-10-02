@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-connmanctl disable wifi
+interface="$(wifi.interface)"
+
+systemctl stop 'netctl-auto@'"$interface"'.service'
