@@ -63,6 +63,7 @@ python-docopt \
 python-pygments \
 python-networkx \
 python-numpy \
+python-sympy \
 python-matplotlib \
 python-scipy \
 python-pillow \
