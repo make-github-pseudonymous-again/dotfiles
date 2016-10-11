@@ -15,6 +15,7 @@ function _ ( ) {
 _ semver
 _ npm
 
+_ yarn
 _ n
 _ jshint
 _ peerflix
