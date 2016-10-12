@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 
 if [ $(id -u) != "0" ]
 then
@@ -5,11 +6,27 @@ echo 'must be run as root'
 exit 1
 fi
 
-pacman -Qi fzf 2>/dev/null && pacman -R fzf
-pacman -Qi st 2>/dev/null && pacman -R st
-pacman -Qi rxvt-unicode 2>/dev/null && pacman -R rxvt-unicode
-pacman -Qi keybase-release 2>/dev/null && pacman -R keybase-release
+function _a ( ) {
+	pacman -Qi "$1" 2>/dev/null && pacman -R "$1"
+}
 
-{ pacman -Ss python-cssselect | grep '\[installed\]' 1>/dev/null ; } || { pip show cssselect && pip uninstall cssselect ; }
-{ pacman -Ss autopep8 | grep '\[installed\]' 1>/dev/null ; } || { pip show autopep8 && pip uninstall autopep8 ; }
-{ pacman -Ss python-lxml | grep '\[installed\]' 1>/dev/null ; } || { pip show lxml && pip uninstall lxml ; }
+function _p ( ) {
+	{ pacman -Ss "$1" | grep '\[installed\]' 1>/dev/null ; } || { pip show "$2" && pip uninstall "$2" ; }
+}
+
+function _n ( ) {
+  if ls "$(npm root -g)" --color=never | grep '^'"$1"'$' 1>/dev/null 2>&1 ; then
+    npm uninstall -g "$1"
+  fi
+}
+
+_a fzf
+_a st
+_a rxvt-unicode
+_a keybase-release
+
+_p python-cssselect cssselect
+_p autopep8 autopep8
+_p python-lxml lxml
+
+_n jshint
