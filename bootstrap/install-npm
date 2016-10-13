@@ -17,7 +17,7 @@ _ npm
 
 _ yarn
 _ n
-_ jslint
+_ eslint
 _ peerflix
 _ torrentflix
 _ uglify-js

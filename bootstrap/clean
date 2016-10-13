@@ -30,3 +30,4 @@ _p autopep8 autopep8
 _p python-lxml lxml
 
 _n jshint
+_n jslint
