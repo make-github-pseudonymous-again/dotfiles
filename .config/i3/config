@@ -363,7 +363,7 @@ mode "tools" {
 
 mode "system" {
 
-        bindsym m exec terminator -b -x top -o +%CPU; mode "default"
+        bindsym m exec terminator -b -x top -c -o +%CPU; mode "default"
 
         bindsym t exec menu.timezone; mode "default"
 
