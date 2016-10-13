@@ -39,7 +39,8 @@ function _install ( ) {
   _ esdoc
   _ ava-codemods
   _ xo
-  _ tldr
+  _ --ignore-scripts tldr
+  tldr --update
 }
 
 if false && command -v yarn 1>/dev/null; then
@@ -47,7 +48,7 @@ if false && command -v yarn 1>/dev/null; then
   echo "  # using yarn"
 
   function _ ( ) {
-    yarn global add "$1"
+    yarn global add "$@"
   }
 
   function _update {
@@ -60,7 +61,7 @@ else
 
   function _ ( ) {
     if ! ls "$(npm root -g)" --color=never | grep '^'"$1"'$' 1>/dev/null 2>&1 ; then
-      npm install -g "$1"
+      npm install -g "$@"
     fi
   }
 
@@ -83,5 +84,3 @@ elif [ "$x" = i ] ; then
 else
   _install
 fi
-
-
