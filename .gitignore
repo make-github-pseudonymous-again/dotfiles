@@ -83,3 +83,8 @@ qrc_*.cpp
 #################
 
 .idea
+
+# Go #
+######
+
+.cargo-index-lock
