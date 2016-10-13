@@ -18,6 +18,9 @@ _ npm
 _ yarn
 _ n
 _ eslint
+_ eslint_d
+_ babel-eslint
+_ eslint-plugin-babel
 _ peerflix
 _ torrentflix
 _ uglify-js
