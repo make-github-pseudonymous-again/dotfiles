@@ -1,0 +1,83 @@
+#!/usr/bin/env sh
+
+if [ $(id -u) != "0" ]; then
+  echo 'must be run as root'
+  exit 1
+fi
+
+if ! command -v npm 1>/dev/null; then
+  echo 'npm is not installed, install it via pacman first'
+  exit 2
+fi
+
+function _install ( ) {
+  echo "  - overwrite semver/npm arch linux packages"
+  _ semver
+  _ npm
+
+  echo "  - update global packages"
+  _ yarn
+  _ n
+  _ eslint
+  _ eslint_d
+  _ babel-eslint
+  _ eslint-plugin-babel
+  _ peerflix
+  _ torrentflix
+  _ uglify-js
+  _ npm-check-updates
+  _ jspm
+  _ xyz
+  _ yo
+  _ grunt-cli
+  _ gulp
+  _ tick
+  _ speed-test
+  _ man-n
+  _ np
+  _ babel-cli
+  _ esdoc
+  _ ava-codemods
+  _ xo
+  _ tldr
+}
+
+if command -v yarn 1>/dev/null; then
+
+  function _ ( ) {
+    yarn global add "$1"
+  }
+
+  function _update {
+    _install
+  }
+
+else
+
+  function _ ( ) {
+    if ! ls "$(npm root -g)" --color=never | grep '^'"$1"'$' 1>/dev/null 2>&1 ; then
+      npm install -g "$1"
+    fi
+  }
+
+  function _update {
+    echo "  - overwrite semver/npm arch linux packages"
+    npm install -g semver npm || exit "$?"
+    echo "  - update global packages"
+    npm update -g || exit "$?"
+  }
+
+fi
+
+
+x="$1"
+
+if [ "$x" = u ] ; then
+  _update
+elif [ "$x" = i ] ; then
+  _install
+else
+  _install
+fi
+
+

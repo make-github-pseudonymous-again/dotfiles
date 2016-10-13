@@ -44,4 +44,5 @@ ruby-coderay \
 xkblayout-state \
 abunchoftags \
 fisherman \
-bfs
+bfs \
+ptpython
