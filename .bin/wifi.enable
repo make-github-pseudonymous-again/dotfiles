@@ -2,4 +2,4 @@
 
 interface="$(wifi.interface)"
 
-systemctl start 'netctl-auto@'"$interface"'.service'
+sudo /usr/bin/systemctl start 'netctl-auto@'"$interface"

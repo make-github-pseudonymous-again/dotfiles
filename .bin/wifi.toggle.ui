@@ -1,9 +1,3 @@
 #!/usr/bin/env sh
 
-if is.wifi.enabled
-then
-wifi.disconnect.ui
-wifi.disable
-else
-wifi.enable
-fi
+wifi.toggle

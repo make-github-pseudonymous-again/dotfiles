@@ -2,7 +2,6 @@
 
 if is.wifi.enabled
 then
-wifi.disconnect.ui
 wifi.disable
 sleep 9
 wifi.enable

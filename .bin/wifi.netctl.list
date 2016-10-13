@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+interface="$(wifi.interface)"
+
+systemctl |\
+grep 'loaded active \(exited\|running\)' |\
+grep -o 'netctl\(\|-auto\)@'"$interface"'.*\.service'

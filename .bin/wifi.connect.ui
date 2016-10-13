@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
-SSIDs=$(wifi.fingerprint | jq -r '.[] | select( .ESSID != "" ) | .ESSID' | sort | uniq)
-SSID=$(echo "$SSIDs" | dmenu_center --rest -z -p 'SSID')
+profiles=$(netctl list | cut -b3-)
+profile=$(echo "$profiles" | dmenu_center --rest -z -p 'profile')
 
-if [ "$SSID" != '' ] ; then
-	wifi.connect "$SSID"
+if [ "$profile" != '' ] ; then
+	wifi.disconnect.ui
+	sudo /usr/bin/netctl start "$profile"
 fi

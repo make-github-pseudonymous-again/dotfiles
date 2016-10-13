@@ -2,4 +2,4 @@
 
 interface="$(wifi.interface)"
 
-systemctl | grep 'netctl-auto@'"$interface"'.service' | grep 'loaded active running' 1>&2
+systemctl | grep 'netctl\(\|-auto\)@'"$interface" | grep 'loaded active \(exited\|running\)' 1>&2

@@ -2,4 +2,4 @@
 
 interface="$(wifi.interface)"
 
-systemctl stop 'netctl-auto@'"$interface"'.service'
+sudo /usr/bin/systemctl stop 'netctl-auto@'"$interface"

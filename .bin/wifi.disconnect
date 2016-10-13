@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-name=$(wifi.find "$1")
-wifi disconnect "$name"
