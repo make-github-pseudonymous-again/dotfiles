@@ -39,8 +39,6 @@ function _install ( ) {
   _ esdoc
   _ ava-codemods
   _ xo
-  _ --ignore-scripts tldr
-  tldr --update
 }
 
 if false && command -v yarn 1>/dev/null; then
