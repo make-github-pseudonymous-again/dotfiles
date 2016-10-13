@@ -28,6 +28,7 @@ _a keybase-release
 _p python-cssselect cssselect
 _p autopep8 autopep8
 _p python-lxml lxml
+_p tldr
 
 _n jshint
 _n jslint
