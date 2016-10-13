@@ -42,7 +42,9 @@ function _install ( ) {
   _ tldr
 }
 
-if command -v yarn 1>/dev/null; then
+if false && command -v yarn 1>/dev/null; then
+
+  echo "  # using yarn"
 
   function _ ( ) {
     yarn global add "$1"
@@ -53,6 +55,8 @@ if command -v yarn 1>/dev/null; then
   }
 
 else
+
+  echo "  # using npm"
 
   function _ ( ) {
     if ! ls "$(npm root -g)" --color=never | grep '^'"$1"'$' 1>/dev/null 2>&1 ; then
