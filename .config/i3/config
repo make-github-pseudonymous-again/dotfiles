@@ -349,7 +349,7 @@ mode "organization" {
 }
 
 mode "tools" {
-        bindsym p exec terminator -b -x ptpython --vi; mode "default"
+        bindsym p exec terminator -b -x fish -c 'ptpython --vi'; mode "default"
 
         bindsym b exec bib.ui; mode "default"
         bindsym c exec clipboard.menu; mode "default"
