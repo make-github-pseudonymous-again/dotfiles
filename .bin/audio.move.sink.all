@@ -21,3 +21,4 @@ if [ "$sink" = '' ]; then
 fi
 
 echo "$inputs" | xargs -L1 -i{} pacmd move-sink-input "{}" "$sink"
+pacmd set-default-sink "$sink"

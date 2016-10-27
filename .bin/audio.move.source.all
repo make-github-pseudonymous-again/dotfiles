@@ -21,3 +21,4 @@ if [ "$source" = '' ]; then
 fi
 
 echo "$outputs" | xargs -L1 -i{} pacmd move-source-output "{}" "$source"
+pacmd set-default-source "$source"
