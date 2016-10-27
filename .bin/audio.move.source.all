@@ -1,13 +1,5 @@
 #!/usr/bin/env sh
 
-outputs="$(pacmd list-source-outputs | \
-grep '^\s*index: ' | \
-sed 's/^\s*index: //g')"
-
-if [ "$outputs" = '' ]; then
-	exit 1
-fi
-
 source="$(pacmd list-sources | \
 grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
 sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
@@ -20,5 +12,12 @@ if [ "$source" = '' ]; then
 	exit 2
 fi
 
-echo "$outputs" | xargs -L1 -i{} pacmd move-source-output "{}" "$source"
 pacmd set-default-source "$source"
+
+outputs="$(pacmd list-source-outputs | \
+grep '^\s*index: ' | \
+sed 's/^\s*index: //g')"
+
+if [ "$outputs" != '' ]; then
+	echo "$outputs" | xargs -L1 -i{} pacmd move-source-output "{}" "$source"
+fi

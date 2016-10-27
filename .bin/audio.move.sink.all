@@ -1,13 +1,5 @@
 #!/usr/bin/env sh
 
-inputs="$(pacmd list-sink-inputs | \
-grep '^\s*index: ' | \
-sed 's/^\s*index: //g')"
-
-if [ "$inputs" = '' ]; then
-	exit 1
-fi
-
 sink="$(pacmd list-sinks | \
 grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
 sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
@@ -20,5 +12,12 @@ if [ "$sink" = '' ]; then
 	exit 2
 fi
 
-echo "$inputs" | xargs -L1 -i{} pacmd move-sink-input "{}" "$sink"
 pacmd set-default-sink "$sink"
+
+inputs="$(pacmd list-sink-inputs | \
+grep '^\s*index: ' | \
+sed 's/^\s*index: //g')"
+
+if [ "$inputs" != '' ]; then
+	echo "$inputs" | xargs -L1 -i{} pacmd move-sink-input "{}" "$sink"
+fi
