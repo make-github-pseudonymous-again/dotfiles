@@ -30,7 +30,7 @@ function _install ( ) {
   _ xyz
   _ yo
   _ grunt-cli
-  _ gulp
+  _ gulp-cli
   _ tick
   _ speed-test
   _ man-n
