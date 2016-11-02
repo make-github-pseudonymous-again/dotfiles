@@ -88,3 +88,8 @@ qrc_*.cpp
 ######
 
 .cargo-index-lock
+
+# Yarn #
+########
+
+yarn.lock
