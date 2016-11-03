@@ -14,8 +14,8 @@ end
 
 ## copy history command
 function ch
-	set -l line (history | \
-	eval "(__fzfcmd) +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS" | \
-	command sed 's/^\s*[0-9][0-9]*\s\s*//')
-	echo -n "$line" | xsel -b
+	history | \
+	fzf +s -m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_CTRL_R_OPTS | \
+	sed 's/^\s*[0-9][0-9]*\s\s*//' | \
+	xclip -r -sel clip
 end
