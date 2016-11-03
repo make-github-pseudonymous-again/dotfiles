@@ -18,7 +18,7 @@ Plug 'tpope/vim-fugitive'
 " ## INTERFACE ##
 " Pseudo-command-line (experimental)
 Plug 'junegunn/vim-pseudocl'
-" Go to Terminal or File manager (maybe not so useful)
+" Go to Terminal or File manager (maybe not be so useful)
 " Plug 'justinmk/vim-gtfo'
 
 
@@ -126,6 +126,8 @@ Plug 'nhooyr/fasd.vim'
 
 call plug#end()
 
+" Use hidden buffers. Allows to change buffer without saving.
+set hidden
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -219,8 +221,6 @@ if has("autocmd")
   " Treat .sage files as .py
   autocmd BufNewFile,BufRead *.sage setlocal filetype=python syntax=python softtabstop=4 shiftwidth=4 expandtab
 endif
-
-set showcmd
 
 " Set colors
 set t_Co=256
@@ -374,6 +374,7 @@ nnoremap <c-l> <c-w>l
 " buffer cycling shortcuts
 nn <silent> <leader>n :bn<cr>
 nn <silent> <leader>p :bp<cr>
+nn <silent> <leader>l :bd<cr>
 
 " Capitalize words and regions easily
 " from http://vim.wikia.com/wiki/Capitalize_words_and_regions_easily
