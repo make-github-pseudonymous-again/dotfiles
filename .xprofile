@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# swap escape and caps lock
+setxkbmap -option "caps:swapescape"
+
 # Add `~/.bin` to the `$PATH`
 if [ -d "$HOME/.bin" ] ; then
 	export PATH="$HOME/.bin:$PATH";
