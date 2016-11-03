@@ -129,7 +129,7 @@ call plug#end()
 " Use hidden buffers. Allows to change buffer without saving.
 set hidden
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
+set clipboard=unnamedplus
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
@@ -158,8 +158,9 @@ set backupskip=/tmp/*,/private/tmp/*
 " Respect modeline in files
 set modeline
 set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
+" Do not enable per-directory .vimrc files
+" set exrc
+" and disable unsafe commands in them (just in case)
 set secure
 " Enable line numbers
 set number
