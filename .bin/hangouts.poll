@@ -27,6 +27,8 @@ def main():
 
     logging.info('Attempt to connect')
 
+    client = None
+
     try:
         # Obtain hangups authentication cookies, raising an error if not found.
 
@@ -61,7 +63,8 @@ def main():
         error()
 
     finally:
-        client.disconnect()
+        if client is not None :
+            client.disconnect()
 
 def num_unread ( conv ) :
     return len([conv_event for conv_event in conv.unread_events if
