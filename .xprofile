@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # swap escape and caps lock
-setxkbmap -option "caps:swapescape"
+# setxkbmap -option "caps:swapescape"
+# should be done via localectl
+# example:
+# localectl set-x11-keymap us caps:swapescape
 
 # Add `~/.bin` to the `$PATH`
 if [ -d "$HOME/.bin" ] ; then
