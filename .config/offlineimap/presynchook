@@ -3,7 +3,9 @@ ALLMAILQUERY='( is:spam OR NOT is:spam ) AND ( is:deleted OR NOT is:deleted ) AN
 
 CACHE="$HOME/.cache/keywsync"
 LASTMOD="$CACHE/lastmod"
+NEXTMOD="$CACHE/nextmod"
 BEFORE="$CACHE/before"
+STATE="$CACHE/state"
 
 mkdir -p "$CACHE"
 
@@ -16,19 +18,51 @@ if [ ! -e "$LASTMOD" ] ; then
 	echo '-1' > "$LASTMOD"
 fi
 
-lastmod=`expr $(cat $LASTMOD) + 1`
+if [ ! -e "$STATE" ] ; then
+	echo 0 > "$STATE"
+fi
+
+state=$(cat $STATE)
 
 # ``Alternatively, store the revision from before the local-to-remote sync. In
 # that way it is possible to detect local changes that happened during the
 # sync. This will re-check the messages that were modified as part of the
 # remote-to-local sync.''
-notmuch_get_revision "$HOME/.mail" > $LASTMOD
+if [ $state -eq 0 ] ; then
+	echo
+	echo '@#! pre/0' ;
+	notmuch_get_revision "$HOME/.mail" > "$NEXTMOD"
+	echo 1 > "$STATE"
+	state=1
+fi
 
-keywsync -m "$HOME/.mail" -t -p -q "lastmod:$lastmod.. AND ($ALLMAILQUERY)" --no-replace-chars
+if [ $state -eq 1 ] ; then
+	echo
+	echo '@#! pre/1' ;
+	lastmod=`expr $(cat $LASTMOD) + 1`
+	beforesync=$(cat "$NEXTMOD")
+	keywsync -m "$HOME/.mail" -t -p -q "lastmod:$lastmod..$beforesync AND ($ALLMAILQUERY)" --no-replace-chars
+	echo 2 > "$STATE"
+	state=2
+fi
+
+if [ $state -eq 2 ] ; then
+	echo
+	echo '@#! pre/2' ;
+	cat "$NEXTMOD" > "$LASTMOD"
+	echo 3 > "$STATE"
+	state=3
+fi
 
 # Save the current unix time: $ before_offlineimap=$( date +%s )
 
-date +%s > "$BEFORE"
+if [ $state -eq 3 ] ; then
+	echo
+	echo '@#! pre/3' ;
+	date +%s > "$BEFORE"
+	echo 4 > "$STATE"
+	state=4
+fi
 
 # Run offlineimap to synchronize your local maildir and messages with the
 # remote. According to the offlineimap documentation [0] the X-Keywords flags
