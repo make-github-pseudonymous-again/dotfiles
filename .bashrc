@@ -3,3 +3,6 @@
 # for examples
 
 [ -n "$PS1" ] && source ~/.bash_profile;
+
+# added by travis gem
+[ -f /home/aureooms/.travis/travis.sh ] && source /home/aureooms/.travis/travis.sh
