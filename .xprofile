@@ -4,7 +4,10 @@
 # setxkbmap -option "caps:swapescape"
 # should be done via localectl
 # example:
-# localectl set-x11-keymap us caps:swapescape
+# localectl set-x11-keymap us ... ... caps:swapescape
+# does not work :(
+setxkbmap be
+setxkbmap -option "caps:swapescape"
 
 # Add `~/.bin` to the `$PATH`
 if [ -d "$HOME/.bin" ] ; then
