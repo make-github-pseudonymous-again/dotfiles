@@ -36,4 +36,4 @@ i ranger
 i xorg-xrandr
 i alsa-utils
 i pulseaudio pulseaudio-alsa pavucontrol
-i cups
+i cups gtk3-print-backends
