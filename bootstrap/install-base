@@ -27,3 +27,13 @@ i pkgfile
 i bind-tools
 i thefuck
 i tk
+
+i lxdm
+i i3-wm i3lock i3status
+i terminator
+i fish
+i ranger
+i xorg-xrandr
+i alsa-utils
+i pulseaudio pulseaudio-alsa pavucontrol
+i cups

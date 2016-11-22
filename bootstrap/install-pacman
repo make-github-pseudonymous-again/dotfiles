@@ -41,14 +41,12 @@ function i ( ) {
   _do pacman -S --needed --noconfirm "$@"
 }
 
-i fish ranger \
-highlight atool w3m poppler libcaca
+i highlight atool w3m poppler libcaca
 
 i xorg-xrdb \
 inotify-tools \
 dunst \
 libnotify \
-terminator \
 bash-completion \
 gvim \
 firefox \
@@ -75,8 +73,7 @@ i pypy3
 i python2-xlib
 i go
 
-i ffmpeg vlc \
-pulseaudio pulseaudio-alsa pavucontrol
+i ffmpeg vlc
 
 i testdisk \
 pstoedit python2-numpy python2-lxml uniconvertor \
@@ -84,7 +81,6 @@ inkscape \
 ack \
 the_silver_searcher \
 at \
-cups \
 acpi \
 udevil \
 ntp
