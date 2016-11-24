@@ -18,6 +18,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 # Initialize our own variables:
 pull=false
 modules=false
+plugins=false
 fonts=false
 clean=false
 sync=false
@@ -34,7 +35,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apmfcsiurvdzwPMFCSIURVDZW" opt; do
+while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -42,6 +43,7 @@ while getopts "h?apmfcsiurvdzwPMFCSIURVDZW" opt; do
         ;;
     a)  pull=true
         modules=true
+        plugins=true
         fonts=true
         clean=true
         sync=true
@@ -54,6 +56,8 @@ while getopts "h?apmfcsiurvdzwPMFCSIURVDZW" opt; do
     p)  pull=true
         ;;
     m)  modules=true
+        ;;
+    x)  plugins=true
         ;;
     f)  fonts=true
         ;;
@@ -79,6 +83,8 @@ while getopts "h?apmfcsiurvdzwPMFCSIURVDZW" opt; do
     P)  pull=false
         ;;
     M)  modules=false
+        ;;
+    X)  plugins=false
         ;;
     F)  fonts=false
         ;;
@@ -142,6 +148,7 @@ trap _trap SIGHUP SIGINT SIGTERM
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
+PLUGINS="$HOME/.config/dotfiles/plugins"
 
 if [ "$DOTFILES" = '' ] ; then
   echo '! Could not find dotfiles :('
@@ -215,6 +222,46 @@ if $update ; then
 
   echo '+ Update dotfiles'
   sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
+
+fi
+
+if $plugins ; then
+
+  if [ -d "$PLUGINS" ] ; then
+    echo '+ Plugins @ '"$PLUGINS"' :)'
+
+    for plugin in "$(ls -1 --color=never "$PLUGINS")"; do
+      PLUGIN="$PLUGINS/$plugin"
+      echo " * Plugin $plugin @ $PLUGIN"
+      echo '  ° Go to '"$PLUGIN"
+      _do cd "$PLUGIN"
+
+      if $pull ; then
+
+        echo '  ° Pull '"$PLUGIN"
+        _do git pull
+
+      fi
+
+      if $diff ; then
+
+        echo '  ° Diff '"$PLUGIN"
+        sh "$PLUGIN"/dotfiles.diff || exit "$?"
+
+      fi
+
+      if $update ; then
+
+        echo '  ° Update '"$PLUGIN"
+        sh "$PLUGIN"/dotfiles.update -f || exit "$?"
+
+      fi
+
+    done
+
+  else
+    echo '+ No plugins @ '"$PLUGINS"' :('
+  fi
 
 fi
 
