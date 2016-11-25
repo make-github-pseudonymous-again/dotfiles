@@ -316,8 +316,9 @@ mode "google" {
         bindsym h exec hangouts.hangups; mode "default"
         bindsym Shift+H exec hangouts; mode "default"
 
-        bindsym s exec google; mode "default"
+        bindsym g exec google; mode "default"
         bindsym i exec googleimage; mode "default"
+        bindsym s exec googlescholar; mode "default"
         bindsym y exec youtube; mode "default"
         bindsym t exec translate; mode "default"
         bindsym m exec maps; mode "default"
