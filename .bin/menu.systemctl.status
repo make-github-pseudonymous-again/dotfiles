@@ -6,4 +6,4 @@ if [ "$service" = '' ]; then
 	exit 102
 fi
 
-terminator -b -x watch systemctl --user status "$service" -n 15
+terminator -b -x watch systemctl --user status "$service" -n 25
