@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
 if test "$#" -lt 1 ; then
-	echo 'usage: springer.rename <file> <...files>' >&2
+	echo 'usage: ref.springer.rename <file> <...files>' >&2
 	exit 1
 fi
 
 for FILE in "$@"; do
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
-	ID=$(springer.split "$BASENAME")
-	METADATA=$(doi.get "$ID")
+	ID=$(ref.springer.split "$BASENAME")
+	METADATA=$(ref.doi.get "$ID")
 
 	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
 		echo 'failed to retrieve metadata for '"$ID" >&2
@@ -20,5 +20,6 @@ for FILE in "$@"; do
 	ABBR=$(echo "$METADATA" | jq -r .abbr)
 	DOI="${ID/\//:}"
 
+	echo "mv \"$FILE\" \"$DIRNAME/[$ABBR] $TITLE ($DOI).pdf\"" >&2
 	mv "$FILE" "$DIRNAME/[$ABBR] $TITLE ($DOI).pdf"
 done

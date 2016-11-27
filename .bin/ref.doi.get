@@ -7,7 +7,7 @@ args = sys.argv[1:]
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 if not args :
-    log( 'usage: doi.get <doi>')
+    log( 'usage: ref.doi.get <doi>')
     sys.exit( 1 )
 
 import json

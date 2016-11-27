@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
 if test "$#" -lt 1 ; then
-	echo 'usage: arxiv.rename <file> <...files>' >&2
+	echo 'usage: ref.sciendirect.rename <file> <...files>' >&2
 	exit 1
 fi
 
 for FILE in "$@"; do
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
-	ID="${BASENAME%.*}"
-	METADATA=$(arxiv.get "$ID")
+	ID=$(ref.sciencedirect.split "$BASENAME")
+	METADATA=$(ref.sciencedirect.get "$ID")
 
 	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
 		echo 'failed to retrieve metadata for '"$ID" >&2
@@ -19,5 +19,6 @@ for FILE in "$@"; do
 	TITLE=$(echo "$METADATA" | jq -r .title)
 	ABBR=$(echo "$METADATA" | jq -r .abbr)
 
+	echo "mv \"$FILE\" \"$DIRNAME/[$ABBR] $TITLE ($ID).pdf\"" >&2
 	mv "$FILE" "$DIRNAME/[$ABBR] $TITLE ($ID).pdf"
 done

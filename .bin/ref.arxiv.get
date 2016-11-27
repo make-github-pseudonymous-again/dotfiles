@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import sys
+
+args = sys.argv[1:]
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+if not args :
+    log( 'usage: ref.arxiv.get <uid>')
+    sys.exit( 1 )
+
+import json
+import urllib.request
+
+import lxml.html as html
+from lxml.cssselect import CSSSelector
+
+sel = lambda h, s: CSSSelector(s)(h)
+
+REQUEST = 'http://arxiv.org/abs/{}'
+
+uid = args[0]
+
+url = REQUEST.format(uid)
+
+log(url)
+
+try:
+
+    tree = html.parse(urllib.request.urlopen(url))
+
+except urllib.error.HTTPError:
+    log('failed to download', url)
+    sys.exit( 2 )
+
+title = sel( tree , 'meta[name="citation_title"]' )[0].get( 'content' )
+authors = list( map( lambda x : x.get( 'content' ) , sel( tree ,
+    'meta[name="citation_author"]' ) ) )
+date = sel( tree , 'meta[name="citation_date"]' )[0].get( 'content' )
+
+abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + date[2:4]
+
+data = {
+        'title' : title , 'date' : date , 'authors': authors , 'abbr' : abbr
+        }
+
+json.dump( data , sys.stdout )

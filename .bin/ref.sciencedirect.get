@@ -7,7 +7,7 @@ args = sys.argv[1:]
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 if not args :
-    log( 'usage: sciencedirect.get <uid>')
+    log( 'usage: ref.sciencedirect.get <uid>')
     sys.exit( 1 )
 
 import io
