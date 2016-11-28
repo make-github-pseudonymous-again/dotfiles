@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+config="$HOME/.config/rclone/config"
+key="$(pass rclone)"
+RCLONE_CONFIG_PASS="$key" rclone --config "$config" "$@"

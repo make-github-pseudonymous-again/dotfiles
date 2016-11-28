@@ -194,4 +194,8 @@ antiword \
 unrtf \
 imagemagick
 
+# file system
+
+i rclone
+
 _exit 0
