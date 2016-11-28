@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+FILE="$HOME/desktop/.scratchpad"
+ID=VIMSCRATCHPAD
+
+if [ "$(vim --serverlist | grep -c "$ID")" -eq 0 ] ; then
+  terminator -b -x vim --servername "$ID" "$FILE"
+fi
+
+i3-msg "[title=$ID] focus"
