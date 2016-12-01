@@ -15,3 +15,5 @@ set -g VISUAL vim
 . ~/.config/fish/aliases.fish
 . ~/.config/fish/functions.fish
 . ~/.config/fish/prompt.fish
+
+function fish_vi_cursor; end
