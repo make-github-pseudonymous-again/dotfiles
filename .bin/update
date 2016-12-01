@@ -276,6 +276,9 @@ if $restart ; then
   echo '+ Enable devmon'
   _do sudo systemctl enable devmon@"$USER" # auto mount usb drives program
   _do sudo systemctl start devmon@"$USER"
+  echo '+ Enable ssh-agent'
+  _do systemctl --user enable ssh-agent
+  _do systemctl --user start ssh-agent
 
   echo '+ Restarting services'
   _do services.on
