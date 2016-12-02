@@ -198,4 +198,8 @@ imagemagick
 
 i rclone
 
+# sound
+
+i mpd ncmpcpp
+
 _exit 0
