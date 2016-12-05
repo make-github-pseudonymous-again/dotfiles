@@ -230,7 +230,7 @@ if $plugins ; then
   if [ -d "$PLUGINS" ] ; then
     echo '+ Plugins @ '"$PLUGINS"' :)'
 
-    for plugin in "$(ls -1a --color=never "$PLUGINS" | tail -c +6)"; do
+    for plugin in $(ls -1a --color=never "$PLUGINS" | tail -c +6); do
       PLUGIN="$PLUGINS/$plugin"
       echo " * Plugin $plugin @ $PLUGIN"
       echo '  ° Go to '"$PLUGIN"
