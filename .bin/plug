@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+PLUGINS="$HOME/.config/dotfiles/plugins"
+
+if [ "$#" -eq 0 ] ; then
+  >&2 echo "usage: $0 <path> [<slug>]"
+  exit 1
+fi
+
+if [ "$#" -eq 1 ] ; then
+  slug="$(basename "$1")"
+else
+slug="$2"
+fi
+
+ln -s "$path" "$PLUGINS/$slug"
