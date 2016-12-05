@@ -7,8 +7,10 @@ if [ "$#" -eq 0 ] ; then
   exit 1
 fi
 
+path="$1"
+
 if [ "$#" -eq 1 ] ; then
-  slug="$(basename "$1")"
+  slug="$(basename "$path")"
 else
 slug="$2"
 fi
