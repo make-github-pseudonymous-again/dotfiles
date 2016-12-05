@@ -174,7 +174,7 @@ function fish_right_prompt --description 'Right prompt'
 
 	if test "$SSH_TTY"
 		set_color -o white
-		echo -n 
+		echo -n '  '
 		set_color normal
 	end
 
