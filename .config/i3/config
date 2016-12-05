@@ -134,6 +134,9 @@ bindsym $mod+e layout default
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
+# toggle sticky
+bindsym $mod+b sticky toggle
+
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
