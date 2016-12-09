@@ -16,6 +16,7 @@ function doIt() {
 	mkdir -p "$HOME/games"
 	mkdir -p "$HOME/shots"
 	mkdir -p "$HOME/sandbox"
+	mkdir -p "$HOME/notes"
 
 	DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 

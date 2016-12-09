@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-FILE="$HOME/desktop/.scratchpad"
+FILE="$HOME/notes/scratchpad.md"
 ID=VIMSCRATCHPAD
 
 if [ "$(vim --serverlist | grep -c "$ID")" -eq 0 ] ; then
