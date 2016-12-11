@@ -111,11 +111,8 @@ bindsym $mod+Shift+J move down
 bindsym $mod+Shift+K move up
 bindsym $mod+Shift+L move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# move focused window to mouse position
+bindsym $mod+Shift+M move position mouse
 
 # toggle split orientation (horizontal/vertical)
 bindsym $mod+v split toggle
@@ -136,6 +133,9 @@ bindsym $mod+Shift+space floating toggle
 
 # toggle sticky
 bindsym $mod+b sticky toggle
+
+# sticky card
+bindsym $mod+Shift+B floating enable; sticky enable; resize set 400 px 300 px
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
