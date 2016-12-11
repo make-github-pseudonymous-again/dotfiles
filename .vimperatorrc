@@ -1,6 +1,6 @@
 
 " Load configuration file into current browser, useful for updating after editing this file.
-command! sourcerc :source ~/.vimperatorrc
+command! -description 'Source ~/.vimperatorrc' sourcerc :source ~/.vimperatorrc
 
 " do not close with d on last tab
 set! browser.tabs.closeWindowWithLastTab=false
@@ -28,7 +28,7 @@ function scihubify() {
 	liberator.execute( ":open " + url ) ;
 }
 EOF
-command! scihubify javascript scihubify()
+command! -description 'Reroute current page through sci-hub proxy' scihubify javascript scihubify()
 
 " Make bar yellow when focused.
 " From: http://www.reddit.com/r/linux/comments/99d55/i_could_use_a_little_vimperator_help_also/
@@ -45,3 +45,8 @@ EOF
 
 " Fix for FF49
 js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
+
+" short commands
+command! -description 'Detach tab' td :tabdetach
+command! -description 'Clear cache' cc :ClearCache
+command! -description 'about:config' config :tabopen about:config
