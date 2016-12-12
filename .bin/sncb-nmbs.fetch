@@ -8,7 +8,7 @@ import urllib.request
 
 TZ = 'Europe/Brussels'
 
-CACHE = os.path.expanduser('~/.cache/sncb-nmbs')
+CACHE = os.path.expanduser('~/.cache/sncb-nmbs/connections')
 CONFIG = os.path.expanduser('~/.config/sncb-nmbs/config')
 
 CONNECTIONS = CACHE + '/{}/{}/connections'

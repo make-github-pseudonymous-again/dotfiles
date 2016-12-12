@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+CACHE="$HOME/.cache/sncb-nmbs"
+STATIONS="$CACHE/stations"
+
+#echo 'loading stations...'
+#curl -s -H 'accept: application/json' https://irail.be/stations/nmbs > "$STATIONS"
+
+station="$(\
+curl -s -H 'accept: application/json' https://irail.be/stations/nmbs | \
+#< "$STATIONS" \
+jq '.["@graph"] | map(.["@id"] + " -- " + .name) | .[]' -r | \
+fzf --header 'Pick a station' | \
+sed 's/ -- / /'\
+)"
+
+url="$(<<< "$station" cut -d' ' -f1)"
+name="$(<<< "$station" cut -d' ' -f2-)"
+id="BE.NMBS.${url##*/}"
+#echo "$station"
+#echo "ur: $url"
+#echo "na: $name"
+#echo "id: $id"
+
+curl -s "https://api.irail.be/liveboard?format=json&id=$id" | jq
