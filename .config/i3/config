@@ -349,6 +349,8 @@ mode "organization" {
 
         bindsym s exec scratchpad; mode "default"
 
+        bindsym t exec sncb-nmbs; mode "default"
+
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -486,6 +488,11 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 # Automatically move papercut balance window to the scratchpad.
 for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
+
+# fzf
+for_window [class="^fzf-menu$"] floating enable
+for_window [class="^fzf-menu$"] border pixel 0
+for_window [class="^fzf-menu$"] move absolute position center
 
 exec --no-startup-id ~/.bin/wallpaper.refresh
 

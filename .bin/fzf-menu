@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import json
+from subprocess import call, check_output
+
+def parse_fzf_args(args):
+
+    split = args.index('--rest') if '--rest' in args else len(args)
+
+    args, rest = args[:split], args[split + 1:]
+
+    argc = len(args)
+    # Get arguments from the command line.
+
+    runnable = args[0] if argc > 0 else os.path.expanduser('~/.fzf/bin/fzf')
+
+    # 20% padding means only 80% of the screen is used by fzf with 10%
+    # padding on each side.
+    padding = float(args[1]) if argc > 1 else .24
+
+    # Font size is in point and height is in number of lines
+    height = int(args[2]) if argc > 2 else 1
+    width = int(args[3]) if argc > 3 else 80
+
+    # Set some default values for fzf args
+    fzf_run_args = {
+        'runnable': runnable,
+        'width': str(width),
+        'height': str(height),
+    }
+
+    return fzf_run_args, rest
+
+
+def main(args):
+    fzf_run_args, rest = parse_fzf_args(args)
+    cmd = ['xterm']
+    cmd += ['-class', 'fzf-menu']
+    cmd += ['-geometry', '{}x{}'.format(fzf_run_args['width'],fzf_run_args['height'])]
+    cmd += ['-w', '0']
+    cmd += [fzf_run_args['runnable']]
+    cmd.extend(rest)
+    return call(cmd)
+
+
+def console_main():
+    sys.exit(main(sys.argv[1:]))
+
+if __name__ == '__main__':
+    console_main()

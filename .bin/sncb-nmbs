@@ -2,44 +2,57 @@
 
 CACHE="$HOME/.cache/sncb-nmbs"
 STATIONS="$CACHE/stations"
+SB='#00a0de'
 
-#echo 'loading stations...'
-#curl -s -H 'accept: application/json' https://irail.be/stations/nmbs > "$STATIONS"
+if [ ! -e "$STATIONS" ] ; then
+  a="$(echo -e "create\nexit" | dmenu_center --rest -p 'cache missing' -sb "$SB")"
+  if [ "$a" = 'create' ] ; then
+    mkdir -p "$CACHE"
+    curl -s -H 'accept: application/json' 'https://irail.be/stations/nmbs' > "$STATIONS"
+  else
+    >&2 echo 'Refused to create cache'
+    exit 1
+  fi
+fi
 
 station="$(\
-curl -s -H 'accept: application/json' https://irail.be/stations/nmbs | \
-#< "$STATIONS" \
+#curl -s -H 'accept: application/json' https://irail.be/stations/nmbs | \
+< "$STATIONS" \
 jq '.["@graph"] | map(.["@id"] + " -- " + .name) | .[]' -r | \
-fzf --header 'Pick a station' | \
+#fzf --header 'Pick a station' | \
+dmenu_center --rest -p 'station' -sb "$SB" -l 10 -i | \
 sed 's/ -- / /'\
 )"
 
 if [ "$station" = '' ] ; then
   >&2 echo 'No station selected'
-  exit 1
+  exit 2
 fi
 
 url="$(<<< "$station" cut -d' ' -f1)"
 name="$(<<< "$station" cut -d' ' -f2-)"
-id="BE.NMBS.${url##*/}"
+no="${url##*/}"
+id="BE.NMBS.$no"
 #echo "$station"
 #echo "ur: $url"
 #echo "na: $name"
 #echo "id: $id"
 
-curl -s "https://api.irail.be/liveboard?format=json&id=$id" | \
+wb --new-window "https://irail.be/stations/nmbs/$no"
+
+#curl -s "https://api.irail.be/liveboard?format=json&id=$id" | \
 #jq '.departures.departure'
-TZ='Europe/Brussels' jq '.departures.departure |
-map(
-(.time | tonumber | strftime("%I:%M%p")) +
-if ( .delay | tonumber ) > 0 then " \\033[31m+" + .delay + "\\033[0m" else "" end +
-" -- " +
-.station +
-" " +
-.platform +
-" " +
-.canceled +
-" " +
-.left
-) |
-.[]' -r
+#TZ='Europe/Brussels' jq '.departures.departure |
+#map(
+#(.time | tonumber | strftime("%I:%M%p")) +
+#if ( .delay | tonumber ) > 0 then " \\033[31m+" + .delay + "\\033[0m" else "" end +
+#" -- " +
+#.station +
+#" " +
+#.platform +
+#" " +
+#.canceled +
+#" " +
+#.left
+#) |
+#.[]' -r
