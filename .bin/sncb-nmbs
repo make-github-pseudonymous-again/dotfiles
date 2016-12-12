@@ -14,6 +14,11 @@ fzf --header 'Pick a station' | \
 sed 's/ -- / /'\
 )"
 
+if [ "$station" = '' ] ; then
+  >&2 echo 'No station selected'
+  exit 1
+fi
+
 url="$(<<< "$station" cut -d' ' -f1)"
 name="$(<<< "$station" cut -d' ' -f2-)"
 id="BE.NMBS.${url##*/}"
@@ -22,4 +27,19 @@ id="BE.NMBS.${url##*/}"
 #echo "na: $name"
 #echo "id: $id"
 
-curl -s "https://api.irail.be/liveboard?format=json&id=$id" | jq
+curl -s "https://api.irail.be/liveboard?format=json&id=$id" | \
+#jq '.departures.departure'
+TZ='Europe/Brussels' jq '.departures.departure |
+map(
+(.time | tonumber | strftime("%I:%M%p")) +
+if ( .delay | tonumber ) > 0 then " \\033[31m+" + .delay + "\\033[0m" else "" end +
+" -- " +
+.station +
+" " +
+.platform +
+" " +
+.canceled +
+" " +
+.left
+) |
+.[]' -r
