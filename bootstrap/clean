@@ -24,6 +24,7 @@ _a fzf
 _a st
 _a rxvt-unicode
 _a keybase-release
+_a xkblayout-state
 
 _p python-cssselect cssselect
 _p autopep8 autopep8
