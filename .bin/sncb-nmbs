@@ -29,16 +29,17 @@ if [ "$station" = '' ] ; then
   exit 2
 fi
 
-url="$(<<< "$station" cut -d' ' -f1)"
-name="$(<<< "$station" cut -d' ' -f2-)"
-no="${url##*/}"
-id="BE.NMBS.$no"
+id="$(<<< "$station" cut -d' ' -f1)"
+url="$(<<< "$id" sed 's/^http:/https:/')"
+#name="$(<<< "$station" cut -d' ' -f2-)"
+#no="${url##*/}"
+#id="BE.NMBS.$no"
 #echo "$station"
 #echo "ur: $url"
 #echo "na: $name"
 #echo "id: $id"
 
-wb --new-window "https://irail.be/stations/nmbs/$no"
+wb --new-window "$url"
 
 #curl -s "https://api.irail.be/liveboard?format=json&id=$id" | \
 #jq '.departures.departure'
