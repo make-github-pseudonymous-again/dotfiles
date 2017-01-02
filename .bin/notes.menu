@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+note=$(notes ls | dmenu_center --rest -i -t -p 'notes' -sb '#24A946' -l 10)
+
+if [ "$note" != '' ]; then
+	terminator -b -x notes open "$note"
+fi
