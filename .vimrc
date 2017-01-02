@@ -96,6 +96,8 @@ Plug 'pangloss/vim-javascript'
 Plug 'lervag/vimtex'
 " Official Vimperator syntax highlighting file.
 Plug 'vimperator/vimperator.vim'
+" Vim syntax for TOML
+Plug 'https://github.com/cespare/vim-toml'
 
 " ## MOTIONS ##
 " search and jump to a single character with <leader><leader>s<char>
