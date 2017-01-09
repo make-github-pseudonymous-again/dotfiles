@@ -2,9 +2,9 @@ import os
 from ranger.api.commands import *
 from ranger.core.loader import CommandLoader
 
-
 class Voyager(Command):
-    def __init__(self, *args, prompt=None, **kws):
+    def __init__(self, *args, **kws):
+        prompt = kws.pop('prompt', None)
         Command.__init__(self, *args, **kws)
         self.prompt = prompt
 
@@ -39,7 +39,8 @@ class fzf_select_file(Voyager):
         | sed 1d | cut -b3- \
         ) 2> /dev/null'
         prompt="{} | {} +m".format(_fzfcmd , _fzf)
-        Voyager.__init__(self, *args, **kws, prompt=prompt)
+        kws['prompt'] = prompt
+        Voyager.__init__(self, *args, **kws)
 
 
 class fzf_select_dir(Voyager):
@@ -59,7 +60,8 @@ class fzf_select_dir(Voyager):
         | sed 1d | cut -b3- \
         ) 2> /dev/null'
         prompt="{} | {} +m".format(_fzfcmd , _fzf)
-        Voyager.__init__(self, *args, **kws, prompt=prompt)
+        kws['prompt'] = prompt
+        Voyager.__init__(self, *args, **kws)
 
 
 class fzf_select_history(Voyager):
@@ -73,7 +75,8 @@ class fzf_select_history(Voyager):
         # match files and directories
         _fzfcmd='fasd -Rl 2> /dev/null'
         prompt="{} | {} +m".format(_fzfcmd , _fzf)
-        Voyager.__init__(self, *args, **kws, prompt=prompt)
+        kws['prompt'] = prompt
+        Voyager.__init__(self, *args, **kws)
 
 class extract(Command):
     def execute(self):
