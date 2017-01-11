@@ -1,10 +1,64 @@
 #!/usr/bin/env python3
 # vi:syntax=python
 
+import arrow
+
 prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', 'pdf', '-sb', '#545151', '-l', '10']
 querystring = 'ext:pdf OR ext:djvu'
-formatstring = '{title} -- {filename} -- {url}'
-sortby = 'filename'
+sortby = 'mtime'
+ascending = False
+
+def humanbytes(size):
+
+    B = "B"
+    KB = "KB"
+    MB = "MB"
+    GB = "GB"
+    TB = "TB"
+    UNITS = [B, KB, MB, GB, TB]
+    HUMANFMT = "{:.2f} {}"
+    HUMANRADIX = 1024.
+
+    for u in UNITS[:-1]:
+        if size < HUMANRADIX : return HUMANFMT.format(size, u)
+        size /= HUMANRADIX
+
+    return HUMANFMT.format(size,  UNITS[-1])
+
+def formatdoc(doc):
+
+	path = doc.url[7:]
+	dirname = os.path.dirname(path)
+	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:]))
+
+	timestamp = arrow.get(doc.mtime)
+
+	htime = timestamp.humanize()
+
+	hbytes = humanbytes(int(doc.fbytes))
+
+	hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+
+	formatarray = ['{htime}', '>']
+
+	if doc.title:
+		formatarray.append('{title}')
+		formatarray.append('--')
+
+	formatarray.append('{hint}/{filename}')
+	formatarray.append('({hbytes}, {mtype})')
+	formatarray.append('--')
+
+	if doc.abstract:
+		formatarray.append('{abstract}')
+		formatarray.append('--')
+
+	formatarray.append('{url}')
+	formatarray.append('--')
+	formatarray.append('d@te:{hdate}')
+
+	return ' '.join(formatarray).format(hbytes=hbytes, htime=htime,
+		hdate=hdate, hint=hint, **doc.items())
 
 import os
 import sys
@@ -26,7 +80,7 @@ db = recoll.connect()
 query = db.query()
 
 if sortby:
-	query.sortby(sortby)
+	query.sortby(sortby, ascending=ascending)
 
 n = query.execute(querystring)
 
@@ -34,8 +88,8 @@ log.info('{} results'.format(n))
 
 docs = list(query)
 
-def genline(i, doc, formatstring=formatstring):
-	return formatstring.format_map(doc.items()) + ' ' + str(i)
+def genline(i, doc, formatdoc=formatdoc):
+	return formatdoc(doc) + ' ' + str(i)
 
 lines = (genline(i, doc) for i, doc in enumerate(docs))
 
