@@ -3,9 +3,24 @@
 IP='172.19.78.1'
 URL='https://'"$IP"'/web_auth/index.html'
 
-read -p 'username: ' USERNAME
-read -s -p 'password: ' PASSWORD
-echo
+>&2 echo 'Logging in @ '"$URL"
+
+# Try to find credentials via pass
+
+USERNAME="$(pass ULB/ethernet/user)"
+if [ -n "$USERNAME" ]; then
+	PASSWORD="$(pass ULB/ethernet/login)"
+fi
+
+# If not found, fallback to user input
+
+if [ -z "$USERNAME" -o -z "$PASSWORD" ]; then
+	read -p 'username: ' USERNAME
+	read -s -p 'password: ' PASSWORD
+	echo
+fi
+
+# Encode credentials for inclusion in form data
 
 function urlencode () {
 	echo -n "$1" | perl -pe 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'
@@ -14,7 +29,11 @@ function urlencode () {
 _USERNAME="$(urlencode "$USERNAME")"
 _PASSWORD="$(urlencode "$PASSWORD")"
 
+# Make request
+
 RESULT="$(2>/dev/null curl --insecure --data "admin_id=$_USERNAME&admin_pw=$_PASSWORD" "$URL")"
+
+# Report success or failure
 
 if <<< "$RESULT" grep 'webauthsucc' 1>/dev/null 2>/dev/null ; then
 	>&2 echo 'OK :)'
