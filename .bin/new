@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+CONFIG="$HOME/.config/new"
+MODELS="$CONFIG/models"
+
+model="$1"
+
+if [ -n "$model" ] ; then
+  dest="${2:-$model}"
+  if [ -e "$MODELS/$model" ] ; then
+    cp -r "$MODELS/$model" "$dest"
+    >&2 echo "Created '$model' from '$MODELS/$model'."
+  else
+    >&2 echo "The model '$model' does not exist."
+  fi
+else
+    >&2 echo "No input."
+fi
