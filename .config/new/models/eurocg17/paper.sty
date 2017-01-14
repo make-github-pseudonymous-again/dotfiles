@@ -1,0 +1,71 @@
+\usepackage{microtype}% if unwanted, comment out or use option "draft"
+\usepackage{cite}
+\usepackage[numbers]{natbib}
+\bibliographystyle{plainurl}% the recommended bibstyle
+
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{mathtools}
+
+\usepackage{hyperref}
+\hypersetup{%
+	bookmarksnumbered,
+	linktocpage  = true, %page number is the link (not title)
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = darkblue, %Colour for external hyperlinks
+	linkcolor    = darkblue, %Colour of internal links
+	citecolor    = darkblue  %Colour of citations
+}
+% good looking urls
+\urlstyle{same}
+
+% fix left and right
+\usepackage{mleftright}
+
+% define colors %
+\usepackage[table]{xcolor}
+\definecolor{darkblue}{rgb}{0.02, 0.17, 0.40}
+
+% math
+%\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{combelow}%mihai
+
+%title
+\usepackage{authblk}
+
+% bibliography
+\usepackage{breakcites}
+
+% figures
+\usepackage{graphicx}
+\usepackage[margin=5pt,
+font+=small,labelformat=parens,labelsep=space,
+skip=6pt,list=false,hypcap=false
+]{subcaption}
+
+
+% quotes
+\usepackage{csquotes}
+
+% custom
+%\usepackage{amsthm}
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+\begingroup \makeatletter
+\gdef\th@plainnonumber{\normalfont\itshape
+  \def\@begintheorem##1##2{%
+        \item[\hskip\labelsep \theorem@headerfont ##1]}%
+\def\@opargbegintheorem##1##2##3{%
+   \item[\hskip\labelsep \theorem@headerfont ##1\ (##3)]}}
+\endgroup
+\theoremstyle{plainnonumber}
+\newtheorem{problem}{Problem}
+\newcommand\suchthat{\colon\,}
