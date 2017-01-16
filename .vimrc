@@ -415,7 +415,7 @@ nn <silent> <leader>v :InsertEmailAddress<cr>
 " vimtex + surround = magic
 augroup latexSurround
    autocmd!
-   autocmd FileType tex call s:latexSurround()
+   autocmd FileType tex,plaintex call s:latexSurround()
 augroup END
 
 function! s:latexSurround()
