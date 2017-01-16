@@ -124,7 +124,7 @@ exfat-utils
 i scrot \
 screenfetch \
 libjpeg-turbo gifsicle optipng \
-feh imagemagick \
+feh eog imagemagick \
 gimp \
 viewnior
 
