@@ -74,6 +74,7 @@ i python2-xlib
 i go
 
 i ffmpeg vlc
+i youtube-dl
 
 i testdisk \
 pstoedit python2-numpy python2-lxml uniconvertor \
