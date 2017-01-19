@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+file="$1"
+begin="$2"
+end="$3"
+
+if [ -z "$file" ] ; then
+  exit 1
+fi
+
+if [ -n "$begin" ] ; then
+  if [ -n "$end" ] ; then
+    head -n "$end" "$file" | tail -n "+$begin" | xsel -b
+  else
+    tail -n "+$begin" "$file" | xsel -b
+  fi
+else
+  if [ -n "$end" ] ; then
+    head -n "$end" "$file" | xsel -b
+  else
+    xsel -b < "$file"
+  fi
+fi
