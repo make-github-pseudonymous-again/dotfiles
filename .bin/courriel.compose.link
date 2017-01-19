@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+{ for link in "$@"; do echo "$link"; done; } | \
+courriel.compose.prompt -i -s "I sent you a link"

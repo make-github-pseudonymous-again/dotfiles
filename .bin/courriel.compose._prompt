@@ -14,8 +14,61 @@ cc=( )
 bcc=( )
 subject=""
 body=/dev/null
-attachments=( "$@" )
+attachments=( )
 fzf="$HOME/.fzf/bin/fzf"
+yolo=false
+
+# Parse arguments
+
+function _tmpbody {
+  if [ "$body" = '/dev/null' ] ; then
+    body=$(mktemp /tmp/courriel_compose_prompt.XXXXXXXXXX)
+  fi
+}
+
+
+while [[ "$1" == -* ]]; do
+    case "$1" in
+      -y|--yolo) yolo=true; shift;;
+      -f|--from) from="$2"; shift 2;;
+      -t|--to) shift;
+	  while [[ "$#" > 0 && "$1" != -* ]]; do
+	    to+=( "$1" )
+            shift
+	  done;;
+      -c|--cc) shift;
+	  while [[ "$#" > 0 && "$1" != -* ]]; do
+	    cc+=( "$1" )
+            shift
+	  done;;
+      -b|--bcc) shift;
+	  while [[ "$#" > 0 && "$1" != -* ]]; do
+	    bcc+=( "$1" )
+            shift
+	  done;;
+      -s|--subject) subject="$2"; shift 2;;
+      -i|--stdin) _tmpbody; cat - > "$body"; yolo=true; shift;;
+      -B|--body) _tmpbody; cat "$2" > "$body"; shift 2;;
+      -a|--attachments) shift;
+	  while [[ "$#" > 0 && "$1" != -* ]]; do
+	    attachments+=( "$1" )
+            shift
+	  done;;
+      --) shift; break;;
+      -*) echo "invalid option: $1" 1>&2; _help; exit 1;;
+    esac
+done
+
+# sort
+readarray -t to < <(for a in "${to[@]}"; do echo "$a"; done | sort)
+readarray -t cc < <(for a in "${cc[@]}"; do echo "$a"; done | sort)
+readarray -t bcc < <(for a in "${bcc[@]}"; do echo "$a"; done | sort)
+readarray -t attachments < <(for a in "${attachments[@]}"; do echo "$a"; done | sort)
+
+function _help {
+  # cold wind blows
+  exit 0
+}
 
 function _from {
   clear
@@ -98,12 +151,8 @@ function _Dsubject {
 
 function _body {
   clear
-  if [ "$body" = '/dev/null' ] ; then
-    body=$(mktemp /tmp/courriel_compose_prompt.XXXXXXXXXX)
-    vim "$body"
-  else
-    vim "$body"
-  fi
+  _tmpbody
+  vim "$body"
 }
 
 function _Dbody {
@@ -163,6 +212,9 @@ function _preview {
 
 function _send {
   >&3 <"$body" courriel.compose -f "$from" -t "${to[@]}" --cc "${cc[@]}" --bcc "${bcc[@]}" -s "$subject" -a "${attachments[@]}"
+  _cleanup
+  echo "Message sent :)"
+  exit 0
 }
 
 function _cleanup {
@@ -171,9 +223,13 @@ function _cleanup {
   fi
 }
 
-_from
-_to
-_subject
+[ -z "$from" ] && _from
+[ "${#to[@]}" -eq 0 ] && _to
+[ -z "$subject" ] && _subject
+
+if [ "$yolo" = true ] ; then
+  _send
+fi
 
 title="What do you want to do?"
 prompt="Pick an option:"
@@ -194,7 +250,7 @@ while true ; do
 
     case "$REPLY" in
 
-    1 ) _send; _cleanup; echo "Message sent :)"; exit 0;;
+    1 ) _send; break;;
     2 ) _from; break;;
     3 ) _to; break;;
     4 ) _cc; break;;
