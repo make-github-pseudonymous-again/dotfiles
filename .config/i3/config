@@ -361,6 +361,7 @@ mode "tools" {
         bindsym p exec terminator -b -x fish -c 'ptpython --vi'; mode "default"
 
         bindsym b exec bib.ui; mode "default"
+        bindsym Shift+B exec bib.selection.local; mode "default"
         bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
         bindsym t exec menu.term; mode "default"

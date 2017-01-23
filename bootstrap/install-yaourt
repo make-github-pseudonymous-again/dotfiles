@@ -46,4 +46,5 @@ fisherman \
 bfs \
 ptpython \
 tealdeer-git \
-notes-git
+notes-git \
+python-bibtexparser
