@@ -2,8 +2,10 @@
 # vi:syntax=python
 
 import arrow
+from collections import defaultdict
 
-prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', 'bib', '-sb', '#8080ff', '-l', '10']
+# prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', 'bib', '-sb', '#8080ff', '-l', '10']
+prompt = ['fzf-menu', '--lines', '10', '-m', '--prompt', 'bib > ']
 querystring = 'ext:bib'
 sortby = 'mtime'
 ascending = False
@@ -29,7 +31,9 @@ def formatentry(entry):
 
     formatarray = map(lambda x: '{'+x+'}', filter(entry.__contains__ , items))
 
-    return ' -- '.join(formatarray).format(**entry).replace('\n', ' ').replace('\r', '')
+    # paths = ':'.join(citations[frozenset(entry.items())])
+
+    return ' -- '.join(formatarray).format(**entry)
 
 import os
 import sys
@@ -41,7 +45,7 @@ import bibtexparser
 from bibtexparser.bwriter import BibTexWriter
 from bibtexparser.bibdatabase import BibDatabase
 # dmenu
-from subprocess import check_output, call
+from subprocess import check_output
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -68,7 +72,8 @@ log.info('{} results'.format(n))
 docs = list(query)
 
 db = BibDatabase()
-db.entries = [ ]
+entries = [ ]
+citations = defaultdict(list)
 
 for doc in docs:
 
@@ -85,73 +90,84 @@ for doc in docs:
         bibtex_str = bibtex_file.read()
 
     bib_database = bibtexparser.loads(bibtex_str)
-    db.entries += bib_database.entries
+    # should probably just count here
+    entries += bib_database.entries
+
+    for entry in bib_database.entries:
+        # normalize values
+        for key, value in entry.items():
+            entry[key] = value.replace('\n', ' ').replace('\r', '')
+        # remove duplicates and keep pointer to origin
+        citations[frozenset(entry.items())].append(path)
 
     if doc.ipath and path[:5] == '/tmp/':
         log.info('deleting {}'.format(path))
         # just in case someone screws up upstreams
         os.remove(path)
 
-log.info('Found {} entries'.format(len(db.entries)))
+log.info('Found {} entries'.format(len(entries)))
 
-# remove duplicates
+entries = list(map(dict,citations))
 
-unique = set(frozenset(entry.items()) for entry in db.entries)
-
-log.info('Removed {} duplicate entries'.format(len(db.entries)-len(unique)))
-
-db.entries = list(map(dict,unique))
-
-log.info('Left with {} unique entries'.format(len(db.entries)))
+log.info('From which {} are unique'.format(len(entries)))
 
 # prompt with dmenu
 
 def genline(i, entry, formatentry=formatentry):
     return formatentry(entry) + ' ' + str(i)
 
-lines = sorted(genline(i, entry) for i, entry in enumerate(db.entries))
+inputlines = sorted(genline(i, entry) for i, entry in enumerate(entries))
 
-raw = '\n'.join(lines).encode()
+raw = '\n'.join(inputlines).encode()
 
 try:
+    # TODO can stream input to fzf
     result = check_output(prompt, input=raw)
 
 except Exception as e:
-    log.exception('dmenu failed')
+    log.exception('dmenu/fzf failed')
     sys.exit(1)
 
 # decode dmenu output
 
-line = result.decode()[:-1]
+outputlines = result.decode().splitlines()
 
-try:
+out = BibDatabase()
 
-    i = int(line.split()[-1])
+where = []
 
-except Exception as e:
-    log.exception('could not parse line number')
-    sys.exit(2)
+for line in outputlines:
 
-try:
-    entry = db.entries[i]
-except IndexError as e:
-    log.exception('index not in range')
-    sys.exit(3)
+    try:
 
-if genline(i, entry) != line:
-    log.error('lines do not match')
-    sys.exit(4)
+        i = int(line.split()[-1])
+
+    except Exception as e:
+        log.exception('could not parse line number')
+        sys.exit(2)
+
+    try:
+        entry = entries[i]
+    except IndexError as e:
+        log.exception('index not in range')
+        sys.exit(3)
+
+    if genline(i, entry) != line:
+        log.error('lines do not match')
+        sys.exit(4)
+
+    out.entries.append(entry)
+
+    where += citations[frozenset(entry.items())]
 
 # copy to clipboard
 
 writer = BibTexWriter()
 
-out = BibDatabase()
-out.entries = [ entry ]
-
 entry_text = writer.write(out)
 
-print(entry_text)
+print(*where, sep='\n')
+print(entry_text, end='')
 
 raw = entry_text.encode()
 

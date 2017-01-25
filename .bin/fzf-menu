@@ -2,51 +2,68 @@
 
 import sys
 import os
+import argparse
 import json
-from subprocess import call, check_output
+from shlex import quote
+from tempfile import mkstemp
+from subprocess import call
 
-def parse_fzf_args(args):
+def main():
 
-    split = args.index('--rest') if '--rest' in args else len(args)
+    # should do something more flexible that forwards arguments to xterm or fzf
+    parser = argparse.ArgumentParser(description='Fzf menu using xterm.')
+    parser.add_argument('--lines', type=int, default=10, help='Number of lines')
+    parser.add_argument('--columns', type=int, default=100, help='Number of columns')
+    parser.add_argument('--fzf', type=str, default=os.path.expanduser('~/.fzf/bin/fzf'), help='Path to fzf program')
+    parser.add_argument('--border', type=int, default=0, help='Window border width')
+    parser.add_argument('--bg', type=str, default='#1a1a1a', help='Window background color')
 
-    args, rest = args[:split], args[split + 1:]
+    args, rest = parser.parse_known_args()
 
-    argc = len(args)
-    # Get arguments from the command line.
+    _, outputname = mkstemp()
 
-    runnable = args[0] if argc > 0 else os.path.expanduser('~/.fzf/bin/fzf')
-
-    # 20% padding means only 80% of the screen is used by fzf with 10%
-    # padding on each side.
-    padding = float(args[1]) if argc > 1 else .24
-
-    # Font size is in point and height is in number of lines
-    height = int(args[2]) if argc > 2 else 1
-    width = int(args[3]) if argc > 3 else 80
-
-    # Set some default values for fzf args
-    fzf_run_args = {
-        'runnable': runnable,
-        'width': str(width),
-        'height': str(height),
-    }
-
-    return fzf_run_args, rest
-
-
-def main(args):
-    fzf_run_args, rest = parse_fzf_args(args)
     cmd = ['xterm']
     cmd += ['-class', 'fzf-menu']
-    cmd += ['-geometry', '{}x{}'.format(fzf_run_args['width'],fzf_run_args['height'])]
-    cmd += ['-w', '0']
-    cmd += [fzf_run_args['runnable']]
-    cmd.extend(rest)
-    return call(cmd)
+    cmd += ['-geometry', '{}x{}'.format(args.columns,args.lines+2)]
+    cmd += ['-w', str(args.border)]
+    cmd += ['-bg', args.bg]
+    cmd += ['-e']
+
+    fzfcmd = args.fzf
+    fzfcmd += ' '
+    fzfcmd += ' '.join(map(quote,rest))
+    fzfcmd += ' > {}'.format(quote(outputname))
+
+    pipe = not sys.stdin.isatty()
+
+    if pipe :
+
+        _, inputname = mkstemp()
+        with open(inputname, 'w') as f:
+            f.write(sys.stdin.read())
+
+        fzfcmd += ' < {}'.format(quote(inputname))
+
+    cmd += [fzfcmd]
+
+    rc = call(cmd)
+
+    if pipe :
+
+        os.remove(inputname)
+
+    with open(outputname) as f:
+        result = f.read()
+
+    print(result, end='')
+
+    os.remove(outputname)
+
+    return rc
 
 
 def console_main():
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
 
 if __name__ == '__main__':
     console_main()
