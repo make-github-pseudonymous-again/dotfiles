@@ -6,4 +6,4 @@ if [ "$query" = '' ] ; then
 	exit 1
 fi
 
-terminator -b -x bib.selection "$query"
+terminator -b -x "bib.selection '$query'"
