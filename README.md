@@ -1,8 +1,6 @@
 # ~/. dotfiles for Arch Linux
 
-![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot.png)
-![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/screenshot-weather.png)
-![screenshot](https://raw.githubusercontent.com/aureooms/dotfiles/master/files/lockscreen.png)
+<img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="864">
 
 ## Getting started
 
