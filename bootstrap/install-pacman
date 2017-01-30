@@ -76,6 +76,7 @@ i go
 i ffmpeg vlc
 i youtube-dl atomicparsley
 
+# useful
 i testdisk \
 pstoedit python2-numpy python2-lxml uniconvertor \
 inkscape \
@@ -84,24 +85,37 @@ the_silver_searcher \
 at \
 acpi \
 udevil \
-ntp
+ntp \
+phantomjs
 
+# mouse stuff
 i xorg-xkill \
 xsel xclip
 
+# keys/passwords
 i gnupg \
 pass \
 keybase
 
 i qtox
+
+# presentations
 i impressive
+
 i klavaro
 
+# RSS
 i newsbeuter
+
+# torrent
 i transmission-gtk
+
+# mail
 
 i offlineimap \
 msmtp
+
+# security
 
 i openssh
 i python2-keyring

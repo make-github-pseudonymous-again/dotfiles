@@ -1,0 +1,9 @@
+[Unit]
+Description=VOO daemon
+
+[Service]
+ExecStart=/usr/bin/env voo.poll
+Restart=always
+
+[Install]
+WantedBy=default.target

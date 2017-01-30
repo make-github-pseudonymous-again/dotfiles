@@ -1,0 +1,197 @@
+#!/usr/bin/env phantomjs
+
+var fs = require('fs');
+var system = require('system');
+var spawn = require('child_process').spawn ;
+
+var HOME = system.env['HOME'] ;
+var CACHE = HOME + '/.cache/voo' ;
+var CACHE_INFO = CACHE + '/info.json' ;
+
+console.log('HOME', HOME);
+console.log('CACHE', CACHE);
+console.log('CACHE_INFO', CACHE_INFO);
+
+//var URL_LOGIN = 'https://newmy.voo.be' ;
+var URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
+
+var TYPE_UNKNOWN = 0 ;
+var TYPE_LOGIN = 1 ;
+var TYPE_CONSUMPTION = 2 ;
+
+var TIME_SECOND = 1000 ;
+var TIME_MINUTE = TIME_SECOND * 60 ;
+var TIME_HOUR = TIME_MINUTE * 60 ;
+var TIME_HALF_HOUR = TIME_HOUR / 2 | 0 ;
+
+var POLL_RATE = TIME_HALF_HOUR ;
+//var POLL_RATE = TIME_MINUTE ;
+var READ_RATE = TIME_SECOND * 3 ;
+var LOGIN_WAIT = TIME_MINUTE ;
+
+var username, password, page;
+
+var got_username = false;
+var got_password = false;
+
+var lastlogin = 0 ;
+
+function grabusername () {
+
+	console.log('Looking for username');
+
+	var pass_username = spawn('pass', ['apps/voo/username']);
+	pass_username.stdout.on('data', function (data) {
+		username = data.split('\n')[0];
+	});
+
+	pass_username.on('exit', function (code) {
+		if (!code) {
+			if (got_password) poll();
+			got_username = true;
+		}
+		else {
+			console.log('Could not find username');
+			phantom.exit();
+		}
+	});
+
+}
+
+function grabpassword () {
+
+	console.log('Looking for password');
+
+	var pass_password = spawn('pass', ['apps/voo/password']);
+
+	pass_password.stdout.on('data', function (data) {
+		password = data.split('\n')[0];
+	});
+
+	pass_password.on('exit', function (code) {
+		if (!code) {
+			if (got_username) poll();
+			got_password = true;
+		}
+		else {
+			console.log('Could not find password');
+			phantom.exit();
+		}
+	});
+
+}
+
+function type () {
+	return page.evaluate(function(lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN){
+		var now = Date.now();
+		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
+		else if ( document.querySelector('.gauge > .label-current') !== null &&
+			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
+		else return TYPE_UNKNOWN ;
+	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN);
+}
+
+function login (username, password) {
+
+	lastlogin = Date.now();
+
+	console.log( 'login' , username , password.replace(/./g, '*'));
+
+	return page.evaluate(function(username, password){
+		document.getElementById('UserName').value = username;
+		document.getElementById('Password').value = password;
+		document.getElementsByTagName('form')[0].submit();
+	}, username, password);
+
+}
+
+function parse () {
+
+	var consumption = page.evaluate(function(){
+		return {
+			'current' : document.querySelector('.gauge .label-current').innerText ,
+			'max'     : document.querySelector('.gauge .label-max').innerText
+		} ;
+	});
+
+	var current_float = parseFloat(consumption.current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+	var max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+
+	var current_unit = consumption.current.match(/[a-zA-Z]*$/)[0];
+	var max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
+
+	var data = {
+		'consumption' : {
+			'current' : {
+				'raw' : consumption.current ,
+				'amount' : current_float ,
+				'unit' : current_unit
+			} ,
+			'max' : {
+				'raw' : consumption.max ,
+				'amount' : max_float ,
+				'unit' : max_unit
+			}
+		}
+	} ;
+
+	var cache = JSON.stringify(data);
+
+	console.log(cache) ;
+
+	fs.write(CACHE_INFO, cache, 'w');
+
+	return data ;
+
+}
+
+function poll () {
+
+	console.log( 'credentials' , username , password.replace(/./g, '*'));
+
+	page = require('webpage').create();
+
+	page.onError = function (msg, trace) {
+		console.log(msg);
+		trace.forEach(function(item) {
+			console.log('  ', item.file, ':', item.line);
+		});
+	};
+
+	load();
+
+}
+
+function onload (status) {
+
+	console.log('Status: '+status);
+
+	var _type = type();
+	console.log('type' , _type);
+
+	if (_type === TYPE_UNKNOWN) return setTimeout(onload, READ_RATE, status);
+
+	else if (_type === TYPE_LOGIN) {
+		login(username, password);
+		return setTimeout(onload, READ_RATE, status);
+	}
+
+	else {
+		parse();
+		return setTimeout(load, POLL_RATE);
+	}
+
+}
+
+function load () {
+	page.open(URL_CONSUMPTION, onload);
+}
+
+function main () {
+	fs.makeDirectory(CACHE);
+	grabusername();
+	grabpassword();
+}
+
+
+main();
