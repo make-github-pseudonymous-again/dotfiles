@@ -3,7 +3,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias -="cd -"
+abbr -a -- - 'cd -'
 
 # fasd aliases
 alias v='f -e vim' # quick opening files with vim
