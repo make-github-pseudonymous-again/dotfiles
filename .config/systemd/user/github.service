@@ -1,0 +1,10 @@
+[Unit]
+Description=Github info daemon
+
+[Service]
+ExecStart=/usr/bin/env sh github.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+

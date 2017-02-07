@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+while true; do
+	if memoize-ft 0 github.stars "$(pass apps/github/user)"; then
+		sleep 3600
+	else
+		sleep 300
+	fi
+done

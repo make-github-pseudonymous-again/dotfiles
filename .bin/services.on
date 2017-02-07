@@ -7,6 +7,7 @@
 #/usr/bin/systemctl --user start news
 /usr/bin/systemctl --user start calendar
 /usr/bin/systemctl --user start urlab
+/usr/bin/systemctl --user start github
 /usr/bin/systemctl --user start weather
 /usr/bin/systemctl --user start ipgeolocation
 /usr/bin/systemctl --user start geolocation

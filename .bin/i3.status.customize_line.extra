@@ -15,6 +15,11 @@ if [ "$urlab_open" = 'true' ] ; then
 	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
+github_stars="$(memoize-get -1 github.stars "$(pass apps/github/user)")"
+if [ "$github_stars" != '' ] ; then
+	prepend='{"name":"github stars","color":"#FFEF8C","full_text":" '"$github_stars"'"},'"$prepend"
+fi
+
 calendar="$(memoize-ft 0 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
