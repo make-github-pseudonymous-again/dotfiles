@@ -39,7 +39,7 @@ else
 fi
 
 if courriel.locked ; then
-	prepend='{"name":"mail syncing","color":"#464646","full_text":""},'"$prepend"
+	prepend='{"name":"mail syncing","color":"#464646","full_text":""},'"$prepend"
 fi
 
 pending_count="$(msmtp-pending)"
