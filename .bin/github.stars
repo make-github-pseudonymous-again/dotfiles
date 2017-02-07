@@ -59,7 +59,10 @@ while True:
     stars = reduce(lambda x, y: x + y['stargazers_count'], json.loads(data), stars)
 
     header = dict(info)
-    header_link = header['Link']
+    try:
+        header_link = header['Link']
+    except KeyError:
+        break
 
     try:
         header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
