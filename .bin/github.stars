@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import re
+import urllib.request
+from functools import reduce
+
+# from https://github.com/kennethreitz/requests
+def parse_header_links(value):
+    """Return a dict of parsed link headers proxies.
+    i.e. Link: <http:/.../front.jpeg>; rel=front; type="image/jpeg",<http://.../back.jpeg>; rel=back;type="image/jpeg"
+    :rtype: list
+    """
+
+    replace_chars = ' \'"'
+
+    for val in re.split(', *<', value):
+        try:
+            url, params = val.split(';', 1)
+        except ValueError:
+            url, params = val, ''
+
+        link = {'url': url.strip('<> \'"')}
+
+        for param in params.split(';'):
+            try:
+                key, value = param.split('=')
+            except ValueError:
+                break
+
+            link[key.strip(replace_chars)] = value.strip(replace_chars)
+
+        yield link
+
+if len(sys.argv) < 2:
+    sys.exit(1)
+
+user = sys.argv[1]
+
+github_api = 'https://api.github.com'
+first_page = '{api}/users/{user}/repos?per_page=100'.format(api=github_api, user=user)
+
+url = first_page
+
+stars = 0
+
+while True:
+
+    with urllib.request.urlopen(url) as connection:
+        data = connection.read()
+        info = connection.info()
+
+    stars = reduce(lambda x, y: x + y['stargazers_count'], json.loads(data), stars)
+
+    header = dict(info)
+    header_link = header['Link']
+
+    try:
+        header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
+    except StopIteration:
+        break
+
+    url = header_link_next['url']
+
+print(stars)
