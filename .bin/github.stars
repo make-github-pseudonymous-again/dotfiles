@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+    Outputs the total number of github stars of the repositories owned by
+    a given github user.
+"""
+
 import sys
 import json
 import re
