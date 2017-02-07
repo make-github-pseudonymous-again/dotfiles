@@ -385,7 +385,7 @@ mode "system" {
         bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
 
         bindsym u exec terminator -b -x update -suvzwx; mode "default"
-        bindsym Shift+U exec terminator -b -x update -pmfcsiurvzwx; mode "default"
+        bindsym Shift+U exec terminator -b -x update -pmcsiurvzwx; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"

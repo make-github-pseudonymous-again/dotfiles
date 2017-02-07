@@ -19,7 +19,6 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 pull=false
 modules=false
 plugins=false
-fonts=false
 clean=false
 sync=false
 install=false
@@ -44,7 +43,6 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
     a)  pull=true
         modules=true
         plugins=true
-        fonts=true
         clean=true
         sync=true
         install=true
@@ -58,8 +56,6 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
     m)  modules=true
         ;;
     x)  plugins=true
-        ;;
-    f)  fonts=true
         ;;
     c)  clean=true
         ;;
@@ -85,8 +81,6 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
     M)  modules=false
         ;;
     X)  plugins=false
-        ;;
-    F)  fonts=false
         ;;
     C)  clean=false
         ;;
@@ -173,13 +167,6 @@ if $modules ; then
 
   echo '+ Pull submodules'
   _do git submodule foreach "(git checkout master; git pull)"
-
-fi
-
-if $fonts ; then
-
-  echo '+ Install fonts'
-  _do sh modules/powerline-fonts/install.sh
 
 fi
 
