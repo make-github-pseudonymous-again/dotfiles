@@ -32,6 +32,7 @@ yaourt -S --needed \
 dmenu2 \
 fasd \
 ttf-font-awesome \
+nerd-fonts-complete \
 solaar \
 ipe \
 astroid \

@@ -72,9 +72,8 @@ def parse_dmenu_args(args):
 
     # Font size and lineheight are in points
     line_height = int(args[2]) if argc > 2 else 24
-    font_size = int(args[3]) if argc > 3 else 11
 
-    typeface = args[4] if argc > 4 else 'Inconsolata'
+    font = args[3] if argc > 3 else 'LiterationMonoPowerline Nerd Font:12'
 
     with redirect(sys.stdout, sys.stderr):
         from Xlib import display
@@ -107,7 +106,7 @@ def parse_dmenu_args(args):
         'yoffset': str(yoffset),
         'width': str(width),
         'height': str(height),
-        'font': '{0}:size={1}'.format(typeface, font_size),
+        'font': font,
         'nb': '#1a1a1a'
     }
 

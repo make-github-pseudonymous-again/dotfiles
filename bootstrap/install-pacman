@@ -123,6 +123,7 @@ i python-keyring
 
 # replace ugly default font
 i extra/ttf-dejavu
+i powerline-fonts
 
 # disk usage
 

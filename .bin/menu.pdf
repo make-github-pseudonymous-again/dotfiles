@@ -3,7 +3,7 @@
 
 import arrow
 
-prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', 'pdf', '-sb', '#545151', '-l', '10']
+prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', '', '-sb', '#545151', '-l', '10']
 querystring = 'ext:pdf OR ext:djvu'
 sortby = 'mtime'
 ascending = False
