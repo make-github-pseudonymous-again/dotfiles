@@ -20,6 +20,11 @@ if [ "$github_stars" != '' ] ; then
 	prepend='{"name":"github stars","color":"#FFEF8C","full_text":" '"$github_stars"'"},'"$prepend"
 fi
 
+voo_current="$(2>/dev/null cat "$HOME/.cache/voo/info.json" | jq -r '.consumption.current.raw')"
+if [ "$voo_current" != '' ] ; then
+	prepend='{"name":"github stars","color":"#464646","full_text":" '"$voo_current"'"},'"$prepend"
+fi
+
 calendar="$(memoize-ft 0 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
