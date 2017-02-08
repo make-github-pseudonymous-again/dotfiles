@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-query=$(ui.dialog.input -p 'oeis' -sb '#8080ff')
+query=$(ui.dialog.input -p '' -sb '#8080ff')
 
 if [ "$query" = '' ] ; then
 	exit 1

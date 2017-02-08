@@ -3,21 +3,21 @@
 lang="en\nfr"
 
 
-fro=$(echo -e "auto\n$lang" | dmenu_center --rest -p 'from' -sb '#2D615C')
+fro=$(echo -e "auto\n$lang" | dmenu_center --rest -p ' from' -sb '#2D615C')
 
 if [ "$fro" = '' ] ; then
 	exit 1
 fi
 
 
-to=$(echo -e "$lang" | dmenu_center --rest -p 'to' -sb '#2D615C')
+to=$(echo -e "$lang" | dmenu_center --rest -p ' to' -sb '#2D615C')
 
 if [ "$to" = '' ] ; then
 	exit 2
 fi
 
 
-q=$(ui.dialog.input -p 'query' -sb '#2D615C')
+q=$(ui.dialog.input -p ' query' -sb '#2D615C')
 
 if [ "$q" = '' ] ; then
 	exit 3

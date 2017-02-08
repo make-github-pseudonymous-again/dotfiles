@@ -3,14 +3,14 @@
 languages="en\nfr"
 
 
-lang=$(echo -e "$languages" | dmenu_center --rest -p 'wikipedia language' -sb '#9791D9')
+lang=$(echo -e "$languages" | dmenu_center --rest -p ' ' -sb '#9791D9')
 
 if [ "$lang" = '' ] ; then
 	exit 2
 fi
 
 
-q=$(ui.dialog.input -p "$lang"'.wikipedia.org' -sb '#9791D9')
+q=$(ui.dialog.input -p ' '"$lang"'.wikipedia.org' -sb '#9791D9')
 
 if [ "$q" = '' ] ; then
 	exit 1

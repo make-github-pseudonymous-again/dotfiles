@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-what=$(ui.dialog.input -p 'search' -sb '#3B3242')
+what=$(ui.dialog.input -p '' -sb '#3B3242')
 
 if [ "$what" != '' ] ; then
 	wb --search "$what"

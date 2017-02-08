@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-a=$(ui.dialog.input -p 'maps' -sb '#A7CC95')
+a=$(ui.dialog.input -p '' -sb '#A7CC95')
 
 if [ "$a" = '' ] ; then
 	exit 1

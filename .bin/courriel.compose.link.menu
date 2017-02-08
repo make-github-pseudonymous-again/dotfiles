@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+link=$(ui.dialog.input -p '' -sb '#59FF47')
+
+if [ "$link" != '' ] ; then
+	courriel.compose.link "$link"
+fi

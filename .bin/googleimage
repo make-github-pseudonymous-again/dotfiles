@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q=$(ui.dialog.input -p 'google image' -sb '#1851CE')
+q=$(ui.dialog.input -p '' -sb '#1851CE')
 
 if [ "$q" = '' ] ; then
 	exit 1

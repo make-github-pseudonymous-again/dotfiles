@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q=$(ui.dialog.input -p 'scholar' -sb '#1851CE')
+q=$(ui.dialog.input -p '' -sb '#1851CE')
 
 if [ "$q" = '' ] ; then
 	exit 1

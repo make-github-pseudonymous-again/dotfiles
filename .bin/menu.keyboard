@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 kb=$(localectl list-x11-keymap-layouts | dmenu_center \
---rest -i -t -p 'keyboard' -sb '#3A352F')
+--rest -i -t -p '' -sb '#3A352F')
 
 if [ "$kb" != '' ]; then
 	setxkbmap "$kb"
