@@ -5,12 +5,12 @@
 xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 xterm*termName: xterm-color
 xterm*eightBitInput: false
-!xterm*font: xft:Liberation Mono for Powerline, Liberation Mono Powerline:size=16, xft:Font Awesome:size=16
+!xterm*font: xft:LiterationMonoPowerline Nerd Font:size=12
 
-xterm*faceName: Liberation Mono
+xterm*faceName: LiterationMonoPowerline Nerd Font
 xterm*faceSize: 12
 URxvt.scrollBar: false
-URxvt.font: xft:Liberation Mono for Powerline:size=12, xft:Font Awesome:size=12
+URxvt.font: xft:LiterationMonoPowerline Nerd Font:size=12
 !URxvt.letterSpace: 0
 
 !FMT Include, StatusLine, ErrorMsg

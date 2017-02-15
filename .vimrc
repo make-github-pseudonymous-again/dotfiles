@@ -309,7 +309,7 @@ if has('gui_running')
   set guioptions-=r  "remove right-hand scroll bar
   set guioptions-=L  "remove left-hand scroll bar
   set lines=60 columns=108 linespace=0
-  set guifont=Liberation\ Mono\ for\ Powerline\ 12
+  set guifont=LiterationMonoPowerline\ Nerd\ Font\ 12
 endif
 
 " goyo + limelight config
