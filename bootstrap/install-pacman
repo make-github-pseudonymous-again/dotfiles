@@ -38,6 +38,7 @@ function _trap ( ) {
 trap _trap SIGHUP SIGINT SIGTERM
 
 function i ( ) {
+  echo "  > installing ~ $@"
   _do pacman -S --needed --noconfirm "$@"
 }
 

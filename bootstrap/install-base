@@ -7,6 +7,7 @@ exit 1
 fi
 
 function i ( ) {
+  echo "  > installing ~ $@"
   1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
 }
 
