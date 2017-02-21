@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-url=$(ui.dialog.input -p 'url' -sb '#E65D22')
+url=$(ui.dialog.input -p '' -sb '#E65D22')
 
 if [ "$url" = '' ] ; then
 	exit 1
