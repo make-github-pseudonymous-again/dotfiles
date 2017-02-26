@@ -12,9 +12,9 @@ alias j='fasd_cd -d'     # cd, same functionality as j in autojump
 alias o='a -e xdg-open' # quick opening files with xdg-open
 
 # Shortcuts
-alias db="cd ~/Dropbox"
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
+alias db="cd ~/dropbox"
+alias dl="cd ~/downloads"
+alias dt="cd ~/desktop"
 alias u="cd ~/ulb"
 alias h="history"
 alias t="touch"

@@ -6,9 +6,9 @@ alias .....="cd ../../../.."
 alias -- -="cd -"
 
 # Shortcuts
-alias db="cd ~/Dropbox"
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
+alias db="cd ~/dropbox"
+alias dl="cd ~/downloads"
+alias dt="cd ~/desktop"
 alias u="cd ~/ulb"
 alias h="history"
 alias t="touch"
