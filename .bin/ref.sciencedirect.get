@@ -57,14 +57,21 @@ else :
     data = response.read().decode()
 
 for line in data.split('\n') :
-    match = re.search(r"(?<=SDM\.doi = ').*(?=')",line)
+    match = re.search(r"(?<=SDM\.doi = ').*?(?=')",line)
     if match :
         doi = match.group(0)
         break
-    match = re.search(r'(?<=<meta name="citation_doi" content=").*(?=">)',line)
+    match = re.search(r'(?<=<meta name="citation_doi" content=").*?(?=">)',line)
     if match :
         doi = match.group(0)
         break
+    match = re.search(r'(?<=<a class="doi" href="http://dx.doi.org/).*?(?=")',line)
+    if match :
+        doi = match.group(0)
+        break
+
+else:
+    log('Cannot find DOI in {}'.format(url))
 
 doiurl = 'http://dx.doi.org/{}'.format(doi)
 
