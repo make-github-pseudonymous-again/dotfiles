@@ -24,7 +24,6 @@ function _install ( ) {
   _ eslint-plugin-babel
   _ peerflix
   _ torrentflix
-  _ uglify-js
   _ npm-check-updates
   _ jspm
   _ xyz
