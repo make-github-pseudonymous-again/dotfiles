@@ -87,7 +87,8 @@ at \
 acpi \
 udevil \
 ntp \
-phantomjs
+phantomjs \
+nmap
 
 # mouse stuff
 i xorg-xkill \
