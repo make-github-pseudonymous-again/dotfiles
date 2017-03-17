@@ -13,7 +13,7 @@
 
 ### Clone
 
-    git clone https://github.com/aureooms/dotfiles --recursive
+    git clone https://github.com/aureooms/dotfiles
     cd dotfiles
 
 ### Install software
@@ -28,13 +28,11 @@ Restart X, then
 
 ### Install system
 
-    update -i
-    sudo npm install -g semver
-    sudo npm install -g npm
+    up -i
 
 ### Update system
 
-    update -a
+    up -a
 
 ## Usage
 
