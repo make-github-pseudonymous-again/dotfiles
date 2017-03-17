@@ -2,7 +2,7 @@
 Description=VOO daemon
 
 [Service]
-ExecStart=/usr/bin/env voo.poll
+ExecStart=/usr/bin/env sh voo.poll
 Restart=always
 
 [Install]
