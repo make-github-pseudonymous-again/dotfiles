@@ -29,6 +29,7 @@ i bind-tools
 i thefuck
 i tk
 
+i xorg-server
 i xorg-xinit
 i i3-wm i3lock i3status
 i terminator xterm
