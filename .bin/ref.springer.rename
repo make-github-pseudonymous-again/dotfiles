@@ -20,6 +20,5 @@ for FILE in "$@"; do
 	ABBR=$(echo "$METADATA" | jq -r .abbr)
 	DOI="${ID/\//:}"
 
-	echo "mv \"$FILE\" \"$DIRNAME/[$ABBR] $TITLE ($DOI).pdf\"" >&2
-	mv "$FILE" "$DIRNAME/[$ABBR] $TITLE ($DOI).pdf"
+	ref.mv "$FILE" "$DIRNAME/[$ABBR] $TITLE ($DOI).pdf"
 done
