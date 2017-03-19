@@ -67,6 +67,7 @@ python-matplotlib \
 python-scipy \
 python-pillow \
 python-cssselect \
+python-click \
 autopep8
 
 i pypy3
