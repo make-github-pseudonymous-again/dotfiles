@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-dest="$(echo "$2" | sed 's:/:|:g')"
+dest="$2$(echo "$3" | sed 's:/:|:g')"
 
 echo "mv '$1' '$dest'"
 mv "$1" "$dest"
