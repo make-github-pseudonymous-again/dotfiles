@@ -18,6 +18,7 @@ var URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
 var TYPE_UNKNOWN = 0 ;
 var TYPE_LOGIN = 1 ;
 var TYPE_CONSUMPTION = 2 ;
+var TYPE_TIMEOUT = 2 ;
 
 var TIME_SECOND = 1000 ;
 var TIME_MINUTE = TIME_SECOND * 60 ;
@@ -29,12 +30,17 @@ var TIME_HALF_HOUR = TIME_HOUR / 2 | 0 ;
 //var POLL_RATE = TIME_MINUTE ;
 var READ_RATE = TIME_SECOND * 3 ;
 var LOGIN_WAIT = TIME_MINUTE ;
+var LOGIN_TIMEOUT = TIME_MINUTE ;
 
 var username, password, page;
 
 var lastlogin = 0 ;
 
 function type () {
+
+	var now = Date.now();
+	if (lastlogin > 0 && now - lastlogin >= LOGIN_TIMEOUT) return TYPE_TIMEOUT;
+
 	return page.evaluate(function(lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN){
 		var now = Date.now();
 		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
@@ -42,6 +48,7 @@ function type () {
 			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
 		else return TYPE_UNKNOWN ;
 	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN);
+
 }
 
 function login (username, password) {
@@ -122,7 +129,9 @@ function onload (status) {
 	var _type = type();
 	console.log('type' , _type);
 
-	if (_type === TYPE_UNKNOWN) return setTimeout(onload, READ_RATE, status);
+	if (_type === TYPE_TIMEOUT) phantom.exit(32);
+
+	else if (_type === TYPE_UNKNOWN) return setTimeout(onload, READ_RATE, status);
 
 	else if (_type === TYPE_LOGIN) {
 		login(username, password);
