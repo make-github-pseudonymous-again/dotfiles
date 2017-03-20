@@ -18,7 +18,7 @@ var URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
 var TYPE_UNKNOWN = 0 ;
 var TYPE_LOGIN = 1 ;
 var TYPE_CONSUMPTION = 2 ;
-var TYPE_TIMEOUT = 2 ;
+var TYPE_TIMEOUT = 3 ;
 
 var TIME_SECOND = 1000 ;
 var TIME_MINUTE = TIME_SECOND * 60 ;
