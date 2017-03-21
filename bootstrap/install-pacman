@@ -90,7 +90,7 @@ udevil \
 ntp \
 phantomjs \
 nmap \
-ipfs
+go-ipfs
 
 # mouse stuff
 i xorg-xkill \
