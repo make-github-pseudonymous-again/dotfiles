@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+xrandr --output HDMI-0 --auto --output DVI-I-1 --auto --right-of HDMI-0
+wallpaper.refresh
