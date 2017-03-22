@@ -77,6 +77,7 @@ import notmuch
 import sqlite3
 import email.utils
 import email.parser
+import email.message
 
 from io import open
 
