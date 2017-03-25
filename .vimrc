@@ -94,6 +94,8 @@ Plug 'pangloss/vim-javascript'
 " Compiling requires too much memory, fails every time
 " A modern vim plugin for editing LaTeX files
 Plug 'lervag/vimtex'
+" A vim plugin for writing Latex quickly
+" Plug 'brennier/quicktex'
 " Official Vimperator syntax highlighting file.
 Plug 'vimperator/vimperator.vim'
 " Vim syntax for TOML
