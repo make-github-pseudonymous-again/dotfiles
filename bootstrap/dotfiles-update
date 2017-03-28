@@ -8,6 +8,7 @@ function doIt() {
 	mkdir -p "$HOME/.config"
 	mkdir -p "$HOME/.config/newsbeuter"
 	mkdir -p "$HOME/.config/dotfiles"
+	mkdir -p "$HOME/.config/new/models"
 	mkdir -p "$HOME/.local/share"
 	mkdir -p "$HOME/.local/share/newsbeuter"
 
@@ -17,6 +18,14 @@ function doIt() {
 	mkdir -p "$HOME/shots"
 	mkdir -p "$HOME/sandbox"
 	mkdir -p "$HOME/notes"
+
+	mkdir -p "$HOME/dl"
+	mkdir -p "$HOME/pub"
+	mkdir -p "$HOME/doc"
+	mkdir -p "$HOME/lib/audio/music"
+	mkdir -p "$HOME/lib/picture"
+	mkdir -p "$HOME/lib/video"
+
 
 	DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
