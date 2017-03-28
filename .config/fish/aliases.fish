@@ -13,8 +13,7 @@ alias o='a -e xdg-open' # quick opening files with xdg-open
 
 # Shortcuts
 alias db="cd ~/dropbox"
-alias dl="cd ~/downloads"
-alias dt="cd ~/desktop"
+alias dl="cd ~/dl"
 alias u="cd ~/ulb"
 alias h="history"
 alias t="touch"

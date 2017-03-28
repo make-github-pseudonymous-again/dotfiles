@@ -11,7 +11,7 @@
 #
 # Instructions:
 # Put it somewhere in your path and maybe rename it:
-# 	mv ~/Downloads/imgurbash.sh ~/.bin/imgur
+# 	mv ~/dl/imgurbash.sh ~/.bin/imgur
 # Make it executable:
 # 	chmod +x ~/.bin/imgur
 # Optional, since Alan kindly provided an API key for this script: stick your 
