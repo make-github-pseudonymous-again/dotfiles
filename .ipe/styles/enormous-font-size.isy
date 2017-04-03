@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipestyle SYSTEM "ipe.dtd">
+<ipestyle name="enormous font size">
+<textsize name="enormous" value="\LARGE"/>
+<textstretch name="enormous" value="10"/>
+</ipestyle>
