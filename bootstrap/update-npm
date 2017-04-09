@@ -38,6 +38,7 @@ function _install ( ) {
   _ esdoc
   _ ava-codemods
   _ xo
+  _ journally
 }
 
 if false && command -v yarn 1>/dev/null; then

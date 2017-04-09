@@ -1,0 +1,5 @@
+{
+  "filters": [
+  ],
+  "output": "{__realtime_timestamp.blue} {|.yellow} {syslog_identifier.green} {says.yellow} {message.green}"
+}
