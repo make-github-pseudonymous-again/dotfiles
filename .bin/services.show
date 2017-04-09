@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import os
+import subprocess
+from colored import fore, back, style
+
+UNITS_DIR = os.path.expanduser("~/.config/systemd/user")
+
+units = sorted(filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR)))
+
+cmd = ['systemctl', '--user', '--all', '--no-pager', '--no-legend']
+
+status = {}
+
+for line in subprocess.check_output(cmd).decode().splitlines():
+
+    unit, load, active, sub, description = map(lambda x : x.strip(), line.split(maxsplit=4))
+
+    # status[unit] = {
+        # 'LOAD' : load,
+        # 'ACTIVE' : active,
+        # 'SUB' : sub,
+        # 'DESCRIPTION' : description
+    # }
+
+    status[unit] = load, active, sub, description
+
+for unit in units:
+
+    name = unit if unit[-8:] != '.service' else unit[:-8]
+
+    if unit in status:
+
+        load, active, sub, description = status[unit]
+
+        text = '{}{}{} ({}{}{}, {}{}{}, {}{}{})'.format(
+            style.BOLD, name, style.RESET,
+            fore.GREY_50 + style.BOLD, load, style.RESET,
+            fore.GREY_50 + style.BOLD, active, style.RESET,
+            fore.GREY_50 + style.BOLD, sub, style.RESET
+        )
+        print(' {}{} {}'.format(fore.GREEN, style.RESET, text))
+
+    else:
+
+        text = '{}{}{}'.format(style.BOLD, name, style.RESET)
+        print(' {}{} {}'.format(fore.RED, style.RESET, text))
+

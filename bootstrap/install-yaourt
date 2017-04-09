@@ -47,4 +47,5 @@ bfs \
 ptpython \
 tealdeer-git \
 notes-git \
-python-bibtexparser
+python-bibtexparser \
+python-colored
