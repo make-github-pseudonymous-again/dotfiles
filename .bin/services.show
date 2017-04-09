@@ -5,6 +5,8 @@ import subprocess
 from colored import fore, back, style
 
 UNITS_DIR = os.path.expanduser("~/.config/systemd/user")
+OK = frozenset(['active'])
+KO = frozenset(['failed'])
 
 units = sorted(filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR)))
 
@@ -39,7 +41,17 @@ for unit in units:
             fore.GREY_50 + style.BOLD, active, style.RESET,
             fore.GREY_50 + style.BOLD, sub, style.RESET
         )
-        print(' {}{} {}'.format(fore.GREEN, style.RESET, text))
+
+        if active in OK :
+            mark = fore.GREEN + '' + style.RESET
+
+        elif active in KO :
+            mark = fore.RED + '' + style.RESET
+
+        else:
+            mark = fore.BLUE + '' + style.RESET
+
+        print(' {} {}'.format(mark, text))
 
     else:
 
