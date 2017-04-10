@@ -48,4 +48,5 @@ ptpython \
 tealdeer-git \
 notes-git \
 python-bibtexparser \
-python-colored
+python-colored \
+memoize
