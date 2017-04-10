@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-amixer -q set Master 3%-
+i="$1"
+: ${i:=3}
+amixer -q set Master "$i"%-

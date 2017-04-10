@@ -440,8 +440,10 @@ bindsym $mod+Shift+U bar mode dock extra
 
 
 # volume
-bindsym XF86AudioRaiseVolume exec volume.up
-bindsym XF86AudioLowerVolume exec volume.down
+bindsym XF86AudioRaiseVolume exec volume.up 3
+bindsym XF86AudioLowerVolume exec volume.down 3
+bindsym Shift+XF86AudioRaiseVolume exec volume.up 1
+bindsym Shift+XF86AudioLowerVolume exec volume.down 1
 bindsym XF86AudioMute exec volume.toggle
 
 # screen brightness
