@@ -6,10 +6,10 @@ MODELS="$CONFIG/models"
 model="$1"
 
 if [ -n "$model" ] ; then
-  dest="${2:-$model}"
+  dest="${2:-$(basename $model)}"
   if [ -e "$MODELS/$model" ] ; then
     cp -r "$MODELS/$model" "$dest"
-    >&2 echo "Created '$model' from '$MODELS/$model'."
+    >&2 echo "Created '$dest' from '$MODELS/$model'."
   else
     >&2 echo "The model '$model' does not exist."
   fi
