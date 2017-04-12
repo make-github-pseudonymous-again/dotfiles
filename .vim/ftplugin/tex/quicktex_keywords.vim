@@ -253,7 +253,11 @@ let g:quicktex_tex = {
     \'sect' : "\\section*{<+++>}\<CR><++>",
     \'para' : '(<+++>) <++>',
     \'qt'   : "``<+++>'' <++>",
-    \'dts'   : '\dots ',
+    \'dts'  : '\dots ',
+    \'ref'  : "\<ESC>s~\\ref{<+++>}<++>",
+    \'cit'  : "\<ESC>s~\\cite{<+++>}<++>",
+    \'emph' : '\emph{<+++>} <++>',
+    \'bf'   : '\textbf{<+++>} <++>',
     \
 \'Section: Common Sets' : 'COMMENT',
     \'bn' : '\(\mathbb{N}\) ',
