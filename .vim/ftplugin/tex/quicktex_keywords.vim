@@ -257,7 +257,8 @@ let g:quicktex_tex = {
     \'ref'  : "\<ESC>s~\\ref{<+++>}<++>",
     \'cit'  : "\<ESC>s~\\cite{<+++>}<++>",
     \'emph' : '\emph{<+++>} <++>',
-    \'bf'   : '\textbf{<+++>} <++>',
+    \'b'    : '\textbf{<+++>} <++>',
+    \'i'    : '\textit{<+++>} <++>',
     \
 \'Section: Common Sets' : 'COMMENT',
     \'bn' : '\(\mathbb{N}\) ',
