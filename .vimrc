@@ -416,12 +416,15 @@ nn <silent> <leader>v :InsertEmailAddress<cr>
 
 " vimtex + surround = magic
 augroup latexSurround
-   autocmd!
-   autocmd FileType tex,plaintex call s:latexSurround()
+  autocmd!
+  autocmd FileType tex,plaintex call s:latexSurround()
 augroup END
 
 function! s:latexSurround()
-   let b:surround_{char2nr("e")}
-     \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
-   let b:surround_{char2nr("c")} = "\\\1command: \1{\r}"
+  let b:surround_{char2nr("e")}
+    \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
+  let b:surround_{char2nr("c")} = "\\\1command: \1{\r}"
+  " vim-surround: q for `foo' and Q for ``foo''
+  let b:surround_{char2nr('q')} = "`\r'"
+  let b:surround_{char2nr('Q')} = "``\r''"
 endfunction
