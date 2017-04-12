@@ -4,7 +4,7 @@
 import os
 import arrow
 
-references = os.path.expanduser('~/ulb/references')
+references = os.path.expanduser('~/dropbox/references')
 prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', '', '-sb', '#FF4E50', '-l', '10']
 querystring = 'dir:"{}" AND (ext:pdf OR ext:djvu)'.format(references)
 sortby = 'mtime'
