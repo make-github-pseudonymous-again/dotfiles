@@ -30,7 +30,7 @@ if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
 fi
 
-weather="$(memoize-get 3600 weather.now)"
+weather="$(memoize-get 36000 weather.now)"
 if [ "$weather" != '' ]; then
 	prepend="$weather"','"$prepend"
 fi
