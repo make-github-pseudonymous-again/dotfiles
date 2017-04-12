@@ -16,6 +16,10 @@ if ! is.wifi.enabled; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
 fi
 
+if is.tethering.on; then
+	prepend='{"name":"tethering","color":"#0CD0F7","full_text":""},'"$prepend"
+fi
+
 if is.ulb.network.connected; then
 	if is.internet.accessible; then
 		prepend='{"name":"ulb network","color":"#85bd85","full_text":" ulb"},'"$prepend"
