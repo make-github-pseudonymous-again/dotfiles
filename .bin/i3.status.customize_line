@@ -17,7 +17,7 @@ if ! is.wifi.enabled; then
 fi
 
 if is.tethering.on; then
-	prepend='{"name":"tethering","color":"#0CD0F7","full_text":""},'"$prepend"
+	prepend='{"name":"tethering","color":"#0CD0F7","full_text":""},'"$prepend"
 fi
 
 if is.ulb.network.connected; then
