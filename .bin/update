@@ -119,17 +119,28 @@ function _exit ( ) {
 
 function _do ( ) {
   "$@" 1>"$O" 2>"$E"
-  _check "$?"
+  _check "$?" "$@"
 }
 
 function _check ( ) {
+
   if [ "$1" -ne 0 ] ; then
     echo '! NONZERO RETURN CODE'
     echo ' > There was an error!'
     >&1 cat "$O"
     >&2 cat "$E"
-    _exit "$1"
+
+    echo 'Do you want to try again? [yes/no]'
+    read reply
+    if [ "$reply" = 'yes' ] ; then
+      shift
+      _do "$@"
+    else
+      _exit "$1"
+    fi
+
   fi
+
 }
 
 function _trap ( ) {
