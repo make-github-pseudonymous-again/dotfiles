@@ -39,6 +39,7 @@ function _install ( ) {
   _ ava-codemods
   _ xo
   _ journally
+  _ geez
 }
 
 if false && command -v yarn 1>/dev/null; then
