@@ -8,7 +8,7 @@ while true; do
 		if ! is.internet.accessible; then
 			>&2 echo 'Internet is not accessible'
 			>&2 echo 'Authentication for ULB internet'
-			>&2 ulb.internet.auth.only.needs.sh.curl.perl.grep
+			>&2 ulb.internet.auth
 		fi
 	fi
 	sleep 5
