@@ -2,6 +2,8 @@
 
 IP='172.19.78.1'
 URL='https://'"$IP"'/web_auth/index.html'
+#POST='curl --insecure --data'
+POST='wget --no-check-certificate --server-response --output-document - --post-data'
 
 >&2 echo 'Logging in @ '"$URL"
 
@@ -30,8 +32,7 @@ _USERNAME="$(urlencode "$USERNAME")"
 _PASSWORD="$(urlencode "$PASSWORD")"
 
 # Make request
-
-RESULT="$(2>/dev/null curl --insecure --data "admin_id=$_USERNAME&admin_pw=$_PASSWORD" "$URL")"
+RESULT="$($POST "admin_id=$_USERNAME&admin_pw=$_PASSWORD" "$URL" 2>&1)"
 
 # Report success or failure
 
