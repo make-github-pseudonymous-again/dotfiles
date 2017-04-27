@@ -36,6 +36,12 @@ _route ( ) {
       get)
 	  _get "$@"
 	  ;;
+      pull)
+	  _pull "$@"
+	  ;;
+      push)
+	  _push "$@"
+	  ;;
       sync)
 	  _sync "$@"
 	  ;;
@@ -50,9 +56,11 @@ _init ( ) {
 
   _usage "$#" -ne 1 "init <remote>"
 
-  _git init
-  _git remote add origin "$1"
+  _git init || exit "$?"
+  _git remote add origin "$1" || exit "$?"
   2>/dev/null _git pull origin master
+
+  exit 0
 
 }
 
@@ -106,6 +114,26 @@ _get ( ) {
 
 }
 
+_pull ( ) {
+
+  _usage "$#" -ne 0 "pull"
+
+  _git pull origin master
+
+  exit "$?"
+
+}
+
+_push ( ) {
+
+  _usage "$#" -ne 0 "push"
+
+  _git push origin master
+
+  exit "$?"
+
+}
+
 _sync ( ) {
 
   _usage "$#" -ne 0 "sync"
@@ -113,6 +141,8 @@ _sync ( ) {
   _git pull origin master
   # TODO resolve conflicts (time based?)
   _git push origin master
+
+  exit "$?"
 
 }
 
