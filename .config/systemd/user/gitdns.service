@@ -1,0 +1,10 @@
+[Unit]
+Description=GitDNS daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/env sh gitdns.poll
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

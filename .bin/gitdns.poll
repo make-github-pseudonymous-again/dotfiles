@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+
+_sleep () {
+
+	>&2 echo "[info] sleep $1"
+	sleep "$1"
+
+}
+
+_dns () {
+
+	>&2 echo "[info] $@"
+	gitdns "$@"
+	rc="$?"
+
+	if [ "$rc" -eq 0 ] ; then
+		>&2 echo "[succ] $@"
+	else
+		>&2 echo "[fail] $@"
+	fi
+
+	return "$rc"
+
+}
+
+while true; do
+
+	if _dns pull ; then
+
+		hostname="$(hostname)"
+		oldip="$(_dns get "$hostname")"
+		ip="$(gip)"
+
+		>&2 echo "[info] DNS[$hostname] == $oldip"
+
+		if [ "$ip" = '' ] ; then
+			>&2 echo "[fail] could not resolve global ip address"
+			_sleep 300
+			continue
+		fi
+
+		if [ "$ip" != "$oldip" ] ; then
+
+			_dns put "$hostname" "$ip"
+
+			while ! _dns push ; do
+
+				_sleep 300
+
+				_dns pull
+
+			done
+
+		fi
+
+		_sleep 900;
+
+	else
+
+		_sleep 300;
+
+	fi
+
+done
