@@ -59,6 +59,12 @@ _route ( ) {
       get)
 	  _get "$@"
 	  ;;
+      pull)
+	  _pull "$@"
+	  ;;
+      push)
+	  _push "$@"
+	  ;;
       sync)
 	  _sync "$@"
 	  ;;
@@ -99,6 +105,26 @@ _get ( ) {
   _usage "$#" -ne 1 "get <hostname>"
 
   _dns get "$CNAME/$1"
+
+  exit "$?"
+
+}
+
+_pull ( ) {
+
+  _usage "$#" -ne 0 "pull"
+
+  _dns pull
+
+  exit "$?"
+
+}
+
+_push ( ) {
+
+  _usage "$#" -ne 0 "push"
+
+  _dns push
 
   exit "$?"
 
