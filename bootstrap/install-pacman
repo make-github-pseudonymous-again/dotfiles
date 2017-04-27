@@ -119,6 +119,10 @@ i transmission-gtk
 i offlineimap \
 msmtp
 
+# gmailieer
+i python-oauth2client \
+python-google-api-python-client
+
 # security
 
 i openssh

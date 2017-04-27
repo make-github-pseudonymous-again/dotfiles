@@ -49,4 +49,5 @@ tealdeer-git \
 notes-git \
 python-bibtexparser \
 python-colored \
-memoize
+memoize \
+python-tqdm
