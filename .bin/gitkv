@@ -1,0 +1,124 @@
+#!/usr/bin/env sh
+
+EXEPATH="$0"
+EXE="$(basename "$EXEPATH")"
+
+_usage ( ) {
+  if [ "$1" "$2" "$3" ] ; then
+    >&2 echo "usage: $EXE <cwd> $4"
+    exit 2
+  fi
+}
+
+_usage "$#" -lt 2 "<command> <...args>"
+
+CWD="$1"
+shift
+CMD="$1"
+shift
+
+_git ( ) {
+  git -C "$CWD" "$@"
+}
+
+_route ( ) {
+
+  case "$CMD" in
+      init)
+	  _init "$@"
+	  ;;
+      put)
+	  _put "$@"
+	  ;;
+      del)
+	  _del "$@"
+	  ;;
+      get)
+	  _get "$@"
+	  ;;
+      sync)
+	  _sync "$@"
+	  ;;
+      *)
+	  _unknown_command "$CMD"
+	  ;;
+  esac
+
+}
+
+_init ( ) {
+
+  _usage "$#" -ne 1 "init <remote>"
+
+  _git init
+  _git remote add origin "$1"
+  2>/dev/null _git pull origin master
+
+}
+
+_PUT ( ) {
+
+  path="$CWD/$1"
+  mkdir -p "$(dirname "$path")"
+  echo "$2" > "$path"
+  _git add "$1"
+
+}
+
+_put ( ) {
+
+  _usage "$#" -ne 2 "put <key> <value>"
+
+  _PUT "$1" "$2"
+
+  _git commit -m "put $1 $2"
+
+  exit 0
+
+}
+
+
+_del ( ) {
+
+  _usage "$#" -ne 1 "del <key>"
+
+  _PUT "$1" ''
+
+  _git commit -m "del $1"
+
+  exit 0
+
+}
+
+_get ( ) {
+
+  _usage "$#" -ne 1 "get <key>"
+
+  value="$(cat "$CWD/$1" 2>/dev/null)" # empty if record does not exist
+
+  if [ "$value" = '' ] ; then
+    exit 1
+  fi
+
+  echo "$value"
+
+  exit 0
+
+}
+
+_sync ( ) {
+
+  _usage "$#" -ne 0 "sync"
+
+  _git pull origin master
+  # TODO resolve conflicts (time based?)
+  _git push origin master
+
+}
+
+_unknown_command ( ) {
+  >&2 echo "Unknown command: $1"
+  exit 3
+}
+
+_route "$@"
