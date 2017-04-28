@@ -130,14 +130,22 @@ function _check ( ) {
     >&1 cat "$O"
     >&2 cat "$E"
 
-    echo 'Do you want to try again? [yes/no]'
+    echo    ' Q: Do you want to try again? [yes/no/skip]'
+    echo -n ' A: '
     read reply
-    if [ "$reply" = 'yes' ] ; then
-      shift
-      _do "$@"
-    else
-      _exit "$1"
-    fi
+
+    case "$reply" in
+      yes)
+        shift
+        _do "$@"
+        ;;
+      skip)
+        echo ' > skipping'
+        ;;
+      *)
+        _exit "$1"
+        ;;
+    esac
 
   fi
 
