@@ -69,9 +69,14 @@ for line in data.split('\n') :
     if match :
         doi = match.group(0)
         break
+    match = re.search(r'(?<=<a class="doi" href="https://doi.org/).*?(?=")',line)
+    if match :
+        doi = match.group(0)
+        break
 
 else:
     log('Cannot find DOI in {}'.format(url))
+    sys.exit( 4 )
 
 doiurl = 'http://dx.doi.org/{}'.format(doi)
 
