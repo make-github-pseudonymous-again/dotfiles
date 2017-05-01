@@ -50,4 +50,6 @@ notes-git \
 python-bibtexparser \
 python-colored \
 memoize \
-python-tqdm
+python-tqdm \
+myip \
+gitdns
