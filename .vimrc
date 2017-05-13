@@ -75,8 +75,10 @@ Plug 'Raimondi/delimitMate'
 Plug 'junegunn/vim-emoji'
 
 " ## LANGUAGE SUPPORT ##
-" syntax checking
-Plug 'scrooloose/syntastic'
+" Syntax checking hacks for vim
+Plug 'vim-syntastic/syntastic'
+" Provide easy code formatting in Vim by integrating existing code formatters.
+Plug 'Chiel92/vim-autoformat'
 " plug-in which provides support for expanding abbreviations similar to emmet
 Plug 'mattn/emmet-vim'
 " Generate JSDoc to your JavaScript code
