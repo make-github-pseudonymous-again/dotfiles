@@ -258,8 +258,8 @@ map  N <Plug>(easymotion-prev)
 noremap <silent> <leader>e :enew<CR>
 
 
-" Strip trailing whitespace (,ss)
-noremap <silent> <leader>ss :StripWhitespace<CR>
+" Strip trailing whitespace (w)
+noremap <silent> <leader>w :StripWhitespace<CR>
 autocmd FileType javascript,python,c,cpp,java,html,css,ruby autocmd BufWritePre <buffer> StripWhitespace
 
 " airline
@@ -306,8 +306,12 @@ function! SyntasticToggle()
     echo 'Syntastic ' . ['enabled', 'disabled'][b:syntastic_disabled]
 endfunction
 
+" Shortcut for toggling syntastic
 command! SyntasticToggle call SyntasticToggle()
-nn <silent> <leader>x :SyntasticToggle<cr>
+nn <silent> <leader>s :SyntasticToggle<cr>
+
+" Shortcut for formatting code
+nn <silent> <leader>x :Autoformat<cr>
 
 " clean up gvim interface
 if has('gui_running')
