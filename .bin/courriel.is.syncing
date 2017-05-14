@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+[ -e "$HOME/.cache/courriel/flag/syncing" ]

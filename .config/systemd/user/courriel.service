@@ -1,0 +1,10 @@
+[Unit]
+Description=to sync emails in the background
+
+[Service]
+ExecStart=/usr/bin/env bash courriel.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+

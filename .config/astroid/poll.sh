@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-kill -s SIGUSR1 $(pgrep offlineimap)
+courriel.fetch

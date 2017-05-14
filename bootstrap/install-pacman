@@ -116,8 +116,7 @@ i transmission-gtk
 
 # mail
 
-i offlineimap \
-msmtp
+i msmtp
 
 # gmailieer
 i python-oauth2client \

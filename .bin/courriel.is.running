@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+systemctl --user status courriel | grep 'Active: active (running)' >/dev/null

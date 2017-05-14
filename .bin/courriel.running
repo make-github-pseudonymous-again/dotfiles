@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-systemctl --user status offlineimap | grep 'Active: active (running)' >/dev/null

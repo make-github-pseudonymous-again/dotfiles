@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+FLAG="$HOME/.cache/courriel/flag"
+SYNCING="$FLAG/syncing"
+
+cd "$HOME/.mail"
+
+echo " > Firing up the engines ..."
+
+sleep 60
+
+trap _trap SIGUSR1
+
+_trap () {
+  echo " ! Received order to sync immediately"
+  kill ${!}
+}
+
+_run () {
+  echo " > Syncing ..."
+  mkdir -p "$FLAG"
+  touch "$SYNCING"
+  gmi sync
+  rm "$SYNCING"
+}
+
+while true
+do
+  _run
+  echo " > Sleeping ..."
+  sleep 60 & wait ${!}
+done

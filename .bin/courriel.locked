@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-ls -1 --color=never "$HOME/.offlineimap" | grep '\.lock$' >/dev/null
