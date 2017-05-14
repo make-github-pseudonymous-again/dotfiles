@@ -27,6 +27,7 @@ update=true
 restart=false
 vim=false
 fish=false
+tldr=false
 _wait=false
 
 function show_help ( ) {
@@ -34,7 +35,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
+while getopts "h?apmfcsiurvdzwxtPMFCSIURVDZWXT" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -50,6 +51,7 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
         restart=true
         vim=true
         fish=true
+        tldr=true
         ;;
     p)  pull=true
         ;;
@@ -74,6 +76,8 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
         ;;
     z)  fish=true
         ;;
+    t)  tldr=true
+        ;;
     w)  _wait=true
         ;;
     P)  pull=false
@@ -97,6 +101,8 @@ while getopts "h?apmfcsiurvdzwxPMFCSIURVDZWX" opt; do
     V)  vim=false
         ;;
     Z)  fish=false
+        ;;
+    T)  tldr=false
         ;;
     W)  _wait=false
         ;;
@@ -302,6 +308,13 @@ if $fish ; then
 
   echo '+ Update fish pluggins'
   fish -c 'fisher up' || _exit "$?"
+
+fi
+
+if $tldr ; then
+
+  echo '+ Update tldr cache'
+  tldr --update || _exit "$?"
 
 fi
 
