@@ -201,6 +201,10 @@ libxslt \
 djvulibre \
 python2
 
+# fix recoll filters
+sed 's:^#!/usr/bin/env python$:#!/usr/bin/env python2:g' -i /usr/share/recoll/filters/*
+sed 's:^#!/usr/bin/python$:#!/usr/bin/env python2:g' -i /usr/share/recoll/filters/*
+
 # lesspipe
 
 i lesspipe \
