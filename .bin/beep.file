@@ -1,68 +1,98 @@
 #!/usr/bin/env python3
 
+DEFAULT_FRAME_RATE = 44100 # Hz
 DEFAULT_FREQUENCY = 440 # Hz
-DEFAULT_LENGTH = 200 # milliseconds
-DEFAULT_PERIOD = 5000 # milliseconds
-DEFAULT_OFFSET = 0 # milliseconds
+DEFAULT_DURATION = 200 # milliseconds
 DEFAULT_VOLUME = 0.5 # 0 <= v <= 1
 
 AMPLITUDE_MAX = 32767
 
-from scipy.io.wavfile import read, write
-import numpy as np
+import json
 import argparse
+import numpy as np
 from math import ceil
+from pydub import AudioSegment
+from collections import ChainMap
 
 def normalize ( sig , amplitude = AMPLITUDE_MAX ) :
     return np.int16(sig/np.max(np.abs(sig)) * amplitude)
 
-def silence ( rate=None , length=None , **kwargs ) :
-    size = int(ceil(rate*length/1000))
-    return np.zeros((size,), dtype=np.int16)
+def note ( config , frame_rate = DEFAULT_FRAME_RATE ) :
 
-def note ( frequency=None , rate=None , length=None , attenuate=None, amplitude=None, **kwargs ) :
-    size = int(ceil(rate*length/1000))
-    sig = np.cos((2*np.pi*frequency/rate)*np.arange(size))
-    if attenuate:
-        sig *= np.linspace(1,0,num=size)
-    return normalize(sig, amplitude=amplitude)
+    duration = config['duration']
+    frequency = config['frequency']
+    fadeout = config['fadeout']
+    volume = config['volume']
+    amplitude = AMPLITUDE_MAX * volume
 
-def beeper ( samples=None, period=None, rate=None, length=None, **kwargs) :
+    frames = int(ceil(frame_rate*duration/1000))
 
-    _note = note(rate=rate, length=length, **kwargs)
-    _silence = silence(rate=rate, length=period-length)
+    sig = np.cos((2*np.pi*frequency/frame_rate)*np.arange(frames))
 
-    _onebeep = np.concatenate((_note,_silence))
-    _nbeeps = np.resize(_onebeep, samples)
+    if fadeout == 'linear':
+        sig *= np.linspace(1,0,num=frames)
 
-    return _nbeeps
+    sig = normalize(sig, amplitude=amplitude)
+
+    return AudioSegment(
+        # raw audio data (bytes)
+        data=sig.tobytes(),
+
+        # 2 byte (16 bit) samples
+        sample_width=2,
+
+        # 44.1 kHz frame rate
+        frame_rate=frame_rate,
+
+        # mono
+        channels=1
+    )
+
+def patternitem ( config ) :
+
+    if config['type'] == 'loop' :
+
+        return patternlist(config) * config['repeat']
+
+    elif config['type'] == 'note' :
+
+        return note(config)
+
+    elif config['type'] == 'silence' :
+
+        return AudioSegment.silent(duration=config['duration'])
+
+    else :
+
+        raise Exception('unknown pattern item type `{}`'.format(config['type']))
+
+def patternlist ( config ) :
+
+    pattern = AudioSegment.empty()
+    for item in config['pattern']:
+        pattern += patternitem(ChainMap(item, config))
+
+    return pattern
+
 
 def main ( ) :
 
-    parser = argparse.ArgumentParser(description='Overlay beeper on top of an existing audio file (WAV format).')
+    parser = argparse.ArgumentParser(description='Overlay beeper pattern on top of an existing audio file.')
 
+    parser.add_argument('pattern', type=str, help='pattern JSON file')
     parser.add_argument('input', type=str, help='input filename')
     parser.add_argument('output', type=str, help='output filename')
-    parser.add_argument('-o' , '--offset', type=float, default=DEFAULT_OFFSET, help='beep offset in milliseconds')
-    parser.add_argument('-l' , '--length', type=float, default=DEFAULT_LENGTH, help='beep duration in milliseconds')
-    parser.add_argument('-p' , '--period', type=float, default=DEFAULT_PERIOD, help='beep period in milliseconds')
-    parser.add_argument('-v' , '--volume', type=float, default=DEFAULT_VOLUME, help='beep volume')
-    parser.add_argument('-f' , '--frequency', type=float, default=DEFAULT_FREQUENCY, help='beep frequency')
-    parser.add_argument('-a' , '--attenuate', action='store_true', help='flag for linear attenuation')
 
     args = parser.parse_args()
 
-    rate, audio = read( args.input )
+    with open(args.pattern) as fd :
+        config = json.load(fd)
 
-    amplitude = args.volume * AMPLITUDE_MAX
+    audio = AudioSegment.from_file( args.input )
 
-    offset = silence( rate = rate , length = args.offset )
+    mix = audio * patternitem(config) # * overlays
 
-    _beeper = beeper( samples=len(audio)-len(offset), rate=rate , amplitude = amplitude , **vars(args) )
-
-    data = audio + np.concatenate((offset, _beeper))
-
-    write( args.output , rate , data )
+    mix.export(args.output)
 
 if __name__ == '__main__' :
     main()
