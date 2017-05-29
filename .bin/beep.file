@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+DEFAULT_FREQUENCY = 440
+DEFAULT_RATE = 44100
+DEFAULT_LENGTH = 200 # milliseconds
+
+from scipy.io.wavfile import write
+import scipy as sp
+import numpy as np
+import argparse
+from math import ceil
+
+def silence ( rate=None , length=None , **kwargs ) :
+    size = int(ceil(rate*length/1000))
+    return np.zeros((size,), dtype=np.int16)
+
+def note ( frequency=None , rate=None , length=None , **kwargs ) :
+    size = int(ceil(rate*length/1000))
+    sig = sp.cos((2*sp.pi*frequency/rate)*sp.arange(size))
+    return np.int16(sig/np.max(np.abs(sig)) * 32767)
+
+def writeargs ( fn=None, filename=None , rate=None , **kwargs ) :
+    data = fn( rate=rate, **kwargs )
+    write( filename , rate , data )
+
+def main ( ) :
+
+    parser = argparse.ArgumentParser(description='Write simple sound to file (WAV format).')
+    subparsers = parser.add_subparsers(help='sub-command help')
+
+    parser.add_argument('filename', type=str, help='output filename')
+    parser.add_argument('-r' , '--rate', type=int, default=DEFAULT_RATE, help='sample rate')
+    parser.add_argument('-l' , '--length', type=int, default=DEFAULT_LENGTH, help='duration in milliseconds')
+
+    parser_note = subparsers.add_parser('note', help='note help')
+    parser_note.set_defaults(fn=note)
+    parser_note.add_argument('-f' , '--frequency', type=int, default=DEFAULT_FREQUENCY, help='note frequency')
+
+    parser_silence = subparsers.add_parser('silence', help='silence help')
+    parser_silence.set_defaults(fn=silence)
+
+    args = parser.parse_args()
+
+    writeargs(**vars(args))
+
+if __name__ == '__main__' :
+    main()
