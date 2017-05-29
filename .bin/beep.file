@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-DEFAULT_FREQUENCY = 440
-DEFAULT_RATE = 44100
+DEFAULT_FREQUENCY = 440 # Hz
 DEFAULT_LENGTH = 200 # milliseconds
-DEFAULT_VOLUME = 0.5
+DEFAULT_PERIOD = 5000 # milliseconds
+DEFAULT_VOLUME = 0.5 # 0 <= v <= 1
 
-from scipy.io.wavfile import write
+from scipy.io.wavfile import read, write
 import numpy as np
 import argparse
 from math import ceil
@@ -24,31 +24,40 @@ def note ( frequency=None , rate=None , length=None , attenuate=None, volume=Non
         sig *= np.linspace(1,0,num=size)
     return normalize(sig, volume=volume)
 
-def writeargs ( fn=None, filename=None , rate=None , **kwargs ) :
-    data = fn( rate=rate, **kwargs )
-    write( filename , rate , data )
+def beep ( samples=None, period=None, rate=None, length=None, **kwargs) :
+
+    _note = note(rate=rate, length=length, **kwargs)
+    _silence = silence(rate=rate, length=period-length)
+
+    _onebeep = np.concatenate((_note,_silence))
+    _nbeeps = np.resize(_onebeep, samples)
+
+    return _nbeeps
+
+def overlay ( a , b ) :
+    return a // 2 + b // 2
 
 def main ( ) :
 
-    parser = argparse.ArgumentParser(description='Write simple sound to file (WAV format).')
-    subparsers = parser.add_subparsers(help='sub-command help')
+    parser = argparse.ArgumentParser(description='Overlay beeps on top of an existing audio file (WAV format).')
 
-    parser.add_argument('filename', type=str, help='output filename')
-    parser.add_argument('-r' , '--rate', type=int, default=DEFAULT_RATE, help='sample rate')
-    parser.add_argument('-l' , '--length', type=float, default=DEFAULT_LENGTH, help='duration in milliseconds')
-    parser.add_argument('-v' , '--volume', type=float, default=DEFAULT_VOLUME, help='sample volume')
-
-    parser_note = subparsers.add_parser('note', help='note help')
-    parser_note.set_defaults(fn=note)
-    parser_note.add_argument('-f' , '--frequency', type=float, default=DEFAULT_FREQUENCY, help='note frequency')
-    parser_note.add_argument('-a' , '--attenuate', action='store_true', help='linear attenuation')
-
-    parser_silence = subparsers.add_parser('silence', help='silence help')
-    parser_silence.set_defaults(fn=silence)
+    parser.add_argument('input', type=str, help='input filename')
+    parser.add_argument('output', type=str, help='output filename')
+    parser.add_argument('-l' , '--length', type=float, default=DEFAULT_LENGTH, help='beep duration in milliseconds')
+    parser.add_argument('-p' , '--period', type=float, default=DEFAULT_PERIOD, help='beep period in milliseconds')
+    parser.add_argument('-v' , '--volume', type=float, default=DEFAULT_VOLUME, help='beep volume')
+    parser.add_argument('-f' , '--frequency', type=float, default=DEFAULT_FREQUENCY, help='beep frequency')
+    parser.add_argument('-a' , '--attenuate', action='store_true', help='flag for linear attenuation')
 
     args = parser.parse_args()
 
-    writeargs(**vars(args))
+    rate, audio = read( args.input )
+
+    _beep = beep( samples=len(audio), rate=rate , **vars(args) )
+
+    data = overlay( audio , _beep )
+
+    write( args.output , rate , data )
 
 if __name__ == '__main__' :
     main()
