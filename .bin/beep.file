@@ -3,28 +3,31 @@
 DEFAULT_FREQUENCY = 440 # Hz
 DEFAULT_LENGTH = 200 # milliseconds
 DEFAULT_PERIOD = 5000 # milliseconds
+DEFAULT_OFFSET = 0 # milliseconds
 DEFAULT_VOLUME = 0.5 # 0 <= v <= 1
+
+AMPLITUDE_MAX = 32767
 
 from scipy.io.wavfile import read, write
 import numpy as np
 import argparse
 from math import ceil
 
-def normalize ( sig , volume = 1 ) :
-    return np.int16(sig/np.max(np.abs(sig)) * 32767 * volume)
+def normalize ( sig , amplitude = AMPLITUDE_MAX ) :
+    return np.int16(sig/np.max(np.abs(sig)) * amplitude)
 
 def silence ( rate=None , length=None , **kwargs ) :
     size = int(ceil(rate*length/1000))
     return np.zeros((size,), dtype=np.int16)
 
-def note ( frequency=None , rate=None , length=None , attenuate=None, volume=None, **kwargs ) :
+def note ( frequency=None , rate=None , length=None , attenuate=None, amplitude=None, **kwargs ) :
     size = int(ceil(rate*length/1000))
     sig = np.cos((2*np.pi*frequency/rate)*np.arange(size))
     if attenuate:
         sig *= np.linspace(1,0,num=size)
-    return normalize(sig, volume=volume)
+    return normalize(sig, amplitude=amplitude)
 
-def beep ( samples=None, period=None, rate=None, length=None, **kwargs) :
+def beeper ( samples=None, period=None, rate=None, length=None, **kwargs) :
 
     _note = note(rate=rate, length=length, **kwargs)
     _silence = silence(rate=rate, length=period-length)
@@ -34,15 +37,13 @@ def beep ( samples=None, period=None, rate=None, length=None, **kwargs) :
 
     return _nbeeps
 
-def overlay ( a , b ) :
-    return a // 2 + b // 2
-
 def main ( ) :
 
-    parser = argparse.ArgumentParser(description='Overlay beeps on top of an existing audio file (WAV format).')
+    parser = argparse.ArgumentParser(description='Overlay beeper on top of an existing audio file (WAV format).')
 
     parser.add_argument('input', type=str, help='input filename')
     parser.add_argument('output', type=str, help='output filename')
+    parser.add_argument('-o' , '--offset', type=float, default=DEFAULT_OFFSET, help='beep offset in milliseconds')
     parser.add_argument('-l' , '--length', type=float, default=DEFAULT_LENGTH, help='beep duration in milliseconds')
     parser.add_argument('-p' , '--period', type=float, default=DEFAULT_PERIOD, help='beep period in milliseconds')
     parser.add_argument('-v' , '--volume', type=float, default=DEFAULT_VOLUME, help='beep volume')
@@ -53,9 +54,13 @@ def main ( ) :
 
     rate, audio = read( args.input )
 
-    _beep = beep( samples=len(audio), rate=rate , **vars(args) )
+    amplitude = args.volume * AMPLITUDE_MAX
 
-    data = overlay( audio , _beep )
+    offset = silence( rate = rate , length = args.offset )
+
+    _beeper = beeper( samples=len(audio)-len(offset), rate=rate , amplitude = amplitude , **vars(args) )
+
+    data = audio + np.concatenate((offset, _beeper))
 
     write( args.output , rate , data )
 
