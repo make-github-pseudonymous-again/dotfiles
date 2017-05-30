@@ -5,7 +5,7 @@ DEFAULT_FREQUENCY = 440 # Hz
 DEFAULT_DURATION = 200 # milliseconds
 DEFAULT_VOLUME = 0.5 # 0 <= v <= 1
 
-AMPLITUDE_MAX = 32767
+AMPLITUDE_MAX = 2**15-1 # max int16
 
 import json
 import argparse
@@ -48,31 +48,53 @@ def note ( config , frame_rate = DEFAULT_FRAME_RATE ) :
         channels=1
     )
 
+
 def patternitem ( config ) :
 
     if config['type'] == 'loop' :
 
-        return patternlist(config) * config['repeat']
+        for i in range(config['repeat']) :
+
+            yield from patternlist(config)
 
     elif config['type'] == 'note' :
 
-        return note(config)
+        yield note(config)
 
     elif config['type'] == 'silence' :
 
-        return AudioSegment.silent(duration=config['duration'])
+        yield AudioSegment.silent(duration=config['duration'])
 
     else :
 
         raise Exception('unknown pattern item type `{}`'.format(config['type']))
 
+
 def patternlist ( config ) :
 
-    pattern = AudioSegment.empty()
     for item in config['pattern']:
-        pattern += patternitem(ChainMap(item, config))
+        yield from patternitem(ChainMap(item, config))
 
-    return pattern
+
+def overlaypattern( audio , config ) :
+
+    # generate overlaying pattern while avoiding wasting resources
+
+    ms = len( audio )
+
+    if ms == 0 :
+        return audio
+
+    pattern = AudioSegment.empty()
+
+    for part in patternitem(config) :
+
+        pattern += part
+
+        if len(pattern) >= ms :
+            break
+
+    return audio * pattern # * overlays
 
 
 def main ( ) :
@@ -90,7 +112,7 @@ def main ( ) :
 
     audio = AudioSegment.from_file( args.input )
 
-    mix = audio * patternitem(config) # * overlays
+    mix = overlaypattern( audio , config )
 
     mix.export(args.output)
 
