@@ -52,4 +52,5 @@ python-colored \
 memoize \
 python-tqdm \
 myip \
-gitdns
+gitdns \
+python-pydub
