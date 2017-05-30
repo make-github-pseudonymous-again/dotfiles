@@ -1,52 +1,23 @@
 #!/usr/bin/env python3
 
-DEFAULT_FRAME_RATE = 44100 # Hz
-DEFAULT_FREQUENCY = 440 # Hz
-DEFAULT_DURATION = 200 # milliseconds
-DEFAULT_VOLUME = 0.5 # 0 <= v <= 1
-
-AMPLITUDE_MAX = 2**15-1 # max int16
-
 import json
 import argparse
-import numpy as np
-from math import ceil
 from pydub import AudioSegment
+from pydub.generators import Sine
 from collections import ChainMap
 
-def normalize ( sig , amplitude = AMPLITUDE_MAX ) :
-    return np.int16(sig/np.max(np.abs(sig)) * amplitude)
+def silence ( config ) :
 
-def note ( config , frame_rate = DEFAULT_FRAME_RATE ) :
+    return AudioSegment.silent(duration=config['duration'])
 
-    duration = config['duration']
+
+def note ( config ) :
+
     frequency = config['frequency']
-    fadeout = config['fadeout']
+    duration = config['duration']
     volume = config['volume']
-    amplitude = AMPLITUDE_MAX * volume
 
-    frames = int(ceil(frame_rate*duration/1000))
-
-    sig = np.cos((2*np.pi*frequency/frame_rate)*np.arange(frames))
-
-    if fadeout == 'linear':
-        sig *= np.linspace(1,0,num=frames)
-
-    sig = normalize(sig, amplitude=amplitude)
-
-    return AudioSegment(
-        # raw audio data (bytes)
-        data=sig.tobytes(),
-
-        # 2 byte (16 bit) samples
-        sample_width=2,
-
-        # 44.1 kHz frame rate
-        frame_rate=frame_rate,
-
-        # mono
-        channels=1
-    )
+    return Sine(frequency).to_audio_segment(duration=duration, volume=volume).fade_out(duration)
 
 
 def patternitem ( config ) :
@@ -63,7 +34,7 @@ def patternitem ( config ) :
 
     elif config['type'] == 'silence' :
 
-        yield AudioSegment.silent(duration=config['duration'])
+        yield silence(config)
 
     else :
 
