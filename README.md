@@ -24,9 +24,20 @@
 
     bash bootstrap/dotfiles-update
 
-Restart X, then
+### Install appropriate graphics driver
+
+Usually one of the following, check the
+[nvidia](https://wiki.archlinux.org/index.php/NVIDIA)
+and 
+[nouveau](https://wiki.archlinux.org/index.php/nouveau)
+pages on the wiki.
+
+    pacman -S xf86-video-nouveau
+    pacman -S nvidia
+
 
 ### Install system
+Logout, login, then
 
     up -i
 
