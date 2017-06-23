@@ -295,4 +295,7 @@ for title, events in sections:
             location = location
         )
 
+        line = line.replace('\r', '')
+        line = line.replace('\n', ' ')
+
         print( ' * ' + line )

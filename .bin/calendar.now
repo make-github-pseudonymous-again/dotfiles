@@ -159,6 +159,9 @@ try:
         location = location
     )
 
+    full_text = full_text.replace('\r', '')
+    full_text = full_text.replace('\n', ' ')
+
     short_text = ef.format(
         range = _range( now , begin , end ) ,
         hbegin = begin.humanize(),
@@ -166,6 +169,9 @@ try:
         name = (name[:47] + '..') if len(name) > 49 else name,
         location = short_location
     )
+
+    short_text = short_text.replace('\r', '')
+    short_text = short_text.replace('\n', ' ')
 
     output = {
         "name":"calendar",
