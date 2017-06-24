@@ -6,14 +6,19 @@
 
 ### Install sak
 
-    mkdir ~/.bin
-    git clone https://github.com/aureooms/sak
+	cd
+    mkdir .bin
+	mkdir dev
+	cd dev
+    git clone git@github.com:aureooms/sak
     cd sak
     make install
 
 ### Clone
 
-    git clone https://github.com/aureooms/dotfiles
+	cd
+	cd dev
+    git clone git@github.com:aureooms/dotfiles
     cd dotfiles
 
 ### Install software
