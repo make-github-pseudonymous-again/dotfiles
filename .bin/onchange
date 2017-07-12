@@ -79,11 +79,11 @@ if [ "$#" -gt 0 ] && [ "$1" = '-q' ] ; then
 	shift
 fi
 
-if [ "${#files[@]}" -lt 1 ] ; then
+if [ "${#files[@]}" -eq 0 ] ; then
 	files[0]="."
 fi
 
-if [ "${#cmd[@]}" -lt 1 ] ; then
+if [ "${#cmd[@]}" -eq 0 ] ; then
 	function handler() {
 		echo "NOP"
 		gitignore=$(git check-ignore *)
@@ -96,50 +96,47 @@ else
 	}
 fi
 
-# Events that occur within this time from an initial one are ignored
-IGNORE_SECS=0.25
+while true; do
 
-handler
-ignore_until=$(date +%s.%N)
+    handler
 
-inotifywait --quiet --recursive --monitor --format "%e/%f/%w" \
-    --event modify --event move --event create --event delete \
-	"${files[@]}" | while read event
-do
+    inotifywait --quiet --recursive --monitor --format "%e/%f/%w" \
+	--event close_write --event move --event create --event delete \
+	    "${files[@]}" | while read event
+    do
 
-	etype=$(echo "$event" | cut -d '/' -f 1)
-	file=$(echo "$event" | cut -d '/' -f 2)
-	dir=$(echo "$event" | cut -d '/' -f 3-)
+	    etype=$(echo "$event" | cut -d '/' -f 1)
+	    file=$(echo "$event" | cut -d '/' -f 2)
+	    dir=$(echo "$event" | cut -d '/' -f 3-)
 
-	ignore=0
+	    ignore=0
 
-	# vim generates that file
-	if [ "$file" = "4913" ] ; then
-		if [ "$quiet" -eq 0 ] ; then
-			echo "IGNORE $dir$file"
-		fi
-		continue
-	fi
+	    # vim generates that file
+	    if [ "$file" = "4913" ] ; then
+		    if [ "$quiet" -eq 0 ] ; then
+			    echo "IGNORE $dir$file"
+		    fi
+		    continue
+	    fi
 
-	for ignored in $gitignore ; do
-		if [ "$dir$file" = "./""$ignored" ] ; then
-			ignore=1
-			break
-		fi
-	done
+	    for ignored in $gitignore ; do
+		    if [ "$dir$file" = "./""$ignored" ] ; then
+			    ignore=1
+			    break
+		    fi
+	    done
 
-	if [ "$ignore" -eq 1 ] ; then
-		if [ "$quiet" -eq 0 ] ; then
-			echo "IGNORE $dir$file"
-		fi
-		continue
-	fi
+	    if [ "$ignore" -eq 1 ] ; then
+		    if [ "$quiet" -eq 0 ] ; then
+			    echo "IGNORE $dir$file"
+		    fi
+		    continue
+	    fi
 
-    echo "$etype $dir$file"
+	echo "$etype $dir$file"
 
-    if [ $(echo " $(date +%s.%N) > $ignore_until" | bc) -eq 1 ] ; then
-        ignore_until=$(echo "$(date +%s.%N) + $IGNORE_SECS" | bc)
-        ( sleep "$IGNORE_SECS" ; handler ) &
-    fi
+	break
+
+    done
 
 done
