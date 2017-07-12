@@ -72,6 +72,12 @@
 		fi \
 	}; f"
 
+	# Diff using latexdiff
+	difftex = difftool -y -t latex
+
+[difftool.latex]
+	cmd = latexdiff-git "$LOCAL" "$REMOTE"
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
