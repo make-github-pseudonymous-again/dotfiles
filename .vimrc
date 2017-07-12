@@ -125,12 +125,15 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 " A vim plugin that simplifies the transition between multiline and single-line code
 Plug 'AndrewRadev/splitjoin.vim'
 
-" ## FUZZY FINDER ##
+" ## FUZZY FINDER ## ( Used a lot!!! )
 " A command-line fuzzy finder written in Go
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 " bundle of fzf-based commands and mappings
 Plug 'junegunn/fzf.vim'
 Plug 'nhooyr/fasd.vim'
+
+" ## LATEX LIVE PREVIEW ##
+Plug '907th/vim-auto-save', { 'for': 'tex' }
 
 call plug#end()
 
