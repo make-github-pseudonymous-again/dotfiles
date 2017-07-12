@@ -52,6 +52,7 @@ bash-completion \
 gvim \
 firefox \
 evince \
+mupdf \
 nodejs npm
 
 i python-pip \
