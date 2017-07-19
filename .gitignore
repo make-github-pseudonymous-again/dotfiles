@@ -90,7 +90,8 @@ qrc_*.cpp
 
 .cargo-index-lock
 
-# Yarn #
+# Node #
 ########
 
 yarn.lock
+package-lock.json
