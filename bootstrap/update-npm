@@ -25,6 +25,7 @@ function _install ( ) {
   _ peerflix
   _ torrentflix
   _ npm-check-updates
+  _ fixpack
   _ jspm
   _ xyz
   _ yo
