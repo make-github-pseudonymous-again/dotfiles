@@ -5,8 +5,11 @@ SECTIONSDIR = sec
 SECTIONS := $(shell find $(SECTIONSDIR) -name '*.tex')
 APPENDIXDIR = app
 APPENDIX := $(shell find $(APPENDIXDIR) -name '*.tex')
+# cannot find the figures since they are generated
+FIGSDIR = fig
 
 all: figures $(TARGET).pdf
+	killall -HUP mupdf
 
 diff:
 	git difftex $(TARGET).tex > $(TARGET).diff
@@ -14,9 +17,9 @@ diff:
 	killall -HUP mupdf
 
 figures:
-	@make --no-print-directory -C fig all
+	@make --no-print-directory -C $(FIGSDIR) all
 
-$(TARGET).pdf: fig/.updated $(TARGET).tex $(TARGET).sty $(TARGET).bib $(SECTIONS) $(APPENDIX)
+$(TARGET).pdf: $(FIGSDIR)/.updated $(TARGET).tex $(TARGET).sty $(TARGET).bib $(SECTIONS) $(APPENDIX)
 	pdflatex $(TARGET).tex -interaction=nonstopmode -halt-on-error
 	#bibtex $(TARGET)
 	#pdflatex $(TARGET).tex -interaction=nonstopmode -halt-on-error
@@ -24,7 +27,7 @@ $(TARGET).pdf: fig/.updated $(TARGET).tex $(TARGET).sty $(TARGET).bib $(SECTIONS
 
 clean:
 	rm -f $(TARGET).{out,log,aux,pdf,bbl,blg,vtc}
-	@make --no-print-directory -C fig clean
+	@make --no-print-directory -C $(FIGSDIR) clean
 
 zip: all
 	rm -f $(TARGET).zip
@@ -34,4 +37,30 @@ zip: all
 		$(TARGET).bib \
 		$(SECTIONS) \
 		$(APPENDIX) \
-		fig/*.pdf
+		$(FIGSDIR)/*.pdf
+
+arxiv: all
+	rm -f 'arxiv.zip'
+	$(eval TMP := $(shell mktemp -d))
+	cp -r $(TARGET).tex \
+		$(TARGET).bbl \
+		$(TARGET).sty \
+		$(SECTIONSDIR) \
+		$(APPENDIXDIR) \
+		$(FIGSDIR) \
+		$(TMP)/
+	cd $(TMP) ; \
+		sed -r \
+		-e 's/^\%.*$$/\%/g' \
+		-e 's/^(([^%]|\\%)*[^\])%.*$$/\1\%/g' \
+		-i {,**/}*.tex $(TARGET).sty ; \
+		zip -r 'arxiv.zip' \
+		$(TARGET).tex \
+		$(TARGET).bbl \
+		$(TARGET).sty \
+		$(SECTIONS) \
+		$(APPENDIX) \
+		$(FIGSDIR)/*.pdf
+	cp {$(TMP),.}/arxiv.zip
+	rm -r $(TMP)
+
