@@ -132,9 +132,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'nhooyr/fasd.vim'
 
-" ## LATEX LIVE PREVIEW ##
-Plug '907th/vim-auto-save', { 'for': 'tex' }
-
 call plug#end()
 
 " Use hidden buffers. Allows to change buffer without saving.
@@ -440,7 +437,3 @@ function! s:latexSurround()
   let b:surround_{char2nr('q')} = "`\r'"
   let b:surround_{char2nr('Q')} = "``\r''"
 endfunction
-
-" auto-save configuration
-let g:auto_save = 1  " enable AutoSave on Vim startup
-let g:auto_save_silent = 1  " do not display the auto-save notification
