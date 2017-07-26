@@ -216,6 +216,7 @@ let g:quicktex_math = {
     \'nine'  : '9 ',
     \
 \'Section: Operators' : 'COMMENT',
+    \'op'     : '\mathop{<+++>} <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
     \'dev'    : '\frac{d}{d <+++>} <++>',
     \'lim'    : '\lim_{<+++>} <++>',
