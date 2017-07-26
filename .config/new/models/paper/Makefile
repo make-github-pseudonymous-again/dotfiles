@@ -9,12 +9,12 @@ APPENDIX := $(shell find $(APPENDIXDIR) -name '*.tex')
 FIGSDIR = fig
 
 all: figures $(TARGET).pdf
-	killall -HUP mupdf
+	killall -HUP mupdf || true
 
 diff:
 	git difftex $(TARGET).tex > $(TARGET).diff
 	pdflatex -synctex=1 -interaction=nonstopmode -halt-on-error $(TARGET).diff
-	killall -HUP mupdf
+	killall -HUP mupdf || true
 
 figures:
 	@make --no-print-directory -C $(FIGSDIR) all
