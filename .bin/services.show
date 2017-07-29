@@ -6,15 +6,16 @@ from colored import fore, back, style
 
 UNITS_DIR = os.path.expanduser("~/.config/systemd/user")
 OK = frozenset(['active'])
-KO = frozenset(['failed'])
+KO = frozenset(['failed', 'dead'])
 
 units = sorted(filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR)))
 
-cmd = ['systemctl', '--user', '--all', '--no-pager', '--no-legend']
+STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend', '--type', 'service']
+ENABLE_CMD = ['systemctl', '--user', 'is-enabled']
 
 status = {}
 
-for line in subprocess.check_output(cmd).decode().splitlines():
+for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
 
     unit, load, active, sub, description = map(lambda x : x.strip(), line.split(maxsplit=4))
 
@@ -31,15 +32,23 @@ for unit in units:
 
     name = unit if unit[-8:] != '.service' else unit[:-8]
 
+    try:
+        enabled = subprocess.check_output(ENABLE_CMD + [unit])
+    except subprocess.CalledProcessError as e:
+        enabled = e.output
+
+    enabled = enabled.decode().splitlines()[0]
+
     if unit in status:
 
         load, active, sub, description = status[unit]
 
-        text = '{}{}{} ({}{}{}, {}{}{}, {}{}{})'.format(
+        text = '{}{}{} ({}{}{}, {}{}{}, {}{}{}, {}{}{})'.format(
             style.BOLD, name, style.RESET,
             fore.GREY_50 + style.BOLD, load, style.RESET,
             fore.GREY_50 + style.BOLD, active, style.RESET,
-            fore.GREY_50 + style.BOLD, sub, style.RESET
+            fore.GREY_50 + style.BOLD, sub, style.RESET,
+            fore.GREY_50 + style.BOLD, enabled, style.RESET
         )
 
         if active in OK :
@@ -51,10 +60,11 @@ for unit in units:
         else:
             mark = fore.BLUE + '' + style.RESET
 
-        print(' {} {}'.format(mark, text))
-
     else:
 
         text = '{}{}{}'.format(style.BOLD, name, style.RESET)
-        print(' {}{} {}'.format(fore.RED, style.RESET, text))
+        mark = fore.RED + '' + style.RESET
 
+    x = '' if enabled == 'enabled' else ' '
+
+    print(' {}  {} {}'.format(x, mark, text))
