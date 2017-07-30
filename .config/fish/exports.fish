@@ -1,23 +1,23 @@
 
 # Add `~/.bin` to the `$PATH`
-if test -d "$HOME/.bin"
-  set -x PATH "$HOME/.bin:$PATH"
+if test -d $HOME/.bin
+  set -gx PATH $HOME/.bin $PATH
 end
 
 # ruby gems
 if command -s ruby > /dev/null
-  set -x PATH "$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+  set -gx PATH (ruby -e 'print Gem.user_dir')/bin $PATH
 end
 
 # ipe styles
-if test -d "$HOME/.ipe/styles"
-  set -x IPESTYLES "$HOME/.ipe/styles"
+if test -d $HOME/.ipe/styles
+  set -gx IPESTYLES $HOME/.ipe/styles
 end
 
 
 # Make vim the default editor
-set -x EDITOR "vim"
-set -x VISUAL "vim"
+set -gx EDITOR "vim"
+set -gx VISUAL "vim"
 
 # DOES NOT WORK WELL WITH LAST_CMD_DURATION STUFF
 # Make some commands not show up in history
