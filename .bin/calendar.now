@@ -70,11 +70,9 @@ def _range ( now , begin , end ) :
 CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
-with open(CALENDARS, 'r') as _calendars:
+with open(CALENDARS, 'r') as fd:
 
-    _calendars = list(line.rstrip('\n')
-                      for line in _calendars if line[0] != '#')
-
+    _calendars = json.load( fd )['calendars']
 
 calendar = ics.Calendar()
 
@@ -82,11 +80,13 @@ events = calendar.events
 
 for _calendar in _calendars:
 
-    h = hashlib.sha1(_calendar.encode()).hexdigest()
+    url = _calendar['url']
+
+    h = hashlib.sha1(url.encode()).hexdigest()
 
     filename = CACHE.format(h)
 
-    log('loading {} from {}'.format(_calendar, filename))
+    log('loading {} from {}'.format(url, filename))
 
     try:
 
@@ -102,7 +102,7 @@ for _calendar in _calendars:
 
     except FileNotFoundError as err:
 
-        log('Error reading cache for: {}'.format(_calendar))
+        log('Error reading cache for: {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 

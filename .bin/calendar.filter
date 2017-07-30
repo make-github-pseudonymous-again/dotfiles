@@ -8,6 +8,7 @@ import urllib.request
 import urllib.error
 import arrow
 import ics
+import json
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -20,20 +21,21 @@ try:
 except:
     pass
 
-with open(CALENDARS, 'r') as _calendars:
+with open(CALENDARS, 'r') as fd:
 
-    _calendars = list(line.rstrip('\n')
-                      for line in _calendars if line[0] != '#')
+    _calendars = json.load( fd )['calendars']
 
 now = arrow.now()
 
 for _calendar in _calendars:
 
-    h = hashlib.sha1(_calendar.encode()).hexdigest()
+    url = _calendar['url']
+
+    h = hashlib.sha1(url.encode()).hexdigest()
 
     cachefilename = CACHE.format(h)
 
-    log('loading {} from {}'.format(_calendar, cachefilename))
+    log('loading {} from {}'.format(url, cachefilename))
 
     try:
 
@@ -48,7 +50,7 @@ for _calendar in _calendars:
 
         freshfilename = FRESH.format(h)
 
-        log('writing {} to {}'.format(_calendar, freshfilename))
+        log('writing {} to {}'.format(url, freshfilename))
 
         with open(freshfilename, 'w') as fd:
 
@@ -56,12 +58,12 @@ for _calendar in _calendars:
 
     except ics.parse.ParseError as err:
 
-        log('Error parsing file: {}'.format(_calendar))
+        log('Error parsing file: {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
     except FileNotFoundError as err:
 
-        log('Error writing file for {}'.format(_calendar))
+        log('Error writing file for {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)

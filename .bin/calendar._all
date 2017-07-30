@@ -7,6 +7,7 @@ import hashlib
 import arrow
 import datetime
 import ics
+import json
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -139,28 +140,45 @@ def _tinier(x):
 
     return x
 
+def _icon(event):
+
+    name = event.name.lower()
+
+    if 'flight' in name:
+        return ''
+
+    elif 'thalys' in name or 'sncf' in name:
+        return ''
+
+    elif 'dentist' in name or 'doctor' in name:
+        return ''
+
+    else:
+        return icons[event]
+
 
 
 CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
-with open(CALENDARS, 'r') as _calendars:
+with open(CALENDARS, 'r') as fd:
 
-    _calendars = list(line.rstrip('\n')
-                      for line in _calendars if line[0] != '#')
-
+    _calendars = json.load( fd )['calendars']
 
 calendar = ics.Calendar()
 
 allevents = calendar.events
+icons = {}
 
 for _calendar in _calendars:
 
-    h = hashlib.sha1(_calendar.encode()).hexdigest()
+    url = _calendar['url']
+
+    h = hashlib.sha1(url.encode()).hexdigest()
 
     filename = CACHE.format(h)
 
-    log('loading {} from {}'.format(_calendar, filename))
+    log('loading {} from {}'.format(url, filename))
 
     try:
 
@@ -173,10 +191,11 @@ for _calendar in _calendars:
 
             for event in calendar.events:
                 allevents.append(event)
+                icons[event] = _calendar['icon']
 
     except FileNotFoundError as err:
 
-        log('Error reading cache for: {}'.format(_calendar))
+        log('Error reading cache for: {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
@@ -270,9 +289,9 @@ for title, events in sections:
 
         # event format
         if begin >= now:
-            ef = '{range} ({hbegin}) - {name}'
+            ef = ' {icon}  {range} ({hbegin}) - {name}'
         else:
-            ef = '(started {hbegin}, ends {hend}) - {name}'
+            ef = ' {icon}  (started {hbegin}, ends {hend}) - {name}'
 
         if location :
             ef += ' ( {location})'
@@ -287,6 +306,7 @@ for title, events in sections:
             ef = BOLD + ef + ENDC
 
         line = ef.format(
+            icon = _icon(event),
             hbegin = begin.humanize(),
             range = _range( now , begin , end ) ,
             hend = end.humanize( ) ,
@@ -298,4 +318,4 @@ for title, events in sections:
         line = line.replace('\r', '')
         line = line.replace('\n', ' ')
 
-        print( ' * ' + line )
+        print( line )
