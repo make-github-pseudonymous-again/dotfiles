@@ -3,10 +3,19 @@
 stty -ixon
 
 # Add `~/.bin` to the `$PATH`
-# (already done in .xprofile)
-#if [ -d "$HOME/.bin" ] ; then
-#	export PATH="$HOME/.bin:$PATH";
-#fi
+if [ -d "$HOME/.bin" ] ; then
+	export PATH="$HOME/.bin:$PATH";
+fi
+
+# ruby gems
+if which ruby > /dev/null ; then
+  export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
+
+# ipe styles
+if [ -d "$HOME/.ipe/styles" ] ; then
+	export IPESTYLES="$HOME/.ipe/styles";
+fi
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

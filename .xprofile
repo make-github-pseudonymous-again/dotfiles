@@ -8,16 +8,3 @@
 # does not work :(
 setxkbmap be
 setxkbmap -option "caps:swapescape"
-
-# Add `~/.bin` to the `$PATH`
-if [ -d "$HOME/.bin" ] ; then
-	export PATH="$HOME/.bin:$PATH";
-fi
-
-# ruby gems
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
-
-if [ -d "$HOME/.ipe/styles" ] ; then
-	export IPESTYLES="$HOME/.ipe/styles";
-fi
-
