@@ -1,3 +1,6 @@
+# Fast reset
+alias w="tput reset"
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
