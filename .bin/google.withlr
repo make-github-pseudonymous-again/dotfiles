@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+lang="$(cat "$HOME"/.config/google/search/lr)"
+
+lr=$(echo "$lang" | dmenu_center --rest -p ' lr' -sb '#1851CE')
+
+if [ "$lr" = '' ] ; then
+	exit 1
+fi
+
+q=$(ui.dialog.input -p '' -sb '#1851CE')
+
+if [ "$q" = '' ] ; then
+	exit 1
+fi
+
+query=$(echo -n "$q" | urlencode)
+
+# lr is a subset of hl 20170808
+wb --new-window 'https://google.com/search?hl='"$lr"'&lr=lang_'"$lr"'&q='"$query"

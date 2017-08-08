@@ -320,6 +320,7 @@ mode "google" {
         bindsym Shift+H exec hangouts; mode "default"
 
         bindsym g exec google; mode "default"
+        bindsym Shift+G exec google.withlr; mode "default"
         bindsym i exec googleimage; mode "default"
         bindsym s exec googlescholar; mode "default"
         bindsym y exec youtube; mode "default"
