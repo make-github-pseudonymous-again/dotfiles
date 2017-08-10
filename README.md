@@ -2,22 +2,27 @@
 
 <img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="864">
 
+## Advisory
+
+Most scripts will cache data on your hard drive. This data can be used to
+impersonate you. Encrypt your hard drive before it is too late.
+
 ## Getting started
 
 ### Install sak
 
-	cd
+    cd
     mkdir .bin
-	mkdir dev
-	cd dev
+    mkdir dev
+    cd dev
     git clone git@github.com:aureooms/sak
     cd sak
     make install
 
 ### Clone
 
-	cd
-	cd dev
+    cd
+    cd dev
     git clone git@github.com:aureooms/dotfiles
     cd dotfiles
 
