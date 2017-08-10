@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import os.path
+import getpass
+import argparse
+import subprocess
+import urllib.parse
+import urllib.request
+
+API = 'https://api.mobilevikings.be/v3'
+
+CONFIG = os.path.expanduser('~/.config/api.mobilevikings.be')
+OAUTH2 = os.path.join(CONFIG, 'oauth2')
+TOKEN = os.path.join(OAUTH2, 'token')
+
+_pass = lambda key : subprocess.check_output(['pass', key]).decode().strip()
+
+CLIENT_ID = _pass('api.mobilevikings.be/client_id')
+CLIENT_SECRET = _pass('api.mobilevikings.be/client_secret')
+
+def main ( ):
+
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest='action_name')
+    subparsers.required = True
+
+    parser_auth = subparsers.add_parser('auth')
+    parser_auth.set_defaults(action=auth)
+
+    parser_balance = subparsers.add_parser('balance')
+    parser_balance.set_defaults(action=balance)
+
+    args = parser.parse_args()
+
+    return args.action( args )
+
+def _token ( ):
+
+    try:
+        with open(TOKEN) as f:
+            token = json.load(f)
+    except Exception as e:
+        print('Failed to read access token. Are you authenticated (mbv auth)?')
+        raise e
+
+    return token
+
+def auth ( args ):
+
+    method = 'POST'
+    endpoint = '/oauth2/access_token'
+
+    username = input('username: ')
+    password = getpass.getpass('password: ')
+
+    parameters = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'password',
+        'username': username,
+        'password': password,
+    }
+
+    data = urllib.parse.urlencode(parameters).encode()
+
+    req = urllib.request.Request(API+endpoint, data=data, method=method)
+
+    with urllib.request.urlopen(req) as f:
+        res = json.load(f)
+
+    json.dump(res, sys.stdout, indent=4)
+
+    os.makedirs(os.path.dirname(TOKEN))
+    with open(TOKEN, 'w') as f: json.dump(res, f)
+
+def balance ( args ):
+
+    token = _token()
+
+    method = 'GET'
+    endpoint = '/msisdns'
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(token['access_token']) ,
+        'Accept': 'application/json' ,
+    }
+
+    req = urllib.request.Request(API+endpoint, headers=headers, method=method)
+
+    with urllib.request.urlopen(req) as f:
+        res = json.load(f)
+
+    url = res['results'][0]['balance']
+
+    req = urllib.request.Request(url, headers=headers, method=method)
+
+    with urllib.request.urlopen(req) as f:
+        res = json.load(f)
+
+    json.dump(res, sys.stdout, indent=4)
+    print()
+
+if __name__ == '__main__':
+    main()
