@@ -15,6 +15,9 @@ CONFIG = os.path.expanduser('~/.config/api.mobilevikings.be')
 OAUTH2 = os.path.join(CONFIG, 'oauth2')
 TOKEN = os.path.join(OAUTH2, 'token')
 
+CACHE = os.path.expanduser('~/.cache/api.mobilevikings.be')
+MSISDNS = os.path.join(CACHE, 'msisdns')
+
 _pass = lambda key : subprocess.check_output(['pass', key]).decode().strip()
 
 CLIENT_ID = _pass('api.mobilevikings.be/client_id')
@@ -22,7 +25,11 @@ CLIENT_SECRET = _pass('api.mobilevikings.be/client_secret')
 
 def main ( ):
 
+    global ARGS
+
     parser = argparse.ArgumentParser()
+    parser.add_argument('--verbose', '-v', action='count', default=0)
+
     subparsers = parser.add_subparsers(dest='action_name')
     subparsers.required = True
 
@@ -32,9 +39,70 @@ def main ( ):
     parser_balance = subparsers.add_parser('balance')
     parser_balance.set_defaults(action=balance)
 
-    args = parser.parse_args()
+    ARGS = parser.parse_args()
 
-    return args.action( args )
+    return ARGS.action( )
+
+def auth ( ):
+
+    username, password = _user_credentials()
+
+    return _oauth2_access_token_password ( username , password )
+
+
+def balance ( ):
+
+    me = _me_msisdn()
+
+    res = _api_request( 'GET' , '/msisdns/{msisdn}/balance'.format( msisdn = me ) )
+
+    json.dump(res, sys.stdout, indent=4)
+    print()
+
+
+def _me_msisdn ( ):
+
+    try:
+        with open(MSISDNS) as f:
+            msisdns = json.load(f)
+
+    except Exception as e:
+        msisdns = _api_request( 'GET' , '/msisdns' )
+
+        os.makedirs(os.path.dirname(MSISDNS))
+        with open(MSISDNS, 'w') as f: json.dump(msisdns, f)
+
+    return msisdns['results'][0]['msisdn']
+
+
+def _api_request ( method, endpoint ) :
+
+    url = API + endpoint
+
+    if ARGS.verbose > 0:
+        print(method, url, file=sys.stderr)
+
+    token = _token()
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(token['access_token']) ,
+        'Accept': 'application/json' ,
+    }
+
+    req = urllib.request.Request(url, headers=headers, method=method)
+
+    with urllib.request.urlopen(req) as f:
+        res = json.load(f)
+
+    return res
+
+
+def _user_credentials ():
+
+    username = input('username: ')
+    password = getpass.getpass('password: ')
+
+    return username, password
 
 def _token ( ):
 
@@ -47,13 +115,21 @@ def _token ( ):
 
     return token
 
-def auth ( args ):
+def _oauth2_access_token ( parameters ):
 
     method = 'POST'
     endpoint = '/oauth2/access_token'
+    data = urllib.parse.urlencode(parameters).encode()
 
-    username = input('username: ')
-    password = getpass.getpass('password: ')
+    req = urllib.request.Request(API+endpoint, data=data, method=method)
+    with urllib.request.urlopen(req) as f: res = json.load(f)
+
+    json.dump(res, sys.stdout, indent=4) # log
+
+    os.makedirs(os.path.dirname(TOKEN))
+    with open(TOKEN, 'w') as f: json.dump(res, f)
+
+def _oauth2_access_token_password ( username , password ) :
 
     parameters = {
         'client_id': CLIENT_ID,
@@ -63,44 +139,18 @@ def auth ( args ):
         'password': password,
     }
 
-    data = urllib.parse.urlencode(parameters).encode()
+    return _oauth2_access_token ( parameters )
 
-    req = urllib.request.Request(API+endpoint, data=data, method=method)
+def _oauth2_access_token_refresh_token ( token ):
 
-    with urllib.request.urlopen(req) as f:
-        res = json.load(f)
-
-    json.dump(res, sys.stdout, indent=4)
-
-    os.makedirs(os.path.dirname(TOKEN))
-    with open(TOKEN, 'w') as f: json.dump(res, f)
-
-def balance ( args ):
-
-    token = _token()
-
-    method = 'GET'
-    endpoint = '/msisdns'
-
-    headers = {
-        'Authorization': 'Bearer {}'.format(token['access_token']) ,
-        'Accept': 'application/json' ,
+    parameters = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'refresh_token',
+        'refresh_token': token['refresh_token'],
     }
 
-    req = urllib.request.Request(API+endpoint, headers=headers, method=method)
-
-    with urllib.request.urlopen(req) as f:
-        res = json.load(f)
-
-    url = res['results'][0]['balance']
-
-    req = urllib.request.Request(url, headers=headers, method=method)
-
-    with urllib.request.urlopen(req) as f:
-        res = json.load(f)
-
-    json.dump(res, sys.stdout, indent=4)
-    print()
+    return _oauth2_access_token ( parameters )
 
 if __name__ == '__main__':
     main()

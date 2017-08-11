@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+precision="${1:-0}"
+spacing="${2:-0}"
+
+gap=''
+if [ "$spacing" -gt 0 ] ; then
+	gap="$(printf "%*c" "$spacing" ' ')"
+fi
+
+awk '{ suffix="BKMGTPEZY"; for(i=1; $1>1024 && i < length(suffix); i++) $1/=1024; printf "%.'"$precision"'f'"$gap"'%s\n", $1, substr(suffix, i, 1); }'
