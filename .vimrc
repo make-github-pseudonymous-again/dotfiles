@@ -262,6 +262,9 @@ noremap <silent> <leader>e :enew<CR>
 noremap <silent> <leader>w :StripWhitespace<CR>
 autocmd FileType javascript,python,c,cpp,java,html,css,ruby autocmd BufWritePre <buffer> StripWhitespace
 
+" Recognize all .tex files as LaTeX
+let g:tex_flavor = 'latex'
+
 " airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
