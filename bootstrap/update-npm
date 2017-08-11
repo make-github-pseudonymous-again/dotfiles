@@ -42,6 +42,7 @@ function _install ( ) {
   _ journally
   _ geez
   _ zxcvbn
+  _ ora
 }
 
 if false && command -v yarn 1>/dev/null; then

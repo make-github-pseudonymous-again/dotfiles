@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+const ora = require('ora');
+const zxcvbn = require('zxcvbn');
+const readline = require('readline');
+
+const analysis = ora('Analyzing passwords ...').start();
+
+const keys = [];
+const results = {};
+
+let count = 0;
+let done = 0;
+
+function update ( ) {
+  analysis.text = `Analyzing passwords (${done}/${count}) ...`;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', function(line){
+  ++count; update();
+  const key = line.split(' ')[0];
+  const password = line.split(' ').slice(1).join(' ');
+  const result = zxcvbn(password);
+  keys.push(key);
+  results[key] = result;
+  ++done; update();
+});
+
+rl.on('close', function(){
+
+  analysis.succeed(`Analyzed ${count} passwords`)
+
+  const display = ora('Sorting keys').start();
+
+  keys.sort((a,b) => results[a].guesses - results[b].guesses);
+
+  display.succeed();
+
+  for ( const key of keys ) {
+    console.log(`${key}: ${results[key].crack_times_display.offline_fast_hashing_1e10_per_second}`);
+  }
+
+});
