@@ -1,0 +1,10 @@
+[Unit]
+Description=Mobile Vikings daemon
+
+[Service]
+ExecStart=/usr/bin/env sh mbv.poll
+Restart=always
+
+[Install]
+WantedBy=default.target
+
