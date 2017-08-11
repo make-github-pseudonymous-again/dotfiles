@@ -17,6 +17,9 @@ if [ -d "$HOME/.ipe/styles" ] ; then
 	export IPESTYLES="$HOME/.ipe/styles";
 fi
 
+# Node path
+export NODE_PATH=/usr/lib/node_modules;
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you do not want to commit.

@@ -14,6 +14,8 @@ if test -d $HOME/.ipe/styles
   set -gx IPESTYLES $HOME/.ipe/styles
 end
 
+# node path
+set -gx NODE_PATH /usr/lib/node_modules
 
 # Make vim the default editor
 set -gx EDITOR "vim"
