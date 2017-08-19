@@ -6,19 +6,24 @@ if test "$#" -lt 1 ; then
 fi
 
 for FILE in "$@"; do
-	if ref.arxiv.match "$FILE" ; then
+	BASENAME=$(basename "$FILE")
+	if ref.arxiv.match "$BASENAME" ; then
 		echo '+ arXiv "'"$FILE"'"'
-		ref.arxiv.rename "$FILE"
-	elif ref.springer.match "$FILE" ; then
+		ref.arxiv.rename "$FILE" &
+	elif ref.springer.match "$BASENAME" ; then
 		echo '+ Springer "'"$FILE"'"'
-		ref.springer.rename "$FILE"
-	elif ref.sciencedirect.match "$FILE" ; then
+		ref.springer.rename "$FILE" &
+	elif ref.sciencedirect.match "$BASENAME" ; then
 		echo '+ ScienceDirect "'"$FILE"'"'
-		ref.sciencedirect.rename "$FILE"
-	elif ref.citeseerx.match "$FILE" ; then
+		ref.sciencedirect.rename "$FILE" &
+	elif ref.citeseerx.match "$BASENAME" ; then
 		echo '+ CiteSeerX "'"$FILE"'"'
-		ref.citeseerx.rename "$FILE"
+		ref.citeseerx.rename "$FILE" &
 	else
 		echo '! skipping "'"$FILE"'": no match' >&2
 	fi
 done
+
+wait $(jobs -p)
+
+echo 'Done!'

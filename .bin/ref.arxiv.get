@@ -39,10 +39,20 @@ authors = list( map( lambda x : x.get( 'content' ) , sel( tree ,
     'meta[name="citation_author"]' ) ) )
 date = sel( tree , 'meta[name="citation_date"]' )[0].get( 'content' )
 
-abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + date[2:4]
+year = date[:4]
+month = date[5:7]
+day = date[8:10]
+
+abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + year[2:4]
 
 data = {
-        'title' : title , 'date' : date , 'authors': authors , 'abbr' : abbr
-        }
+    'title' : title ,
+    'date' : date ,
+    'authors': authors ,
+    'abbr' : abbr ,
+    'year' : year ,
+    'month' : month ,
+    'day' : day ,
+}
 
 json.dump( data , sys.stdout )
