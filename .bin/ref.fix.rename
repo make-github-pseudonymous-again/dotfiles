@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+if test "$#" -lt 1 ; then
+	echo 'usage: ref.fix.rename <file> <...files>' >&2
+	exit 1
+fi
+
+for FILE in "$@"; do
+	if [ -d "$FILE" ] ; then continue ; fi
+	DIRNAME=$(dirname "$FILE")
+	BASENAME=$(basename "$FILE")
+
+	YY="$(echo "$BASENAME" | sed -En 's/^\[[a-zA-Z]+([0-9]{2})\].*$/\1/p')"
+
+	YEAR='????'
+	if [ "$YY" = '' ] ; then
+		YEAR='????'
+	elif [ "$YY" -le 17 ] ; then
+		YEAR="20$YY"
+	elif [ "$YY" -gt 17 ] ; then
+		YEAR="19$YY"
+	fi
+	MONTH='??'
+	DAY='??'
+
+	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY $BASENAME"
+done

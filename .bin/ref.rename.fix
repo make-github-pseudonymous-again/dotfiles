@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+if test "$#" -lt 1 ; then
+	echo 'usage: ref.rename.fix <file> <...files>' >&2
+	exit 1
+fi
+
+for FILE in "$@"; do
+	if [ -d "$FILE" ] ; then continue ; fi
+	BASENAME=$(basename "$FILE")
+	if ref.fix.match "$BASENAME" ; then
+		echo '+ fix "'"$FILE"'"'
+		ref.fix.rename "$FILE"
+	else
+		echo '! skipping "'"$FILE"'": no match' >&2
+	fi
+done
+
+wait $(jobs -p)
+
+echo 'Done!'

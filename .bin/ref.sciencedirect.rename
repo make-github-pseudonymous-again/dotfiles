@@ -6,6 +6,7 @@ if test "$#" -lt 1 ; then
 fi
 
 for FILE in "$@"; do
+	if [ -d "$FILE" ] ; then continue ; fi
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
 	ID=$(ref.sciencedirect.split "$BASENAME")
