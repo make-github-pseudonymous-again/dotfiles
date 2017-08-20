@@ -94,8 +94,22 @@ except urllib.error.HTTPError:
 
 data = json.loads(raw.decode())
 authors = data['author']
-date = str(data["issued"]["date-parts"][0][0])
-abbr = ''.join( sorted(map( lambda x : x["family"][0] , authors ) ) ) + date[2:4]
+try:
+    year = str(data["issued"]["date-parts"][0][0])
+except:
+    year = '????'
+try:
+    month = str(data["issued"]["date-parts"][0][1])
+except:
+    month = '??'
+try:
+    day = str(data["issued"]["date-parts"][0][2])
+except:
+    day = '??'
+abbr = ''.join( sorted(map( lambda x : x["family"][0] , authors ) ) ) + year[2:4]
 data['abbr'] = abbr
+data['year'] = year
+data['month'] = month
+data['day'] = day
 
 json.dump( data , sys.stdout )

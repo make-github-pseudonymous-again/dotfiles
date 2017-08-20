@@ -37,12 +37,19 @@ except urllib.error.HTTPError:
 title = sel( tree , 'meta[name="citation_title"]' )[0].get( 'content' ).rstrip()
 authors = list( map( lambda x : x.get( 'content' ) , sel( tree ,
     'meta[name="citation_authors"]' ) ) )
-date = sel( tree , 'meta[name="citation_year"]' )[0].get( 'content' )
+year = sel( tree , 'meta[name="citation_year"]' )[0].get( 'content' )
+month = '??'
+day = '??'
 
-abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + date[2:4]
+abbr = ''.join( sorted(map( lambda x : x.split(', ')[0][0] , authors ) ) ) + year[2:4]
 
 data = {
-        'title' : title , 'date' : date , 'authors': authors , 'abbr' : abbr
-        }
+    'title' : title ,
+    'authors': authors ,
+    'abbr' : abbr ,
+    'year' : year ,
+    'month' : month ,
+    'day' : day ,
+}
 
 json.dump( data , sys.stdout )

@@ -18,7 +18,10 @@ for FILE in "$@"; do
 
 	TITLE=$(echo "$METADATA" | jq -r .title)
 	ABBR=$(echo "$METADATA" | jq -r .abbr)
+	YEAR=$(echo "$METADATA" | jq -r .year)
+	MONTH=$(echo "$METADATA" | jq -r .month)
+	DAY=$(echo "$METADATA" | jq -r .day)
 	DOI="${ID/\//:}"
 
-	ref.mv "$FILE" "$DIRNAME/" "[$ABBR] $TITLE ($DOI).pdf"
+	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY [$ABBR] $TITLE (springer:$DOI).pdf"
 done

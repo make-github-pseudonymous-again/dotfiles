@@ -22,5 +22,5 @@ for FILE in "$@"; do
 	MONTH=$(echo "$METADATA" | jq -r .month)
 	DAY=$(echo "$METADATA" | jq -r .day)
 
-	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY [$ABBR] $TITLE ($ID).pdf"
+	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY [$ABBR] $TITLE (arxiv:$ID).pdf"
 done
