@@ -54,5 +54,4 @@ python-tqdm \
 myip \
 gitdns \
 python-pydub \
-exa-git \
-duff
+exa-git
