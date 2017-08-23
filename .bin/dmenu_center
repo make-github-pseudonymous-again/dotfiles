@@ -73,7 +73,7 @@ def parse_dmenu_args(args):
     # Font size and lineheight are in points
     line_height = int(args[2]) if argc > 2 else 24
 
-    font = args[3] if argc > 3 else 'LiterationMonoPowerline Nerd Font:12'
+    font = args[3] if argc > 3 else 'LiterationMono Nerd Font Mono:12'
 
     with redirect(sys.stdout, sys.stderr):
         from Xlib import display
