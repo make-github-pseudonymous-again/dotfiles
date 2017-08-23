@@ -23,7 +23,7 @@
     background_color = "#1c1c1c"
     copy_on_selection = True
     cursor_color = "#e3bf21"
-    font = LiterationMonoPowerline Nerd Font 12
+    font = LiterationMono Nerd Font Mono 12
     foreground_color = "#bbbbbb"
     palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
     scrollback_infinite = True
@@ -35,7 +35,7 @@
     copy_on_selection = True
     cursor_color = "#e3bf21"
     custom_command = calendar.all
-    font = LiterationMonoPowerline Nerd Font 12
+    font = LiterationMono Nerd Font Mono 12
     foreground_color = "#bbbbbb"
     palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
     scrollbar_position = hidden
@@ -47,7 +47,7 @@
     copy_on_selection = True
     cursor_color = "#e3bf21"
     custom_command = newsbeuter
-    font = LiterationMonoPowerline Nerd Font 12
+    font = LiterationMono Nerd Font Mono 12
     foreground_color = "#bbbbbb"
     palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
     scrollbar_position = hidden
@@ -59,7 +59,7 @@
     copy_on_selection = True
     cursor_color = "#e3bf21"
     custom_command = 'ssh -t rarity.urlab.be "TERM=xterm screen -dRR"'
-    font = LiterationMonoPowerline Nerd Font 12
+    font = LiterationMono Nerd Font Mono 12
     foreground_color = "#bbbbbb"
     palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
     scrollbar_position = hidden
@@ -71,7 +71,7 @@
     copy_on_selection = True
     cursor_color = "#e3bf21"
     custom_command = weather.forecast
-    font = LiterationMonoPowerline Nerd Font 12
+    font = LiterationMono Nerd Font Mono 12
     foreground_color = "#bbbbbb"
     palette = "#383838:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#d9d9d9:#393939:#c46e6c:#6cc46e:#c3c46c:#6e6cc4:#c46cc3:#6cc3c4:#ffffff"
     scrollbar_position = hidden
