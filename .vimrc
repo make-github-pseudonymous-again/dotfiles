@@ -257,6 +257,8 @@ map  N <Plug>(easymotion-prev)
 " open a new buffer
 noremap <silent> <leader>e :enew<CR>
 
+" toggle nerdtree
+noremap <silent> <leader>t :NERDTreeToggle<CR>
 
 " Strip trailing whitespace (w)
 noremap <silent> <leader>w :StripWhitespace<CR>
