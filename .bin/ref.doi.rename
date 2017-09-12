@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+if test "$#" -lt 1 ; then
+	echo 'usage: ref.doi.rename <file> <...files>' >&2
+	exit 1
+fi
+
+for FILE in "$@"; do
+	if [ -d "$FILE" ] ; then continue ; fi
+	DIRNAME=$(dirname "$FILE")
+	BASENAME=$(basename "$FILE")
+	DOI="${BASENAME%.pdf}"
+	ID="${DOI/@/\/}"
+	METADATA=$(ref.doi.get "$ID")
+
+	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
+		echo 'failed to retrieve metadata for '"$ID" >&2
+		continue
+	fi
+
+	TITLE=$(echo "$METADATA" | jq -r .title)
+	ABBR=$(echo "$METADATA" | jq -r .abbr)
+	YEAR=$(echo "$METADATA" | jq -r .year)
+	MONTH=$(echo "$METADATA" | jq -r .month)
+	DAY=$(echo "$METADATA" | jq -r .day)
+
+	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY [$ABBR] $TITLE (doi:$DOI).pdf"
+done

@@ -20,6 +20,9 @@ for FILE in "$@"; do
 	elif ref.citeseerx.match "$BASENAME" ; then
 		echo '+ CiteSeerX "'"$FILE"'"'
 		ref.citeseerx.rename "$FILE" &
+	elif ref.doi.match "$BASENAME" ; then
+		echo '+ DOI "'"$FILE"'"'
+		ref.doi.rename "$FILE" &
 	else
 		echo '! skipping "'"$FILE"'": no match' >&2
 	fi
