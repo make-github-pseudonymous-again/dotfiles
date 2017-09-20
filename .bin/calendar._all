@@ -147,7 +147,7 @@ def _icon(event):
     if 'flight' in name:
         return ''
 
-    elif 'thalys' in name or 'sncf' in name:
+    elif 'train' in name or 'thalys' in name or 'sncf' in name:
         return ''
 
     elif 'dentist' in name or 'doctor' in name:
