@@ -20,10 +20,10 @@ figures:
 	@make --no-print-directory -C $(FIGSDIR) all
 
 $(TARGET).pdf: $(FIGSDIR)/.updated $(TARGET).tex $(TARGET).sty $(TARGET).bib $(SECTIONS) $(APPENDIX)
-	pdflatex $(TARGET).tex -interaction=nonstopmode -halt-on-error
+	pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
 	#bibtex $(TARGET)
-	#pdflatex $(TARGET).tex -interaction=nonstopmode -halt-on-error
-	pdflatex $(TARGET).tex -interaction=nonstopmode -halt-on-error
+	#pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
+	pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
 
 clean:
 	rm -f $(TARGET).{out,log,aux,pdf,bbl,blg,vtc}
