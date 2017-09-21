@@ -118,8 +118,8 @@ let g:quicktex_math = {
     \'neg'     : '\neg ',
     \
 \'Section: Operations' : 'COMMENT',
-    \'add'   : '+ ',
-    \'min'   : '- ',
+    \'plus'  : '+ ',
+    \'minus' : '- ',
     \'frac'  : '\frac{<+++>}{<++>} <++>',
     \'recip' : '\frac{1}{<+++>} <++>',
     \'dot'   : '\cdot ',
@@ -129,6 +129,8 @@ let g:quicktex_math = {
     \'sq'    : "\<BS>^2 ",
     \'inv'   : "\<BS>^{-1} ",
     \'times' : '\times ',
+    \'min'   : '\min ',
+    \'max'   : '\max ',
     \
 \'Section: Delimiters' : 'COMMENT',
     \'bpara' : '\left( <+++> \right) <++>',
@@ -226,6 +228,9 @@ let g:quicktex_math = {
     \'liminf' : '\liminf ',
     \'sup'    : '\sup ',
     \'sinf'   : '\inf ',
+    \
+\'Section: More Variables' : 'COMMENT',
+    \'ell' : '\ell ',
 \}
 
 " }}}
@@ -284,6 +289,7 @@ let g:quicktex_tex = {
     \'fl' : '\(\mathcal{L}\) ',
     \'fv' : '\(\mathcal{V}\) ',
     \'fr' : '\(\mathcal{R}\) ',
+    \
 \'Section: Greek Letters' : 'COMMENT',
     \'alpha'   : '\(\alpha\) ',
     \'ga'      : '\(\alpha\) ',
@@ -313,6 +319,8 @@ let g:quicktex_tex = {
     \'chi'     : '\(\chi\) ',
     \'psi'     : '\(\psi\) ',
     \
+\'Section: More Variables' : 'COMMENT',
+    \'ell' : '\(\ell\) ',
 \}
 
 " }}}
