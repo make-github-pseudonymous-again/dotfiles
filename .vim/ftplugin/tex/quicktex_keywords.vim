@@ -241,6 +241,7 @@ let g:quicktex_tex = {
     \' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'m' : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',
+    \'cmd' : "\<ESC>Bvedi\\\<ESC>pa{<+++>}<++>",
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}",
     \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
