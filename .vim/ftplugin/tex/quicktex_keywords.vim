@@ -240,6 +240,7 @@ let g:quicktex_math = {
 let g:quicktex_tex = {
     \' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'m' : '\( <+++> \) <++>',
+    \'x' : '\(<+++>\)<++>',
 \'Section: Environments' : 'COMMENT',
     \'cmd' : "\<ESC>Bvedi\\\<ESC>pa{<+++>}<++>",
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}",
