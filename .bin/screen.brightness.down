@@ -4,8 +4,17 @@ i="$1"
 : ${i:=3}
 s="$2"
 : ${s:=100}
-max_brightness="$(cat /sys/class/backlight/gmux_backlight/max_brightness)"
-actual_brightness="$(cat /sys/class/backlight/gmux_backlight/actual_brightness)"
+
+if [ -e '/sys/class/backlight/gmux_backlight' ] ; then
+  backlight='/sys/class/backlight/gmux_backlight'
+elif [ -e '/sys/class/backlight/intel_backlight' ] ; then
+  backlight='/sys/class/backlight/intel_backlight'
+else
+  exit 1
+fi
+
+max_brightness="$(cat "$backlight/max_brightness")"
+actual_brightness="$(cat "$backlight/actual_brightness")"
 step="$(($max_brightness / $s * $i))"
 brightness="$(($actual_brightness - $step))"
 
@@ -13,4 +22,4 @@ if [ "$brightness" -lt 0 ] ; then
 brightness=0
 fi
 
-echo "$brightness" | sudo /usr/bin/tee '/sys/class/backlight/gmux_backlight/brightness'
+echo "$brightness" | sudo /usr/bin/tee "$backlight/brightness"

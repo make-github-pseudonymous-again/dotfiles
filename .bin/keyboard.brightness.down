@@ -2,8 +2,17 @@
 
 i="$1"
 : ${i:=3}
-max_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/max_brightness)"
-actual_brightness="$(cat /sys/class/leds/smc\:\:kbd_backlight/brightness)"
+
+if [ -e '/sys/class/leds/smc::kbd_backlight' ] ; then
+  backlight='/sys/class/leds/smc::kbd_backlight'
+elif [ -e '/sys/class/leds/asus::kbd_backlight' ] ; then
+  backlight='/sys/class/leds/asus::kbd_backlight'
+else
+  exit 1
+fi
+
+max_brightness="$(cat "$backlight/max_brightness")"
+actual_brightness="$(cat "$backlight/brightness")"
 step="$(($max_brightness / 100 * $i))"
 brightness="$(($actual_brightness - $step))"
 
@@ -11,5 +20,4 @@ if [ "$brightness" -lt 0 ] ; then
 brightness=0
 fi
 
-echo "$brightness" | sudo /usr/bin/tee '/sys/class/leds/smc::kbd_backlight/brightness'
-
+echo "$brightness" | sudo /usr/bin/tee "$backlight/brightness"
