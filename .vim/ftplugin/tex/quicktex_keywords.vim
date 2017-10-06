@@ -163,6 +163,8 @@ let g:quicktex_math = {
     \'sqrt'   : '\sqrt{<+++>} <++>',
     \'root'   : '\sqrt[<+++>]{<++>} <++>',
     \'case'   : '\begin{cases} <+++> \end{cases} <++>',
+    \'ceil'   : '\lceil <+++> \rceil <++>',
+    \'floor'   : '\lfloor <+++> \rfloor <++>',
     \
 \'Section: LaTeX commands' : 'COMMENT',
     \'sub'    : "\<BS>_{<+++>} <++>",
