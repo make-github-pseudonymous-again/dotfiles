@@ -27,6 +27,7 @@ _a keybase-release
 _a xkblayout-state
 _a abunchoftags
 _a offlineimap
+_a exa-git
 
 _p python-cssselect cssselect
 _p autopep8 autopep8
