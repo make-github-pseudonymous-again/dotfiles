@@ -51,5 +51,4 @@ memoize \
 python-tqdm \
 myip \
 gitdns \
-python-pydub \
-exa-git
+python-pydub

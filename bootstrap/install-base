@@ -35,6 +35,7 @@ i i3-wm i3lock i3status
 i terminator xterm
 i fish
 i ranger
+i exa
 i xorg-xrandr
 i xorg-xsetroot
 i alsa-utils
