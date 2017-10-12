@@ -18,4 +18,5 @@
 /usr/bin/systemctl --user stop msmtp
 /usr/bin/systemctl --user stop ulb
 /usr/bin/systemctl --user stop voo
+/usr/bin/systemctl --user stop mbv
 #/usr/bin/systemctl --user stop ssh-agent
