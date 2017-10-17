@@ -128,6 +128,7 @@ let g:quicktex_math = {
     \'exp'   : "\<BS>^{<+++>} <++>",
     \'pow'   : "\<BS>^{<+++>} <++>",
     \'sq'    : "\<BS>^2 ",
+    \'cube'  : "\<BS>^3 ",
     \'inv'   : "\<BS>^{-1} ",
     \'times' : '\times ',
     \'min'   : '\min ',
@@ -173,6 +174,7 @@ let g:quicktex_math = {
     \'stwo'   : "\<BS>_2 ",
     \'sthree' : "\<BS>_3 ",
     \'sfour'  : "\<BS>_4 ",
+    \'sn'     : "\<BS>_n ",
     \'text'   : '\text{<+++>} <++>',
     \
 \'Section: Fancy Variables' : 'COMMENT',
