@@ -20,12 +20,12 @@ javascript <<EOF
 function scihubify() {
 	// http://akameco.hatenablog.com/entry/2015/02/06/214913
 	var location = window.content.window.location ;
-	var url = location.origin +
-	                  ".sci-hub.cc" +
-	                  location.pathname +
-	                  location.search +
-	                  location.hash ;
-	liberator.execute( ":open " + url ) ;
+	var url = 'https://sci-hub.cc/' +
+	          location.origin +
+	          location.pathname +
+	          location.search +
+	          location.hash ;
+	liberator.execute( ':open ' + url ) ;
 }
 EOF
 command! -description 'Reroute current page through sci-hub proxy' scihubify javascript scihubify()
