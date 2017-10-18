@@ -28,6 +28,7 @@ _a xkblayout-state
 _a abunchoftags
 _a offlineimap
 _a exa-git
+_a flashplugin
 
 _p python-cssselect cssselect
 _p autopep8 autopep8
