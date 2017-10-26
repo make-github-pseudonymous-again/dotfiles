@@ -17,14 +17,16 @@ Plug 'tpope/vim-fugitive'
 
 " ## INTERFACE ##
 " Pseudo-command-line (experimental)
-Plug 'junegunn/vim-pseudocl'
+"Plug 'junegunn/vim-pseudocl'
 " Go to Terminal or File manager (maybe not be so useful)
-" Plug 'justinmk/vim-gtfo'
+"Plug 'justinmk/vim-gtfo'
+" Ranger integration in vim and neovim
+Plug 'francoiscabrol/ranger.vim'
 
 
 " ## FIXES ##
 " Find-N-Replace helper free of regular expressions
-Plug 'junegunn/vim-fnr'
+"Plug 'junegunn/vim-fnr'
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 " Heuristically set buffer options (auto indentation)
@@ -442,3 +444,6 @@ function! s:latexSurround()
   let b:surround_{char2nr('q')} = "`\r'"
   let b:surround_{char2nr('Q')} = "``\r''"
 endfunction
+
+let g:ranger_map_keys = 0
+map <leader>r :RangerWorkingDirectory<CR>
