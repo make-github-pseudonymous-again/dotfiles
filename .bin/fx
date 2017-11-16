@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+FROM="${1^^}"
+TO="${2^^}"
+AMOUNT="${3:-1}"
+
+URL="https://api.fixer.io/latest?base=$FROM&symbols=$TO"
+
+RESPONSE="$(curl --silent $URL)"
+
+if [ "$RESPONSE" = '' ] ; then
+  >&2 echo "Could not access `$URL`"
+  exit 1
+fi
+
+RATE="$(<<< "$RESPONSE" jq ".rates.$TO")"
+
+if [ "$RATE" = '' ] ; then
+  >&2 echo "Could not interpret response:"
+  >&2 echo "$RESPONSE"
+  exit 1
+fi
+
+echo "$AMOUNT $FROM = $(echo "$AMOUNT * $RATE" | bc) $TO"
