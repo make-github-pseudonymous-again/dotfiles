@@ -363,13 +363,27 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 nnoremap <Leader>g :Goyo<CR>
 
-" map c-p to fzf
+" fzf mappings
 nn <silent> <leader>f :Files<cr>
 nn <silent> <leader>b :Buffers<cr>
 nn <silent> <leader>o :History<cr>
 nn <silent> <leader>q :Ag<cr>
 let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules -g ""'
 let g:fzf_files_options = '--preview "begin; coderay {}; or cat {}; end 2>/dev/null | head -'.&lines.'"'
+
+" fasd mappings
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...) "Z - cd to recent / frequent directories
+  let cmd = 'fasd -d -e printf'
+  for arg in a:000
+    let cmd = cmd . ' ' . arg
+  endfor
+  let path = system(cmd)
+  if isdirectory(path)
+    echo path
+    exec 'cd' fnameescape(path)
+  endif
+endfunction
 
 " use ag instead of ack if available
 if executable('ag')
