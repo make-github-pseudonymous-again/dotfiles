@@ -173,11 +173,14 @@ let g:quicktex_math = {
     \
 \'Section: LaTeX commands' : 'COMMENT',
     \'sub'    : "\<BS>_{<+++>} <++>",
+    \'su'     : "\<BS>_<+++> <++> ",
     \'sone'   : "\<BS>_1 ",
     \'stwo'   : "\<BS>_2 ",
     \'sthree' : "\<BS>_3 ",
     \'sfour'  : "\<BS>_4 ",
     \'sn'     : "\<BS>_n ",
+    \'si'     : "\<BS>_i ",
+    \'sj'     : "\<BS>_j ",
     \'text'   : '\text{<+++>} <++>',
     \
 \'Section: Fancy Variables' : 'COMMENT',
