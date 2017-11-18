@@ -117,6 +117,7 @@ i transmission-gtk
 
 # mail
 
+i gmime notmuch notmuch-runtime
 i msmtp
 
 # gmailieer
