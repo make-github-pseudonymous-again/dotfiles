@@ -7,11 +7,11 @@ exit 1
 fi
 
 function _a ( ) {
-	pacman -Qi "$1" 2>/dev/null && pacman -R "$1"
+  pacman -Qi "$1" 2>/dev/null && pacman -R "$1"
 }
 
 function _p ( ) {
-	{ pacman -Ss "$1" | grep '\[installed\]' 1>/dev/null ; } || { pip show "$2" && pip uninstall "$2" ; }
+  { pacman -Ss "$1" | grep '\[installed\]' 1>/dev/null ; } || { pip show "$2" && pip uninstall "$2" ; }
 }
 
 function _n ( ) {
@@ -20,6 +20,7 @@ function _n ( ) {
   fi
 }
 
+# Arch / pacman + yaourt
 _a fzf
 _a st
 _a rxvt-unicode
@@ -30,11 +31,13 @@ _a offlineimap
 _a exa-git
 _a flashplugin
 
+# Python / pip
 _p python-cssselect cssselect
 _p autopep8 autopep8
 _p python-lxml lxml
 _p tldr
 
+# Node / NPM
 _n jshint
 _n jslint
 _n gulp
