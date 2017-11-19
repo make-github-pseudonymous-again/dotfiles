@@ -75,6 +75,18 @@
 	# Diff using latexdiff
 	difftex = difftool -y -t latex
 
+	# List number of changesets
+	cs = !"changeset"
+
+	# Serve the repo I am in
+	serve = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
+
+	# List available commands and aliases
+	lc = "!f() { git help -a | grep '^  [a-z]' | tr ' ' '\n' | grep -v '^$'; git la; } ; f"
+
+	# List available aliases
+	la = "!git config -l | grep '^alias\\.' | cut -d'=' -f1 | cut -d'.' -f2"
+
 [difftool.latex]
 	cmd = latexdiff-git "$LOCAL" "$REMOTE"
 
