@@ -3,4 +3,4 @@
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
 "$DOTFILES/bootstrap/dotfiles-diff-list" | \
-$ iter imap "git diff --no-index --color-words $HOME/{0} $DOTFILES/{0}";
+xargs -I{} git diff --no-index --color-words "$HOME/{}" "$DOTFILES/{}";

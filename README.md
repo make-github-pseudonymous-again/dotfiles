@@ -9,16 +9,6 @@ impersonate you. Encrypt your hard drive before it is too late.
 
 ## Getting started
 
-### Install sak
-
-    cd
-    mkdir .bin
-    mkdir dev
-    cd dev
-    git clone git@github.com:aureooms/sak
-    cd sak
-    make install
-
 ### Clone
 
     cd

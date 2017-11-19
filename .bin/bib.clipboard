@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-bib.get "$@" | $ cl i
+bib.get "$@" | xclip -i -selection c
