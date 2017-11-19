@@ -16,11 +16,11 @@ remotes=$(git -C "$cwd" remote)
 
 for remote in "$remotes"; do
 	handle="$remote/$branch"
-	if grep "$handle" 2>/dev/null <<< "$branches"; then
+	if grep "$handle" 1>/dev/null <<< "$handles"; then
 		pulls=$(git -C "$cwd" log "HEAD..$handle" --oneline | wc -l)
 		pushs=$(git -C "$cwd" log "$handle..HEAD" --oneline | wc -l)
 		if [ "$pulls" -gt 0 ] || [ "$pushs" -gt 0 ] ; then
-			output="$output $(printf " %s[pull:%s, push:%s]" "$remote" "$pulls" "$pushs")"
+			output="$output $(printf "%s[pull:%s, push:%s]" "$remote" "$pulls" "$pushs")"
 		fi
 	fi
 done
