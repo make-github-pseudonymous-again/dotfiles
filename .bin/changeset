@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+output=""
+
+locals=$(git status --porcelain -u | wc -l)
+
+if [ "$locals" -gt 0 ] ; then
+	output="$output $(printf "local[%s]" "$locals")"
+fi
+
+branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null)
+handles=$(git branch -r)
+remotes=$(git remote)
+
+for remote in "$remotes"; do
+	handle="$remote/$branch"
+	if grep "$handle" 2>/dev/null <<< "$branches"; then
+		pulls=$(git log "HEAD..$handle" --oneline | wc -l)
+		pushs=$(git log "$handle..HEAD" --oneline | wc -l)
+		if [ "$pulls" -gt 0 ] || [ "$pushs" -gt 0 ] ; then
+			output="$output $(printf " %s[pull:%s, push:%s]" "$remote" "$pulls" "$pushs")"
+		fi
+	fi
+done
+
+if [ "$output" != '' ] ; then
+	echo "$output" | tail -c +2
+	exit 1
+fi
