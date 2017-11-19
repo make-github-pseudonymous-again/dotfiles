@@ -11,38 +11,31 @@ if ! command -v npm 1>/dev/null; then
 fi
 
 function _install ( ) {
-  echo "  - overwrite semver/npm arch linux packages"
-  _ semver
-  _ npm
+  #echo "  - overwrite semver/npm arch linux packages"
+  #_ semver
+  #_ npm
 
   echo "  - update global packages"
-  _ yarn
+  #_ yarn
   _ n
   _ eslint
   _ eslint_d
   _ babel-eslint
   _ eslint-plugin-babel
-  _ peerflix
-  _ torrentflix
   _ npm-check-updates
   _ fixpack
-  _ jspm
-  _ xyz
   _ yo
   _ grunt-cli
   _ gulp-cli
   _ tick
-  _ speed-test
   _ man-n
-  _ np
   _ babel-cli
   _ esdoc
-  _ ava-codemods
-  _ xo
   _ journally
   _ geez
   _ zxcvbn
-  _ ora
+  _ ava-codemods
+  _ speed-test
 }
 
 if false && command -v yarn 1>/dev/null; then

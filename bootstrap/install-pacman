@@ -53,7 +53,7 @@ gvim \
 firefox \
 evince \
 mupdf \
-nodejs npm
+nodejs npm yarn
 
 i python-pip \
 python-six \

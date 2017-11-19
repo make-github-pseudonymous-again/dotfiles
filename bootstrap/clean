@@ -42,3 +42,9 @@ _n jshint
 _n jslint
 _n gulp
 _n uglify-js
+_n peerflix
+_n torrentflix
+_n ora # others should depend on this
+_n np # should be installed as dev dep
+_n xyz # should be installed as dev dep
+_n jspm # not using it at the moment
