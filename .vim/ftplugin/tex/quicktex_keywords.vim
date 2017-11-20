@@ -273,6 +273,7 @@ let g:quicktex_tex = {
     \'para' : '(<+++>) <++>',
     \'qt'   : "``<+++>'' <++>",
     \'dts'  : '\dots ',
+    \'fig'  : 'Figure~\ref{fig:<+++>}<++>',
     \'ref'  : "\<ESC>s~\\ref{<+++>}<++>",
     \'cit'  : "\<ESC>s~\\cite{<+++>}<++>",
     \'emph' : '\emph{<+++>} <++>',
