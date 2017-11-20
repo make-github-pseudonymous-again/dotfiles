@@ -144,6 +144,32 @@
 	# List available aliases
 	la = "!git config -l | grep '^alias\\.' | cut -d'=' -f1 | cut -d'.' -f2"
 
+	# From http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples
+	# List commits in short form, with colors and branch/tag annotations
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	# List commits showing changed files
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	# List commits with no colors for piping
+	lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
+	# List oneline commits showing dates
+	lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	# List oneline commits showing relative time
+	ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+	# A short gi log
+	le = log --oneline --decorate
+	# Show the history of a file with diffs
+	fl = log -u
+	# Show modified files in last commit
+	dl = "!git ll -1"
+	# Show a diff of the last commit
+	dlc = diff --staged HEAD^
+	# Diff single commit of given revision
+	dr  = "!f() { git diff "$1"^.."$1"; }; f"
+	# Similar to dr
+	lc  = "!f() { git ll "$1"^.."$1"; }; f"
+	# Show the last tag
+	lt = describe --tags --abbrev=0
+
 [difftool.latex]
 	cmd = latexdiff-git "$LOCAL" "$REMOTE"
 
