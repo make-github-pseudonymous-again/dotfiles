@@ -8,7 +8,7 @@ UNITS_DIR = os.path.expanduser("~/.config/systemd/user")
 OK = frozenset(['active'])
 KO = frozenset(['failed', 'dead'])
 
-units = sorted(filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR)))
+units = filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR))
 
 STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend', '--type', 'service']
 ENABLE_CMD = ['systemctl', '--user', 'is-enabled']
@@ -27,6 +27,17 @@ for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
     # }
 
     status[unit] = load, active, sub, description
+
+def unit_key ( unit ) :
+
+    if unit not in status:
+        return 1, unit
+
+    load, active, sub, description = status[unit]
+
+    return 0, active not in OK, active in KO, unit
+
+units = sorted(units, key = unit_key )
 
 for unit in units:
 
