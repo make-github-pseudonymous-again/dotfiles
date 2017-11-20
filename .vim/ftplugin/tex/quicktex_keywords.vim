@@ -335,6 +335,9 @@ let g:quicktex_tex = {
     \
 \'Section: More Variables' : 'COMMENT',
     \'ell' : '\(\ell\) ',
+    \
+\'Section: Text remplacement' : 'COMMENT',
+    \'iff' : 'if and only if ',
 \}
 
 " }}}
