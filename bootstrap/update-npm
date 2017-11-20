@@ -15,7 +15,7 @@ function _install ( ) {
   #_ semver
   #_ npm
 
-  echo "  - update global packages"
+  echo "  - install global packages"
   #_ yarn
   _ n
   _ eslint
