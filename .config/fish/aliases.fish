@@ -85,8 +85,8 @@ alias week='date +%V'
 alias timer='echo "Timer started. Stop with Ctrl-D."; and date; and time cat; and date'
 
 # View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+alias sniff="sudo ngrep -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null; or alias hd="hexdump -C"

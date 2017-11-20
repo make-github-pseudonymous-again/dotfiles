@@ -230,4 +230,7 @@ i rclone
 
 i mpd ncmpcpp
 
+# http monitoring
+i ngrep tcpdump
+
 _exit 0
