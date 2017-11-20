@@ -55,7 +55,7 @@
 	ap = add -p
 
 	# Commit
-	c = commit
+	c = commit -v
 
 	# Add all untracked files and unstaged changes
 	aa = add -A
