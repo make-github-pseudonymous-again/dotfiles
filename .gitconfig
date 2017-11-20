@@ -5,24 +5,71 @@
 
 	# Same as above but with all commits, authors and dates
 	lg = log --all --graph --pretty=format:'%Cred%h%Creset -%d %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
 	# View the current working tree status using the short format
 	s = status -s
 
+	# Status
+	st = status
+
+	# Diff line-wise
+	d = diff
+
+	# Diff staged line-wise
+	ds = diff --staged
+
+	# Diff word-wise
+	dw = diff --color-words
+
+	# Diff staged word-wise
+	dws = diff --color-words --staged
+
+	# Diff character-wise
+	dt = diff --word-diff-regex=.
+
+	# Diff staged character-wise
+	dts = diff --word-diff-regex=. --staged
+
 	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	dp = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
 	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+
+	# Diff graph
+	dst = diff --stat
 
 	# Pull in remote changes for the current repository and all its submodules
 	p = !"git pull; git submodule foreach git pull origin master"
 
 	# Clone a repository including all submodules
-	c = clone --recursive
+	cl = clone --recursive
+
+	# Add files or changes
+	a = add
+
+	# Add hunks interactively
+	ai = add -i
+
+	# Add hunks interactively but go directly to the patch step
+	ap = add -p
+
+	# Commit
+	c = commit
+
+	# Add all untracked files and unstaged changes
+	aa = add -A
 
 	# Commit all changes
-	ca = !git add -A && git commit -av
+	ca = commit -av
+
+	# Add all untracked files and unstaged changes and commit all changes
+	aaca = !git add -A && git commit -av
+
+	# Create branch
+	cb = checkout -b
+
+	# Switch to branch
+	co = checkout
 
 	# Switch to a branch, creating it if necessary
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
@@ -38,6 +85,12 @@
 	# Credit an author on the latest commit
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
+	# Push
+	ps = push
+
+	# Pull
+	pl = pull
+
 	# Interactive rebase with the given number of latest commits
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
 
@@ -52,6 +105,9 @@
 
 	# Find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+	# List branches sorted by last modified
+	b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
 
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’

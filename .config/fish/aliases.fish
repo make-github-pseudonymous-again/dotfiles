@@ -24,21 +24,13 @@ alias r="ranger"
 alias q="exit"
 alias lvl="echo $SHLVL"
 
-alias g="git"
-alias gl="git l"
-alias gd="git diff"
-alias gds="git diff --staged"
-alias ga="git add"
-alias gc="git commit"
-alias gaa="git add --all ."
-alias gca="git commit -a"
-alias gps="git push"
-alias gpl="git pull"
-alias gst="git status"
-alias gdt="git diff --word-diff-regex=."
-alias gdts="git diff --word-diff-regex=. --staged"
-alias gdw="git diff --color-words"
-alias gdws="git diff --color-words --staged"
+# Git
+abbr g git
+
+# Alias all git aliases
+for al in (git la)
+    abbr g$al "git $al"
+end
 
 alias udpate="update"
 alias up="update"
