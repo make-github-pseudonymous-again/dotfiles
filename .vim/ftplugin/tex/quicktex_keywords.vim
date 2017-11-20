@@ -67,7 +67,6 @@ let g:quicktex_math = {
     \'Tau'     : '\Tau ',
     \'Upsilon' : '\Upsilon ',
     \'Phi'     : '\Phi ',
-    \'Chi'     : '\Chi ',
     \'Psi'     : '\Psi ',
     \
 \'Section: Set Theory' : 'COMMENT',
