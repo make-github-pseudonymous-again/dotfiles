@@ -34,6 +34,7 @@ end
 
 alias udpate="update"
 alias up="update"
+alias ss="services.show"
 
 # ff to find a file
 alias ff="fzf"
