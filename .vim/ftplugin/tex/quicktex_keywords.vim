@@ -334,6 +334,12 @@ let g:quicktex_tex = {
     \'chi'     : '\(\chi\) ',
     \'psi'     : '\(\psi\) ',
     \
+\'Section: Oh notation' : 'COMMENT',
+    \'o'   : '\(o(<+++>)\)<++> ',
+    \'O'   : '\(O(<+++>)\)<++> ',
+    \'w'   : '\(\omega(<+++>)\)<++> ',
+    \'W'   : '\(\Omega(<+++>)\)<++> ',
+    \
 \'Section: More Variables' : 'COMMENT',
     \'ell' : '\(\ell\) ',
     \
