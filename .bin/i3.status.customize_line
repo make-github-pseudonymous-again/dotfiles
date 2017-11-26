@@ -55,24 +55,6 @@ if test "$pending_count" -gt 0; then
 	fi
 fi
 
-hangouts_status="$(cat "$HOME"'/.cache/hangups/_status')"
-hangouts_type="$(echo "$hangouts_status" | jq -r '.status')"
-if [ "$hangouts_type" = 'error' ]; then
-	prepend='{"name":"new hangouts messages","color":"#F45D4C","full_text":""},'"$prepend"
-elif [ "$hangouts_type" = 'typing' ]; then
-	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
-	if [ "$hangouts_count" -gt 0 ]; then
-		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":" '"$hangouts_count"'"},'"$prepend"
-	else
-		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":""},'"$prepend"
-	fi
-elif [ "$hangouts_type" = 'normal' ]; then
-	hangouts_count="$(echo "$hangouts_status" | jq '.unread')"
-	if [ "$hangouts_count" -gt 0 ]; then
-		prepend='{"name":"new hangouts messages","color":"#85bdbd","full_text":" '"$hangouts_count"'"},'"$prepend"
-	fi
-fi
-
 #rss_count="$(rss.count)"
 #if test "$rss_count" -gt 0; then
 	#prepend='{"name":"new rss","color":"#85bd85","full_text":" '"$rss_count"'"},'"$prepend"

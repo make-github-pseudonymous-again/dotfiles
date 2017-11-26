@@ -1,9 +1,0 @@
-[Unit]
-Description=Hangouts unread messages polling daemon
-
-[Service]
-ExecStart=/usr/bin/env hangouts.poll
-Restart=always
-
-[Install]
-WantedBy=default.target
