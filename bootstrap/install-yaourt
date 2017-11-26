@@ -25,26 +25,14 @@ rm -r yaourt
 fi
 
 if ! which yaourt 1>/dev/null 2>&1 ; then
-fail
+	fail
 fi
 
-yaourt -S --needed \
-memoize \
-myip \
-gitdns \
-dmenu2 \
-nerd-fonts-complete \
-solaar \
-ipe \
-pdftk-bin \
-yank-git \
-untex \
-ruby-coderay \
-fisherman \
-bfs \
-ptpython \
-tealdeer-git \
-notes-git \
-python-bibtexparser \
-python-colored \
-python-pydub
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
+packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
+
+echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
+yaourt -S --needed $packages
+
+exit 0

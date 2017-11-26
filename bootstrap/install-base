@@ -6,38 +6,11 @@ echo 'must be run as root'
 exit 1
 fi
 
-function i ( ) {
-  echo "  > installing ~ $@"
-  1>/dev/null 2>&1 pacman -S --needed --noconfirm "$@"
-}
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
-i lsb-release
-i cmake
-i make
-i clang
-i gcc
-i curl
-i wget
-i zip unzip
-i unrar
-i git
-i rsync
-i jq
-i base-devel
-i pkgfile
-i bind-tools
-i thefuck
-i tk
+packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/base | grep -v '^#')"
 
-i xorg-server
-i xorg-xinit
-i i3-wm i3lock i3status
-i terminator xterm
-i fish
-i ranger
-i exa
-i xorg-xrandr
-i xorg-xsetroot
-i alsa-utils
-i pulseaudio pulseaudio-alsa pavucontrol
-i cups gtk3-print-backends
+echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
+1>/dev/null 2>&1 pacman -S --needed --noconfirm - <<< "$packages"
+
+exit 0

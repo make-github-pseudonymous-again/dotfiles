@@ -1,0 +1,212 @@
+# Fonts
+extra/ttf-dejavu
+powerline-fonts
+ttf-font-awesome
+
+# X
+xorg-xkill
+xsel
+xclip
+xfig
+xorg-xwininfo
+xorg-xprop
+
+# Notifications
+xorg-xrdb
+inotify-tools
+libnotify
+dunst
+
+# Main apps
+bash-completion
+gvim
+firefox
+evince
+mupdf
+
+# Compilers and package managers
+nodejs
+npm
+yarn
+grunt-cli
+pypy3
+go
+
+# Python 3 packages
+python-pip
+python-six
+python-lxml
+python-jedi
+python-docopt
+python-pygments
+python-networkx
+python-numpy
+python-sympy
+python-matplotlib
+python-scipy
+python-pillow
+python-cssselect
+python-click
+python-tqdm
+python-oauth2client
+python-google-api-python-client
+python-keyring
+autopep8
+
+# Python 2 packages
+python2-xlib
+python2-numpy
+python2-lxml
+python2-keyring
+
+# Video
+ffmpeg
+vlc
+youtube-dl
+atomicparsley
+
+# File parsing
+highlight
+atool
+w3m
+poppler
+libcaca
+
+# useful
+testdisk
+pstoedit
+uniconvertor
+inkscape
+ack
+the_silver_searcher
+fasd
+at
+acpi
+udevil
+ntp
+phantomjs
+nmap
+go-ipfs
+
+# Keys and Passwords
+gnupg
+pass
+keybase
+
+# Presentations
+impressive
+
+# Typing training
+klavaro
+
+# RSS
+# i newsbeuter # does not exist anymore
+
+# Torrents
+transmission-gtk
+
+# Mail
+gmime
+notmuch
+notmuch-runtime
+msmtp
+
+# Security
+openssh
+
+# Disk usage
+ncdu
+
+# iPhone / USB
+usbmuxd
+gvfs-afc
+tumbler
+thunar
+exfat-utils
+
+# Image manipulation
+scrot
+screenfetch
+libjpeg-turbo
+gifsicle
+optipng
+feh
+eog
+imagemagick
+fbida
+gimp
+viewnior
+
+# Libre office
+libreoffice-still
+
+# Latex
+extra/texlive-bibtexextra
+extra/texlive-bin
+extra/texlive-core
+extra/texlive-fontsextra
+extra/texlive-formatsextra
+extra/texlive-games
+extra/texlive-genericextra
+extra/texlive-htmlxml
+extra/texlive-humanities
+extra/texlive-langchinese
+extra/texlive-langcyrillic
+extra/texlive-langextra
+extra/texlive-langgreek
+extra/texlive-langjapanese
+extra/texlive-langkorean
+extra/texlive-latexextra
+extra/texlive-music
+extra/texlive-pictures
+extra/texlive-plainextra
+extra/texlive-pstricks
+extra/texlive-publishers
+extra/texlive-science
+
+# Plotting
+gnuplot
+transfig
+geogebra
+
+# Indexing with recoll
+recoll
+pstotext
+antiword
+catdoc
+unrtf
+id3lib
+mutagen
+python-mutagen
+python2-pychm
+perl-image-exiftool
+aspell-en
+libxslt
+djvulibre
+python2
+
+# Lesspipe
+lesspipe
+perl
+rpmextract
+fastjar
+unzip
+unrar
+p7zip
+cabextract
+cdrtools
+html2text
+antiword
+unrtf
+imagemagick
+
+# File system
+rclone
+
+# Music
+mpd
+ncmpcpp
+
+# HTTP monitoring
+ngrep
+tcpdump

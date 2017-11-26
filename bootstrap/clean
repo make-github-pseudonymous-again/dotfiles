@@ -6,16 +6,30 @@ echo 'must be run as root'
 exit 1
 fi
 
+pacman_installed="$(pacman -Q | cut -d' ' -f1)"
+npm_installed="$(ls -1 "$(npm root -g)")"
+pip_installed="$(pip list --format legacy | cut -d' ' -f1)"
+
 function _a ( ) {
-  pacman -Qi "$1" 2>/dev/null && pacman -R "$1"
+  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+    pacman -R "$1"
+  fi
 }
 
 function _p ( ) {
-  { pacman -Ss "$1" | grep '\[installed\]' 1>/dev/null ; } || { pip show "$2" && pip uninstall "$2" ; }
+  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+    exit
+  fi
+  if { <<< "$pip_installed" grep "^$2\$" 1>/dev/null 2>&1 ; } ; then
+    pip uninstall "$2"
+  fi
 }
 
 function _n ( ) {
-  if ls "$(npm root -g)" --color=never | grep '^'"$1"'$' 1>/dev/null 2>&1 ; then
+  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+    exit
+  fi
+  if { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
     npm uninstall -g "$1"
   fi
 }
@@ -30,12 +44,15 @@ _a abunchoftags
 _a offlineimap
 _a exa-git
 _a flashplugin
+_a hangups-git
+_a qtox
+_a toxcore
 
 # Python / pip
 _p python-cssselect cssselect
 _p autopep8 autopep8
 _p python-lxml lxml
-_p tldr
+_p tldr-python-client tldr
 
 # Node / NPM
 _n jshint
@@ -48,3 +65,4 @@ _n ora # others should depend on this
 _n np # should be installed as dev dep
 _n xyz # should be installed as dev dep
 _n jspm # not using it at the moment
+_n grunt-cli # install via arch repo

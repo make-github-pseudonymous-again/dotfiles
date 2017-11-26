@@ -8,29 +8,38 @@ fi
 
 x="$1"
 
+pip_installed="$(pip list --format legacy | cut -d' ' -f1)"
+
 if [ "$x" = u ] ; then
 
   function _ ( ) {
-    if pip show "$1" 1>/dev/null 2>&1 ; then
-      pip install --upgrade "$1" 1>/dev/null
+    package="$(<<< $1 cut -d= -f1)"
+    if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
+      echo "  > updating ~ $1"
+      pip install --upgrade "$package" 1>/dev/null
     fi
   }
 
 elif [ "$x" = i ] ; then
 
   function _ ( ) {
-    if ! pip show "$1" 1>/dev/null 2>&1 ; then
-      pip install "$1" 1>/dev/null
+    package="$(<<< $1 cut -d= -f1)"
+    if ! { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
+      echo "  > installing ~ $1"
+      pip install "$package" 1>/dev/null
     fi
   }
 
 else
 
   function _ ( ) {
-    if pip show "$1" 1>/dev/null 2>&1 ; then
-      pip install --upgrade "$1" 1>/dev/null
+    package="$(<<< $1 cut -d= -f1)"
+    if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
+      echo "  > updating ~ $1"
+      pip install --upgrade "$package" 1>/dev/null
     else
-      pip install "$1" 1>/dev/null
+      echo "  > installing ~ $1"
+      pip install "$package" 1>/dev/null
     fi
   }
 
