@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-APPID='bikioccmkafdpakkkcpdbppfkghcmihk'
-
-chromium --profile-directory=Default --app-id="$APPID"
