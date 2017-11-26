@@ -42,19 +42,36 @@ function i ( ) {
   _do pacman -S --needed --noconfirm "$@"
 }
 
-i highlight atool w3m poppler libcaca
+# Fonts
+i extra/ttf-dejavu \
+powerline-fonts \
+ttf-font-awesome
 
+# X
+i xorg-xkill \
+xsel xclip \
+xfig \
+xorg-xwininfo xorg-xprop
+
+# Notifications
 i xorg-xrdb \
 inotify-tools \
-dunst \
 libnotify \
-bash-completion \
+dunst
+
+# Main apps
+i bash-completion \
 gvim \
 firefox \
 evince \
-mupdf \
-nodejs npm yarn
+mupdf
 
+# Compilers and package managers
+i nodejs npm yarn grunt-cli \
+pypy3 \
+go
+
+# Python 3 packages
 i python-pip \
 python-six \
 python-lxml \
@@ -69,22 +86,32 @@ python-scipy \
 python-pillow \
 python-cssselect \
 python-click \
+python-tqdm \
+python-oauth2client \
+python-google-api-python-client \
+python-keyring \
 autopep8
 
-i pypy3
+# Python 2 packages
+i python2-xlib \
+python2-numpy \
+python2-lxml \
+python2-keyring
 
-i python2-xlib
-i go
+# Video
+i ffmpeg vlc \
+youtube-dl atomicparsley
 
-i ffmpeg vlc
-i youtube-dl atomicparsley
+# File parsing
+i highlight atool w3m poppler libcaca
 
 # useful
 i testdisk \
-pstoedit python2-numpy python2-lxml uniconvertor \
+pstoedit uniconvertor \
 inkscape \
 ack \
 the_silver_searcher \
+fasd \
 at \
 acpi \
 udevil \
@@ -93,59 +120,44 @@ phantomjs \
 nmap \
 go-ipfs
 
-# mouse stuff
-i xorg-xkill \
-xsel xclip
-
-# keys/passwords
+# Keys and Passwords
 i gnupg \
 pass \
 keybase
 
+# Messaging
 i qtox
 
-# presentations
+# Presentations
 i impressive
 
+# Typing training
 i klavaro
 
 # RSS
 # i newsbeuter # does not exist anymore
 
-# torrent
+# Torrents
 i transmission-gtk
 
-# mail
+# Mail
+i gmime \
+notmuch \
+notmuch-runtime \
+msmtp
 
-i gmime notmuch notmuch-runtime
-i msmtp
-
-# gmailieer
-i python-oauth2client \
-python-google-api-python-client
-
-# security
-
+# Security
 i openssh
-i python2-keyring
-i python-keyring
 
-# replace ugly default font
-i extra/ttf-dejavu
-i powerline-fonts
-
-# disk usage
-
+# Disk usage
 i ncdu
 
-# iphone / USB
-
+# iPhone / USB
 i usbmuxd gvfs-afc \
 tumbler thunar \
 exfat-utils
 
-# image manipulation
-
+# Image manipulation
 i scrot \
 screenfetch \
 libjpeg-turbo gifsicle optipng \
@@ -153,12 +165,10 @@ feh eog imagemagick fbida \
 gimp \
 viewnior
 
-# libre office
-
+# Libre office
 i libreoffice-still
 
-# latex
-
+# Latex
 i extra/texlive-bibtexextra \
 extra/texlive-bin \
 extra/texlive-core \
@@ -182,12 +192,11 @@ extra/texlive-pstricks \
 extra/texlive-publishers \
 extra/texlive-science
 
+# Plotting
 i gnuplot \
-xfig transfig geogebra \
-xorg-xwininfo xorg-xprop
+transfig geogebra
 
-# recoll
-
+# Indexing with recoll
 i recoll \
 pstotext \
 antiword \
@@ -202,12 +211,11 @@ libxslt \
 djvulibre \
 python2
 
-# fix recoll filters
+# Fix recoll filters
 sed 's:^#!/usr/bin/env python$:#!/usr/bin/env python2:g' -i /usr/share/recoll/filters/*
 sed 's:^#!/usr/bin/python$:#!/usr/bin/env python2:g' -i /usr/share/recoll/filters/*
 
-# lesspipe
-
+# Lesspipe
 i lesspipe \
 perl \
 rpmextract \
@@ -222,15 +230,13 @@ antiword \
 unrtf \
 imagemagick
 
-# file system
-
+# File system
 i rclone
 
-# sound
-
+# Music
 i mpd ncmpcpp
 
-# http monitoring
+# HTTP monitoring
 i ngrep tcpdump
 
 _exit 0

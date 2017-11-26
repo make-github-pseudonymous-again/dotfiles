@@ -29,9 +29,10 @@ fail
 fi
 
 yaourt -S --needed \
+memoize \
+myip \
+gitdns \
 dmenu2 \
-fasd \
-ttf-font-awesome \
 nerd-fonts-complete \
 solaar \
 ipe \
@@ -46,8 +47,4 @@ tealdeer-git \
 notes-git \
 python-bibtexparser \
 python-colored \
-memoize \
-python-tqdm \
-myip \
-gitdns \
 python-pydub
