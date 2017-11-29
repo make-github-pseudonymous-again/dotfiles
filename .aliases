@@ -17,7 +17,6 @@ alias lvl="echo $SHLVL"
 
 alias g="git"
 
-alias udpate="update"
 alias up="update"
 alias ss="services.show"
 
@@ -106,3 +105,7 @@ alias fuuuc=fu
 alias fuck=fu
 alias fuuck=fu
 alias fuuuck=fu
+
+# typos
+alias udpate='update'
+alias maek='make'

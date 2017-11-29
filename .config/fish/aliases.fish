@@ -32,7 +32,6 @@ for al in (git la)
     abbr g$al "git $al"
 end
 
-alias udpate="update"
 alias up="update"
 alias ss="services.show"
 
@@ -134,3 +133,7 @@ alias fuuuc=fuu
 alias fuck=fuu
 alias fuuck=fuu
 alias fuuuck=fuu
+
+# typos
+alias udpate='update'
+alias maek='make'
