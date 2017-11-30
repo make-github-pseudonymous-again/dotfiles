@@ -135,5 +135,5 @@ alias fuuck=fuu
 alias fuuuck=fuu
 
 # typos
-alias udpate='update'
-alias maek='make'
+abbr udpate update
+abbr maek make
