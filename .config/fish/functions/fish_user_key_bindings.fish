@@ -11,6 +11,12 @@ function fish_user_key_bindings
         echo "sudope: The requested sequence is already in use:" (bind $sudope_sequence | cut -d' ' -f2-)
     else if set -q do_bind
         bind $sudope_sequence sudope
+        bind -M insert $sudope_sequence sudope
     end
     ### sudope ###
+
+
+	# Auto-complete shortcuts
+	bind -M insert \co forward-char
+	bind -M insert \cp accept-autosuggestion
 end
