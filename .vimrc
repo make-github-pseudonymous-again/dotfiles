@@ -463,3 +463,4 @@ endfunction
 
 let g:ranger_map_keys = 0
 map <leader>r :RangerWorkingDirectory<CR>
+map <leader>R :RangerCurrentFile<CR>
