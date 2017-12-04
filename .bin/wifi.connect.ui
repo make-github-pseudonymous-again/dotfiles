@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-profiles=$(netctl list | cut -b3-)
-profile=$(echo "$profiles" | dmenu_center --rest -z -p '' -sb '#54A8A8' -i -t -l 10)
-
-if [ "$profile" != '' ] ; then
-	sudo /usr/bin/netctl start "$profile"
-fi

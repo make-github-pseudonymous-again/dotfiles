@@ -10,4 +10,4 @@ if [ "$message" = '' ] ; then
 	exit 2
 fi
 
-alarm.new "$when" "$message"
+alarm.set "$when" "$message"

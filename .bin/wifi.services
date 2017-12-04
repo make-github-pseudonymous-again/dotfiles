@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-interface="$(wifi.interface)"
+interface="$(wifi.chips.default)"
 
 systemctl |\
 grep 'loaded active \(exited\|running\)' |\

@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+delay=9
+
+profile="$(wifi.profiles.running)"
+
+if [ "$profile" != '' ] ; then
+	wifi.profile.stop "$profile"
+	sleep "$delay"
+	wifi.profile.start "$profile"
+elif is.wifi.auto.running
+then
+	wifi.auto.stop
+	sleep "$delay"
+	wifi.auto.start
+else
+	wifi.auto.start
+fi

@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-sudo /usr/bin/iw dev "$(wifi.interface)" scan 1>&2

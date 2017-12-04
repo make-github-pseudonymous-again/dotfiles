@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+wifi.endpoints._list "$1" | wifi.endpoints._list.format

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 services.off
-wifi.disable
+wifi.any.stop
 mkdir -p "$HOME/.cache/mobile/mode/plane"
 touch "$HOME/.cache/mobile/mode/plane/on"

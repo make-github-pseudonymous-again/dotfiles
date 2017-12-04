@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+wifi.endpoints "$(wifi.chips.default)" | jq -r '.[].ESSID' | awk "/$1/ {print \$NF}"

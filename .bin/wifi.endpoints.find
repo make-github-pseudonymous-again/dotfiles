@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+pattern="$1"
+
+endpoints="$(wifi.endpoints.match "$pattern")"
+if "$endpoints" | read ; then
+	echo "$endpoints"
+else
+	wifi.endpoints.scan
+	endpoints="$(wifi.endpoints.match "$pattern")"
+	if "$endpoints" | read ; then
+		echo "$endpoints"
+	else
+		exit 1
+	fi
+fi

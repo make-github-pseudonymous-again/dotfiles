@@ -1,8 +1,3 @@
 #!/usr/bin/env sh
 
-if is.wifi.enabled
-then
-echo "enabled"
-else
-echo "disabled"
-fi
+is.wifi.running && { echo enabled ; } || { echo disabled ; }

@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-wifi.list "$(wifi.interface)" | jq -r '.[].ESSID' | awk "/$1/ {print \$NF}"

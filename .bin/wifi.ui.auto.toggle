@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if is.wifi.auto.running ; then
+	wifi.auto.stop
+else
+	wifi.auto.start
+fi

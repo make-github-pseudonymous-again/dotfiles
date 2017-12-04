@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-interface="$(wifi.interface)"
+interface="$(wifi.chips.default)"
 
 systemctl | grep 'netctl\(\|-auto\)@'"$interface" | grep -e 'loaded\s*active\s*\(exited\|running\)' 1>&2

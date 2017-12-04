@@ -23,6 +23,8 @@ alias t="touch"
 alias r="ranger"
 alias q="exit"
 alias lvl="echo $SHLVL"
+abbr wi wifi
+abbr ws wifi.endpoints.scan
 
 # Git
 abbr g git

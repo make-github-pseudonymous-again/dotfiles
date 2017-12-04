@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 while true; do
-	if timeout 30 wifi.scan && memoize-ft 0 wifi.fingerprint.distances; then
+	if timeout 30 wifi.endpoints.scan && memoize-ft 0 wifi.fingerprint.distances; then
 		sleep 600
 	else
 		sleep 100

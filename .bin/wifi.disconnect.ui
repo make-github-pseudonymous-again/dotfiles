@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-profile="$(netctl list | grep '^*' | cut -d' ' -f2)"
-sudo /usr/bin/netctl stop "$profile"

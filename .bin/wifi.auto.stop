@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-interface="$(wifi.interface)"
+interface="$(wifi.chips.default)"
 
 sudo /usr/bin/systemctl stop 'netctl-auto@'"$interface"

@@ -244,10 +244,10 @@ bindsym $mod+r mode "resize"
 
 mode "wifi" {
 
-        bindsym r exec wifi.restart.ui; mode "default"
-        bindsym t exec wifi.toggle.ui; mode "default"
-        bindsym d exec wifi.disconnect.ui; mode "default"
-        bindsym c exec wifi.connect.ui; mode "default"
+        bindsym r exec wifi.ui.restart; mode "default"
+        bindsym t exec wifi.ui.auto.toggle; mode "default"
+        bindsym d exec wifi.ui.profile.stop; mode "default"
+        bindsym c exec wifi.ui.profile.start; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -345,7 +345,7 @@ mode "organization" {
         bindsym Shift+C exec calendar.edit; mode "default"
         bindsym w exec weather; mode "default"
 
-        bindsym a exec alarm.new.ui; mode "default"
+        bindsym a exec alarm.ui.set; mode "default"
         bindsym b exec courriel.abook; mode "default"
         bindsym p exec menu.pass; mode "default"
 
@@ -361,7 +361,7 @@ mode "organization" {
 mode "tools" {
         bindsym p exec terminator -b -x ptpython; mode "default"
 
-        bindsym b exec bib.ui; mode "default"
+        bindsym b exec bib.ui.selection; mode "default"
         bindsym Shift+B exec bib.selection.local; mode "default"
         bindsym c exec clipboard.menu; mode "default"
         bindsym m exec menu.man; mode "default"
@@ -474,7 +474,7 @@ bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 bindsym $mod+t exec touchpad.toggle
 
 #wifi
-#bindsym XF86WLAN exec wifi.toggle
+#bindsym XF86WLAN exec wifi.ui.auto.toggle
 
 # Change the workspace output
 bindsym $mod+plus exec i3.workspace.swap

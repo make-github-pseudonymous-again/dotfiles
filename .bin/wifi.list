@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-wifi._list "$1" | wifi._list.format

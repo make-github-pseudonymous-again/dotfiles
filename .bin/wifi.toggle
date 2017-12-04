@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-if is.wifi.enabled
-then
-wifi.disable
-else
-wifi.enable
-fi

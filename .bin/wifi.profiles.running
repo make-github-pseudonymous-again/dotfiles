@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+wifi.profiles | grep '^*' | cut -d' ' -f2
