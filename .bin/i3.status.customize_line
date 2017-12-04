@@ -14,6 +14,8 @@ execute="$execute"'| map( select( .full_text != "can'"'"'t read temp" ) )'
 
 if ! is.wifi.running; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
+elif is.wifi.auto.running; then
+	execute="$execute"'| map( if .name == "wireless" then .full_text = " " + .full_text else . end )'
 fi
 
 if is.tethering.on; then
