@@ -1,0 +1,9 @@
+[Unit]
+Description=Unhang the BCM4331 chip that has a bad linux driver
+
+[Service]
+ExecStart=/usr/bin/env sh wifi.unhang.BCM4331.poll
+Restart=always
+
+[Install]
+WantedBy=default.target

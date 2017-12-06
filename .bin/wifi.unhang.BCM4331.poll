@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+while true; do
+	wifi.unhang.BCM4331
+	sleep 20
+done

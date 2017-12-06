@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+if ! { lspci | grep -q BCM4331 ; } ; then exit ; fi
+
+if ! is.wifi.running ; then exit ; fi
+
+AP="$(iwgetid --raw --ap)"
+
+CHIP="$(wifi.chips.default)"
+
+STRENGTH="$(wifi.endpoints "$CHIP" | jq '.[] | select( .address == "'"$AP"'") | .strength')"
+
+if [ "$STRENGTH" == '1' ] ; then wifi.ui.restart ; fi
