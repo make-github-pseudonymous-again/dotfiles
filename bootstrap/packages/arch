@@ -51,6 +51,7 @@ python-tqdm
 python-oauth2client
 python-google-api-python-client
 python-keyring
+python-urwid
 autopep8
 
 # Python 2 packages
