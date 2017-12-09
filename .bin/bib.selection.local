@@ -86,8 +86,12 @@ for doc in docs:
     else:
         path = doc.url[7:]
 
-    with open(path) as bibtex_file:
-        bibtex_str = bibtex_file.read()
+    try:
+        with open(path) as bibtex_file:
+            bibtex_str = bibtex_file.read()
+    except FileNotFoundError as e:
+        log.error(e)
+        continue
 
     bib_database = bibtexparser.loads(bibtex_str)
     # should probably just count here
