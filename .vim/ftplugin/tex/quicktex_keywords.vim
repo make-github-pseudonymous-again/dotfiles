@@ -132,6 +132,7 @@ let g:quicktex_math = {
     \'sq'    : "\<BS>^2 ",
     \'cube'  : "\<BS>^3 ",
     \'inv'   : "\<BS>^{-1} ",
+    \'pr'    : "\<BS>' ",
     \'times' : '\times ',
     \'min'   : '\min ',
     \'max'   : '\max ',
