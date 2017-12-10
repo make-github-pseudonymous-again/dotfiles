@@ -255,7 +255,8 @@ let g:quicktex_math = {
     \'sinf'   : '\inf ',
     \
 \'Section: More Variables' : 'COMMENT',
-    \'ell' : '\ell ',
+    \'ell'   : '\ell ',
+    \'nabla' : '\nabla ',
 \}
 
 " }}}
@@ -357,6 +358,7 @@ let g:quicktex_tex = {
     \
 \'Section: More Variables' : 'COMMENT',
     \'ell' : '\(\ell\) ',
+    \'nabla' : '\(\nabla\) ',
     \
 \'Section: Text remplacement' : 'COMMENT',
     \'iff' : 'if and only if ',
