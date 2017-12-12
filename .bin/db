@@ -52,6 +52,12 @@ _route () {
       push)
 	  _push "$@"; exit "$?"
 	  ;;
+      download)
+	  _download "$@"; exit "$?"
+	  ;;
+      upload)
+	  _upload "$@"; exit "$?"
+	  ;;
       *)
 	  _unknown_command "$CMD"
 	  ;;
@@ -70,8 +76,7 @@ _pull () {
 
   _usage "$#" -ne 0 "pull"
 
-  _log error 'Pull not implemented'
-  exit 1
+  $RC sync "$REMOTE:$SLUG" .
 
 }
 
@@ -79,8 +84,23 @@ _push () {
 
   _usage "$#" -ne 0 "push"
 
-  _log error 'Push not implemented'
-  exit 1
+  $RC sync . "$REMOTE:$SLUG"
+
+}
+
+_download () {
+
+  _usage "$#" -ne 0 "download"
+
+  $RC copy "$REMOTE:$SLUG" .
+
+}
+
+_upload () {
+
+  _usage "$#" -ne 0 "upload"
+
+  $RC copy . "$REMOTE:$SLUG"
 
 }
 
