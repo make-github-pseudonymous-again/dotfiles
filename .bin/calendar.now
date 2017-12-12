@@ -141,7 +141,7 @@ try:
 
     # event format
     ef = '{name}'
-    if location :
+    if location and location not in name:
         ef += ' ( {location})'
 
     if begin < now:

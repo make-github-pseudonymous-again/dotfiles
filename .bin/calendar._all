@@ -293,7 +293,7 @@ for title, events in sections:
         else:
             ef = ' {icon}  (started {hbegin}, ends {hend}) - {name}'
 
-        if location :
+        if location and location not in name:
             ef += ' ( {location})'
 
         if _main is not None and event == _main:
