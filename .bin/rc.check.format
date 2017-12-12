@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+TIME='20[0-9][0-9]/[0-9][0-9]/[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]'
+
+MODIFIED="^$TIME ERROR : \\(.*\\): Sizes differ\$"
+   ADDED="^$TIME ERROR : \\(.*\\): File not in Dropbox root '.*'\$"
+ DELETED="^$TIME ERROR : \\(.*\\): File not in Local file system at .*\$"
+  REMOTE="^$TIME NOTICE: Dropbox root '.*': \\([1-9][0-9]*\\) files missing\$"
+   LOCAL="^$TIME NOTICE: Local file system at .*: \\([1-9][0-9]*\\) files missing\$"
+ CHANGES="^$TIME NOTICE: Local file system at .*: \\([1-9][0-9]*\\) differences found\$"
+ FAILURE="^$TIME Failed to check: \\([1-9][0-9]*\\) differences found\$"
+   ERROR="^$TIME ERROR : \\(.*\\)\$"
+
+while read line
+do
+	if grep -q "$MODIFIED" <<< "$line"; then
+		filename="$(sed "s|$MODIFIED|\\1|" <<< "$line")"
+		echo "M $filename"
+	elif grep -q  "$ADDED" <<< "$line"; then
+		filename="$(sed "s|$ADDED|\\1|" <<< "$line")"
+		echo "A $filename"
+	elif grep -q  "$DELETED" <<< "$line"; then
+		filename="$(sed "s|$DELETED|\\1|" <<< "$line")"
+		echo "D $filename"
+	elif grep -q "$REMOTE" <<< "$line"; then
+		missing="$(sed "s|$REMOTE|\\1|" <<< "$line")"
+		echo "R $missing"
+	elif grep -q "$LOCAL" <<< "$line"; then
+		missing="$(sed "s|$LOCAL|\\1|" <<< "$line")"
+		echo "L $missing"
+	elif grep -q "$CHANGES" <<< "$line"; then
+		changes="$(sed "s|$CHANGES|\\1|" <<< "$line")"
+		echo "C $changes"
+	elif grep -q "$FAILURE" <<< "$line"; then
+		failure="$(sed "s|$FAILURE|\\1|" <<< "$line")"
+		echo "F $failure"
+		exit 1
+	elif grep -q "$ERROR" <<< "$line"; then
+		error="$(sed "s|$ERROR|\\1|" <<< "$line")"
+		echo "E $error"
+	else
+		echo "? $line"
+	fi
+done < /dev/stdin

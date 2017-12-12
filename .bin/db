@@ -1,0 +1,115 @@
+#!/usr/bin/env sh
+
+EXEPATH="$0"
+EXE="$(basename "$EXEPATH")"
+
+_log () {
+  lvl="$1" && shift
+  >&2 echo "[$lvl]" "$@"
+}
+
+_usage () {
+  if [ "$1" "$2" "$3" ] ; then
+    _log error "usage: $EXE $4"
+    exit 1
+  fi
+}
+
+_usage "$#" -lt 1 "<command> <...args>"
+
+CMD="$1" && shift
+
+REMOTE="db"
+RC="rc"
+ROOT="$HOME/dropbox/"
+
+# check remote exists
+if ! { $RC listremotes | grep -q "^$REMOTE:\$" ; } ; then
+  _log error "Could not find remote $CONFIG"
+  exit 2
+fi
+
+CWD="$PWD/"
+
+# check working directory is in dropbox
+if [[ "$CWD" != "$ROOT"* ]] ; then
+  _log error "$CWD is not in $ROOT"
+  exit 3
+fi
+
+SLUG="${CWD#$ROOT}"
+SLUG="${SLUG%/}"
+
+_route () {
+
+  case "$CMD" in
+      diff)
+	  _diff "$@"; exit "$?"
+	  ;;
+      pull)
+	  _pull "$@"; exit "$?"
+	  ;;
+      push)
+	  _push "$@"; exit "$?"
+	  ;;
+      *)
+	  _unknown_command "$CMD"
+	  ;;
+  esac
+}
+
+_diff () {
+
+  _usage "$#" -ne 0 "diff"
+
+  $RC check "$REMOTE:$SLUG" . 2>&1 | rc.check.format | rc.check.colorize
+
+}
+
+_pull () {
+
+  _usage "$#" -ne 0 "pull"
+
+  _log error 'Pull not implemented'
+  exit 1
+
+}
+
+_push () {
+
+  _usage "$#" -ne 0 "push"
+
+  _log error 'Push not implemented'
+  exit 1
+
+}
+
+_sleep () {
+
+  _log info "sleep $1"
+  sleep "$1"
+
+}
+
+_do () {
+
+  _log info "$@"
+  "$@"
+  rc="$?"
+
+  if [ "$rc" -eq 0 ] ; then
+    _log succ "$@"
+  else
+    _log fail "$@"
+  fi
+
+  return "$rc"
+
+}
+
+_unknown_command ( ) {
+  >&2 echo "Unknown command: $1"
+  exit 3
+}
+
+_route "$@"
