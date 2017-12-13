@@ -5,9 +5,6 @@ if [ $(id -u) == "0" ] ; then
   exit 57
 fi
 
-O="$(mktemp /tmp/update.out.XXXXXXXX)"
-E="$(mktemp /tmp/update.err.XXXXXXXX)"
-
 echo '+ Parsing arguments'
 
 ### PARSING BEGIN ###
@@ -108,6 +105,9 @@ while getopts "h?apmfcsiurvdzwxtPMFCSIURVDZWXT" opt; do
         ;;
     esac
 done
+
+O="$(mktemp /tmp/update.out.XXXXXXXX)"
+E="$(mktemp /tmp/update.err.XXXXXXXX)"
 
 shift $((OPTIND-1))
 
@@ -226,14 +226,14 @@ fi
 if $diff ; then
 
   echo '+ Diff dotfiles'
-  sh "$DOTFILES"/bootstrap/dotfiles-diff || exit "$?"
+  sh "$DOTFILES"/bootstrap/dotfiles-diff || _exit "$?"
 
 fi
 
 if $update ; then
 
   echo '+ Update dotfiles'
-  sh "$DOTFILES"/bootstrap/dotfiles-update -f || exit "$?"
+  sh "$DOTFILES"/bootstrap/dotfiles-update -f || _exit "$?"
 
 fi
 
@@ -258,14 +258,14 @@ if $plugins ; then
       if $diff ; then
 
         echo '  ° Diff '"$PLUGIN"
-        sh "$PLUGIN"/dotfiles.diff || exit "$?"
+        sh "$PLUGIN"/dotfiles.diff || _exit "$?"
 
       fi
 
       if $update ; then
 
         echo '  ° Update '"$PLUGIN"
-        sh "$PLUGIN"/dotfiles.update -f || exit "$?"
+        sh "$PLUGIN"/dotfiles.update -f || _exit "$?"
 
       fi
 
