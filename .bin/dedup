@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+# all arguments are passed to find
+# if no arguments are passed it will use the default 'find . -type f'
+# if the output is redirected it will list the selected files
+# otherwise it will prompt for their deletion at the end of the selection
+
+if [ -t 1 ] ; then
+  SELECTED="$(mktemp /tmp/dedup.XXXXXXXX)"
+else
+  SELECTED='/dev/null'
+fi
+
+args=${@:-'. -type f'}
+
+find $args | \
+duplicates.group | \
+duplicates.select | \
+tee "$SELECTED"
+
+if [ "$SELECTED" != '/dev/null' ] ; then
+
+  if ask 'Do you really want to delete those files?' 'N' ; then
+    while read -r PATH; do
+      echo "Deleting '$PATH'"
+      rm -f -- "$PATH";
+    done < "$SELECTED"
+  fi
+
+  rm -f "$SELECTED"
+
+fi
