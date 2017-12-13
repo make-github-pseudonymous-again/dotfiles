@@ -20,11 +20,17 @@ tee "$selected"
 
 if [ "$selected" != '/dev/null' ] ; then
 
-  if ask 'Do you really want to delete those files?' 'N' ; then
-    while read -r path; do
-      echo "Deleting '$path'"
-      rm -f -- "$path"
-    done < "$selected"
+  if [ "$(wc -l < "$selected")" -ge 1 ] ; then
+
+    if ask 'Do you really want to delete those files?' 'N' ; then
+      while read -r path; do
+        echo "Deleting '$path'"
+        rm -f -- "$path"
+      done < "$selected"
+    fi
+
+  else
+    >&2 echo "No duplicates to delete."
   fi
 
   rm -f "$selected"

@@ -1,45 +1,14 @@
-#!/usr/bin/env node
+#!/usr/bin/env sh
 
-const fs = require('fs');
-const crypto = require('crypto');
-const readline = require('readline');
+table="$(mktemp --tmpdir --directory .duplicates.group_XXXXXXXXXX)"
 
-const algorithm = 'sha1'
+function hash {
+  sha1sum "$1" | head -c 40
+}
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+while read -r path; do
+  key="$(hash "$path")"
+  echo "$path" >> "$table/$key"
+done
 
-const groups = new Map();
-let pending = 0;
-let closed = false;
-
-const dump = () => console.log(JSON.stringify([...groups.values()].filter( x => x.length >= 2 )));
-
-rl.on('line', path => {
-
-  const hash = crypto.createHash(algorithm);
-  const stream = fs.ReadStream(path);
-  pending += 1;
-
-  stream.on('data', data => hash.update(data) ) ;
-  stream.on('error' , function (err) {
-    pending -= 1;
-    console.error(err) ;
-  } ) ;
-  stream.on('end', () => {
-    const digest = hash.digest('hex');
-    if (!groups.has(digest)) groups.set(digest, [path]);
-    else groups.get(digest).push(path);
-    pending -= 1;
-    if ( closed && !pending ) dump();
-  });
-
-});
-
-rl.on('close', () => {
-  closed = true;
-  if ( !pending ) dump();
-});
+echo "$table"

@@ -1,34 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env sh
 
-const { spawnSync } = require('child_process');
-
-const chunks = [];
-
-process.stdin.on('data', buf => { chunks.push(buf.toString()); });
-
-process.stdin.on('end', () => {
-
-  const data = chunks.join('');
-
-  const groups = JSON.parse(data);
-
-  for ( const group of groups ) {
-
-    const entries = group.join('\n');
-
-    const fzf = spawnSync(
-      `echo "${entries}" | fzf`,
-      [ '-m', '--prompt', '"select files to delete > "' ],
-      {
-        stdio: ['inherit', 'pipe', 'inherit'],
-        shell: true,
-        encoding: 'utf-8',
-      });
-
-    const todelete = fzf.stdout.split('\n');
-
-    for ( const path of todelete ) if (path) console.log(path);
-
-  }
-
-});
+while read -r table; do
+  for key in $(ls "$table"); do
+    if [ "$(wc -l < "$table/$key")" -lt 2 ] ; then continue ; fi
+    fzf -m --prompt 'select files to delete > ' < "$table/$key"
+  done
+  rm -r "$table"
+done
