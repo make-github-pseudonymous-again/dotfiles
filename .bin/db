@@ -74,33 +74,33 @@ _diff () {
 
 _pull () {
 
-  _usage "$#" -ne 0 "pull"
+  _usage "$#" -lt 0 "pull"
 
-  $RC sync "$REMOTE:$SLUG" .
+  $RC sync "$REMOTE:$SLUG" . "$@"
 
 }
 
 _push () {
 
-  _usage "$#" -ne 0 "push"
+  _usage "$#" -lt 0 "push"
 
-  $RC sync . "$REMOTE:$SLUG"
+  $RC sync . "$REMOTE:$SLUG" "$@"
 
 }
 
 _download () {
 
-  _usage "$#" -ne 0 "download"
+  _usage "$#" -lt 0 "download"
 
-  $RC copy "$REMOTE:$SLUG" .
+  $RC copy "$REMOTE:$SLUG" . "$@"
 
 }
 
 _upload () {
 
-  _usage "$#" -ne 0 "upload"
+  _usage "$#" -lt 0 "upload"
 
-  $RC copy . "$REMOTE:$SLUG"
+  $RC copy . "$REMOTE:$SLUG" "$@"
 
 }
 
