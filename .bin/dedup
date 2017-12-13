@@ -8,25 +8,25 @@
 if [ "$#" -eq 0 ] ; then set -- . -type f ; fi
 
 if [ -t 1 ] ; then
-  SELECTED="$(mktemp /tmp/dedup.XXXXXXXX)"
+  selected="$(mktemp /tmp/dedup.XXXXXXXX)"
 else
-  SELECTED='/dev/null'
+  selected='/dev/null'
 fi
 
 find "$@" | \
 duplicates.group | \
 duplicates.select | \
-tee "$SELECTED"
+tee "$selected"
 
-if [ "$SELECTED" != '/dev/null' ] ; then
+if [ "$selected" != '/dev/null' ] ; then
 
   if ask 'Do you really want to delete those files?' 'N' ; then
-    while read -r PATH; do
-      echo "Deleting '$PATH'"
-      rm -f -- "$PATH";
-    done < "$SELECTED"
+    while read -r path; do
+      echo "Deleting '$path'"
+      rm -f -- "$path"
+    done < "$selected"
   fi
 
-  rm -f "$SELECTED"
+  rm -f "$selected"
 
 fi
