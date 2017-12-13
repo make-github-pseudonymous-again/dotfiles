@@ -5,15 +5,15 @@
 # if the output is redirected it will list the selected files
 # otherwise it will prompt for their deletion at the end of the selection
 
+if [ "$#" -eq 0 ] ; then set -- . -type f ; fi
+
 if [ -t 1 ] ; then
   SELECTED="$(mktemp /tmp/dedup.XXXXXXXX)"
 else
   SELECTED='/dev/null'
 fi
 
-args=${@:-'. -type f'}
-
-find $args | \
+find "$@" | \
 duplicates.group | \
 duplicates.select | \
 tee "$SELECTED"
