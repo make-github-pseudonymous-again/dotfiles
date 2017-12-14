@@ -24,13 +24,13 @@ if [ "$selected" != '/dev/null' ] ; then
 
     if ask 'Do you really want to delete those files?' 'N' ; then
       while read -r path; do
-        echo "Deleting '$path'"
+        >&2 printf 'Deleting "%s"\n' "$path"
         rm -f -- "$path"
       done < "$selected"
     fi
 
   else
-    >&2 echo "No duplicates to delete."
+    >&2 printf 'No duplicates to delete\n'
   fi
 
   rm -f "$selected"

@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
-table="$(mktemp --tmpdir --directory duplicates.group_XXXXXXXXXX)"
+index="$(mktemp --tmpdir --directory duplicates.group_XXXXXXXXXX)"
+all="$index/all"
+dup="$index/dup"
+mkdir "$all"
+mkdir "$dup"
 
 function hash {
   xxhsum "$1" 2>/dev/null | head -c 16
@@ -8,7 +12,10 @@ function hash {
 
 while read -r path; do
   key="$(hash "$path")"
-  echo "$path" >> "$table/$key"
+  orig="$all/$key"
+  link="$dup/$key"
+  if [ -e "$orig" ] && [ ! -e "$link" ] ; then ln "$orig" "$link" ; fi
+  printf "%s\n" "$path" >> "$orig"
 done
 
-echo "$table"
+printf "%s\n" "$index"
