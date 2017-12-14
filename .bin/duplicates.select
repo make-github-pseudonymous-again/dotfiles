@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 while read -r table; do
-  for key in $(ls "$table"); do
-    if [ "$(wc -l < "$table/$key")" -lt 2 ] ; then continue ; fi
-    fzf -m --prompt 'select files to delete > ' < "$table/$key"
+  for entry in $(find "$table" -type f); do
+    if [ "$(wc -l < "$entry")" -lt 2 ] ; then continue ; fi
+    fzf -m --prompt 'select files to delete > ' < "$entry"
   done
   rm -r "$table"
 done
