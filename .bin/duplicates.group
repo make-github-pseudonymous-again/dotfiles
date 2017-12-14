@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-table="$(mktemp --tmpdir --directory .duplicates.group_XXXXXXXXXX)"
+table="$(mktemp --tmpdir --directory duplicates.group_XXXXXXXXXX)"
 
 function hash {
   sha1sum "$1" | head -c 40

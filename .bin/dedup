@@ -8,7 +8,7 @@
 if [ "$#" -eq 0 ] ; then set -- . -type f ; fi
 
 if [ -t 1 ] ; then
-  selected="$(mktemp /tmp/dedup.XXXXXXXX)"
+  selected="$(mktemp --tmpdir dedup_XXXXXXXX)"
 else
   selected='/dev/null'
 fi

@@ -29,7 +29,7 @@ zip: all
 
 arxiv: figures
 	rm -f 'arxiv.zip'
-	$(eval TMP := $(shell mktemp -d))
+	$(eval TMP := $(shell mktemp --tmpdir --directory))
 	cp -r $(TARGET).tex \
 		$(TARGET).bbl \
 		aliascnt.sty remreset.sty llncs.cls splncs03.bst \

@@ -6,8 +6,8 @@ echo 'must be run as root'
 exit 1
 fi
 
-O="$(mktemp /tmp/update.out.XXXXXXXX)"
-E="$(mktemp /tmp/update.err.XXXXXXXX)"
+O="$(mktemp --tmpdir update.out.XXXXXXXX)"
+E="$(mktemp --tmpdir update.err.XXXXXXXX)"
 
 function _exit ( ) {
   rm -f "$O" "$E"

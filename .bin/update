@@ -106,8 +106,8 @@ while getopts "h?apmfcsiurvdzwxtPMFCSIURVDZWXT" opt; do
     esac
 done
 
-O="$(mktemp /tmp/update.out.XXXXXXXX)"
-E="$(mktemp /tmp/update.err.XXXXXXXX)"
+O="$(mktemp --tmpdir update_out_XXXXXXXX)"
+E="$(mktemp --tmpdir update_err_XXXXXXXX)"
 
 shift $((OPTIND-1))
 

@@ -41,7 +41,7 @@ zip: all
 
 arxiv: all
 	rm -f 'arxiv.zip'
-	$(eval TMP := $(shell mktemp -d))
+	$(eval TMP := $(shell mktemp --tmpdir --directory))
 	cp -r $(TARGET).tex \
 		$(TARGET).bbl \
 		$(TARGET).sty \

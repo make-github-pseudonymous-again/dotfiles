@@ -22,7 +22,7 @@ yolo=false
 
 function _tmpbody {
   if [ "$body" = '/dev/null' ] ; then
-    body=$(mktemp /tmp/courriel_compose_prompt.XXXXXXXXXX)
+    body=$(mktemp --tmpdir courriel.compose._prompt_XXXXXXXXXX)
   fi
 }
 
