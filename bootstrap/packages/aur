@@ -23,5 +23,8 @@ python-bibtexparser
 python-colored
 python-pydub
 
+# Fast hash
+xxhash
+
 # Presentations
 impressive

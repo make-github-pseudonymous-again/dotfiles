@@ -3,7 +3,7 @@
 table="$(mktemp --tmpdir --directory duplicates.group_XXXXXXXXXX)"
 
 function hash {
-  sha1sum "$1" | head -c 40
+  xxhsum "$1" 2>/dev/null | head -c 16
 }
 
 while read -r path; do
