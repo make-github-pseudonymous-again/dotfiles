@@ -342,6 +342,7 @@ mode "organization" {
         bindsym n exec notes.menu; mode "default"
         bindsym h exec habitica; mode "default"
         bindsym c exec calendar; mode "default"
+        bindsym t exec clock; mode "default"
         bindsym Shift+C exec calendar.edit; mode "default"
         bindsym w exec weather; mode "default"
 

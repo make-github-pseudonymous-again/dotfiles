@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+for TZ in $(timedatectl list-timezones); do
+	printf '%s %s\n' "$(env TZ=":$TZ" date --iso-8601=seconds)" "$TZ"
+done | sort | fzf-menu --lines 5 --columns 60 --prompt ' ' -m | xsel -b
