@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys
+import bibtexparser
+from bibtexparser.bibdatabase import BibDatabase
+
+bibliography = sys.argv[1]
+
+with open(bibliography) as fd:
+    database = bibtexparser.load(fd)
+
+index = { entry['ID'] : entry for entry in database.entries }
+
+selected = BibDatabase()
+
+for line in sys.stdin:
+    key = line.rstrip('\n')
+    if key in index:
+        selected.entries.append(index[key])
+
+bibtexparser.dump(selected, sys.stdout)
