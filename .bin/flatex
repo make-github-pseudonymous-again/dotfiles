@@ -7,27 +7,25 @@ import os
 import re
 import sys
 
-def is_input(line):
+defaultext = {
+    'input' : '.tex',
+    'include': '.tex',
+    'usepackage': '.sty',
+}
+
+def match(line, include_sty, expand_includes=True):
     """
     Determines whether or not a read in line contains an uncommented out
     \input{} statement. Allows only spaces between start of line and
     '\input{}'.
     """
-    #tex_input_re = r"""^\s*\\input{[^}]*}""" # input only
-    tex_input_re = r"""(^[^\%]*\\input{[^}]*})|(^[^\%]*\\include{[^}]*})"""  # input or include
-    return re.search(tex_input_re, line)
+    regexp = r"""^[^\%]*\\(input"""
+    if expand_includes: regexp += r"""|include"""
+    if include_sty: regexp += r"""|usepackage"""
+    regexp += r"""){([^}]*)}"""
+    return re.match(regexp, line)
 
-
-def get_input(line):
-    """
-    Gets the file name from a line containing an input statement.
-    """
-    tex_input_filename_re = r"""{[^}]*"""
-    m = re.search(tex_input_filename_re, line)
-    return m.group()[1:]
-
-
-def combine_path(base_path, relative_ref):
+def combine_path(base_path, relative_ref, defaultext='.tex'):
     """
     Combines the base path of the tex document being worked on with the
     relate reference found in that document.
@@ -35,29 +33,37 @@ def combine_path(base_path, relative_ref):
     if (base_path != ""):
         os.chdir(base_path)
     # Handle if .tex is supplied directly with file name or not
-    if relative_ref.endswith('.tex'):
+    if relative_ref.endswith(defaultext):
         return os.path.join(base_path, relative_ref)
     else:
-        return os.path.abspath(relative_ref) + '.tex'
+        return os.path.abspath(relative_ref) + defaultext
 
-
-def expand_file(base_file, current_path, include_bbl):
+def expand_file(base_file, current_path, include_bbl, include_sty, source=None):
     """
     Recursively-defined function that takes as input a file and returns it
     with all the inputs replaced with the contents of the referenced file.
     """
-    output_lines = []
-    with open(base_file, "r") as f:
-        for line in f:
-            if is_input(line):
-                new_base_file = combine_path(current_path, get_input(line))
-                output_lines += expand_file(new_base_file, current_path, include_bbl)
-                output_lines.append('\n')  # add a new line after each file input
-            elif include_bbl and line.startswith("\\bibliography") and (not line.startswith("\\bibliographystyle")):
-                output_lines += bbl_file(base_file)
-            else:
-                output_lines.append(line)
-    return output_lines
+    try:
+        output_lines = []
+        with open(base_file, "r") as f:
+            for line in f:
+                m = match(line, include_sty)
+                if m is not None :
+                    t, arg = m.groups()
+                    new_base_file = combine_path(current_path, arg, defaultext[t])
+                    output_lines += expand_file(new_base_file, current_path, include_bbl, include_sty, source=line)
+                    output_lines.append('\n')  # add a new line after each file input
+                elif include_bbl and line.startswith("\\bibliography") and (not line.startswith("\\bibliographystyle")):
+                    output_lines += bbl_file(base_file)
+                else:
+                    output_lines.append(line)
+        return output_lines
+
+    except FileNotFoundError as e:
+
+        if source is None: raise e
+
+        return [source]
 
 
 def bbl_file(base_file):
@@ -72,14 +78,22 @@ def bbl_file(base_file):
 @click.argument('base_file', type = click.Path())
 @click.argument('output_file', type = click.File('w'))
 @click.option('--include_bbl/--no_bbl', default=False)
-def main(base_file, output_file, include_bbl = False):
+@click.option('--include_sty/--no_sty', default=False)
+def main(base_file, output_file, include_bbl = False, include_sty = False):
 
     """
     This "flattens" a LaTeX document by replacing all \input{X} lines w/ the
     text actually contained in X. See associated README.md for details.
     """
     current_path = os.path.split(base_file)[0]
-    output_file.write(''.join(expand_file(base_file, current_path, include_bbl)))
+    output_file.write(''.join(
+        expand_file(
+            base_file,
+            current_path,
+            include_bbl,
+            include_sty
+        )
+    ))
 
 if __name__ == '__main__':
     main()
