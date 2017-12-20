@@ -2,7 +2,6 @@
 
 while read -r index; do
   for entry in $(find "$index/dup" -type f); do
-    if [ "$(wc -l < "$entry")" -lt 2 ] ; then continue ; fi
     fzf -m --prompt 'select files to delete > ' < "$entry"
   done
   rm -r "$index"
