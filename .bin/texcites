@@ -1,21 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env sh
 
-import sys
-import bibtexparser
-from bibtexparser.bibdatabase import BibDatabase
-
-bibliography = sys.argv[1]
-
-with open(bibliography) as fd:
-    database = bibtexparser.load(fd)
-
-index = { entry['ID'] : entry for entry in database.entries }
-
-selected = BibDatabase()
-
-for line in sys.stdin:
-    key = line.rstrip('\n')
-    if key in index:
-        selected.entries.append(index[key])
-
-bibtexparser.dump(selected, sys.stdout)
+cat "$@" |
+sed -E 's/%.*$//g' |
+tr '\n' ' ' |
+grep -E -o '\\cite\{[a-zA-Z0-9, ]*\}' |
+sed -E -e 's/\\cite\{//g' -e 's/\}$//g' |
+tr ',' '\n' |
+tr -d ' ' |
+sort | uniq

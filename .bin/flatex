@@ -47,17 +47,16 @@ def expand_file(base_file, current_path, include_bbl):
     with all the inputs replaced with the contents of the referenced file.
     """
     output_lines = []
-    f = open(base_file, "r")
-    for line in f:
-        if is_input(line):
-            new_base_file = combine_path(current_path, get_input(line))
-            output_lines += expand_file(new_base_file, current_path, include_bbl)
-            output_lines.append('\n')  # add a new line after each file input
-        elif include_bbl and line.startswith("\\bibliography") and (not line.startswith("\\bibliographystyle")):
-            output_lines += bbl_file(base_file)
-        else:
-            output_lines.append(line)
-    f.close()
+    with open(base_file, "r") as f:
+        for line in f:
+            if is_input(line):
+                new_base_file = combine_path(current_path, get_input(line))
+                output_lines += expand_file(new_base_file, current_path, include_bbl)
+                output_lines.append('\n')  # add a new line after each file input
+            elif include_bbl and line.startswith("\\bibliography") and (not line.startswith("\\bibliographystyle")):
+                output_lines += bbl_file(base_file)
+            else:
+                output_lines.append(line)
     return output_lines
 
 
@@ -71,7 +70,7 @@ def bbl_file(base_file):
 
 @click.command()
 @click.argument('base_file', type = click.Path())
-@click.argument('output_file', type = click.Path())
+@click.argument('output_file', type = click.File('w'))
 @click.option('--include_bbl/--no_bbl', default=False)
 def main(base_file, output_file, include_bbl = False):
 
@@ -80,10 +79,7 @@ def main(base_file, output_file, include_bbl = False):
     text actually contained in X. See associated README.md for details.
     """
     current_path = os.path.split(base_file)[0]
-    g = open(output_file, "w")
-    g.write(''.join(expand_file(base_file, current_path, include_bbl)))
-    g.close()
-    return None
+    output_file.write(''.join(expand_file(base_file, current_path, include_bbl)))
 
 if __name__ == '__main__':
     main()

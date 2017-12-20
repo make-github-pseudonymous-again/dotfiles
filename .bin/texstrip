@@ -1,20 +1,21 @@
 #!/usr/bin/env sh
 
-cat | \
-sed '/^%/d' | \
-sed '/^\\begin{.*}$/d' | \
-sed '/^\\end{.*}$/d' | \
-sed 's/[^\]%.*$//g' | \
-sed 's/\\(//g' | \
-sed 's/\\)//g' | \
-sed 's/\\begin{.*}//g' | \
-sed 's/\\end{.*}//g' | \
-sed 's/\\.*{//g' | \
-sed 's/\\//g' | \
-sed 's/{//g' | \
-sed 's/}//g' | \
-tr '\n' ' ' | \
-sed 's/\s\s*/ /g' | \
-sed 's/^\s//g' | \
-sed 's/\s$//g' | \
-cat
+cat "$@" |
+sed \
+-e '/^%/d' \
+-e '/^\\begin{.*}$/d' \
+-e '/^\\end{.*}$/d' \
+-e 's/[^\]%.*$//g' \
+-e 's/\\(//g' \
+-e 's/\\)//g' \
+-e 's/\\begin{.*}//g' \
+-e 's/\\end{.*}//g' \
+-e 's/\\.*{//g' \
+-e 's/\\//g' \
+-e 's/{//g' \
+-e 's/}//g' |
+tr '\n' ' ' |
+sed \
+-e 's/\s\s*/ /g' \
+-e 's/^\s//g' \
+-e 's/\s$//g'
