@@ -8,8 +8,9 @@ if [ -d "$HOME/.bin" ] ; then
 fi
 
 # ruby gems
-if which ruby > /dev/null ; then
-  export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+export RUBY_PATH=$(ruby -e 'print Gem.user_dir')/bin;
+if [ -d "$RUBY_PATH" ] ; then
+  export PATH="$RUBY_PATH:$PATH"
 fi
 
 # ipe styles

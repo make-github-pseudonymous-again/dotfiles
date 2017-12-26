@@ -5,8 +5,9 @@ if test -d $HOME/.bin
 end
 
 # ruby gems
-if command -s ruby > /dev/null
-  set -gx PATH (ruby -e 'print Gem.user_dir')/bin $PATH
+set -gx RUBY_PATH (ruby -e 'print Gem.user_dir')/bin
+if test -d $RUBY_PATH
+  set -gx PATH $RUBY_PATH $PATH
 end
 
 # ipe styles
