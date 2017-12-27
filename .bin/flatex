@@ -52,7 +52,6 @@ def expand_file(base_file, current_path, include_bbl, include_sty, source=None):
                     t, arg = m.groups()
                     new_base_file = combine_path(current_path, arg, defaultext[t])
                     output_lines += expand_file(new_base_file, current_path, include_bbl, include_sty, source=line)
-                    output_lines.append('\n')  # add a new line after each file input
                 elif include_bbl and line.startswith("\\bibliography") and (not line.startswith("\\bibliographystyle")):
                     output_lines += bbl_file(base_file)
                 else:
