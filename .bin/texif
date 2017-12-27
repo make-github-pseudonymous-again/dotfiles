@@ -179,12 +179,12 @@ function shake ( out , tree , it , variables ) {
 	case 3:
 	  [ token , buffer ] = next(it);
 	  match(token, 'falsecmd');
-	  variables.set(buffer.substring(1,buffer.length-5), false);
+	  if ( out !== devnull ) variables.set(buffer.substring(1,buffer.length-5), false);
 	  break;
 	case 4:
 	  [ token , buffer ] = next(it);
 	  match(token, 'truecmd');
-	  variables.set(buffer.substring(1,buffer.length-4), true);
+	  if ( out !== devnull ) variables.set(buffer.substring(1,buffer.length-4), true);
 	  break;
 	case 5:
 	  [ token , buffer ] = next(it);
@@ -206,7 +206,6 @@ let content = '';
 process.stdin.resume();
 process.stdin.on('data', function(buf) { content += buf.toString(); });
 process.stdin.on('end', function() {
-    // your code here
     const mytokens = list(tokens(content));
     //for ( const token of mytokens ) console.log(token) ;
     const mystream = stream.fromiterable(map(([a,b]) => a, mytokens));
