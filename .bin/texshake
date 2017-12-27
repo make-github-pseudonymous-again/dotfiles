@@ -27,31 +27,16 @@ function* tokens ( string ) {
       // read command
 
       let cmd = c ;
-      outer : while ( ++i < n ) {
+      while ( ++i < n ) {
 	const d = string[i];
-	switch ( d ) {
-	  case ' '  :
-	  case '\t' :
-	  case '\n' :
-	  case '%'  :
-	  case '\\' :
-	  case '{'  :
-	  case '}'  :
-	  case '['  :
-	  case ']'  :
-	  case '('  :
-	  case ')'  :
-	  case ','  :
-	  case '.'  :
-	  case '~'  :
-	    if (cmd === '\\') {
-	      cmd += d ;
-	      ++i;
-	    }
-	    break outer ;
-	  default:
+	// http://www.tex.ac.uk/FAQ-whatmacros.html
+	if ( ( d >= 'a' && d <= 'z' ) || ( d >= 'A' && d <= 'Z' ) ) cmd += d;
+	else {
+	  if ( cmd === '\\' ) {
 	    cmd += d;
-	    break;
+	    ++i;
+	  }
+	  break;
 	}
       }
 
