@@ -1,16 +1,288 @@
-#!/usr/bin/env sh
+#!/usr/bin/env node
 
-# -E POSIX
-# remove unnecessary space at the end of lines
-# empty lines only containing spaces and a comment
-# remove lines starting with a comment
-# remove comment and % plus the space in front
-# remove comment but keep % for spacing
+require('babel-core/register');
+require('babel-polyfill');
+const { iter , next , list , map } = require('@aureooms/js-itertools');
+const { ll1 } = require('@aureooms/js-grammar');
+const stream = require('@aureooms/js-stream');
 
-sed -E \
--e 's/ +$//g' \
--e 's/^ +%.*$//g' \
--e '/^%.*$/d' \
--e 's/^(([^%]|\\%)*[^\]) %.*$/\1/g' \
--e 's/^(([^%]|\\%)*[^\ ])%.*$/\1%/g' \
-"$@"
+function* tokens ( string ) {
+
+  let i = 0 ;
+  let n = string.length ;
+
+  let buffer = '';
+
+  const flush = function* () {
+    if ( buffer !== '' ) {
+      yield [ 'text' , buffer ] ;
+      buffer = '';
+    }
+  }
+
+  while ( i < n ) {
+    const c = string[i] ;
+    if ( c === '\\' ) {
+
+      // read command
+
+      let cmd = c ;
+      outer : while ( ++i < n ) {
+	const d = string[i];
+	switch ( d ) {
+	  case ' '  :
+	  case '\t' :
+	  case '\n' :
+	  case '%'  :
+	  case '\\' :
+	  case '{'  :
+	  case '}'  :
+	  case '['  :
+	  case ']'  :
+	  case '('  :
+	  case ')'  :
+	  case ','  :
+	  case '.'  :
+	  case '~'  :
+	    if (cmd === '\\') {
+	      cmd += d ;
+	      ++i;
+	    }
+	    break outer ;
+	  default:
+	    cmd += d;
+	    break;
+	}
+      }
+
+      if ( cmd.substr(0,3) === '\\if' )  {
+	yield* flush();
+	yield [ 'ifcmd' , cmd ] ;
+      }
+
+      else if (cmd.substr(cmd.length-5, 5) === 'false' ) {
+	yield* flush();
+	yield [ 'falsecmd' , cmd ] ;
+      }
+
+      else if (cmd.substr(cmd.length-4, 4) === 'true' ) {
+	yield* flush();
+	yield [ 'truecmd' , cmd ] ;
+      }
+
+      else if ( cmd === '\\newif' )  {
+	yield* flush();
+	yield [ 'newif' , cmd ] ;
+      }
+
+      else if ( cmd === '\\else' )  {
+	yield* flush();
+	yield [ 'else' , cmd ] ;
+      }
+
+      else if ( cmd === '\\def' )  {
+	yield* flush();
+	yield [ 'def' , cmd ] ;
+      }
+
+      else if ( cmd === '\\fi' )  {
+	yield* flush();
+	yield [ 'fi' , cmd ] ;
+      }
+
+      else {
+	yield* flush();
+	yield [ 'othercmd' , cmd ] ;
+	//buffer += cmd ;
+      }
+
+    }
+    else if ( c === '{' ) {
+      yield* flush();
+      yield [ '{' , '{' ] ;
+      ++i;
+    }
+    else if ( c === '}' ) {
+      yield* flush();
+      yield [ '}' , '}' ] ;
+      ++i;
+    }
+    else if ( c === '%') {
+      yield* flush();
+      buffer = '%';
+      let d = '';
+      while ( ++i < n ) {
+	d = string[i];
+	if ( d === '\n' ) break ;
+	buffer += d ;
+      }
+      yield [ 'comment' , buffer ] ;
+      buffer = d;
+      ++i;
+    }
+    else {
+      buffer += c ;
+      ++i;
+    }
+  }
+
+  yield* flush();
+
+}
+
+const G = [
+  [ // blocks : 0
+    [ 1 , 0 ] , // 0.0
+    [ ] , // 0.1
+  ] ,
+  [ // block : 1
+    [ 'text' ] , // 1.0
+    [ 'newif' , 'ifcmd' ] , // 1.1
+    [ 'ifcmd' , 0 , 2 ] , // 1.2
+    [ 'falsecmd' ] , // 1.3
+    [ 'truecmd' ] , // 1.4
+    [ 'comment' ] , // 1.5
+    [ 'othercmd' ] , // 1.6
+    [ 'def' , 'othercmd' , 3 ] , // 1.7
+    [ 3 ] , // 1.8
+  ] ,
+  [ // endif : 2
+    [ 'else' , 0 , 'fi' ] , // 2.0
+    [ 'fi' ] , // 2.1
+  ] ,
+  [ // args : 3
+    [ '{' , 0 , '}' ] , // 3.0
+  ]
+] ;
+
+function match ( token , terminal ) {
+  if ( token !== terminal ) throw new Error(`Tokens do not match: '${token}' !== '${terminal}'`)
+}
+
+function dumptree ( it , tree ) {
+  let out = '';
+  for ( const child of tree.children ) {
+    if ( typeof child === 'string' ) {
+      const [ token , buffer ] = next(it);
+      match( token , child ) ;
+      out += buffer;
+    }
+    else {
+      out += dumptree( it , child ) ;
+    }
+  }
+  return out;
+}
+
+
+const devnull = { 'write' : buffer => true } ;
+
+function shake ( out , tree , it , variables ) {
+
+  var token, buffer;
+
+  while ( tree.nonterminal === 0 ) {
+    // eliminate expensive tail-recursion
+    if ( tree.production.id === 1 ) return ;
+    shake( out , tree.children[0] , it , variables ) ;
+    tree = tree.children[1];
+  }
+
+  switch ( tree.nonterminal ) {
+    case 1:
+      switch ( tree.production.id ) {
+	case 0:
+	  [ token , buffer ] = next(it);
+	  match(token, 'text');
+	  out.write(buffer);
+	  break;
+	case 1:
+	  [ token , buffer ] = next(it);
+	  match(token, 'newif');
+	  [ token , buffer ] = next(it);
+	  match(token, 'ifcmd');
+	  break;
+	case 2:
+	  [ token , buffer ] = next(it);
+	  match(token, 'ifcmd');
+	  const variable = buffer.substr(3);
+	  const flag = variables.get(variable);
+	  shake(flag ? out : devnull, tree.children[1] , it , variables ) ;
+	  switch ( tree.children[2].production.id ) {
+	    case 0:
+	      [ token , buffer ] = next(it);
+	      match(token, 'else');
+	      shake(flag ? devnull : out, tree.children[2].children[1] , it , variables ) ;
+	    case 1:
+	      [ token , buffer ] = next(it);
+	      match(token, 'fi');
+	      break;
+	  }
+	  break;
+	case 3:
+	  [ token , buffer ] = next(it);
+	  match(token, 'falsecmd');
+	  if ( out !== devnull ) variables.set(buffer.substring(1,buffer.length-5), false);
+	  break;
+	case 4:
+	  [ token , buffer ] = next(it);
+	  match(token, 'truecmd');
+	  if ( out !== devnull ) variables.set(buffer.substring(1,buffer.length-4), true);
+	  break;
+	case 5:
+	  [ token , buffer ] = next(it);
+	  match(token, 'comment');
+	  out.write('%');
+	  break;
+	case 6:
+	  [ token , buffer ] = next(it);
+	  match(token, 'othercmd');
+	  if (variables.has(buffer)) out.write(variables.get(buffer));
+	  else out.write(buffer);
+	  break;
+	case 7:
+	  [ token , buffer ] = next(it);
+	  match(token, 'def');
+	  [ token , buffer ] = next(it);
+	  match(token, 'othercmd');
+	  const cmd = buffer;
+	  [ token , buffer ] = next(it);
+	  match(token, '{');
+	  const def = dumptree(it, tree.children[2].children[1]);
+	  if ( out !== devnull ) variables.set(cmd, def);
+	  [ token , buffer ] = next(it);
+	  match(token, '}');
+	  break;
+	case 8:
+	  shake( out , tree.children[0] , it , variables ) ;
+	  break;
+      }
+      break;
+    case 2:
+      throw new Error('Should never reach case 2');
+    case 3:
+      [ token , buffer ] = next(it);
+      match(token, '{');
+      out.write(buffer);
+      shake( out , tree.children[1] , it , variables ) ;
+      [ token , buffer ] = next(it);
+      match(token, '}');
+      out.write(buffer);
+  }
+
+}
+
+
+const table = ll1.compile(0, G);
+
+let content = '';
+process.stdin.resume();
+process.stdin.on('data', function(buf) { content += buf.toString(); });
+process.stdin.on('end', function() {
+    const mytokens = list(tokens(content));
+    //for ( const token of mytokens ) console.log(token) ;
+    const mystream = stream.fromiterable(map(([a,b]) => a, mytokens));
+    const ast = ll1.parse(0, G, table, mystream);
+    shake(process.stdout, ast.children[0], iter(mytokens), new Map());
+    //console.log(JSON.stringify(ast));
+});

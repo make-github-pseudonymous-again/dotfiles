@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# -E POSIX
+# remove unnecessary space at the end of lines
+# remove unnecessary space at the beginning of lines
+# empty lines only containing spaces and a comment
+# remove lines starting with a comment
+# remove comment and % plus the space in front
+# remove comment but keep % for spacing
+# input
+# squeeze consecutive blank lines
+
+sed -E \
+-e 's/ +$//g' \
+-e 's/^ +//g' \
+-e 's/^ +%.*$//g' \
+-e '/^%.*$/d' \
+-e 's/^(([^%]|\\%)*[^\]) %.*$/\1/g' \
+-e 's/^(([^%]|\\%)*[^\ ])%.*$/\1%/g' \
+"$@" |
+cat -s
