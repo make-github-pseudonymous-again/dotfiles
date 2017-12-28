@@ -149,8 +149,8 @@ const G = [
     [ 'fi' ] , // 2.1
   ] ,
   [ // command definition 3
-    [ '{' , 'othercmd' , '}' , '{' , 0 , '}' ] , // 3.0
-    [ 'othercmd' , '{' , 0 , '}' ] , // 3.1
+    [ '{' , 'othercmd' , '}' , 4 , '{' , 0 , '}' ] , // 3.0
+    [ 'othercmd' , 4 , '{' , 0 , '}' ] , // 3.1
     [ '*' , 'othercmd' , 4 , '{' , 0 , '}' ] , // 3.2
   ] ,
   [ // command definition arguments 4
@@ -318,14 +318,26 @@ function shake ( out , tree , variables , args ) {
 	  // {
 	  cmd = tree.children[1].buffer; // othercmd
 	  // }
+	  nargs = 0;
+	  if (tree.children[3].production.id === 0) {
+	    // [
+	    nargs = parseInt(tree.children[3].children[1].buffer, 10); // text
+	    // ]
+	  }
 	  // {
-	  variables.set(cmd, [ 0 , tree.children[4] ]);
+	  variables.set(cmd, [ nargs , tree.children[5] ]);
 	  // }
 	  break;
 	case 1:
 	  cmd = tree.children[0].buffer; // othercmd
+	  nargs = 0;
+	  if (tree.children[1].production.id === 0) {
+	    // [
+	    nargs = parseInt(tree.children[1].children[1].buffer, 10); // text
+	    // ]
+	  }
 	  // {
-	  variables.set(cmd, [ 0 , tree.children[2] ]);
+	  variables.set(cmd, [ nargs , tree.children[3] ]);
 	  // }
 	  break;
 	case 2:
