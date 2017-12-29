@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+pos="$(memoize-get -1 ipgeolocation.fetch | jq -r '(.lat | tostring) + "," + (.lon | tostring)')"
+
+if [ "$pos" = '' ] ; then exit 1 ; fi
+
+wb --new-window "https://google.com/maps/@$pos,13z"

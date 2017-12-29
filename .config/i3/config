@@ -345,6 +345,7 @@ mode "organization" {
         bindsym t exec clock; mode "default"
         bindsym Shift+C exec calendar.edit; mode "default"
         bindsym w exec weather; mode "default"
+        bindsym g exec maps.here; mode "default"
 
         bindsym a exec alarm.ui.set; mode "default"
         bindsym b exec courriel.abook; mode "default"
