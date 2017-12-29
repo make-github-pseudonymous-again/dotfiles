@@ -36,11 +36,7 @@ function _install ( ) {
   _ zxcvbn
   _ ava-codemods
   _ speed-test
-  _ babel-core
-  _ babel-polyfill
-  _ @aureooms/js-itertools
-  _ @aureooms/js-stream
-  _ @aureooms/js-grammar
+  _ texshake
 }
 
 if false && command -v yarn 1>/dev/null; then
