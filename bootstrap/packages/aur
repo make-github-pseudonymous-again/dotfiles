@@ -22,6 +22,7 @@ notes-git
 python-bibtexparser
 python-colored
 python-pydub
+uniconvertor
 
 # Fast hash
 xxhash
