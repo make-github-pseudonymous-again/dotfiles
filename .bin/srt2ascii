@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+srt="$1"
+out="${2:-$srt.ascii}"
+
+iconv -t 'ascii//TRANSLIT//IGNORE' "$srt" > "$out"
