@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 mkv="$1"; shift
-mp4="${1:-}"; shift
+mp4="${1:-${mkv%.*}.mp4}"; shift
 
 ffmpeg -i "$mkv" -c:v copy -c:a aac "$mp4" "$@"
