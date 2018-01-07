@@ -12,16 +12,17 @@ function fail {
 	exit 1
 }
 
+function i {
+	wget "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" || fail
+	tar -xvf "$1".tar.gz && rm "$1".tar.gz
+	sh -c "cd $1 && makepkg -si" || { rm -r "$1" && fail ; }
+	rm -r "$1"
+}
+
 if ! which yaourt 1>/dev/null 2>&1 ; then
-echo 'installing yaourt'
-wget https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz || fail
-tar -xvf package-query.tar.gz && rm package-query.tar.gz
-sh -c 'cd package-query && makepkg -si' || { rm -r package-query && fail ; }
-rm -r package-query
-wget https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz || fail
-tar -xvf yaourt.tar.gz && rm yaourt.tar.gz
-sh -c 'cd yaourt && makepkg -si' || { rm -r yaourt && fail ; }
-rm -r yaourt
+	echo 'installing yaourt'
+	i package-query
+	i yaourt
 fi
 
 if ! which yaourt 1>/dev/null 2>&1 ; then
