@@ -5,7 +5,7 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 #echo " * pacman"
 #sudo pacman -Syyu || exit "$?"
 echo " * aur"
-VISUAL=vim yaourt -Syua || exit "$?"
+pacaur --noconfirm --noedit -Syua || exit "$?"
 echo " * npm"
 sudo sh "$DOTFILES"/bootstrap/update-npm u || exit "$?"
 echo " * pip"

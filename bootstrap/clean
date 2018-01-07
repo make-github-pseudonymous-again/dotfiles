@@ -34,7 +34,7 @@ function _n ( ) {
   fi
 }
 
-# Arch / pacman + yaourt
+# Arch & AUR
 _a fzf
 _a st
 _a rxvt-unicode
@@ -47,6 +47,8 @@ _a flashplugin
 _a hangups-git
 _a qtox
 _a toxcore
+_a yaourt
+_a package-query
 
 # Python / pip
 _p python-cssselect cssselect

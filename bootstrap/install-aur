@@ -8,24 +8,25 @@ fi
 cd /tmp
 
 function fail {
-	echo 'could not install yaourt'
+	echo 'could not install pacaur'
 	exit 1
 }
 
 function i {
 	wget "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" || fail
 	tar -xvf "$1".tar.gz && rm "$1".tar.gz
-	sh -c "cd $1 && makepkg -si" || { rm -r "$1" && fail ; }
+	sh -c "cd $1 && makepkg -si --skippgpcheck" || { rm -r "$1" && fail ; }
 	rm -r "$1"
 }
 
-if ! which yaourt 1>/dev/null 2>&1 ; then
-	echo 'installing yaourt'
-	i package-query
-	i yaourt
+if ! which pacaur 1>/dev/null 2>&1 ; then
+	echo 'installing pacaur'
+	sudo pacman -S expac yajl git --noconfirm --needed
+	i cower
+	i pacaur
 fi
 
-if ! which yaourt 1>/dev/null 2>&1 ; then
+if ! which pacaur 1>/dev/null 2>&1 ; then
 	fail
 fi
 
@@ -34,6 +35,6 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
-yaourt -S --needed $packages
+pacaur -S --needed --noconfirm --noedit - <<< "$packages"
 
 exit 0
