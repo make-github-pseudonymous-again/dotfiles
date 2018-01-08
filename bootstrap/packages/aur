@@ -23,6 +23,7 @@ python-bibtexparser
 python-colored
 python-pydub
 uniconvertor
+pstotext
 
 # Fast hash
 xxhash
