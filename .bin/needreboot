@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+running="$(uname -r | sed 's/-ARCH$//g')"
+installed="$(pacman -Q linux | cut -d' ' -f2)"
+
+>&2 echo "running=$running"
+>&2 echo "installed=$installed"
+
+if [ "$running" != "$installed" ] ; then
+	exit 0
+else
+	exit 1
+fi
