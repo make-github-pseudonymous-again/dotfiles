@@ -61,6 +61,10 @@ if screen.is.screensaver.off ; then
 	prepend='{"name":"screen.is.screensaver.off","color":"#FDD949","full_text":""},'"$prepend"
 fi
 
+if needreboot ; then
+	append='{"name":"needreboot","color":"#CF4647","full_text":""},'"$append"
+fi
+
 badge="$(system.status.badge)"
 append="$badge"','"$append"
 
