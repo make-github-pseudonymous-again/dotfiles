@@ -93,6 +93,8 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'jelera/vim-javascript-syntax'
 " Vastly improved Javascript indentation and syntax support in Vim
 Plug 'pangloss/vim-javascript'
+" React JSX syntax highlighting and indenting for vim
+Plug 'mxw/vim-jsx'
 " A code-completion engine for Vim
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 " Compiling requires too much memory, fails every time
@@ -464,3 +466,6 @@ endfunction
 let g:ranger_map_keys = 0
 map <leader>r :RangerWorkingDirectory<CR>
 map <leader>R :RangerCurrentFile<CR>
+
+" jsx
+let g:jsx_ext_required = 0
