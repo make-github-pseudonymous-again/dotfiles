@@ -2,6 +2,7 @@
 Description=to sync emails in the background
 
 [Service]
+Environment=HOME=%h
 ExecStart=/usr/bin/env bash courriel.poll
 Restart=always
 
