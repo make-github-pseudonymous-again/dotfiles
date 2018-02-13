@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+
+import sys
+import pprint
+import re
+import subprocess
+
+def get_mapping():
+    p = subprocess.Popen(["xmodmap", "-pke"], stdout=subprocess.PIPE)
+
+    keysym_to_code = {}
+
+    for line in p.stdout:
+        line = line.decode('ascii').strip()
+
+        keycode, keysyms = line.split("=")
+
+        keycode = keycode.strip()
+        keysyms = keysyms.strip().split()
+
+        keycode = int(re.match('^keycode +(\d+)$', keycode).group(1) )
+
+        for keysym in keysyms:
+            keysym_to_code[keysym] = str(keycode)
+
+    p.wait()
+
+    return keysym_to_code
+
+def process_bindsym(line, keysym_to_code):
+    try:
+        args = line.split(" ")
+        assert args[0] == "bindsym"
+
+        args[0] = "bindcode"
+        args[1] = args[1].split("+")
+        args[1][-1] = keysym_to_code[args[1][-1]]
+        args[1] = "+".join(args[1])
+
+        line = " ".join(args)
+        return line
+    except:
+        return line
+
+def main():
+    keysym_to_code = get_mapping()
+
+    #pprint.pprint(keysym_to_code)
+
+    skipnext = False
+
+    for line in sys.stdin:
+        if skipnext:
+            skipnext=False
+            continue
+
+        line = line.rstrip("\n")
+
+        m = re.match("^( *)(#-- )(bindsym.*)$", line)
+        if m:
+            print(line)
+            translated = process_bindsym(m.group(3), keysym_to_code)
+            print(m.group(1) + translated)
+            skipnext=True
+            continue
+
+        # preserve whitespace indentation
+        m = re.match("^( *)(bindsym.*)$", line)
+        if m:
+            translated = process_bindsym(m.group(2), keysym_to_code)
+            if translated != m.group(2):
+                print(m.group(1) + "#-- " + m.group(2))
+                print(m.group(1) + translated)
+                continue
+
+        print(line)
+
+if __name__ == "__main__":
+    main()

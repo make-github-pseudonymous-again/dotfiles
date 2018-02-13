@@ -82,101 +82,151 @@ bar {
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+p exec i3-sensible-terminal
+#-- bindsym $mod+p exec i3-sensible-terminal
+bindcode $mod+33 exec i3-sensible-terminal
 
 # start ranger
-bindsym $mod+m exec terminator -b -x ranger
+#-- bindsym $mod+m exec terminator -b -x ranger
+bindcode $mod+47 exec terminator -b -x ranger
 
 # start dmenu (a program launcher)
-bindsym $mod+o exec dmenu_center_run
+#-- bindsym $mod+o exec dmenu_center_run
+bindcode $mod+32 exec dmenu_center_run
 
 # kill focused window
-bindsym $mod+dollar kill
+#-- bindsym $mod+dollar kill
+bindcode $mod+35 kill
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+#-- bindsym $mod+h focus left
+bindcode $mod+43 focus left
+#-- bindsym $mod+j focus down
+bindcode $mod+44 focus down
+#-- bindsym $mod+k focus up
+bindcode $mod+45 focus up
+#-- bindsym $mod+l focus right
+bindcode $mod+46 focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+#-- bindsym $mod+Left focus left
+bindcode $mod+113 focus left
+#-- bindsym $mod+Down focus down
+bindcode $mod+116 focus down
+#-- bindsym $mod+Up focus up
+bindcode $mod+111 focus up
+#-- bindsym $mod+Right focus right
+bindcode $mod+114 focus right
 
 # move focused window
-bindsym $mod+Shift+H move left
-bindsym $mod+Shift+J move down
-bindsym $mod+Shift+K move up
-bindsym $mod+Shift+L move right
+#-- bindsym $mod+Shift+H move left
+bindcode $mod+Shift+43 move left
+#-- bindsym $mod+Shift+J move down
+bindcode $mod+Shift+44 move down
+#-- bindsym $mod+Shift+K move up
+bindcode $mod+Shift+45 move up
+#-- bindsym $mod+Shift+L move right
+bindcode $mod+Shift+46 move right
 
 # move focused window to mouse position
-bindsym $mod+Shift+M move position mouse
+#-- bindsym $mod+Shift+M move position mouse
+bindcode $mod+Shift+47 move position mouse
 
 # toggle split orientation (horizontal/vertical)
-bindsym $mod+v split toggle
+#-- bindsym $mod+v split toggle
+bindcode $mod+55 split toggle
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+#-- bindsym $mod+f fullscreen
+bindcode $mod+41 fullscreen
 
 # new workspace layout
 workspace_layout tabbed
 
 # change container layout (stacked, tabbed, default)
-bindsym $mod+s layout stacking
-bindsym $mod+z layout tabbed
-bindsym $mod+e layout default
+#-- bindsym $mod+s layout stacking
+bindcode $mod+39 layout stacking
+#-- bindsym $mod+z layout tabbed
+bindcode $mod+25 layout tabbed
+#-- bindsym $mod+e layout default
+bindcode $mod+26 layout default
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+#-- bindsym $mod+Shift+space floating toggle
+bindcode $mod+Shift+65 floating toggle
 
 # toggle sticky
-bindsym $mod+b sticky toggle
+#-- bindsym $mod+b sticky toggle
+bindcode $mod+56 sticky toggle
 
 # sticky card
-bindsym $mod+Shift+B floating enable; sticky enable; resize set 400 px 300 px
+#-- bindsym $mod+Shift+B floating enable; sticky enable; resize set 400 px 300 px
+bindcode $mod+Shift+56 floating enable; sticky enable; resize set 400 px 300 px
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+#-- bindsym $mod+space focus mode_toggle
+bindcode $mod+65 focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+#-- bindsym $mod+a focus parent
+bindcode $mod+24 focus parent
 
 # focus the child container
 #bindcode $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+#-- bindsym $mod+1 workspace number 1
+bindcode $mod+10 workspace number 1
+#-- bindsym $mod+2 workspace number 2
+bindcode $mod+11 workspace number 2
+#-- bindsym $mod+3 workspace number 3
+bindcode $mod+12 workspace number 3
+#-- bindsym $mod+4 workspace number 4
+bindcode $mod+13 workspace number 4
+#-- bindsym $mod+5 workspace number 5
+bindcode $mod+14 workspace number 5
+#-- bindsym $mod+6 workspace number 6
+bindcode $mod+15 workspace number 6
+#-- bindsym $mod+7 workspace number 7
+bindcode $mod+16 workspace number 7
+#-- bindsym $mod+8 workspace number 8
+bindcode $mod+17 workspace number 8
+#-- bindsym $mod+9 workspace number 9
+bindcode $mod+18 workspace number 9
+#-- bindsym $mod+0 workspace number 10
+bindcode $mod+19 workspace number 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move workspace number 1
-bindsym $mod+Shift+2 move workspace number 2
-bindsym $mod+Shift+3 move workspace number 3
-bindsym $mod+Shift+4 move workspace number 4
-bindsym $mod+Shift+5 move workspace number 5
-bindsym $mod+Shift+6 move workspace number 6
-bindsym $mod+Shift+7 move workspace number 7
-bindsym $mod+Shift+8 move workspace number 8
-bindsym $mod+Shift+9 move workspace number 9
-bindsym $mod+Shift+0 move workspace number 10
+#-- bindsym $mod+Shift+1 move workspace number 1
+bindcode $mod+Shift+10 move workspace number 1
+#-- bindsym $mod+Shift+2 move workspace number 2
+bindcode $mod+Shift+11 move workspace number 2
+#-- bindsym $mod+Shift+3 move workspace number 3
+bindcode $mod+Shift+12 move workspace number 3
+#-- bindsym $mod+Shift+4 move workspace number 4
+bindcode $mod+Shift+13 move workspace number 4
+#-- bindsym $mod+Shift+5 move workspace number 5
+bindcode $mod+Shift+14 move workspace number 5
+#-- bindsym $mod+Shift+6 move workspace number 6
+bindcode $mod+Shift+15 move workspace number 6
+#-- bindsym $mod+Shift+7 move workspace number 7
+bindcode $mod+Shift+16 move workspace number 7
+#-- bindsym $mod+Shift+8 move workspace number 8
+bindcode $mod+Shift+17 move workspace number 8
+#-- bindsym $mod+Shift+9 move workspace number 9
+bindcode $mod+Shift+18 move workspace number 9
+#-- bindsym $mod+Shift+0 move workspace number 10
+bindcode $mod+Shift+19 move workspace number 10
 
 # rename focused workspace
-bindsym $mod+n exec i3.workspace.rename
+#-- bindsym $mod+n exec i3.workspace.rename
+bindcode $mod+57 exec i3.workspace.rename
 
 # reload the configuration file
-bindsym $mod+Shift+C reload
+#-- bindsym $mod+Shift+C reload
+bindcode $mod+Shift+54 reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+R restart
+#-- bindsym $mod+Shift+R restart
+bindcode $mod+Shift+27 restart
 
 # shutdown actions
 
@@ -184,21 +234,32 @@ bindsym $mod+Shift+R restart
 
 mode "shutdown" {
 
-        bindsym l exec system.lock; mode "default"
-        bindsym e exec system.exit; mode "default"
-        bindsym s exec system.suspend; mode "default"
-        bindsym h exec system.hibernate; mode "default"
-        bindsym r exec system.restart; mode "default"
-        bindsym Shift+S exec system.stop; mode "default"
-        bindsym Shift+L exec system.LS; mode "default"
+        #-- bindsym l exec system.lock; mode "default"
+        bindcode 46 exec system.lock; mode "default"
+        #-- bindsym e exec system.exit; mode "default"
+        bindcode 26 exec system.exit; mode "default"
+        #-- bindsym s exec system.suspend; mode "default"
+        bindcode 39 exec system.suspend; mode "default"
+        #-- bindsym h exec system.hibernate; mode "default"
+        bindcode 43 exec system.hibernate; mode "default"
+        #-- bindsym r exec system.restart; mode "default"
+        bindcode 27 exec system.restart; mode "default"
+        #-- bindsym Shift+S exec system.stop; mode "default"
+        bindcode Shift+39 exec system.stop; mode "default"
+        #-- bindsym Shift+L exec system.LS; mode "default"
+        bindcode Shift+46 exec system.LS; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
-bindsym $mod+Delete mode "shutdown"
-bindsym $mod+XF86Eject mode "shutdown"
+#-- bindsym $mod+Delete mode "shutdown"
+bindcode $mod+119 mode "shutdown"
+#-- bindsym $mod+XF86Eject mode "shutdown"
+bindcode $mod+174 mode "shutdown"
 
 
 # resize window (you can also use the mouse for that)
@@ -209,257 +270,400 @@ mode "resize" {
         # when pressing left, the window is resized so that it has
         # more space on its left
 
-        bindsym h resize shrink left 10 px or 10 ppt
-        bindsym Shift+H resize grow   left 10 px or 10 ppt
+        #-- bindsym h resize shrink left 10 px or 10 ppt
+        bindcode 43 resize shrink left 10 px or 10 ppt
+        #-- bindsym Shift+H resize grow   left 10 px or 10 ppt
+        bindcode Shift+43 resize grow   left 10 px or 10 ppt
 
-        bindsym j resize shrink down 10 px or 10 ppt
-        bindsym Shift+J resize grow   down 10 px or 10 ppt
+        #-- bindsym j resize shrink down 10 px or 10 ppt
+        bindcode 44 resize shrink down 10 px or 10 ppt
+        #-- bindsym Shift+J resize grow   down 10 px or 10 ppt
+        bindcode Shift+44 resize grow   down 10 px or 10 ppt
 
-        bindsym k resize shrink up 10 px or 10 ppt
-        bindsym Shift+K resize grow   up 10 px or 10 ppt
+        #-- bindsym k resize shrink up 10 px or 10 ppt
+        bindcode 45 resize shrink up 10 px or 10 ppt
+        #-- bindsym Shift+K resize grow   up 10 px or 10 ppt
+        bindcode Shift+45 resize grow   up 10 px or 10 ppt
 
-        bindsym l resize shrink right 10 px or 10 ppt
-        bindsym Shift+L resize grow   right 10 px or 10 ppt
+        #-- bindsym l resize shrink right 10 px or 10 ppt
+        bindcode 46 resize shrink right 10 px or 10 ppt
+        #-- bindsym Shift+L resize grow   right 10 px or 10 ppt
+        bindcode Shift+46 resize grow   right 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink left 10 px or 10 ppt
-        bindsym Shift+Left resize grow   left 10 px or 10 ppt
+        #-- bindsym Left resize shrink left 10 px or 10 ppt
+        bindcode 113 resize shrink left 10 px or 10 ppt
+        #-- bindsym Shift+Left resize grow   left 10 px or 10 ppt
+        bindcode Shift+113 resize grow   left 10 px or 10 ppt
 
-        bindsym Down resize shrink down 10 px or 10 ppt
-        bindsym Shift+Down resize grow   down 10 px or 10 ppt
+        #-- bindsym Down resize shrink down 10 px or 10 ppt
+        bindcode 116 resize shrink down 10 px or 10 ppt
+        #-- bindsym Shift+Down resize grow   down 10 px or 10 ppt
+        bindcode Shift+116 resize grow   down 10 px or 10 ppt
 
-        bindsym Up resize shrink up 10 px or 10 ppt
-        bindsym Shift+Up resize grow   up 10 px or 10 ppt
+        #-- bindsym Up resize shrink up 10 px or 10 ppt
+        bindcode 111 resize shrink up 10 px or 10 ppt
+        #-- bindsym Shift+Up resize grow   up 10 px or 10 ppt
+        bindcode Shift+111 resize grow   up 10 px or 10 ppt
 
-        bindsym Right resize shrink right 10 px or 10 ppt
-        bindsym Shift+Right resize grow   right 10 px or 10 ppt
+        #-- bindsym Right resize shrink right 10 px or 10 ppt
+        bindcode 114 resize shrink right 10 px or 10 ppt
+        #-- bindsym Shift+Right resize grow   right 10 px or 10 ppt
+        bindcode Shift+114 resize grow   right 10 px or 10 ppt
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
-bindsym $mod+r mode "resize"
+#-- bindsym $mod+r mode "resize"
+bindcode $mod+27 mode "resize"
 
 
 mode "wifi" {
 
-        bindsym r exec wifi.ui.restart; mode "default"
-        bindsym t exec wifi.ui.auto.toggle; mode "default"
-        bindsym d exec wifi.ui.profile.stop; mode "default"
-        bindsym c exec wifi.ui.profile.start; mode "default"
+        #-- bindsym r exec wifi.ui.restart; mode "default"
+        bindcode 27 exec wifi.ui.restart; mode "default"
+        #-- bindsym t exec wifi.ui.auto.toggle; mode "default"
+        bindcode 28 exec wifi.ui.auto.toggle; mode "default"
+        #-- bindsym d exec wifi.ui.profile.stop; mode "default"
+        bindcode 40 exec wifi.ui.profile.stop; mode "default"
+        #-- bindsym c exec wifi.ui.profile.start; mode "default"
+        bindcode 54 exec wifi.ui.profile.start; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
-bindsym $mod+w mode "wifi"
+#-- bindsym $mod+w mode "wifi"
+bindcode $mod+52 mode "wifi"
 
 mode "layout" {
 
-        bindsym Shift+D exec laptop.default; mode "default"
-        bindsym f exec laptop.forum.G; mode "default"
-        bindsym d exec laptop.office.duo; mode "default"
-        bindsym s exec laptop.office.single; mode "default"
-        bindsym t exec laptop.talk.displayport; mode "default"
+        #-- bindsym Shift+D exec laptop.default; mode "default"
+        bindcode Shift+40 exec laptop.default; mode "default"
+        #-- bindsym f exec laptop.forum.G; mode "default"
+        bindcode 41 exec laptop.forum.G; mode "default"
+        #-- bindsym d exec laptop.office.duo; mode "default"
+        bindcode 40 exec laptop.office.duo; mode "default"
+        #-- bindsym s exec laptop.office.single; mode "default"
+        bindcode 39 exec laptop.office.single; mode "default"
+        #-- bindsym t exec laptop.talk.displayport; mode "default"
+        bindcode 28 exec laptop.talk.displayport; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
-bindsym $mod+y mode "layout"
+#-- bindsym $mod+y mode "layout"
+bindcode $mod+29 mode "layout"
 
 mode "apps" {
-	bindsym m mode "mode"
-	bindsym i mode "internet"
-	bindsym f mode "files"
-	bindsym g mode "google"
-	bindsym o mode "organization"
-	bindsym t mode "tools"
-	bindsym s mode "system"
-	bindsym a mode "audio"
-	bindsym v mode "video"
+        #-- bindsym m mode "mode"
+        bindcode 47 mode "mode"
+        #-- bindsym i mode "internet"
+        bindcode 31 mode "internet"
+        #-- bindsym f mode "files"
+        bindcode 41 mode "files"
+        #-- bindsym g mode "google"
+        bindcode 42 mode "google"
+        #-- bindsym o mode "organization"
+        bindcode 32 mode "organization"
+        #-- bindsym t mode "tools"
+        bindcode 28 mode "tools"
+        #-- bindsym s mode "system"
+        bindcode 39 mode "system"
+        #-- bindsym a mode "audio"
+        bindcode 24 mode "audio"
+        #-- bindsym v mode "video"
+        bindcode 55 mode "video"
 
-	# back to normal: Enter or Escape
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+        # back to normal: Enter or Escape
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
-bindsym $mod+i mode "apps"
+#-- bindsym $mod+i mode "apps"
+bindcode $mod+31 mode "apps"
 
 mode "mode" {
 
-        bindsym p exec mobile.mode.plane.toggle; mode "default"
+        #-- bindsym p exec mobile.mode.plane.toggle; mode "default"
+        bindcode 33 exec mobile.mode.plane.toggle; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "internet" {
 
-        bindsym f exec wb; mode "default"
-        bindsym Shift+F exec wb --private-window; mode "default"
-        bindsym d exec dropbox; mode "default"
+        #-- bindsym f exec wb; mode "default"
+        bindcode 41 exec wb; mode "default"
+        #-- bindsym Shift+F exec wb --private-window; mode "default"
+        bindcode Shift+41 exec wb --private-window; mode "default"
+        #-- bindsym d exec dropbox; mode "default"
+        bindcode 40 exec dropbox; mode "default"
 
-        bindsym u exec browser.url; mode "default"
-        bindsym h exec firefox.history; mode "default"
-        bindsym s exec search; mode "default"
-        bindsym w exec wikipedia; mode "default"
-        bindsym Shift+W exec whatsapp; mode "default"
+        #-- bindsym u exec browser.url; mode "default"
+        bindcode 30 exec browser.url; mode "default"
+        #-- bindsym h exec firefox.history; mode "default"
+        bindcode 43 exec firefox.history; mode "default"
+        #-- bindsym s exec search; mode "default"
+        bindcode 39 exec search; mode "default"
+        #-- bindsym w exec wikipedia; mode "default"
+        bindcode 52 exec wikipedia; mode "default"
+        #-- bindsym Shift+W exec whatsapp; mode "default"
+        bindcode Shift+52 exec whatsapp; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "google" {
 
-        bindsym h exec hangouts; mode "default"
+        #-- bindsym h exec hangouts; mode "default"
+        bindcode 43 exec hangouts; mode "default"
 
-        bindsym g exec google; mode "default"
-        bindsym Shift+G exec google.withlr; mode "default"
-        bindsym i exec googleimage; mode "default"
-        bindsym s exec googlescholar; mode "default"
-        bindsym y exec youtube; mode "default"
-        bindsym t exec translate; mode "default"
-        bindsym m exec maps; mode "default"
-        bindsym p exec photos; mode "default"
-        bindsym f exec flights; mode "default"
+        #-- bindsym g exec google; mode "default"
+        bindcode 42 exec google; mode "default"
+        #-- bindsym Shift+G exec google.withlr; mode "default"
+        bindcode Shift+42 exec google.withlr; mode "default"
+        #-- bindsym i exec googleimage; mode "default"
+        bindcode 31 exec googleimage; mode "default"
+        #-- bindsym s exec googlescholar; mode "default"
+        bindcode 39 exec googlescholar; mode "default"
+        #-- bindsym y exec youtube; mode "default"
+        bindcode 29 exec youtube; mode "default"
+        #-- bindsym t exec translate; mode "default"
+        bindcode 28 exec translate; mode "default"
+        #-- bindsym m exec maps; mode "default"
+        bindcode 47 exec maps; mode "default"
+        #-- bindsym p exec photos; mode "default"
+        bindcode 33 exec photos; mode "default"
+        #-- bindsym f exec flights; mode "default"
+        bindcode 41 exec flights; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "organization" {
-        bindsym m exec courriel; mode "default"
-        bindsym Shift+M exec gmail; mode "default"
-        bindsym f exec courriel.fetch; mode "default"
+        #-- bindsym m exec courriel; mode "default"
+        bindcode 47 exec courriel; mode "default"
+        #-- bindsym Shift+M exec gmail; mode "default"
+        bindcode Shift+47 exec gmail; mode "default"
+        #-- bindsym f exec courriel.fetch; mode "default"
+        bindcode 41 exec courriel.fetch; mode "default"
         #bindsym n exec news; mode "default"
-        bindsym n exec notes.menu; mode "default"
-        bindsym h exec habitica; mode "default"
-        bindsym c exec calendar; mode "default"
-        bindsym t exec clock; mode "default"
-        bindsym Shift+C exec calendar.edit; mode "default"
-        bindsym w exec weather; mode "default"
-        bindsym g exec maps.here; mode "default"
+        #-- bindsym n exec notes.menu; mode "default"
+        bindcode 57 exec notes.menu; mode "default"
+        #-- bindsym h exec habitica; mode "default"
+        bindcode 43 exec habitica; mode "default"
+        #-- bindsym c exec calendar; mode "default"
+        bindcode 54 exec calendar; mode "default"
+        #-- bindsym t exec clock; mode "default"
+        bindcode 28 exec clock; mode "default"
+        #-- bindsym Shift+C exec calendar.edit; mode "default"
+        bindcode Shift+54 exec calendar.edit; mode "default"
+        #-- bindsym w exec weather; mode "default"
+        bindcode 52 exec weather; mode "default"
+        #-- bindsym g exec maps.here; mode "default"
+        bindcode 42 exec maps.here; mode "default"
 
-        bindsym a exec alarm.ui.set; mode "default"
-        bindsym b exec courriel.abook; mode "default"
-        bindsym p exec menu.pass; mode "default"
+        #-- bindsym a exec alarm.ui.set; mode "default"
+        bindcode 24 exec alarm.ui.set; mode "default"
+        #-- bindsym b exec courriel.abook; mode "default"
+        bindcode 56 exec courriel.abook; mode "default"
+        #-- bindsym p exec menu.pass; mode "default"
+        bindcode 33 exec menu.pass; mode "default"
 
-        bindsym s exec scratchpad; mode "default"
+        #-- bindsym s exec scratchpad; mode "default"
+        bindcode 39 exec scratchpad; mode "default"
 
-        bindsym t exec sncb-nmbs; mode "default"
+        #-- bindsym t exec sncb-nmbs; mode "default"
+        bindcode 28 exec sncb-nmbs; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "tools" {
-        bindsym p exec terminator -b -x ptpython; mode "default"
+        #-- bindsym p exec terminator -b -x ptpython; mode "default"
+        bindcode 33 exec terminator -b -x ptpython; mode "default"
 
-        bindsym b exec bib.ui.selection; mode "default"
-        bindsym Shift+B exec bib.selection.local; mode "default"
-        bindsym c exec clipboard.menu; mode "default"
-        bindsym m exec menu.man; mode "default"
-        bindsym t exec menu.term; mode "default"
-        bindsym o exec oeis.menu; mode "default"
+        #-- bindsym b exec bib.ui.selection; mode "default"
+        bindcode 56 exec bib.ui.selection; mode "default"
+        #-- bindsym Shift+B exec bib.selection.local; mode "default"
+        bindcode Shift+56 exec bib.selection.local; mode "default"
+        #-- bindsym c exec clipboard.menu; mode "default"
+        bindcode 54 exec clipboard.menu; mode "default"
+        #-- bindsym m exec menu.man; mode "default"
+        bindcode 47 exec menu.man; mode "default"
+        #-- bindsym t exec menu.term; mode "default"
+        bindcode 28 exec menu.term; mode "default"
+        #-- bindsym o exec oeis.menu; mode "default"
+        bindcode 32 exec oeis.menu; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "system" {
 
-        bindsym m exec terminator -b -x top -c -o +%CPU; mode "default"
+        #-- bindsym m exec terminator -b -x top -c -o +%CPU; mode "default"
+        bindcode 47 exec terminator -b -x top -c -o +%CPU; mode "default"
 
-        bindsym t exec menu.timezone; mode "default"
+        #-- bindsym t exec menu.timezone; mode "default"
+        bindcode 28 exec menu.timezone; mode "default"
 
-        bindsym k exec menu.keyboard; mode "default"
+        #-- bindsym k exec menu.keyboard; mode "default"
+        bindcode 45 exec menu.keyboard; mode "default"
 
-        bindsym s exec menu.systemctl; mode "default"
-        bindsym x exec menu.systemctl.status; mode "default"
-        bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
+        #-- bindsym s exec menu.systemctl; mode "default"
+        bindcode 39 exec menu.systemctl; mode "default"
+        #-- bindsym x exec menu.systemctl.status; mode "default"
+        bindcode 53 exec menu.systemctl.status; mode "default"
+        #-- bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
+        bindcode Shift+53 exec terminator -b -x watch systemctl status --user; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 mode "audio" {
 
-        bindsym a exec terminator -b -x alsamixer; mode "default"
-        bindsym p exec pavucontrol; mode "default"
+        #-- bindsym a exec terminator -b -x alsamixer; mode "default"
+        bindcode 24 exec terminator -b -x alsamixer; mode "default"
+        #-- bindsym p exec pavucontrol; mode "default"
+        bindcode 33 exec pavucontrol; mode "default"
 
-        bindsym i exec audio.move.sink.input; mode "default"
-        bindsym Shift+I exec audio.move.sink.all; mode "default"
-        bindsym o exec audio.move.source.output; mode "default"
-        bindsym Shift+O exec audio.move.source.all; mode "default"
-        bindsym s exec audio.set.default.sink; mode "default"
-        bindsym Shift+S exec audio.set.default.source; mode "default"
+        #-- bindsym i exec audio.move.sink.input; mode "default"
+        bindcode 31 exec audio.move.sink.input; mode "default"
+        #-- bindsym Shift+I exec audio.move.sink.all; mode "default"
+        bindcode Shift+31 exec audio.move.sink.all; mode "default"
+        #-- bindsym o exec audio.move.source.output; mode "default"
+        bindcode 32 exec audio.move.source.output; mode "default"
+        #-- bindsym Shift+O exec audio.move.source.all; mode "default"
+        bindcode Shift+32 exec audio.move.source.all; mode "default"
+        #-- bindsym s exec audio.set.default.sink; mode "default"
+        bindcode 39 exec audio.set.default.sink; mode "default"
+        #-- bindsym Shift+S exec audio.set.default.source; mode "default"
+        bindcode Shift+39 exec audio.set.default.source; mode "default"
 
-        bindsym n exec terminator -b -x ncmpcpp; mode "default"
+        #-- bindsym n exec terminator -b -x ncmpcpp; mode "default"
+        bindcode 57 exec terminator -b -x ncmpcpp; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 
 }
 
 mode "video" {
 
-        bindsym o exec screen.off; mode "default"
-        bindsym s exec screen.screensaver.toggle; mode "default"
+        #-- bindsym o exec screen.off; mode "default"
+        bindcode 32 exec screen.off; mode "default"
+        #-- bindsym s exec screen.screensaver.toggle; mode "default"
+        bindcode 39 exec screen.screensaver.toggle; mode "default"
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 
 }
 
 mode "files" {
-        bindsym t exec thunar; mode "default"
+        #-- bindsym t exec thunar; mode "default"
+        bindcode 28 exec thunar; mode "default"
 
-        bindsym n exec menu.nav; mode "default"
-        bindsym o exec menu.open; mode "default"
-        bindsym e exec menu.edit; mode "default"
-        bindsym r exec menu.references; mode "default"
-        bindsym p exec menu.pdf; mode "default"
+        #-- bindsym n exec menu.nav; mode "default"
+        bindcode 57 exec menu.nav; mode "default"
+        #-- bindsym o exec menu.open; mode "default"
+        bindcode 32 exec menu.open; mode "default"
+        #-- bindsym e exec menu.edit; mode "default"
+        bindcode 26 exec menu.edit; mode "default"
+        #-- bindsym r exec menu.references; mode "default"
+        bindcode 27 exec menu.references; mode "default"
+        #-- bindsym p exec menu.pdf; mode "default"
+        bindcode 33 exec menu.pdf; mode "default"
 
         # back to normal: enter or escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
 }
 
 
-bindsym $mod+u bar mode invisible extra
-bindsym $mod+Shift+U bar mode dock extra
+#-- bindsym $mod+u bar mode invisible extra
+bindcode $mod+30 bar mode invisible extra
+#-- bindsym $mod+Shift+U bar mode dock extra
+bindcode $mod+Shift+30 bar mode dock extra
 
 
 # volume
-bindsym XF86AudioRaiseVolume exec volume.up 3
-bindsym XF86AudioLowerVolume exec volume.down 3
-bindsym Shift+XF86AudioRaiseVolume exec volume.up 1
-bindsym Shift+XF86AudioLowerVolume exec volume.down 1
-bindsym XF86AudioMute exec volume.toggle
+#-- bindsym XF86AudioRaiseVolume exec volume.up 3
+bindcode 123 exec volume.up 3
+#-- bindsym XF86AudioLowerVolume exec volume.down 3
+bindcode 122 exec volume.down 3
+#-- bindsym Shift+XF86AudioRaiseVolume exec volume.up 1
+bindcode Shift+123 exec volume.up 1
+#-- bindsym Shift+XF86AudioLowerVolume exec volume.down 1
+bindcode Shift+122 exec volume.down 1
+#-- bindsym XF86AudioMute exec volume.toggle
+bindcode 121 exec volume.toggle
 
 # screen brightness
-bindsym XF86MonBrightnessUp exec screen.brightness.up 10
-bindsym XF86MonBrightnessDown exec screen.brightness.down 10
-bindsym Shift+XF86MonBrightnessUp exec screen.brightness.up 1
-bindsym Shift+XF86MonBrightnessDown exec screen.brightness.down 1
+#-- bindsym XF86MonBrightnessUp exec screen.brightness.up 10
+bindcode 233 exec screen.brightness.up 10
+#-- bindsym XF86MonBrightnessDown exec screen.brightness.down 10
+bindcode 232 exec screen.brightness.down 10
+#-- bindsym Shift+XF86MonBrightnessUp exec screen.brightness.up 1
+bindcode Shift+233 exec screen.brightness.up 1
+#-- bindsym Shift+XF86MonBrightnessDown exec screen.brightness.down 1
+bindcode Shift+232 exec screen.brightness.down 1
 
 # keyboard backlight
-bindsym XF86KbdBrightnessUp exec keyboard.brightness.up 10
-bindsym XF86KbdBrightnessDown exec keyboard.brightness.down 10
-bindsym Shift+XF86KbdBrightnessUp exec keyboard.brightness.up 1
-bindsym Shift+XF86KbdBrightnessDown exec keyboard.brightness.down 1
+#-- bindsym XF86KbdBrightnessUp exec keyboard.brightness.up 10
+bindcode 238 exec keyboard.brightness.up 10
+#-- bindsym XF86KbdBrightnessDown exec keyboard.brightness.down 10
+bindcode 237 exec keyboard.brightness.down 10
+#-- bindsym Shift+XF86KbdBrightnessUp exec keyboard.brightness.up 1
+bindcode Shift+238 exec keyboard.brightness.up 1
+#-- bindsym Shift+XF86KbdBrightnessDown exec keyboard.brightness.down 1
+bindcode Shift+237 exec keyboard.brightness.down 1
 
 # print screen
 bindsym --release Print exec screenshot.all
@@ -473,24 +677,26 @@ bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
 bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 
 # disable/enable touchpad
-bindsym $mod+t exec touchpad.toggle
+#-- bindsym $mod+t exec touchpad.toggle
+bindcode $mod+28 exec touchpad.toggle
 
 #wifi
 #bindsym XF86WLAN exec wifi.ui.auto.toggle
 
 # Change the workspace output
-bindsym $mod+plus exec i3.workspace.swap
-bindsym $mod+semicolon move workspace to output right
-bindsym $mod+colon move workspace to output left
-# ... and for US keyboard
-bindsym $mod+question exec i3.workspace.swap
-bindsym $mod+comma move workspace to output right
-bindsym $mod+period move workspace to output left
+#-- bindsym $mod+plus exec i3.workspace.swap
+bindcode $mod+61 exec i3.workspace.swap
+#-- bindsym $mod+semicolon move workspace to output right
+bindcode $mod+59 move workspace to output right
+#-- bindsym $mod+colon move workspace to output left
+bindcode $mod+60 move workspace to output left
 
 # Make the currently focused window a scratchpad
-bindsym $mod+Shift+minus move scratchpad
+#-- bindsym $mod+Shift+minus move scratchpad
+bindcode $mod+Shift+21 move scratchpad
 # Show the first scratchpad window
-bindsym $mod+minus scratchpad show
+#-- bindsym $mod+minus scratchpad show
+bindcode $mod+21 scratchpad show
 # Automatically move papercut balance window to the scratchpad.
 for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.*"] move scratchpad
 
