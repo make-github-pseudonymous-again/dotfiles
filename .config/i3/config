@@ -258,8 +258,7 @@ mode "shutdown" {
 
 #-- bindsym $mod+Delete mode "shutdown"
 bindcode $mod+119 mode "shutdown"
-#-- bindsym $mod+XF86Eject mode "shutdown"
-bindcode $mod+174 mode "shutdown"
+bindsym $mod+XF86Eject mode "shutdown"
 
 
 # resize window (you can also use the mouse for that)
