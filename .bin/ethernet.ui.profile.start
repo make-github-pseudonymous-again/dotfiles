@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+wifi.any.stop
+sudo /usr/bin/systemctl start dhcpcd

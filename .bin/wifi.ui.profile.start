@@ -4,6 +4,7 @@ profiles=$(wifi.profiles | cut -b3-)
 profile=$(echo "$profiles" | dmenu_center --rest -z -p '' -sb '#85bd85' -i -t -l 10)
 
 if [ "$profile" != '' ] ; then
+	ethernet.ui.profile.stop
 	wifi.any.stop
 	wifi.profile.start "$profile"
 fi

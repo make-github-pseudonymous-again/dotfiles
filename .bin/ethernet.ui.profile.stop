@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+sudo /usr/bin/systemctl stop dhcpcd
+sudo /usr/bin/ip link set "$(wifi.chips.default)" down

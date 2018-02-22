@@ -320,23 +320,41 @@ mode "resize" {
 #-- bindsym $mod+r mode "resize"
 bindcode $mod+27 mode "resize"
 
+mode "eth" {
+
+  #-- bindsym c exec ethernet.ui.profile.start; mode "default"
+  bindcode 54 exec ethernet.ui.profile.start; mode "default"
+  #-- bindsym d exec ethernet.ui.profile.stop; mode "default"
+  bindcode 40 exec ethernet.ui.profile.stop; mode "default"
+
+  # back to normal: Enter or Escape
+  #-- bindsym Return mode "default"
+  bindcode 36 mode "default"
+  #-- bindsym Escape mode "default"
+  bindcode 66 mode "default"
+
+}
+
+#-- bindsym $mod+Shift+E mode "eth"
+bindcode $mod+Shift+26 mode "eth"
 
 mode "wifi" {
 
-        #-- bindsym r exec wifi.ui.restart; mode "default"
-        bindcode 27 exec wifi.ui.restart; mode "default"
-        #-- bindsym t exec wifi.ui.auto.toggle; mode "default"
-        bindcode 28 exec wifi.ui.auto.toggle; mode "default"
-        #-- bindsym d exec wifi.ui.profile.stop; mode "default"
-        bindcode 40 exec wifi.ui.profile.stop; mode "default"
-        #-- bindsym c exec wifi.ui.profile.start; mode "default"
-        bindcode 54 exec wifi.ui.profile.start; mode "default"
+  #-- bindsym r exec wifi.ui.restart; mode "default"
+  bindcode 27 exec wifi.ui.restart; mode "default"
+  #-- bindsym t exec wifi.ui.auto.toggle; mode "default"
+  bindcode 28 exec wifi.ui.auto.toggle; mode "default"
+  #-- bindsym d exec wifi.ui.profile.stop; mode "default"
+  bindcode 40 exec wifi.ui.profile.stop; mode "default"
+  #-- bindsym c exec wifi.ui.profile.start; mode "default"
+  bindcode 54 exec wifi.ui.profile.start; mode "default"
 
-        # back to normal: Enter or Escape
-        #-- bindsym Return mode "default"
-        bindcode 36 mode "default"
-        #-- bindsym Escape mode "default"
-        bindcode 66 mode "default"
+  # back to normal: Enter or Escape
+  #-- bindsym Return mode "default"
+  bindcode 36 mode "default"
+  #-- bindsym Escape mode "default"
+  bindcode 66 mode "default"
+
 }
 
 #-- bindsym $mod+w mode "wifi"

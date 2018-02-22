@@ -14,5 +14,6 @@ then
 	sleep "$delay"
 	wifi.auto.start
 else
+	ethernet.ui.profile.stop
 	wifi.auto.start
 fi
