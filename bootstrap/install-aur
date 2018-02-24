@@ -35,6 +35,6 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
-pacaur -S --needed --noconfirm --noedit - <<< "$packages"
+pacaur -Sa --needed --noconfirm --noedit - <<< "$packages"
 
 exit 0
