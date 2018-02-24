@@ -35,6 +35,7 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
-pacaur -Sa --needed --noconfirm --noedit - <<< "$packages"
+pacaur -Sa --needed --noconfirm --noedit $packages
+# stdin not working, see https://github.com/rmarquis/pacaur/issues/588
 
 exit 0

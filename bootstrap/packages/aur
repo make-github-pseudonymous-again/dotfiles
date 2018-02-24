@@ -23,7 +23,6 @@ python-bibtexparser
 python-colored
 python-pydub
 uniconvertor
-pstotext
 phantomjs
 
 # Fast hash

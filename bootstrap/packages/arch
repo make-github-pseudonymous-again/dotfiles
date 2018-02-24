@@ -179,6 +179,7 @@ aspell-en
 libxslt
 djvulibre
 python2
+pstotext
 
 # Lesspipe
 lesspipe
