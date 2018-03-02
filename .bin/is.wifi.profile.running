@@ -2,7 +2,7 @@
 
 interface="$(wifi.chips.default)"
 
-systemctl | \
-grep 'netctl@'"$interface" | \
-grep -e 'loaded\s*active\s*\(exited\|running\)' | \
+systemctl |
+grep 'netctl@'"$interface" |
+grep -e 'loaded\s*active\s*\(exited\|running\)' |
 grep -o 'netctl@.*\.service' 1>&2
