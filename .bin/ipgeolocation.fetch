@@ -5,8 +5,10 @@ import json
 import codecs
 import urllib.request
 
+query = '' if len(sys.argv) < 2 else '/{}'.format(sys.argv[1])
+
 reader = codecs.getreader('utf8')
 
-data = json.load(reader(urllib.request.urlopen('http://ip-api.com/json')))
+data = json.load(reader(urllib.request.urlopen('http://ip-api.com/json{}'.format(query))))
 
 json.dump(data, sys.stdout)
