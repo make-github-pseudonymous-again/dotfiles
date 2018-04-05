@@ -54,6 +54,7 @@ _a pdftk
 _a pdftk-bin
 _a libgcj17-bin
 _a phantomjs
+_a impressive
 
 # Python / pip
 _p python-cssselect cssselect
