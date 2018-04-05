@@ -3,6 +3,7 @@ memoize
 myip
 gitdns
 dmenu2
+stapler
 
 # Fonts
 nerd-fonts-complete
@@ -10,7 +11,6 @@ nerd-fonts-complete
 # Others
 solaar
 ipe
-pdftk-bin
 yank-git
 untex
 ruby-coderay

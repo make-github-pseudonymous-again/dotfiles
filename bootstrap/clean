@@ -50,6 +50,7 @@ _a toxcore
 _a yaourt
 _a package-query
 _a tealdeer-git
+_a pdftk-bin
 
 # Python / pip
 _p python-cssselect cssselect
