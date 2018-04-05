@@ -59,7 +59,7 @@ _a phantomjs
 _p python-cssselect cssselect
 _p autopep8 autopep8
 _p python-lxml lxml
-_p tldr-python-client tldr
+_p tldr tldr
 
 # Node / NPM
 _n jshint
