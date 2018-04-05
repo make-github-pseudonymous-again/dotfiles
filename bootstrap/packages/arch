@@ -87,6 +87,7 @@ udevil
 ntp
 nmap
 go-ipfs
+tldr
 
 # Keys and Passwords
 gnupg
