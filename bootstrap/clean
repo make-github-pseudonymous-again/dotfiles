@@ -51,6 +51,7 @@ _a yaourt
 _a package-query
 _a tealdeer-git
 _a pdftk-bin
+_a libgcj17-bin
 
 # Python / pip
 _p python-cssselect cssselect
