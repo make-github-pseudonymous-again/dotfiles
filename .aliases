@@ -18,6 +18,7 @@ alias wi="wifi"
 alias ws="wifi.endpoints.scan"
 
 alias g="git"
+alias e="vim"
 
 alias up="update"
 alias ss="services.show"

@@ -29,6 +29,9 @@ abbr ws wifi.endpoints.scan
 # Git
 abbr g git
 
+# Vim
+abbr e vim
+
 # Alias all git aliases
 for al in (git la)
     abbr g$al "git $al"
