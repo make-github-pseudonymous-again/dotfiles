@@ -50,6 +50,7 @@ _a toxcore
 _a yaourt
 _a package-query
 _a tealdeer-git
+_a pdftk
 _a pdftk-bin
 _a libgcj17-bin
 _a phantomjs
