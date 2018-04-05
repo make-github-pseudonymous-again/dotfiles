@@ -38,6 +38,10 @@ function _install ( ) {
   _ ava-codemods
   _ speed-test
   _ texshake
+
+  set PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+  _ puppeteer
+  unset PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
 }
 
 if false && command -v yarn 1>/dev/null; then

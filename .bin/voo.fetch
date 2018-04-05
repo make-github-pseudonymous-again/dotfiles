@@ -1,63 +1,157 @@
-#!/usr/bin/env phantomjs
+#!/usr/bin/env node
 
-var fs = require('fs');
-var system = require('system');
-var spawn = require('child_process').spawn ;
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const spawn = require('child_process').spawn ;
 
-var HOME = system.env['HOME'] ;
-var CACHE = HOME + '/.cache/voo' ;
-var CACHE_INFO = CACHE + '/info.json' ;
+const HOME = process.env['HOME'] ;
+const CACHE = HOME + '/.cache/voo' ;
+const CACHE_INFO = CACHE + '/info.json' ;
 
 console.log('HOME', HOME);
 console.log('CACHE', CACHE);
 console.log('CACHE_INFO', CACHE_INFO);
 
-//var URL_LOGIN = 'https://newmy.voo.be' ;
-var URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
+//const URL_LOGIN = 'https://newmy.voo.be' ;
+const URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
 
-var TYPE_UNKNOWN = 0 ;
-var TYPE_LOGIN = 1 ;
-var TYPE_CONSUMPTION = 2 ;
-var TYPE_TIMEOUT = 3 ;
+const TYPE_UNKNOWN = 'unknown page' ;
+const TYPE_LOGIN = 'login page' ;
+const TYPE_LOGIN_ERROR = 'login error' ;
+const TYPE_CONSUMPTION = 'consumption page' ;
+const TYPE_TIMEOUT = 'timeout error' ;
 
-var TIME_SECOND = 1000 ;
-var TIME_MINUTE = TIME_SECOND * 60 ;
-var TIME_HOUR = TIME_MINUTE * 60 ;
-var TIME_HALF_HOUR = TIME_HOUR / 2 | 0 ;
+const TIME_SECOND = 1000 ;
+const TIME_MINUTE = TIME_SECOND * 60 ;
+const TIME_HOUR = TIME_MINUTE * 60 ;
+const TIME_HALF_HOUR = TIME_HOUR / 2 | 0 ;
 
 //currently non polling, single fetch is done, polling is handled by shell script
-//var POLL_RATE = TIME_HALF_HOUR ;
-//var POLL_RATE = TIME_MINUTE ;
-var READ_RATE = TIME_SECOND * 3 ;
-var LOGIN_WAIT = TIME_MINUTE ;
-var LOGIN_TIMEOUT = TIME_MINUTE ;
+//const POLL_RATE = TIME_HALF_HOUR ;
+//const POLL_RATE = TIME_MINUTE ;
+const READ_RATE = TIME_SECOND * 3 ;
+const LOGIN_WAIT = TIME_MINUTE ;
+const LOGIN_TIMEOUT = TIME_MINUTE ;
 
-var username, password, page;
+let lastlogin = 0 ;
 
-var lastlogin = 0 ;
+const sleep = ms => {
+	console.log(`sleeping for ${ms} ms`)
+    return new Promise(resolve => setTimeout(resolve, ms));
+} ;
 
-function type () {
+function main ( browser ) {
 
-	var now = Date.now();
-	if (lastlogin > 0 && now - lastlogin >= LOGIN_TIMEOUT) return TYPE_TIMEOUT;
+	try {
+		fs.mkdirSync(CACHE);
+	}
+	catch ( e ) {
+		if (e && e.code !== 'EEXIST') {
+			console.error(e);
+			process.exit(67);
+		}
+	}
 
-	return page.evaluate(function(lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN){
-		var now = Date.now();
-		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
-		else if ( document.querySelector('.gauge > .label-current') !== null &&
-			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
-		else return TYPE_UNKNOWN ;
-	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_CONSUMPTION, TYPE_UNKNOWN);
+	// parse username and password
+	const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+	switch (input.length) {
+		case 0:
+			console.log('Could not find username or password');
+			process.exit(1);
+			break;
+		case 1:
+			console.log('Could not find password');
+			process.exit(2);
+			break;
+	}
+
+	const username = input[0];
+	const password = input[1];
+
+	const options = {
+		executablePath: '/usr/bin/chromium' ,
+	} ;
+
+	puppeteer.launch(options).then(async browser => {
+		await poll(browser, username, password);
+		await browser.close();
+	});
 
 }
 
-function login (username, password) {
+async function poll ( browser , username , password ) {
+
+	console.log( 'credentials' , username , password.replace(/./g, '*'));
+
+	const page = await browser.newPage();
+
+	//page.onError = function (msg, trace) {
+		//console.log(msg);
+		//trace.forEach(function(item) {
+			//console.log('  ', item.file, ':', item.line);
+		//});
+	//};
+
+	//while ( true ) { // NOT POLLING ATM
+		//await load(page , username, password);
+		//await sleep(POLL_RATE);
+	//}
+	return await load( page , username , password );
+
+}
+
+async function load ( page , username , password ) {
+
+	await page.goto(URL_CONSUMPTION);
+
+	while ( true ) {
+
+		const _type = await type(page);
+		console.log(_type);
+
+		if (_type === TYPE_TIMEOUT || _type === TYPE_LOGIN_ERROR) return 32;
+
+		else if (_type === TYPE_UNKNOWN) await sleep(READ_RATE);
+
+		else if (_type === TYPE_LOGIN) {
+			await login(page, username, password);
+			await sleep(READ_RATE);
+		}
+
+		else {
+			const data = await getinfo(page);
+			write(data);
+			return 0;
+		}
+
+	}
+
+}
+
+async function type ( page ) {
+
+	const now = Date.now();
+	if (lastlogin > 0 && now - lastlogin >= LOGIN_TIMEOUT) return TYPE_TIMEOUT;
+
+	return await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_UNKNOWN) => {
+		const now = Date.now();
+		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
+		else if ( document.querySelector('.validation-summary-errors') !== null ) return TYPE_LOGIN_ERROR ;
+		else if ( document.querySelector('.gauge > .label-current') !== null &&
+			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
+		else return TYPE_UNKNOWN ;
+	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_UNKNOWN);
+
+}
+
+async function login (page, username, password) {
 
 	lastlogin = Date.now();
 
 	console.log( 'login' , username , password.replace(/./g, '*'));
 
-	return page.evaluate(function(username, password){
+	return await page.evaluate( (username, password) => {
 		document.getElementById('UserName').value = username;
 		document.getElementById('Password').value = password;
 		document.getElementsByTagName('form')[0].submit();
@@ -65,22 +159,20 @@ function login (username, password) {
 
 }
 
-function parse () {
+async function getinfo ( page ) {
 
-	var consumption = page.evaluate(function(){
-		return {
-			'current' : document.querySelector('.gauge .label-current').innerText ,
-			'max'     : document.querySelector('.gauge .label-max').innerText
-		} ;
-	});
+	const consumption = await page.evaluate(() => ({
+		'current' : document.querySelector('.gauge .label-current').innerText ,
+		'max'     : document.querySelector('.gauge .label-max').innerText
+	}));
 
-	var current_float = parseFloat(consumption.current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
-	var max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+	const current_float = parseFloat(consumption.current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+	const max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
 
-	var current_unit = consumption.current.match(/[a-zA-Z]*$/)[0];
-	var max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
+	const current_unit = consumption.current.match(/[a-zA-Z]*$/)[0];
+	const max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
 
-	var data = {
+	const data = {
 		'consumption' : {
 			'current' : {
 				'raw' : consumption.current ,
@@ -95,84 +187,17 @@ function parse () {
 		}
 	} ;
 
-	var cache = JSON.stringify(data);
-
-	console.log(cache) ;
-
-	fs.write(CACHE_INFO, cache, 'w');
-
 	return data ;
 
 }
 
-function poll () {
+function write ( data ) {
 
-	console.log( 'credentials' , username , password.replace(/./g, '*'));
+	const cache = JSON.stringify(data);
 
-	page = require('webpage').create();
+	console.log(cache) ;
 
-	page.onError = function (msg, trace) {
-		console.log(msg);
-		trace.forEach(function(item) {
-			console.log('  ', item.file, ':', item.line);
-		});
-	};
-
-	load();
-
-}
-
-function onload (status) {
-
-	console.log('Status: '+status);
-
-	var _type = type();
-	console.log('type' , _type);
-
-	if (_type === TYPE_TIMEOUT) phantom.exit(32);
-
-	else if (_type === TYPE_UNKNOWN) return setTimeout(onload, READ_RATE, status);
-
-	else if (_type === TYPE_LOGIN) {
-		login(username, password);
-		return setTimeout(onload, READ_RATE, status);
-	}
-
-	else {
-		parse();
-		phantom.exit();
-		//return setTimeout(load, POLL_RATE);
-	}
-
-}
-
-function load () {
-	page.open(URL_CONSUMPTION, onload);
-}
-
-function main () {
-
-	fs.makeDirectory(CACHE);
-
-	// parse username and password
-	var input = fs.read('/dev/stdin').split('\n');
-
-	switch (input.length) {
-		case 0:
-			console.log('Could not find username or password');
-			phantom.exit(1);
-			break;
-		case 1:
-			console.log('Could not find password');
-			phantom.exit(2);
-			break;
-	}
-
-	username = input[0];
-	password = input[1];
-
-	// poll
-	poll();
+	fs.writeFileSync(CACHE_INFO, cache);
 
 }
 

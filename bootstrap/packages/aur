@@ -22,7 +22,6 @@ python-bibtexparser
 python-colored
 python-pydub
 uniconvertor
-phantomjs
 
 # Fast hash
 xxhash
