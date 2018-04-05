@@ -38,7 +38,7 @@ function _install ( ) {
   _ speed-test
   _ texshake
 
-  set PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+  export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
   _ puppeteer
   unset PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
 }
