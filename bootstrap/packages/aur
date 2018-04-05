@@ -21,6 +21,7 @@ notes-git
 python-bibtexparser
 python-colored
 python-pydub
+python-pypdf2
 uniconvertor
 
 # Fast hash

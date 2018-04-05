@@ -1,5 +1,20 @@
-#!/usr/bin/env sh
+#!/usr/bin/env python3
 
-pdftk "$1" dump_data | \
-sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | \
-pdftk "$1" update_info - output "$2"
+from PyPDF2 import PdfFileReader, PdfFileWriter
+from argparse import ArgumentParser
+
+parser = ArgumentParser(description='discards all attributes from the info fields')
+parser.add_argument('input')
+parser.add_argument('output')
+options = parser.parse_args()
+
+writer = PdfFileWriter()
+
+with open(options.input, "rb") as infile:
+    reader = PdfFileReader(infile)
+    writer.appendPagesFromReader(reader)
+
+    writer.addMetadata({'/Producer': ''})
+
+    with open(options.output, "wb") as outfile:
+        writer.write(outfile)

@@ -1,44 +1,7 @@
 #!/usr/bin/env python3
 
-from subprocess import Popen, PIPE, check_output
+from PyPDF2 import PdfFileReader, PdfFileWriter
 from argparse import ArgumentParser
-from collections import OrderedDict
-from itertools import chain
-from html import unescape
-
-
-def _escape(string):
-
-    it = iter(string)
-
-    while True:
-
-        try:
-            c = next(it)
-        except StopIteration:
-            break
-
-        if c == '&':
-            yield "&amp;"
-        elif c == '<':
-            yield "&lt;"
-        elif c == '>':
-            yield "&gt;"
-        elif c == '"':
-            yield "&quot;"
-        elif 0x20 <= ord(c) <= 0x7E:
-            yield c
-        elif ord(c) == 0x0A:
-            yield c
-        elif ord(c) == 0x0D:
-            yield c
-        else:
-            yield "&#" + str(ord(c)) + ";"
-
-
-def escape(string):
-
-    return "".join(list(_escape(string)))
 
 parser = ArgumentParser(description='change the title of a pdf file')
 parser.add_argument('input')
@@ -46,95 +9,15 @@ parser.add_argument('output')
 parser.add_argument('title')
 options = parser.parse_args()
 
-output = check_output(['pdftk', options.input, 'dump_data'])
+writer = PdfFileWriter()
 
-lines = iter(unescape(output.decode('ascii')).splitlines())
-metadata = OrderedDict()
-info = OrderedDict()
-pagemedia = OrderedDict()
+with open(options.input, "rb") as infile:
+    reader = PdfFileReader(infile)
+    writer.appendPagesFromReader(reader)
+    metadata = reader.getDocumentInfo()
 
-while True:
+    writer.addMetadata(metadata)
+    writer.addMetadata({'/Title': options.title})
 
-    try:
-        line = next(lines)
-    except StopIteration:
-        break
-
-    if line != "InfoBegin":
-
-        lines = chain([line], lines)
-        break
-
-    try:
-        line = next(lines)
-    except StopIteration:
-        raise Exception("missing InfoKey for InfoBegin")
-
-    key, value = line.split(": ", 1)
-
-    if key != "InfoKey":
-        raise Exception(
-            "missing InfoKey for InfoBegin ({0}, {1})".format(key, value))
-
-    _key = value
-
-    try:
-        line = next(lines)
-    except StopIteration:
-        raise Exception("missing InfoValue for InfoKey ({0})".format(_key))
-
-    key, value = line.split(": ", 1)
-
-    if key != "InfoValue":
-        raise Exception(
-            "missing InfoValue for InfoKey ({0}, {1}, {2})".format(_key, key, value))
-
-    key = _key
-
-    info[key] = value
-
-while True:
-
-    try:
-        line = next(lines)
-    except StopIteration:
-        break
-
-    if line == "PageMediaBegin":
-        break
-
-    key, value = line.split(": ", 1)
-
-    metadata[key] = value
-
-while True:
-
-    try:
-        line = next(lines)
-    except StopIteration:
-        break
-
-    key, value = line.split(": ", 1)
-
-    pagemedia[key] = value
-
-info["Title"] = options.title
-
-newmetadata = ""
-newmetadata += "\n".join(["InfoBegin\nInfoKey: {0}\nInfoValue: {1}".format(
-    key, value) for key, value in info.items()])
-newmetadata += "\n"
-newmetadata += "\n".join(["{0}: {1}".format(key, value)
-                          for key, value in metadata.items()])
-newmetadata += "\n"
-newmetadata += "PageMediaBegin\n"
-newmetadata += "\n".join(["{0}: {1}".format(key, value)
-                          for key, value in pagemedia.items()])
-newmetadata += "\n"
-
-write = Popen(['pdftk', options.input, 'update_info',
-               '-', 'output', options.output], stdin=PIPE)
-
-write.communicate(escape(newmetadata).encode('ascii'))
-
-write.stdin.close()
+    with open(options.output, "wb") as outfile:
+        writer.write(outfile)
