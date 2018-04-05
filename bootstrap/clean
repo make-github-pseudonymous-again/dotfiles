@@ -49,6 +49,7 @@ _a qtox
 _a toxcore
 _a yaourt
 _a package-query
+_a tealdeer-git
 
 # Python / pip
 _p python-cssselect cssselect

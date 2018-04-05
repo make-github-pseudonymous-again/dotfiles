@@ -34,6 +34,7 @@ function _install ( ) {
   _ journally
   _ geez
   _ zxcvbn
+  _ tldr
   _ ava-codemods
   _ speed-test
   _ texshake
