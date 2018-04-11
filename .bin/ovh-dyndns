@@ -9,6 +9,7 @@ help()
 {
     echo
     echo "Help: possible arguments are:"
+    echo "  --ip <ip>               : the ip address for this A record"
     echo "  --domain <domain>       : the domain on which update the A record in the DNS zone"
     echo "  --subdomain <subdomain> : (optional) the subdomain for this A record"
     echo
@@ -52,16 +53,15 @@ requestApi()
     echo $HTTP_STATUS
 }
 
-updateIp()
-{
-    IP=$(myip public)
-}
-
 parseArguments()
 {
     while [ $# -gt 0 ]
     do
         case $1 in
+        --ip)
+            shift
+            IP=$1
+            ;;
         --domain)
             shift
             DOMAIN=$1
@@ -80,6 +80,13 @@ checkArgumentsValids()
     if [ -z $DOMAIN ]
     then
         echo "No domain given"
+        help
+        exit 1
+    fi
+
+    if [ -z $IP ]
+    then
+        echo "No IP address given"
         help
         exit 1
     fi
@@ -107,7 +114,6 @@ main()
     checkArgumentsValids
     checkInternetConnexion
 
-    updateIp
     getIds
 
     if [ $(echo $IDS | jq length) -gt 1 ]
