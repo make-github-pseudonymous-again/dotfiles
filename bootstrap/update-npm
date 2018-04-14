@@ -37,10 +37,7 @@ function _install ( ) {
   _ ava-codemods
   _ speed-test
   _ texshake
-
-  export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
   _ puppeteer
-  unset PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
 }
 
 if false && command -v yarn 1>/dev/null; then
@@ -80,6 +77,8 @@ fi
 
 x="$1"
 
+
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 if [ "$x" = u ] ; then
   _update
 elif [ "$x" = i ] ; then
@@ -87,3 +86,4 @@ elif [ "$x" = i ] ; then
 else
   _install
 fi
+unset PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
