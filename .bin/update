@@ -13,26 +13,28 @@ echo '+ Parsing arguments'
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
-pull=false
-modules=false
-plugins=false
-clean=false
-sync=false
-install=false
-diff=false
-update=true
-restart=false
-vim=false
-fish=false
-tldr=false
-_wait=false
+clean=false   # c
+diff=false    # d
+install=false # i
+modules=false # m
+npm=true      # n
+pull=false    # p
+restart=false # r
+sync=false    # s
+tldr=false    # t
+update=true   # u
+vim=false     # v
+_wait=false   # w
+plugins=false # x
+pip=true      # y
+fish=false    # z
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?apmfcsiurvdzwxtPMFCSIURVDZWXT" opt; do
+while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -50,58 +52,66 @@ while getopts "h?apmfcsiurvdzwxtPMFCSIURVDZWXT" opt; do
         fish=true
         tldr=true
         ;;
-    p)  pull=true
-        ;;
-    m)  modules=true
-        ;;
-    x)  plugins=true
-        ;;
     c)  clean=true
-        ;;
-    s)  sync=true
-        ;;
-    i)  install=true
         ;;
     d)  diff=true
         update=false
         ;;
-    u)  update=true
+    i)  install=true
+        ;;
+    m)  modules=true
+        ;;
+    n)  npm=true
+        ;;
+    p)  pull=true
+        ;;
+    s)  sync=true
         ;;
     r)  restart=true
         ;;
-    v)  vim=true
-        ;;
-    z)  fish=true
-        ;;
     t)  tldr=true
+        ;;
+    u)  update=true
+        ;;
+    v)  vim=true
         ;;
     w)  _wait=true
         ;;
-    P)  pull=false
+    x)  plugins=true
         ;;
-    M)  modules=false
+    y)  pip=true
         ;;
-    X)  plugins=false
+    z)  fish=true
         ;;
     C)  clean=false
         ;;
-    S)  sync=false
+    D)  diff=false
         ;;
     I)  install=false
         ;;
-    D)  diff=false
+    M)  modules=false
         ;;
-    U)  update=false
+    N)  npm=false
+        ;;
+    P)  pull=false
         ;;
     R)  restart=false
         ;;
-    V)  vim=false
-        ;;
-    Z)  fish=false
+    S)  sync=false
         ;;
     T)  tldr=false
         ;;
+    U)  update=false
+        ;;
+    V)  vim=false
+        ;;
     W)  _wait=false
+        ;;
+    X)  plugins=false
+        ;;
+    Y)  pip=false
+        ;;
+    Z)  fish=false
         ;;
     esac
 done
@@ -205,14 +215,44 @@ fi
 if $sync ; then
 
   echo '+ Update already installed software'
-  sh "$DOTFILES"/bootstrap/update-all || _exit "$?"
+
+  echo " * aur"
+  pacaur --noconfirm --noedit -Syu || _exit "$?"
+
+  if $npm ; then
+    echo " * npm"
+    sudo sh "$DOTFILES"/bootstrap/update-npm u || _exit "$?"
+  fi
+
+  if $pip ; then
+    echo " * pip"
+    sudo sh "$DOTFILES"/bootstrap/update-pip u || _exit "$?"
+  fi
 
 fi
 
 if $install ; then
 
   echo '+ Install new software'
-  bash "$DOTFILES"/bootstrap/install-all || _exit "$?"
+
+  echo " * base"
+  sudo sh "$DOTFILES"/bootstrap/install-base || _exit "$?"
+
+  echo " * arch"
+  sudo sh "$DOTFILES"/bootstrap/install-arch || _exit "$?"
+
+  echo " * aur"
+  sh "$DOTFILES"/bootstrap/install-aur || _exit "$?"
+
+  if $npm ; then
+    echo " * npm"
+    sudo sh "$DOTFILES"/bootstrap/update-npm i || _exit "$?"
+  fi
+
+  if $pip ; then
+    echo " * pip"
+    sudo sh "$DOTFILES"/bootstrap/update-pip i || _exit "$?"
+  fi
 
 fi
 
