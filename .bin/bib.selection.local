@@ -93,7 +93,11 @@ for doc in docs:
         log.error(e)
         continue
 
-    bib_database = bibtexparser.loads(bibtex_str)
+    try:
+        bib_database = bibtexparser.loads(bibtex_str)
+    except Exception as e:
+        log.error(e)
+        continue
     # should probably just count here
     entries += bib_database.entries
 
