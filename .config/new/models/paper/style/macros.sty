@@ -1,0 +1,36 @@
+\usepackage[utf8]{inputenc} % for utf8 characters
+\usepackage[margin=1in]{geometry} % for margins in arxiv version
+% lipics-like
+\usepackage{authblk}
+\usepackage{microtype}
+\bibliographystyle{plainurl}
+
+%\def\appref{Appendix}
+\def\appref{Section}
+
+\usepackage{hyperref} % for hyperlinks
+\usepackage{graphicx} % \includegraphics
+\usepackage[margin=5pt,
+font+=small,labelformat=parens,labelsep=space,
+skip=6pt,list=false,hypcap=false
+]{subcaption} % \begin{subfigure}
+
+\usepackage[numbers,sort&compress]{natbib} % [1,3-9]
+
+\usepackage{amsfonts} % \mathbb{...}
+\usepackage{amsmath} % \binom{...}{...}
+\usepackage{amsthm} % \begin{proof}
+\usepackage{textcomp} % n\textdegree{} -> n°
+
+\newtheorem{theorem}{Theorem} % \begin{Theorem}
+\newtheorem{lemma}[theorem]{Lemma} % \begin{Lemma}
+\newtheorem{definition}[theorem]{Definition} % \begin{Definition}
+\newtheorem{observation}[theorem]{Observation} % \begin{Observation}
+\newtheorem{problem}{Problem} % \begin{Problem}
+
+\ifcomments
+  \usepackage{color}
+  \newcommand\aurelien[1]{\textcolor{red}{\emph{``#1'' Aurélien.}}}
+\else
+  \newcommand\aurelien[1]{}
+\fi

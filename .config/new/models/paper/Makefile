@@ -1,66 +1,64 @@
+.PHONY: all figures clean
+.SECONDARY:
 
-TARGET = paper
+PAPERS := dev.pdf arxiv.pdf
 
-SECTIONSDIR = sec
-SECTIONS := $(shell find $(SECTIONSDIR) -name '*.tex')
-APPENDIXDIR = app
-APPENDIX := $(shell find $(APPENDIXDIR) -name '*.tex')
-# cannot find the figures since they are generated
-FIGSDIR = fig
+LTX := pdflatex -interaction=nonstopmode -halt-on-error
 
-all: figures $(TARGET).pdf
+FIGSDIR := figures
+
+BUILDDIR := build
+
+FIGURES := $(shell sed -E -e 's/:.*$$//' Makefile | grep -E '^figures/[a-z0-9-]*\.pdf$$')
+
+all: $(PAPERS)
+
+figures: $(FIGURES)
+
+#figures/myfigure.pdf: view=<page>-<view>
+
+figures/%.pdf: figures/figures.ipe
+	ipetoipe -pdf -export -view $(view) figures/figures.ipe $@
+
+%.pdf: $(BUILDDIR)/%/paper.pdf
+	cp $< $@
 	killall -HUP mupdf || true
 
-diff:
-	git difftex $(TARGET).tex > $(TARGET).diff
-	pdflatex -synctex=1 -interaction=nonstopmode -halt-on-error $(TARGET).diff
-	killall -HUP mupdf || true
+$(BUILDDIR)/dev/src.tex: $(shell texdeps dev.tex)
+$(BUILDDIR)/arxiv/src.tex: $(shell texdeps arxiv.tex)
 
-figures:
-	@make --no-print-directory -C $(FIGSDIR) all
+$(BUILDDIR)/%/src.tex:
+	mkdir -p $(dir $@)
+	flatex --include_sty $< - | texshake | textrim > $@
 
-$(TARGET).pdf: $(FIGSDIR)/.updated $(TARGET).tex $(TARGET).sty $(TARGET).bib $(SECTIONS) $(APPENDIX)
-	pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
-	#bibtex $(TARGET)
-	#pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
-	pdflatex -interaction=nonstopmode -halt-on-error $(TARGET).tex
+$(BUILDDIR)/%/paper.bib: $(BUILDDIR)/%/src.tex
+	texcites < $< | \
+		bibfilter $(shell sed -E -n 's/\\bibliography\{(.*)\}/\1/p' $<).bib \
+		> $(dir $@)paper.bib
+
+$(BUILDDIR)/%/paper.tex: $(BUILDDIR)/%/src.tex $(BUILDDIR)/%/paper.bib
+	cp -t $(dir $@) $(shell texdeps $< | tail +2) $(static) || true
+	sed -E -e 's:\\bibliography\{.*\}:\\bibliography{paper}:g' \
+		   -e 's:\{figures/:{:g' $< > $@
+
+$(BUILDDIR)/%/paper.pdf: $(BUILDDIR)/%/paper.tex
+	cd $(dir $@); \
+		$(LTX) paper.tex; \
+		bibtex paper; \
+		$(LTX) paper.tex; \
+		$(LTX) paper.tex
+
+arxiv.zip: $(BUILDDIR)/arxiv/paper.zip
+	cp $< $@
+
+$(BUILDDIR)/arxiv/paper.zip: $(BUILDDIR)/arxiv/paper.pdf
+	cd $(dir $@) ; \
+		zip -FS -r 'paper.zip' \
+		paper.tex \
+		paper.bbl \
+		$(shell texdeps $(basename $@).tex | tail +2)
 
 clean:
-	rm -f $(TARGET).{out,log,aux,pdf,bbl,blg,vtc}
-	@make --no-print-directory -C $(FIGSDIR) clean
-
-zip: all
-	rm -f $(TARGET).zip
-	zip -r $(TARGET).zip \
-		$(TARGET).tex \
-		$(TARGET).sty \
-		$(TARGET).bib \
-		$(SECTIONS) \
-		$(APPENDIX) \
-		$(FIGSDIR)/*.pdf
-
-arxiv: all
-	rm -f 'arxiv.zip'
-	$(eval TMP := $(shell mktemp --tmpdir --directory))
-	cp -r $(TARGET).tex \
-		$(TARGET).bbl \
-		$(TARGET).sty \
-		$(SECTIONSDIR) \
-		$(APPENDIXDIR) \
-		$(FIGSDIR) \
-		$(TMP)/
-	cd $(TMP) ; \
-		sed -r \
-		-e 's/^\%.*$$/\%/g' \
-		-e 's/^(([^%]|\\%)*[^\])%.*$$/\1\%/g' \
-		-i {,**/}*.tex $(TARGET).sty ; \
-		zip -r 'arxiv.zip' \
-		$(TARGET).tex \
-		$(TARGET).bbl \
-		$(TARGET).sty \
-		$(SECTIONS) \
-		$(APPENDIX) \
-		$(FIGSDIR)/*.pdf
-	cp {$(TMP),.}/arxiv.zip
-	rm -r $(TMP)
-
+	rm -rf $(BUILDDIR)
+	rm -f $(PAPERS) $(PAPERS:.pdf=.zip)
+	rm -f $(FIGURES)

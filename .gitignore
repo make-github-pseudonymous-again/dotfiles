@@ -65,6 +65,7 @@ qrc_*.cpp
 # LaTeX #
 #########
 
+*.vtc
 *.aux
 *.lof
 *.log
