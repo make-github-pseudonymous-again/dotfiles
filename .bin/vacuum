@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+sudo pacman -Sc
+
+sudo journalctl --vacuum-size 50M
