@@ -14,6 +14,9 @@ for FILE in "$@"; do
 	elif ref.springer.match "$BASENAME" ; then
 		echo '+ Springer "'"$FILE"'"'
 		ref.springer.rename "$FILE" &
+	elif ref.springer2.match "$BASENAME" ; then
+		echo '+ Springer "'"$FILE"'"'
+		ref.springer2.rename "$FILE" &
 	elif ref.sciencedirect.match "$BASENAME" ; then
 		echo '+ ScienceDirect "'"$FILE"'"'
 		ref.sciencedirect.rename "$FILE" &
