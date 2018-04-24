@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+mpc -h "$(pass apps/mpd)@localhost" -p 6600 "$@"
