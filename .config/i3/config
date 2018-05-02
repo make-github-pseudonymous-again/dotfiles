@@ -662,6 +662,8 @@ bindcode Shift+122 exec volume.down 1
 #-- bindsym XF86AudioMute exec volume.toggle
 bindcode 121 exec volume.toggle
 bindsym XF86AudioPlay exec music toggle
+bindsym XF86AudioNext exec music next
+bindsym XF86AudioPrev exec music prev
 
 # screen brightness
 #-- bindsym XF86MonBrightnessUp exec screen.brightness.up 10
