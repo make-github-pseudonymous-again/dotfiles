@@ -57,8 +57,20 @@ for _calendar in _calendars:
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
+    except arrow.parser.ParserError as err:
+
+        log('Error parsing time for {}'.format(url))
+        log(err)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
+
     except FileNotFoundError as err:
 
         log('Error writing file for {}'.format(url))
+        log(err)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
+
+    except Exception as err:
+
+        log('Unknown exception for {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
