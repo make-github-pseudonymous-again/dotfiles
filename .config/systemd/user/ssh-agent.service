@@ -7,4 +7,4 @@ Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
 ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
 
 [Install]
-WantedBy=default.target
+WantedBy=environment.target

@@ -1,0 +1,4 @@
+[Unit]
+Description=Environment setup
+Requires=default.target
+After=default.target

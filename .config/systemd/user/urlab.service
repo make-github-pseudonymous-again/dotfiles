@@ -6,5 +6,5 @@ ExecStart=/usr/bin/env sh urlab.poll
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=environment.target
 

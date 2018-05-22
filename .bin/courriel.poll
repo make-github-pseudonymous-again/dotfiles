@@ -2,12 +2,13 @@
 
 FLAG="$HOME/.cache/courriel/flag"
 SYNCING="$FLAG/syncing"
+MAIL="$HOME/.mail"
 
-cd "$HOME/.mail"
+echo "FLAG=$FLAG"
+echo "SYNCING=$SYNCING"
+echo "MAIL=$MAIL"
 
-echo " > Firing up the engines ..."
-
-sleep 60
+cd "$MAIL"
 
 trap _trap SIGUSR1
 

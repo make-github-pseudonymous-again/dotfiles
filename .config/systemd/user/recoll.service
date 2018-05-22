@@ -6,4 +6,4 @@ ExecStart=/usr/bin/env recollindex -w 15 -m -D
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=environment.target

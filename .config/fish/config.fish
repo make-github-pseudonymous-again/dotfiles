@@ -16,6 +16,8 @@ set fish_greeting
 function fish_vi_cursor; end
 
 if status --is-login
+	/usr/bin/systemctl --user import-environment PATH NODE_PATH
+	/usr/bin/systemctl --user start environment.target
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
 		exec startx -- -keeptty
 	end

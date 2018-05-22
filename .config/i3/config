@@ -732,5 +732,3 @@ for_window [class="^fzf-menu$"] move absolute position center
 for_window [window_role="GtkFileChooserDialog"] resize set 640 480
 
 exec --no-startup-id ~/.bin/wallpaper.refresh
-
-exec --no-startup-id ~/.bin/services.on

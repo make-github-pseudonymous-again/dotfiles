@@ -6,4 +6,4 @@ ExecStart=/usr/bin/env sh wifi.unhang.BCM4331.poll
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=environment.target

@@ -6,5 +6,4 @@ ExecStart=/usr/bin/env sh mbv.poll
 Restart=always
 
 [Install]
-WantedBy=default.target
-
+WantedBy=environment.target

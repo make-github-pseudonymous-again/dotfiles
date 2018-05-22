@@ -6,4 +6,4 @@ ExecStart=/usr/bin/env sh msmtp-runqueue-daemon
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=environment.target
