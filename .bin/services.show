@@ -10,7 +10,7 @@ KO = frozenset(['failed', 'dead'])
 
 units = filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR))
 
-STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend', '--type', 'service']
+STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend']
 ENABLE_CMD = ['systemctl', '--user', 'is-enabled']
 
 status = {}
@@ -19,29 +19,22 @@ for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
 
     unit, load, active, sub, description = map(lambda x : x.strip(), line.split(maxsplit=4))
 
-    # status[unit] = {
-        # 'LOAD' : load,
-        # 'ACTIVE' : active,
-        # 'SUB' : sub,
-        # 'DESCRIPTION' : description
-    # }
+    name, kind = unit.rsplit('.',maxsplit=1)
 
-    status[unit] = load, active, sub, description
+    status[unit] = load, active, sub, description, name, kind
 
 def unit_key ( unit ) :
 
     if unit not in status:
         return 1, unit
 
-    load, active, sub, description = status[unit]
+    load, active, sub, description, name, kind = status[unit]
 
     return 0, active not in OK, active in KO, unit
 
 units = sorted(units, key = unit_key )
 
 for unit in units:
-
-    name = unit if unit[-8:] != '.service' else unit[:-8]
 
     try:
         enabled = subprocess.check_output(ENABLE_CMD + [unit])
@@ -52,10 +45,12 @@ for unit in units:
 
     if unit in status:
 
-        load, active, sub, description = status[unit]
+        load, active, sub, description, name, kind = status[unit]
 
-        text = '{}{}{} ({}{}{}, {}{}{}, {}{}{}, {}{}{})'.format(
-            style.BOLD, name, style.RESET,
+        ext = '' if kind == 'service' else '.' + kind
+
+        text = '{}{}{} ({}{}{}{}, {}{}{}, {}{}{}, {}{}{})'.format(
+            style.BOLD, name, ext, style.RESET,
             fore.GREY_50 + style.BOLD, load, style.RESET,
             fore.GREY_50 + style.BOLD, active, style.RESET,
             fore.GREY_50 + style.BOLD, sub, style.RESET,
@@ -63,17 +58,25 @@ for unit in units:
         )
 
         if active in OK :
-            mark = fore.GREEN + '' + style.RESET
+            if kind == 'target':
+                mark = fore.GREEN + '' + style.RESET
+            else:
+                mark = fore.GREEN + '' + style.RESET
 
         elif active in KO :
-            mark = fore.RED + '' + style.RESET
+            if kind == 'target':
+                mark = fore.RED + '' + style.RESET
+            else:
+                mark = fore.RED + '' + style.RESET
 
         else:
             mark = fore.BLUE + '' + style.RESET
 
     else:
 
-        text = '{}{}{}'.format(style.BOLD, name, style.RESET)
+        name, kind = unit.rsplit('.',maxsplit=1)
+        ext = '' if kind == 'service' else '.' + kind
+        text = '{}{}{}{}'.format(style.BOLD, name, ext, style.RESET)
         mark = fore.RED + '' + style.RESET
 
     x = '' if enabled == 'enabled' else ' '
