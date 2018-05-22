@@ -190,7 +190,7 @@ for _calendar in _calendars:
             calendar = ics.Calendar(text)
 
             for event in calendar.events:
-                allevents.append(event)
+                allevents.add(event)
                 icons[event] = _calendar['icon']
 
     except FileNotFoundError as err:
