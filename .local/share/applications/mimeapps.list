@@ -3,5 +3,5 @@
 text/plain=vim.desktop
 application/javascript=vim.desktop
 application/x-desktop=vim.desktop
-application/pdf=mupdf.desktop
+application/pdf=evince.desktop
 image/vnd.djvu=evince.desktop
