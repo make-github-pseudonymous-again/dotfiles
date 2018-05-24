@@ -3,8 +3,10 @@
 FROM="${1^^}"
 TO="${2^^}"
 AMOUNT="${3:-1}"
+DATE="${4:-latest}"
+ACCESS_KEY="${5:-$(pass data.fixer.io/api/access_key)}"
 
-URL="https://api.fixer.io/latest?base=$FROM&symbols=$TO"
+URL="http://data.fixer.io/api/$DATE?access_key=$ACCESS_KEY&symbols=$FROM,$TO"
 
 RESPONSE="$(curl --silent $URL)"
 
@@ -13,12 +15,14 @@ if [ "$RESPONSE" = '' ] ; then
   exit 1
 fi
 
-RATE="$(<<< "$RESPONSE" jq ".rates.$TO")"
+RATE_FROM="$(<<< "$RESPONSE" jq ".rates.$FROM")"
+RATE_TO="$(<<< "$RESPONSE" jq ".rates.$TO")"
 
-if [ "$RATE" = '' ] ; then
+if [ "$RATE_FROM" = '' ] || [ "$RATE_TO" = '' ] ; then
   >&2 echo "Could not interpret response:"
   >&2 echo "$RESPONSE"
   exit 1
 fi
 
-echo "$AMOUNT $FROM = $(echo "$AMOUNT * $RATE" | bc) $TO"
+COMPUTATION="scale=6; $AMOUNT * $RATE_TO / $RATE_FROM"
+echo "$AMOUNT $FROM = $(echo "$COMPUTATION" | bc) $TO"
