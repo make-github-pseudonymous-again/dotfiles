@@ -1,0 +1,10 @@
+[Unit]
+Description=Setup environment variables for user
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/.bin/setup-environment
+
+[Install]
+WantedBy=default.target

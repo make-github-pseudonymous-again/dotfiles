@@ -1,10 +1,10 @@
 [Unit]
 Description=IPFS daemon
-After=environment.target
+After=ready.target
 
 [Service]
 ExecStart=/usr/bin/ipfs daemon
 Restart=on-failure
 
 [Install]
-WantedBy=environment.target
+WantedBy=ready.target

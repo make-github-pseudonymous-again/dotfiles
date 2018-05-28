@@ -6,4 +6,4 @@ ExecStart=/bin/bash clipboard.record
 Restart=always
 
 [Install]
-WantedBy=environment.target
+WantedBy=ready.target

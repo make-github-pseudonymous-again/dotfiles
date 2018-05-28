@@ -2,25 +2,6 @@
 # http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator
 stty -ixon
 
-# Add `~/.bin` to the `$PATH`
-if [ -d "$HOME/.bin" ] ; then
-	export PATH="$HOME/.bin:$PATH";
-fi
-
-# ruby gems
-export RUBY_PATH=$(ruby -e 'print Gem.user_dir')/bin;
-if [ -d "$RUBY_PATH" ] ; then
-  export PATH="$RUBY_PATH:$PATH"
-fi
-
-# ipe styles
-if [ -d "$HOME/.ipe/styles" ] ; then
-	export IPESTYLES="$HOME/.ipe/styles";
-fi
-
-# Node path
-export NODE_PATH=/usr/lib/node_modules;
-
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you do not want to commit.

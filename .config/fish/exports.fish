@@ -1,23 +1,4 @@
 
-# Add `~/.bin` to the `$PATH`
-if test -d $HOME/.bin
-  set -gx PATH $HOME/.bin $PATH
-end
-
-# ruby gems
-set -gx RUBY_PATH (ruby -e 'print Gem.user_dir')/bin
-if test -d $RUBY_PATH
-  set -gx PATH $RUBY_PATH $PATH
-end
-
-# ipe styles
-if test -d $HOME/.ipe/styles
-  set -gx IPESTYLES $HOME/.ipe/styles
-end
-
-# node path
-set -gx NODE_PATH /usr/lib/node_modules
-
 # Make vim the default editor
 set -gx EDITOR "vim"
 set -gx VISUAL "vim"
@@ -70,3 +51,8 @@ set -x FZF_ALT_C_OPTS "--preview 'ls -la {} | head -$LINES'"
 
 # ssh-agent socket
 set -x SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# ipe styles
+if test -d $HOME/.ipe/styles
+  set -gx IPESTYLES $HOME/.ipe/styles
+end

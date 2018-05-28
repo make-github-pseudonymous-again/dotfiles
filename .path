@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Add `~/.bin` to the `$PATH`
+if [ -d "$HOME/.bin" ] ; then
+	export PATH="$HOME/.bin:$PATH";
+fi
+
+# ruby gems
+export RUBY_PATH=$(ruby -e 'print Gem.user_dir')/bin;
+if [ -d "$RUBY_PATH" ] ; then
+  export PATH="$RUBY_PATH:$PATH"
+fi
+
+# Node path
+export NODE_PATH=/usr/lib/node_modules;

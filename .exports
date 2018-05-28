@@ -64,3 +64,8 @@ export FZF_ALT_C_OPTS
 
 # ssh-agent socket
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# ipe styles
+if [ -d "$HOME/.ipe/styles" ] ; then
+	export IPESTYLES="$HOME/.ipe/styles";
+fi

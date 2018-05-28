@@ -6,4 +6,4 @@ ExecStart=/usr/bin/env sh rtm.poll
 Restart=always
 
 [Install]
-WantedBy=environment.target
+WantedBy=ready.target
