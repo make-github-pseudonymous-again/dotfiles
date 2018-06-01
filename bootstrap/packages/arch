@@ -59,7 +59,6 @@ autopep8
 python2-xlib
 python2-numpy
 python2-lxml
-python2-keyring
 
 # Video
 ffmpeg
