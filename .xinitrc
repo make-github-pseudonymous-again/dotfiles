@@ -1,5 +1,6 @@
 #!/bin/sh
 
+extraresources=$HOME/.Xextra
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 userprofile=$HOME/.xprofile
@@ -18,6 +19,10 @@ fi
 
 if [ -f "$userresources" ]; then
     xrdb -merge "$userresources"
+fi
+
+if [ -f "$extraresources" ]; then
+    xrdb -merge "$extraresources"
 fi
 
 if [ -f "$usermodmap" ]; then
