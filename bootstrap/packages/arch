@@ -50,6 +50,8 @@ python-cssselect
 python-click
 python-tqdm
 python-oauth2client
+python-google-auth
+python-google-auth-httplib2
 python-google-api-python-client
 python-keyring
 python-urwid
