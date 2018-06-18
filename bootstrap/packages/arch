@@ -209,3 +209,6 @@ ncmpcpp
 # HTTP monitoring
 ngrep
 tcpdump
+
+# Cloud
+task
