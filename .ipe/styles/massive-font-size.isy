@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipestyle SYSTEM "ipe.dtd">
+<ipestyle name="massive font size">
+<textsize name="massive" value="\LARGE"/>
+<textstretch name="massive" value="4"/>
+</ipestyle>
