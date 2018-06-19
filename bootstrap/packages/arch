@@ -95,6 +95,7 @@ gnupg
 pass
 keybase
 gnome-keyring
+libsecret
 
 # Typing training
 klavaro
