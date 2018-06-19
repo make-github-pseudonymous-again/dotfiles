@@ -15,6 +15,6 @@
 /usr/bin/systemctl --user start wifi-fingerprint
 /usr/bin/systemctl --user start recoll
 /usr/bin/systemctl --user start msmtp
-/usr/bin/systemctl --user start ulb
+#/usr/bin/systemctl --user start ulb
 /usr/bin/systemctl --user start voo
 /usr/bin/systemctl --user start mbv
