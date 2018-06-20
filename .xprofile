@@ -6,5 +6,5 @@
 # example:
 # localectl set-x11-keymap us ... ... caps:swapescape
 # does not work :(
-setxkbmap be
+setxkbmap us
 setxkbmap -option "caps:swapescape"
