@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# rotate script for surface pro 3 on Xorg
+# depends on xorg-xrandr, xorg-xinput, and xf86-input-wacom
+
+TOUCHSCREEN='NTRG0001:01 1B96:1B05'
+STYLUS='NTRG0001:01 1B96:1B05 Pen stylus'
+ERASER='NTRG0001:01 1B96:1B05 Pen eraser'
+
+orientation=normal
+transform='1 0 0 0 1 0 0 0 1'
+rotate=none
+
+case $1 in
+    left)
+    orientation=left
+    transform='0 -1 1 1 0 0 0 0 1'
+    rotate=ccw
+    ;;
+    right)
+    orientation=right
+    transform='0 1 0 -1 0 1 0 0 1'
+    rotate=cw
+    ;;
+    half)
+    orientation=inverted
+    transform='-1 0 1 0 -1 1 0 0 1'
+    rotate=half
+    ;;
+esac
+
+xrandr -o "$orientation"
+xinput --set-prop "$TOUCHSCREEN" --type=float 'Coordinate Transformation Matrix' $transform
+xsetwacom set "$STYLUS" Rotate "$rotate"
+xsetwacom set "$ERASER" Rotate "$rotate"
