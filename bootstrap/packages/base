@@ -35,3 +35,8 @@ pulseaudio-alsa
 pavucontrol
 cups
 gtk3-print-backends
+
+# wifi
+iw
+dialog
+wpa_supplicant
