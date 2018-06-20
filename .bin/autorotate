@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+prev=normal
+
+while true; do
+	orientation=$(orientation)
+	if [ $orientation != flat ] && [ $orientation != $prev ] ; then
+		rotate $orientation
+		prev=$orientation
+	fi
+	sleep 3
+done

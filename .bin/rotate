@@ -12,17 +12,17 @@ transform='1 0 0 0 1 0 0 0 1'
 rotate=none
 
 case $1 in
-    left)
+    left|1)
     orientation=left
     transform='0 -1 1 1 0 0 0 0 1'
     rotate=ccw
     ;;
-    right)
+    right|3)
     orientation=right
     transform='0 1 0 -1 0 1 0 0 1'
     rotate=cw
     ;;
-    half)
+    half|inverted|2)
     orientation=inverted
     transform='-1 0 1 0 -1 1 0 0 1'
     rotate=half
