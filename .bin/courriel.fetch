@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pid="$(ps aux | grep grep -v | grep 'courriel\.poll' | cut -d' ' -f2)"
+pid="$(ps aux | awk '/[c]ourriel\.poll/ {print $2}')"
 if [ -n "$pid" ] ; then
   kill -s SIGUSR1 "$pid"
 else
