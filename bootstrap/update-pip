@@ -8,7 +8,7 @@ fi
 
 x="$1"
 
-pip_installed="$(pip list --format legacy | cut -d' ' -f1)"
+pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
 
 if [ "$x" = u ] ; then
 

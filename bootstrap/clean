@@ -8,7 +8,7 @@ fi
 
 pacman_installed="$(pacman -Q | cut -d' ' -f1)"
 npm_installed="$(ls -1 "$(npm root -g)")"
-pip_installed="$(pip list --format legacy | cut -d' ' -f1)"
+pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
 
 function _a ( ) {
   if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
