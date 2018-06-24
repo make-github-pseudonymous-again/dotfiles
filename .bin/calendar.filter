@@ -64,6 +64,6 @@ for _calendar in _calendars:
 
     except FileNotFoundError as err:
 
-        log('Error writing file for {}'.format(url))
+        log('Error reading file for {}'.format(url))
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)

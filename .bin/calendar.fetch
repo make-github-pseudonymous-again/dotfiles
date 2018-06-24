@@ -21,8 +21,20 @@ except:
     pass
 
 with open(CALENDARS, 'r') as fd:
-
     _calendars = json.load( fd )['calendars']
+
+def _match(it, text):
+    for line in it:
+        if line == text : break
+
+def _dropalarms(string):
+    it = iter(string.splitlines())
+    for line in it:
+        if line == 'BEGIN:VALARM' : _match(it, 'END:VALARM')
+        else: yield line
+
+def dropalarms(string):
+    return '\n'.join(_dropalarms(string))
 
 for _calendar in _calendars:
 
@@ -34,16 +46,18 @@ for _calendar in _calendars:
 
         data = urllib.request.urlopen(url).read()
         # to check that we can parse the data
-        calendar = ics.Calendar(data.decode())
+        text = data.decode()
+        # use workaround for nonrfc valarm blocks (see https://github.com/C4ptainCrunch/ics.py/issues/127)
+        text = dropalarms(text)
+        calendar = ics.Calendar(text)
 
         h = hashlib.sha1(url.encode()).hexdigest()
         filename = CACHE.format(h)
 
         log('writing {} to {}'.format(url, filename))
 
-        with open(filename, 'wb') as fd:
-
-            fd.write(data)
+        with open(filename, 'w') as fd:
+            fd.write(text)
 
     except urllib.error.URLError as err:
 
