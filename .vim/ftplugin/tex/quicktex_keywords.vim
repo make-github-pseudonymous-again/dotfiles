@@ -250,6 +250,7 @@ let g:quicktex_math = {
     \
 \'Section: Operators' : 'COMMENT',
     \'op'     : '\mathop{<+++>} <++>',
+    \'ope'     : '\operatorname{<+++>}(<++>) <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
     \'dev'    : '\frac{d}{d <+++>} <++>',
     \'lim'    : '\lim_{<+++>} <++>',
@@ -273,6 +274,7 @@ let g:quicktex_tex = {
     \' ' : "\<ESC>/<+.*+>\<CR>\"_c/+>/e\<CR>",
     \'m' : '\( <+++> \) <++>',
     \'x' : '\(<+++>\)<++>',
+    \'xx' : "\<ESC>Bvedi\\(\<ESC>pa\\) <+++>",
 \'Section: Environments' : 'COMMENT',
     \'cmd' : "\<ESC>Bvedi\\\<ESC>pa{<+++>}<++>",
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}",
