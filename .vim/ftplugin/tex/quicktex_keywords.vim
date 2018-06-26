@@ -299,6 +299,7 @@ let g:quicktex_tex = {
     \'dts'  : '\dots ',
     \'fig'  : 'Figure~\ref{fig:<+++>}<++>',
     \'ref'  : "\<ESC>s~\\ref{<+++>}<++>",
+    \'lbl'  : "\<ESC>s\\label{<+++>}<++>",
     \'cit'  : "\<ESC>s~\\cite{<+++>}<++>",
     \'emph' : '\emph{<+++>} <++>',
     \'b'    : '\textbf{<+++>} <++>',
