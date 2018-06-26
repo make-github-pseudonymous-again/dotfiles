@@ -1,0 +1,135 @@
+#!/usr/bin/env sh
+
+EXEPATH="$0"
+EXE="$(basename "$EXEPATH")"
+
+_log () {
+  lvl="$1" && shift
+  >&2 echo "[$lvl]" "$@"
+}
+
+_usage () {
+  if [ "$1" "$2" "$3" ] ; then
+    _log error "usage: $EXE $4"
+    exit 1
+  fi
+}
+
+_usage "$#" -lt 3 "<root> <remote> <command> <...args>"
+
+ROOT="$1" && shift
+REMOTE="$1" && shift
+CMD="$1" && shift
+
+RC="rc"
+
+# check remote exists
+if ! { $RC listremotes | grep -q "^$REMOTE:\$" ; } ; then
+  _log error "Could not find remote $CONFIG"
+  exit 2
+fi
+
+CWD="$PWD/"
+
+# check working directory is in dropbox
+if [[ "$CWD" != "$ROOT"* ]] ; then
+  _log error "$CWD is not in $ROOT"
+  exit 3
+fi
+
+SLUG="${CWD#$ROOT}"
+SLUG="${SLUG%/}"
+
+_route () {
+
+  case "$CMD" in
+      diff)
+	  _diff "$@"; exit "$?"
+	  ;;
+      pull)
+	  _pull "$@"; exit "$?"
+	  ;;
+      push)
+	  _push "$@"; exit "$?"
+	  ;;
+      download)
+	  _download "$@"; exit "$?"
+	  ;;
+      upload)
+	  _upload "$@"; exit "$?"
+	  ;;
+      *)
+	  _unknown_command "$CMD"
+	  ;;
+  esac
+}
+
+_diff () {
+
+  _usage "$#" -ne 0 "diff"
+
+  $RC check "$REMOTE:$SLUG" . 2>&1 | rc.check.format | rc.check.colorize
+
+}
+
+_pull () {
+
+  _usage "$#" -lt 0 "pull"
+
+  $RC sync "$REMOTE:$SLUG" . "$@"
+
+}
+
+_push () {
+
+  _usage "$#" -lt 0 "push"
+
+  $RC sync . "$REMOTE:$SLUG" "$@"
+
+}
+
+_download () {
+
+  _usage "$#" -lt 0 "download"
+
+  $RC copy "$REMOTE:$SLUG" . "$@"
+
+}
+
+_upload () {
+
+  _usage "$#" -lt 0 "upload"
+
+  $RC copy . "$REMOTE:$SLUG" "$@"
+
+}
+
+_sleep () {
+
+  _log info "sleep $1"
+  sleep "$1"
+
+}
+
+_do () {
+
+  _log info "$@"
+  "$@"
+  rc="$?"
+
+  if [ "$rc" -eq 0 ] ; then
+    _log succ "$@"
+  else
+    _log fail "$@"
+  fi
+
+  return "$rc"
+
+}
+
+_unknown_command ( ) {
+  >&2 echo "Unknown command: $1"
+  exit 3
+}
+
+_route "$@"

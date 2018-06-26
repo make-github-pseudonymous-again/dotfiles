@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-ROOT="$HOME/dropbox/"
-REMOTE="db"
+ROOT="$HOME/nextcloud/"
+REMOTE="ab"
 
 cloud "$ROOT" "$REMOTE" "$@"
