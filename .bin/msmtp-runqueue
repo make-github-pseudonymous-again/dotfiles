@@ -6,51 +6,54 @@ MAXWAIT=120
 
 OPTIONS=$@
 
-# wait for a lock that another instance has set
-WAIT=0
-while [ -e "$LOCKFILE" -a "$WAIT" -lt "$MAXWAIT" ]; do
-	sleep 1
-	WAIT="`expr "$WAIT" + 1`"
-done
-if [ -e "$LOCKFILE" ]; then
-	echo "Cannot use $QUEUEDIR: waited $MAXWAIT seconds for"
-	echo "lockfile $LOCKFILE to vanish, giving up."
-	echo "If you are sure that no other instance of this script is"
-	echo "running, then delete the lock file."
+echo "[=======] Greetings! This is msmtp-runqueue ()_()"
+echo "[=======] Running queue '$QUEUEDIR'"
+echo "[=======] With options '$OPTIONS'"
+
+# Jump to queue directory (create it if necessary)
+if ! mkdir -p "$QUEUEDIR" || ! cd "$QUEUEDIR" ; then
+	echo "[~~~~~~~] Cannot use '$QUEUEDIR' *_*"
 	exit 1
 fi
 
-# change into $QUEUEDIR 
-cd "$QUEUEDIR" || exit 1
+echo "[=======] Waiting $MAXWAIT seconds to acquire lockfile '$LOCKFILE' [<]"
+
+# wait for a lock that another instance might have set
+exec {LOCKFD}>"$LOCKFILE"
+if ! flock -x -w "$MAXWAIT" "$LOCKFD" ; then
+	echo "[~~~~~~~] Waited $MAXWAIT seconds for"
+	echo "[~~~~~~~] lockfile '$LOCKFILE', giving up -_-"
+	exit 1
+fi
+
+echo "[=======] Looking for emails to send ..( °°) [x]"
 
 # check for empty queuedir
 if [ "`echo *.mail`" = '*.mail' ]; then
-	echo "No mails in $QUEUEDIR"
+	echo "[=======] No emails in '$QUEUEDIR' è_é"
+	echo "[=======] Have a good day!"
 	exit 0
 fi
 
-# lock the $QUEUEDIR
-touch "$LOCKFILE" || exit 1
+echo "[=======] Sending emails that I found ^_^"
 
-# process all mails
+# process all emails
 for MAILFILE in *.mail; do
 	MSMTPFILE="`echo $MAILFILE | sed -e 's/mail/msmtp/'`"
-	echo "*** Sending $MAILFILE to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
+	echo "[*******] Sending '$MAILFILE' to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
 	if [ ! -f "$MSMTPFILE" ]; then
-		echo "No corresponding file $MSMTPFILE found"
-		echo "FAILURE"
+		echo "[FAILURE] Could not find '$MSMTPFILE' matching '$MAILFILE' :("
 		continue
 	fi
 	msmtp $OPTIONS `cat "$MSMTPFILE"` < "$MAILFILE"
 	if [ $? -eq 0 ]; then
 		rm "$MAILFILE" "$MSMTPFILE"
-		echo "$MAILFILE sent successfully"
+		echo "[SUCCESS] '$MAILFILE' sent successfully :)"
 	else
-		echo "FAILURE"
+		echo "[FAILURE] Could not send '$MAILFILE' :("
 	fi
 done
 
-# remove the lock
-rm -f "$LOCKFILE"
+echo "[=======] Reached the end of the queue. Have a good day!"
 
 exit 0

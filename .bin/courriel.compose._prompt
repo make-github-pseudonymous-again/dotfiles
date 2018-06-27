@@ -213,7 +213,6 @@ function _preview {
 function _send {
   >&3 <"$body" courriel.compose -f "$from" -t "${to[@]}" --cc "${cc[@]}" --bcc "${bcc[@]}" -s "$subject" -a "${attachments[@]}"
   _cleanup
-  echo "Message sent :)"
   exit 0
 }
 

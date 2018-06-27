@@ -1,20 +1,31 @@
 #!/usr/bin/env bash
 
-QUEUEDIR=$HOME/.msmtpqueue
+QUEUEDIR="$HOME/.msmtpqueue"
+LOCKFILE="$QUEUEDIR/.lock"
+SENDDELAY=2
 
 # Set secure permissions on created directories and files
 umask 077
 
-# Change to queue directory (create it if necessary)
-if [ ! -d "$QUEUEDIR" ]; then
-	mkdir -p "$QUEUEDIR" || exit 1
+echo "[=======] Greetings! This is msmtp-enqueue []_[]"
+echo "[=======] Running queue '$QUEUEDIR' with options '$OPTIONS'"
+
+# Jump to queue directory (create it if necessary)
+if ! mkdir -p "$QUEUEDIR" || ! cd "$QUEUEDIR" ; then
+	echo "[~~~~~~~] Cannot use '$QUEUEDIR' *_*"
+	exit 1
 fi
-cd "$QUEUEDIR" || exit 1
+
+echo "[=======] Waiting to acquire lockfile '$LOCKFILE' [<]"
+
+# wait for a lock that another instance might have set
+exec {LOCKFD}>"$LOCKFILE"
+flock -x "$LOCKFD"
 
 # Create new unique filenames of the form
 # MAILFILE:  ccyy-mm-dd-hh.mm.ss[-x].mail
 # MSMTPFILE: ccyy-mm-dd-hh.mm.ss[-x].msmtp
-# where x is a consecutive number only appended if you send more than one 
+# where x is a consecutive number only appended if you send more than one
 # mail per second.
 BASE="`date +%Y-%m-%d-%H.%M.%S`"
 if [ -f "$BASE.mail" -o -f "$BASE.msmtp" ]; then
@@ -29,15 +40,35 @@ MAILFILE="$BASE.mail"
 MSMTPFILE="$BASE.msmtp"
 
 # Write command line to $MSMTPFILE
-echo "$@" > "$MSMTPFILE" || exit 1
+if ! echo "$@" > "$MSMTPFILE" ; then
+	echo "[~~~~~~~] Could not write '$MSMTPFILE' *_*"
+	rm -f "$MSMTPFILE"
+	exit 1
+fi
 
 # Write the mail to $MAILFILE
-cat > "$MAILFILE" || exit 1
+if ! cat > "$MAILFILE" ; then
+	echo "[~~~~~~~] Could not write '$MAILFILE' *_*"
+	rm -f "$MSMTPFILE" "$MAILFILE"
+	exit 1
+fi
+
+echo "[SUCCESS] Your email has been added to the queue!"
+
+flock -u "$LOCKFD"
 
 # If we are online, run the queue immediately.
-ping -c 1 -w 2 8.8.8.8 > /dev/null
+ping -c 1 -w 2 8.8.4.4 > /dev/null
 if [ $? -eq 0 ]; then
-	msmtp-runqueue > /dev/null &
+	# Delay
+	if [ "$SENDDELAY" -gt 0 ] ; then
+		echo "[=======] Waiting $SENDDELAY seconds just to let you enough time to cancel that"
+	fi
+	delay "$SENDDELAY" msmtp-runqueue &
+else
+	echo "[*******] Could not ping 8.8.4.4 '_'"
+	echo "[*******] Do not worry though. Your email will eventually be sent"
+	echo "[*******] once the connection is back. Just run msmtp-runqueue again ^_^"
 fi
 
 exit 0

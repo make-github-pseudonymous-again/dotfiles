@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+DELAY="$1" && shift
+
+sleep "$DELAY"
+
+"$@"
