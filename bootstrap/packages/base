@@ -40,3 +40,4 @@ gtk3-print-backends
 iw
 dialog
 wpa_supplicant
+wpa_actiond
