@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 ROOT="$HOME/nextcloud/"
-REMOTE="ab"
+REMOTE="nc"
 
 cloud "$ROOT" "$REMOTE" "$@"
