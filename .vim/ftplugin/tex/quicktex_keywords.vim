@@ -284,6 +284,7 @@ let g:quicktex_tex = {
     \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",
     \'cnj' : "\\begin{conjecture}\<CR><+++>\<CR>\\end{conjecture}",
     \'obs' : "\\begin{observation}\<CR><+++>\<CR>\\end{observation}",
+    \'clm' : "\\begin{claim}\<CR><+++>\<CR>\\end{claim}",
     \'prop': "\\begin{proposition}\<CR><+++>\<CR>\\end{proposition}",
     \'def' : "\\begin{definition}\<CR><+++>\<CR>\\end{definition}",
     \'prb' : "\\begin{problem}\<CR><+++>\<CR>\\end{problem}",
@@ -393,6 +394,7 @@ let g:quicktex_tex = {
     \'O'   : '\(O(<+++>)\)<++> ',
     \'w'   : '\(\omega(<+++>)\)<++> ',
     \'W'   : '\(\Omega(<+++>)\)<++> ',
+    \'T'   : '\(\Theta(<+++>)\)<++> ',
     \
 \'Section: More Variables' : 'COMMENT',
     \'ell' : '\(\ell\) ',
