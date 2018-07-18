@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+setxkbmap -option "caps:swapescape"

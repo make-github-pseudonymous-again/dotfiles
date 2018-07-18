@@ -561,6 +561,9 @@ mode "system" {
         #-- bindsym k exec menu.keyboard; mode "default"
         bindcode 45 exec menu.keyboard; mode "default"
 
+        #-- bindsym Shift+K exec keyboard.layout.caps.swapescape; mode "default"
+        bindcode Shift+45 exec keyboard.layout.caps.swapescape; mode "default"
+
         #-- bindsym s exec menu.systemctl; mode "default"
         bindcode 39 exec menu.systemctl; mode "default"
         #-- bindsym x exec menu.systemctl.status; mode "default"
