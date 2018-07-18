@@ -22,6 +22,3 @@ python-colored
 python-pydub
 python-pypdf2
 uniconvertor
-
-# Fast hash
-xxhash

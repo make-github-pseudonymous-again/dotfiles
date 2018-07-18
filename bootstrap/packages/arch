@@ -215,3 +215,6 @@ tcpdump
 
 # Cloud
 task
+
+# Fast hash
+xxhash
