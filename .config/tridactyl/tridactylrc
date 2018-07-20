@@ -1,0 +1,1 @@
+bind xz js window.location = 'https://sci-hub.tw/' + location.href
