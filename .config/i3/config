@@ -574,6 +574,26 @@ mode "system" {
         #-- bindsym g exec menu.gpu; mode "default"
         bindcode 42 exec menu.gpu; mode "default"
 
+        # screen brightness
+        #-- bindsym z exec screen.brightness.up 10
+        bindcode 25 exec screen.brightness.up 10
+        #-- bindsym a exec screen.brightness.down 10
+        bindcode 24 exec screen.brightness.down 10
+        #-- bindsym Shift+Z exec screen.brightness.up 1
+        bindcode Shift+25 exec screen.brightness.up 1
+        #-- bindsym Shift+A exec screen.brightness.down 1
+        bindcode Shift+24 exec screen.brightness.down 1
+
+        # keyboard backlight
+        #-- bindsym r exec keyboard.brightness.up 10
+        bindcode 27 exec keyboard.brightness.up 10
+        #-- bindsym e exec keyboard.brightness.down 10
+        bindcode 26 exec keyboard.brightness.down 10
+        #-- bindsym Shift+R exec keyboard.brightness.up 1
+        bindcode Shift+27 exec keyboard.brightness.up 1
+        #-- bindsym Shift+E exec keyboard.brightness.down 1
+        bindcode Shift+26 exec keyboard.brightness.down 1
+
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
         bindcode 36 mode "default"
