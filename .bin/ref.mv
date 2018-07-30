@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-dest="$2$(echo "$3" | sed 's:/:|:g' | sed 's:\\:|:g')"
+dest="$2$(ref.name.sanitize "$3")"
 
 echo "mv '$1' '$dest'"
 mv "$1" "$dest"

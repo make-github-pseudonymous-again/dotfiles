@@ -1,0 +1,78 @@
+#!/usr/bin/env sh
+
+if test "$#" -ne 1 ; then
+	echo 'usage: ref.rename.from.contents <file>' >&2
+	exit 1
+fi
+
+function debug {
+	>&2 echo "$@"
+}
+
+FILE="$1"
+
+METADATA="$(pdf.metadata "$FILE")"
+
+TITLE="$(jq -r '.["/Title"]' <<< "$METADATA")"
+AUTHORS="$(jq -r '.["/Author"]' <<< "$METADATA")"
+MODDATE="$(jq -r '.["/ModDate"]' <<< "$METADATA")"
+CREATIONDATE="$(jq -r '.["/CreationDate"]' <<< "$METADATA")"
+
+debug "MODDATE: $MODDATE"
+debug "CREATIONDATE: $CREATIONDATE"
+
+DATE='????'
+if [ "$CREATIONDATE" != 'null' ] ; then
+	DATE="$(echo "$CREATIONDATE" | tail -c+3 | head -c8)"
+elif [ "$MODDATE" != 'null' ] ; then
+	DATE="$(echo "$MODDATE" | tail -c+3 | head -c8)"
+fi
+debug "DATE: $DATE"
+
+if [ "$DATE" = '????' ] || ask 'Search for better date?' ; then
+	DATE="$(pdftotext "$FILE" - | grep -o -e '19[0-9][0-9]' -e '20[0-9][0-9]' | head -n1)????"
+	debug "DATE: $DATE"
+	if [ "$DATE" = '????' ] || ask 'Input date yourself?' ; then
+		echo -n "date (YYYYMMDD): "
+		read DATE
+	fi
+fi
+
+
+debug "TITLE: $TITLE"
+if [ "$TITLE" = 'null' ] || [ "$TITLE" = '' ] || ask 'Search for better title?' ; then
+	TITLE="$(pdftotext "$FILE" - | \
+		fzf --multi --no-sort --prompt '> select lines to construct title' | \
+		tac | \
+		sed -e 's/^ *//' -e 's/ *$//' | \
+		tr "\n" ' ' | \
+		tr "\r" ' ' | \
+		head -c-1)"
+fi
+
+
+debug "AUTHORS: $AUTHORS"
+if [ "$AUTHORS" = 'null' ] || [ "$AUTHORS" = '' ] || ask 'Input authors first letters yourself?' ; then
+	echo -n "author's name first letters: "
+	read AA
+else
+	AA="$(tr ',' "\n" <<< "$AUTHORS" | sed 's/^ //' | cut -d' ' -f2 | cut -c1 | tr -d "\n")"
+fi
+debug "AA: $AA"
+
+
+YY="$(echo "$DATE" | tail -c+3 | head -c2)"
+debug "YY: $YY"
+EXT="$(rev <<< "$FILE" | cut -d. -f1 | rev)"
+debug "EXT: $EXT"
+FILENAME="$DATE [$AA$YY] $TITLE.$EXT"
+debug "FILENAME: $FILENAME"
+DIRNAME=$(dirname "$FILE")
+debug "DIRNAME: $DIRNAME"
+DEST="$DIRNAME/$(ref.name.sanitize "$FILENAME")"
+debug "DEST: $DEST"
+
+
+if ask 'Move it?' ; then
+	mv "$FILE" "$DEST"
+fi
