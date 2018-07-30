@@ -1,1 +1,76 @@
+" This will have to do until someone writes us a nice syntax file :)
+" vim: set filetype=vim:
+
+"" search engines
+
+" google
+set searchurls.g    https://www.google.com/search?q=%s
+
+" stackexchange
+set searchurls.se   https://stackexchange.com/search?q=%s
+" stackoverflow
+set searchurls.so   https://stackoverflow.com/search?q=%s
+
+" google scholar
+set searchurls.gs   https://scholar.google.com/scholar?q=%s
+" dblp
+set searchurls.dblp https://dblp.uni-trier.de/search?q=%s
+" arxiv
+set searchurls.arx  https://arxiv.org/search/?searchtype=all&query=%s
+
+" arch packages
+set searchurls.arch https://wiki.archlinux.org/?search=%s
+set searchurls.arcp https://archlinux.org/packages/?q=%s
+" aur packages
+set searchurls.aur  https://aur.archlinux.org/packages/?K=%s
+
+" github
+set searchurls.gh   https://github.com/%s
+set searchurls.ghs  https://github.com/search?q=%s
+" npm
+set searchurls.npm  https://www.npmjs.com/search?q=%s
+" mdn
+set searchurls.mdn  https://developer.mozilla.org/en-US/search?q=%s
+" python 3
+set searchurls.py   https://docs.python.org/3/search.html?check_keywords=yes&area=default&q=%s
+" python 2
+set searchurls.py2  https://docs.python.org/2/search.html?check_keywords=yes&area=default&q=%s
+" c++
+set searchurls.cpp  http://www.cplusplus.com/search.do?q=%s
+set searchurls.c++  https://en.cppreference.com/w/?search=%s
+" LaTeX
+set searchurls.ltx  https://en.wikibooks.org/wiki/Special:Search?prefix=LaTeX/&search=%s
+
+" ipfs
+set searchurls.ipfs https://ipfs.io/ipfs/%s
+
+" wikipedia (in English)
+set searchurls.w    https://en.wikipedia.org/wiki/%s
+" wikipedia (in French)
+set searchurls.wfr  https://fr.wikipedia.org/wiki/%s
+
+" English wiktionary
+set searchurls.dict https://en.wiktionary.org/wiki/%s
+" French wiktionary
+set searchurls.dico https://fr.wiktionary.org/wiki/%s
+
+" translation to english
+set searchurls.gt   https://translate.google.com/#auto/en/%s
+" translation to french
+set searchurls.gtfr https://translate.google.com/#auto/fr/%s
+
+" amazon com
+set searchurls.amco  https://www.amazon.com/s/?field-keywords=%s
+" amazon fr
+set searchurls.amfr  https://www.amazon.fr/s/?field-keywords=%s
+" amazon de
+set searchurls.amde  https://www.amazon.de/s/?field-keywords=%s
+
+" default search engine
+set searchengine g
+
+
+"" bindings
+
+" type xz to route page through sci-hub's proxy
 bind xz js window.location = 'https://sci-hub.tw/' + location.href
