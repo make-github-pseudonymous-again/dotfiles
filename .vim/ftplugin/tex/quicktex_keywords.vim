@@ -288,7 +288,8 @@ let g:quicktex_tex = {
     \'prop': "\\begin{proposition}\<CR><+++>\<CR>\\end{proposition}",
     \'def' : "\\begin{definition}\<CR><+++>\<CR>\\end{definition}",
     \'prb' : "\\begin{problem}\<CR><+++>\<CR>\\end{problem}",
-    \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
+    \'enum' : "\\begin{enumerate}\<CR>\\item <+++>\<CR>\\end{enumerate}",
+    \'itms' : "\\begin{itemize}\<CR>\\item <+++>\<CR>\\end{itemize}",
     \'eq'  : "\\begin{displaymath}\<CR><+++>\<CR>\\end{displaymath}",
     \'eqn' : "\\begin{equation}\\label{<+++>}\<CR><++>\<CR>\\end{equation}",
     \
