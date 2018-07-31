@@ -10,6 +10,34 @@ set hintchars hjkasdfgyuopqwertzxcvb
 
 " google
 set searchurls.g    https://www.google.com/search?q=%s
+" duckduckgo
+set searchurls.ddg  https://duckduckgo.com/?q=%s
+" searx
+set searchurls.srx  https://searx.me/?category_general=on&q=%s
+" qwant
+set searchurls.qw   https://www.qwant.com/?q%s
+" bing
+set searchurls.bing https://www.bing.com/search?q=%s
+" yahoo
+set searchurls.yaho https://search.yahoo.com/search?p=%s
+" startpage
+set searchurls.stpg https://startpage.com/do/search?language=english&cat=web&query=%s
+
+" default search engine
+set searchengine g
+
+
+"" search urls
+
+" google images
+set searchurls.gi   https://google.com/search?tbm=isch&q=%s
+" youtube
+set searchurls.yt   https://www.youtube.com/results?search_query=%s
+
+" google maps
+set searchurls.gm   https://maps.google.com?q=%s
+" open street maps
+set searchurls.osm  https://www.openstreetmap.org/search?query=%s
 
 " stackexchange
 set searchurls.se   https://stackexchange.com/search?q=%s
@@ -71,10 +99,7 @@ set searchurls.amco https://www.amazon.com/s/?field-keywords=%s
 " amazon fr
 set searchurls.amfr https://www.amazon.fr/s/?field-keywords=%s
 " amazon de
-set searchurls.amde  https://www.amazon.de/s/?field-keywords=%s
-
-" default search engine
-set searchengine g
+set searchurls.amde https://www.amazon.de/s/?field-keywords=%s
 
 
 "" bindings
