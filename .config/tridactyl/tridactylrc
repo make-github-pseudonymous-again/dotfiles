@@ -67,9 +67,9 @@ set searchurls.gt   https://translate.google.com/#auto/en/%s
 set searchurls.gtfr https://translate.google.com/#auto/fr/%s
 
 " amazon com
-set searchurls.amco  https://www.amazon.com/s/?field-keywords=%s
+set searchurls.amco https://www.amazon.com/s/?field-keywords=%s
 " amazon fr
-set searchurls.amfr  https://www.amazon.fr/s/?field-keywords=%s
+set searchurls.amfr https://www.amazon.fr/s/?field-keywords=%s
 " amazon de
 set searchurls.amde  https://www.amazon.de/s/?field-keywords=%s
 
