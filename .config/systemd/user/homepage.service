@@ -1,0 +1,9 @@
+[Unit]
+Description=Homepage daemon
+
+[Service]
+ExecStart=/usr/bin/env server %h/.config/homepage 7342
+Restart=always
+
+[Install]
+WantedBy=ready.target
