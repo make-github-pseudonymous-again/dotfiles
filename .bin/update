@@ -13,28 +13,29 @@ echo '+ Parsing arguments'
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
-clean=false   # c
-diff=false    # d
-install=false # i
-modules=false # m
-npm=true      # n
-pull=false    # p
-restart=false # r
-sync=false    # s
-tldr=false    # t
-update=true   # u
-vim=false     # v
-_wait=false   # w
-plugins=false # x
-pip=true      # y
-fish=false    # z
+clean=false    # c
+diff=false     # d
+install=false  # i
+modules=false  # m
+npm=true       # n
+homepage=false # o
+pull=false     # p
+restart=false  # r
+sync=false     # s
+tldr=false     # t
+update=true    # u
+vim=false      # v
+_wait=false    # w
+plugins=false  # x
+pip=true       # y
+fish=false     # z
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
+while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -51,6 +52,7 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
         vim=true
         fish=true
         tldr=true
+        homepage=true
         ;;
     c)  clean=true
         ;;
@@ -62,6 +64,8 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
     m)  modules=true
         ;;
     n)  npm=true
+        ;;
+    o)  homepage=true
         ;;
     p)  pull=true
         ;;
@@ -92,6 +96,8 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
     M)  modules=false
         ;;
     N)  npm=false
+        ;;
+    O)  homepage=true
         ;;
     P)  pull=false
         ;;
@@ -355,6 +361,13 @@ if $tldr ; then
 
   echo '+ Update tldr cache'
   tldr --update || _exit "$?"
+
+fi
+
+if $homepage ; then
+
+  echo '+ Update homepage'
+  make -C "$HOME/.config/homepage/math" clean all
 
 fi
 

@@ -39,6 +39,7 @@ function _install ( ) {
   _ texshake
   _ puppeteer
   _ http-server
+  _ katex
 }
 
 if false && command -v yarn 1>/dev/null; then
