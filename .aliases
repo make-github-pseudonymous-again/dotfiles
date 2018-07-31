@@ -17,6 +17,7 @@ alias lvl="echo $SHLVL"
 alias wi="wifi"
 alias ws="wifi.endpoints.scan"
 alias tk="task rc:~/.config/task/.taskrc"
+alias srv="server"
 
 alias g="git"
 alias e="vim"

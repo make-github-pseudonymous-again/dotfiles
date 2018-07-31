@@ -26,6 +26,7 @@ alias lvl="echo $SHLVL"
 abbr wi wifi
 abbr ws wifi.endpoints.scan
 alias tk="task rc:~/.config/task/.taskrc"
+abbr srv server
 
 # Git
 abbr g git
