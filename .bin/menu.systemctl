@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-actions="restart\nstop\nstart\nenable\ndisable"
+actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable"
 action=$(echo -e "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
 
 if [ "$action" = '' ]; then
@@ -13,4 +13,4 @@ if [ "$service" = '' ]; then
 	exit 102
 fi
 
-systemctl --user "$action" "$service"
+systemctl --user $action "$service"
