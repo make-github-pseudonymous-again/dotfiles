@@ -81,3 +81,24 @@ set searchengine g
 
 " type xz to route page through sci-hub's proxy
 bind xz js window.location = 'https://sci-hub.tw/' + location.href
+
+
+"" quickmarks
+
+" github homepage
+quickmark g https://github.com/aureooms
+" github trending
+quickmark t https://github.com/trending
+" algo group
+quickmark u https://algo.ulb.be
+" coauthor
+quickmark c https://coauthor.ulb.be
+" homepage
+quickmark h https://aureooms.github.io
+" academic homepage
+quickmark a http://homepages.ulb.be/~aureooms
+
+
+"" homepages
+set home http://localhost:7342/newtab.html
+set newtab http://localhost:7342/newtab.html
