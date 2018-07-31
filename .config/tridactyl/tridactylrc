@@ -58,6 +58,8 @@ set searchurls.wfr  https://fr.wikipedia.org/wiki/%s
 set searchurls.dict https://en.wiktionary.org/wiki/%s
 " French wiktionary
 set searchurls.dico https://fr.wiktionary.org/wiki/%s
+" French dictionary
+set searchurls.cnrt http://www.cnrtl.fr/lexicographie/%s
 
 " translation to english
 set searchurls.gt   https://translate.google.com/#auto/en/%s
