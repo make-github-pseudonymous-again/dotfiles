@@ -1,6 +1,11 @@
 " This will have to do until someone writes us a nice syntax file :)
 " vim: set filetype=vim:
 
+
+"" Hint chars
+set hintchars hjkasdfgyuopqwertzxcvb
+
+
 "" search engines
 
 " google
