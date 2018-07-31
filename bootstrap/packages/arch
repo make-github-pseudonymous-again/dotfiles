@@ -89,6 +89,7 @@ ntp
 nmap
 go-ipfs
 tldr
+glances
 
 # Keys and Passwords
 gnupg
