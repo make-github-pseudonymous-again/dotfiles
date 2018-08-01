@@ -7,7 +7,7 @@ HTML=$(patsubst tex/%.tex,html/%.html,$(TEX))
 all: $(HTML) index.js katex/katex.min.css
 
 html/%.html: tex/%.tex
-	cat $< | head -c-2 | tail -c+2 | katex > $@
+	cat $< | head -c-2 | tail -c+2 | katex --display-mode > $@
 
 index.js: $(HTML)
 	printf 'const __MATH__  = [ "%s" ] ;\n' '$(shell joinarray '", "' $^)' > index.js
