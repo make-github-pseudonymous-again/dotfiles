@@ -124,6 +124,7 @@ let g:quicktex_math = {
     \'ngeq'    : '\ngeq ',
     \'neq'     : '\neq ',
     \'neg'     : '\neg ',
+    \'sim'     : '\sim ',
     \
 \'Section: Operations' : 'COMMENT',
     \'plus'  : '+ ',
@@ -132,7 +133,7 @@ let g:quicktex_math = {
     \'recip' : '\frac{1}{<+++>} <++>',
     \'dot'   : '\cdot ',
     \'mult'  : '* ',
-    \'exp'   : "\<BS>^{<+++>} <++>",
+    \'exp'   : "e^{<+++>} <++>",
     \'po'    : "\<BS>^<+++>",
     \'pow'   : "\<BS>^{<+++>} <++>",
     \'sq'    : "\<BS>^2 ",
@@ -250,7 +251,7 @@ let g:quicktex_math = {
     \
 \'Section: Operators' : 'COMMENT',
     \'op'     : '\mathop{<+++>} <++>',
-    \'ope'     : '\operatorname{<+++>}(<++>) <++>',
+    \'ope'    : '\operatorname{<+++>}(<++>) <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
     \'dev'    : '\frac{d}{d <+++>} <++>',
     \'lim'    : '\lim_{<+++>} <++>',
