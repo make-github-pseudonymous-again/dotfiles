@@ -13,6 +13,8 @@ FILE="$1"
 
 METADATA="$(pdf.metadata "$FILE")"
 
+>&2 jq . <<< "$METADATA"
+
 TITLE="$(jq -r '.["/Title"]' <<< "$METADATA")"
 AUTHORS="$(jq -r '.["/Author"]' <<< "$METADATA")"
 MODDATE="$(jq -r '.["/ModDate"]' <<< "$METADATA")"
@@ -29,8 +31,13 @@ elif [ "$MODDATE" != 'null' ] ; then
 fi
 debug "DATE: $DATE"
 
+
 if [ "$DATE" = '????' ] || ask 'Search for better date?' ; then
-	DATE="$(pdftotext "$FILE" - | grep -o -e '19[0-9][0-9]' -e '20[0-9][0-9]' | head -n1)????"
+	DATE="$(pdftotext "$FILE" - | \
+		grep -Po '(?<=[^0-9]|^)(19|[2-9][0-9])[0-9]{2}(?=[^0-9]|$)' | \
+		filter -le "$(today | head -c4)" | \
+		sort -nr | \
+		head -n1)????"
 	debug "DATE: $DATE"
 	if [ "$DATE" = '????' ] || ask 'Input date yourself?' ; then
 		echo -n "date (YYYYMMDD): "
@@ -50,13 +57,19 @@ if [ "$TITLE" = 'null' ] || [ "$TITLE" = '' ] || ask 'Search for better title?' 
 		head -c-1)"
 fi
 
+echo -n "edit title or leave as is: "
+read -e -i "$TITLE" TITLE
+
 
 debug "AUTHORS: $AUTHORS"
+AA="$(tr ',' "\n" <<< "$AUTHORS" | sed 's/^ //' | cut -d' ' -f2 | cut -c1 | tr -d "\n")"
+debug "AA: $AA"
 if [ "$AUTHORS" = 'null' ] || [ "$AUTHORS" = '' ] || ask 'Input authors first letters yourself?' ; then
-	echo -n "author's name first letters: "
+	echo -n "author's names first letters: "
 	read AA
 else
-	AA="$(tr ',' "\n" <<< "$AUTHORS" | sed 's/^ //' | cut -d' ' -f2 | cut -c1 | tr -d "\n")"
+	echo -n "edit author's names first letters or leave as is: "
+	read -e -i "$AA" AA
 fi
 debug "AA: $AA"
 
