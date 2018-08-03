@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+while read line
+do
+  if [ "$line" "$1" "$2" ] ; then
+    printf '%s\n' "$line"
+  fi
+done < /dev/stdin
