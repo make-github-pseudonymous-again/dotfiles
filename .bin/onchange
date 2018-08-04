@@ -96,47 +96,53 @@ else
 	}
 fi
 
+function waitforevent() {
+
+	inotifywait --quiet --recursive --monitor --format "%e/%f/%w" \
+		--event close_write --event move --event create --event delete \
+		"${files[@]}" | while read event
+	do
+
+		etype=$(echo "$event" | cut -d '/' -f 1)
+		file=$(echo "$event" | cut -d '/' -f 2)
+		dir=$(echo "$event" | cut -d '/' -f 3-)
+
+		# vim generates that file
+		if [ "$file" = "4913" ] ; then
+			if [ "$quiet" -eq 0 ] ; then
+				echo "[IGNORE] $dir$file"
+			fi
+			continue
+		fi
+
+		ignore=0
+
+		for ignored in $gitignore ; do
+			if [ "$dir$file" = "./""$ignored" ] ; then
+				ignore=1
+				break
+			fi
+		done
+
+		if [ "$ignore" -eq 1 ] ; then
+			if [ "$quiet" -eq 0 ] ; then
+				echo "[IGNORE] $dir$file"
+			fi
+			continue
+		fi
+
+		echo "[EVENT] $etype $dir$file"
+
+		return
+
+	done
+
+}
+
 while true; do
 
-    handler
+	handler
 
-    inotifywait --quiet --recursive --monitor --format "%e/%f/%w" \
-	--event close_write --event move --event create --event delete \
-	    "${files[@]}" | while read event
-    do
-
-	    etype=$(echo "$event" | cut -d '/' -f 1)
-	    file=$(echo "$event" | cut -d '/' -f 2)
-	    dir=$(echo "$event" | cut -d '/' -f 3-)
-
-	    ignore=0
-
-	    # vim generates that file
-	    if [ "$file" = "4913" ] ; then
-		    if [ "$quiet" -eq 0 ] ; then
-			    echo "IGNORE $dir$file"
-		    fi
-		    continue
-	    fi
-
-	    for ignored in $gitignore ; do
-		    if [ "$dir$file" = "./""$ignored" ] ; then
-			    ignore=1
-			    break
-		    fi
-	    done
-
-	    if [ "$ignore" -eq 1 ] ; then
-		    if [ "$quiet" -eq 0 ] ; then
-			    echo "IGNORE $dir$file"
-		    fi
-		    continue
-	    fi
-
-	echo "$etype $dir$file"
-
-	break
-
-    done
+	waitforevent
 
 done
