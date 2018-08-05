@@ -46,7 +46,7 @@ for _calendar in _calendars:
 
         calendar = ics.Calendar(text)
 
-        calendar.events = list(filter(lambda x: x.end >= now, calendar.events))
+        calendar.events = set(filter(lambda x: x.end >= now, calendar.events))
 
         freshfilename = FRESH.format(h)
 
