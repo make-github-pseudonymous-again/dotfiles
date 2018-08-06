@@ -115,3 +115,7 @@ alias fuuuck=fu
 # typos
 alias udpate='update'
 alias maek='make'
+
+# systemctl
+alias S='systemctl'
+alias U='systemctl --user'

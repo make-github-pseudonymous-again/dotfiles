@@ -145,3 +145,7 @@ alias fuuuck=fuu
 # typos
 abbr udpate update
 abbr maek make
+
+# systemctl
+abbr S systemctl
+abbr U systemctl --user
