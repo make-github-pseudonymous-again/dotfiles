@@ -43,8 +43,6 @@ end
 alias up="update"
 alias ss="services.show"
 
-# ff to find a file
-alias ff="fzf"
 
 # errors from journal
 alias errors="journalctl -b -p err|less"
@@ -149,3 +147,7 @@ abbr maek make
 # systemctl
 abbr S systemctl
 abbr U systemctl --user
+
+# search
+abbr ff fzf
+abbr agh ag --hidden

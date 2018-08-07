@@ -26,9 +26,6 @@ alias e="vim"
 alias up="update"
 alias ss="services.show"
 
-# ff to find a file
-alias ff="fzf"
-
 # errors from journal
 alias errors="journalctl -b -p err|less"
 
@@ -119,3 +116,7 @@ alias maek='make'
 # systemctl
 alias S='systemctl'
 alias U='systemctl --user'
+
+# searching
+alias agh='ag --hidden'
+alias ff='fzf'
