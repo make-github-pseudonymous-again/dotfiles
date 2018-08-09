@@ -506,6 +506,11 @@ mode "organization" {
         #-- bindsym g exec maps.here; mode "default"
         bindcode 42 exec maps.here; mode "default"
 
+        #-- bindsym l exec geolocation.manual.menu; mode "default"
+        bindcode 46 exec geolocation.manual.menu; mode "default"
+        #-- bindsym Shift+L exec geolocation.manual.forget; mode "default"
+        bindcode Shift+46 exec geolocation.manual.forget; mode "default"
+
         #-- bindsym a exec alarm.ui.set; mode "default"
         bindcode 24 exec alarm.ui.set; mode "default"
         #-- bindsym b exec courriel.abook; mode "default"

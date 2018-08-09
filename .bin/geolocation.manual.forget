@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+MANUAL="$HOME/.cache/geolocation/manual"
+
+rm -f "$MANUAL"
+
+memoize-ft 0 geolocation.fetch

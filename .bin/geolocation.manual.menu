@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+CONFIG="$HOME/.config/geolocation/config"
+MANUAL="$HOME/.cache/geolocation/manual"
+
+mkdir -p "$(dirname "$MANUAL")"
+
+tag=$(jq < "$CONFIG" '.tag | keys[]' -r |\
+sort |\
+dmenu_center --rest -p '' -sb '#338844' -i -t -l 10)
+
+if [ "$tag" = '' ] ; then
+	exit 1
+fi
+
+jq < "$CONFIG" ".tag[\"$tag\"] | { tag: \"$tag\", latitude, longitude }" > "$MANUAL"
+
+memoize-ft 0 geolocation.fetch

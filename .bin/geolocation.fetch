@@ -11,258 +11,269 @@ import struct
 from subprocess import run, check_output, CalledProcessError
 
 CONFIG = os.path.expanduser('~/.config/geolocation/config')
+MANUAL = os.path.expanduser('~/.cache/geolocation/manual')
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 with open(CONFIG) as _config:
     config = json.load(_config)
 
-geolocation = {}
-
 try:
 
-    ipgeolocation = json.loads(check_output(
-        ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
-
-    geolocation["ipgeolocation"] = ipgeolocation
-    geolocation["latitude"] = ipgeolocation["lat"]
-    geolocation["longitude"] = ipgeolocation["lon"]
-
-except Exception as err:
-
-    log(err)
-
-try:
-
-    fingerprint = dict(json.loads(check_output(
-        ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
-
-except Exception as err:
-
-    log(err)
-
-    fingerprint = { '?' : 0.99 }
-
-wifi = None
+    with open(MANUAL) as _manual:
+        geolocation = json.load(_manual)
+    geolocation["type"] = "manual"
 
 
-def getwifiservices():
+except:
 
-    global wifi
+    geolocation = {}
+    geolocation["type"] = "automatic"
 
     try:
 
-        if wifi is None:
+        ipgeolocation = json.loads(check_output(
+            ['memoize-get', '1800', 'ipgeolocation.fetch']).decode())
 
-            connected = check_output(['iwgetid', '-r']).decode()
+        geolocation["ipgeolocation"] = ipgeolocation
+        geolocation["latitude"] = ipgeolocation["lat"]
+        geolocation["longitude"] = ipgeolocation["lon"]
 
-            wifi = ([], connected)
+    except Exception as err:
 
-    except CalledProcessError:
+        log(err)
 
-        wifi = ([],'')
+    try:
 
-    log(*wifi)
+        fingerprint = dict(json.loads(check_output(
+            ['memoize-get', '1800', 'wifi.fingerprint.distances']).decode()))
 
-    return wifi
+    except Exception as err:
 
+        log(err)
 
-def distance_on_unit_sphere(lat1, long1, lat2, long2):
-    '''
-        from http://www.johndcook.com/blog/python_longitude_latitude/
-    '''
+        fingerprint = { '?' : 0.99 }
 
-    # Convert latitude and longitude to
-    # spherical coordinates in radians.
-    degrees_to_radians = math.pi / 180.0
-
-    # phi = 90 - latitude
-    phi1 = (90.0 - lat1) * degrees_to_radians
-    phi2 = (90.0 - lat2) * degrees_to_radians
-
-    # theta = longitude
-    theta1 = long1 * degrees_to_radians
-    theta2 = long2 * degrees_to_radians
-
-    # Compute spherical distance from spherical coordinates.
-
-    # For two locations in spherical coordinates
-    # (1, theta, phi) and (1, theta', phi')
-    # cosine( arc length ) =
-    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
-    # distance = rho * arc length
-
-    cos = (math.sin(phi1) * math.sin(phi2) * math.cos(theta1 - theta2) +
-           math.cos(phi1) * math.cos(phi2))
-    if cos > 1:
-        cos = 1
-    if cos < -1:
-        cos = -1
-    arc = math.acos(cos)
-
-    # Remember to multiply arc by the radius of the earth
-    # in your favorite set of units to get length.
-    return arc
+    wifi = None
 
 
-def km(*args):
+    def getwifiservices():
 
-    radius_km = 6373
+        global wifi
 
-    return distance_on_unit_sphere(*args) * radius_km
+        try:
+
+            if wifi is None:
+
+                connected = check_output(['iwgetid', '-r']).decode()
+
+                wifi = ([], connected)
+
+        except CalledProcessError:
+
+            wifi = ([],'')
+
+        log(*wifi)
+
+        return wifi
 
 
-def get_default_gateway_linux():
-    """Read the default gateway directly from /proc."""
-    with open("/proc/net/route") as fh:
-        for line in fh:
-            fields = line.strip().split()
-            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
-                continue
+    def distance_on_unit_sphere(lat1, long1, lat2, long2):
+        '''
+            from http://www.johndcook.com/blog/python_longitude_latitude/
+        '''
 
-            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
+        # Convert latitude and longitude to
+        # spherical coordinates in radians.
+        degrees_to_radians = math.pi / 180.0
 
-GATEWAY = get_default_gateway_linux()
+        # phi = 90 - latitude
+        phi1 = (90.0 - lat1) * degrees_to_radians
+        phi2 = (90.0 - lat2) * degrees_to_radians
+
+        # theta = longitude
+        theta1 = long1 * degrees_to_radians
+        theta2 = long2 * degrees_to_radians
+
+        # Compute spherical distance from spherical coordinates.
+
+        # For two locations in spherical coordinates
+        # (1, theta, phi) and (1, theta', phi')
+        # cosine( arc length ) =
+        #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
+        # distance = rho * arc length
+
+        cos = (math.sin(phi1) * math.sin(phi2) * math.cos(theta1 - theta2) +
+               math.cos(phi1) * math.cos(phi2))
+        if cos > 1:
+            cos = 1
+        if cos < -1:
+            cos = -1
+        arc = math.acos(cos)
+
+        # Remember to multiply arc by the radius of the earth
+        # in your favorite set of units to get length.
+        return arc
 
 
-def evaluate(tag, tests):
+    def km(*args):
 
-    score = 0
+        radius_km = 6373
 
-    if 'TRUE' in tests:
+        return distance_on_unit_sphere(*args) * radius_km
 
-        if all(run(test).returncode == 0 for test in tests['TRUE']):
 
-            score += 1000
+    def get_default_gateway_linux():
+        """Read the default gateway directly from /proc."""
+        with open("/proc/net/route") as fh:
+            for line in fh:
+                fields = line.strip().split()
+                if fields[1] != '00000000' or not int(fields[3], 16) & 2:
+                    continue
 
-            log('[{}] ok TRUE'.format(tag))
+                return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
 
-    if 'FALSE' in tests:
+    GATEWAY = get_default_gateway_linux()
 
-        if all(run(test).returncode != 0 for test in tests['FALSE']):
 
-            score += 1000
+    def evaluate(tag, tests):
 
-            log('[{}] ok FALSE'.format(tag))
+        score = 0
 
-    if 'true' in tests:
+        if 'TRUE' in tests:
 
-        for test in tests['true']:
+            if all(run(test).returncode == 0 for test in tests['TRUE']):
 
-            if run(test).returncode == 0:
+                score += 1000
 
-                score += 1
+                log('[{}] ok TRUE'.format(tag))
 
-                log('[{}] ok true {}'.format(tag, test))
+        if 'FALSE' in tests:
 
-    if 'false' in tests:
+            if all(run(test).returncode != 0 for test in tests['FALSE']):
 
-        for test in tests['false']:
+                score += 1000
 
-            if run(test).returncode != 0:
+                log('[{}] ok FALSE'.format(tag))
 
-                score += 1
+        if 'true' in tests:
 
-                log('[{}] ok false {}'.format(tag, test))
+            for test in tests['true']:
 
-    if 'wifi' in tests:
+                if run(test).returncode == 0:
 
-        _, connected = getwifiservices()
+                    score += 1
 
-        if connected is not None:
+                    log('[{}] ok true {}'.format(tag, test))
 
-            for string in tests['wifi']:
+        if 'false' in tests:
 
-                if string in connected:
+            for test in tests['false']:
+
+                if run(test).returncode != 0:
+
+                    score += 1
+
+                    log('[{}] ok false {}'.format(tag, test))
+
+        if 'wifi' in tests:
+
+            _, connected = getwifiservices()
+
+            if connected is not None:
+
+                for string in tests['wifi']:
+
+                    if string in connected:
+
+                        score += 5
+
+                        log('[{}] ok connected {}'.format(tag, string))
+
+        if 'wifi-fingerprint' in tests:
+
+            for wifitag in tests['wifi-fingerprint']:
+
+                if wifitag in fingerprint:
+
+                    distance = fingerprint[wifitag]
+
+                    score += (1 - distance) * 100
+
+                    log('[{}] ok fingerprint {} ({})'.format(tag, wifitag, distance))
+
+        if 'latitude' in geolocation and 'longitude' in geolocation:
+
+            if 'latitude' not in tests:
+
+                log('[{}] warning missing latitude'.format(tag))
+
+            elif 'longitude' not in tests:
+
+                log('[{}] warning missing longitude'.format(tag))
+
+            else:
+
+                distance = km(tests['latitude'], tests['longitude'],
+                              geolocation['latitude'], geolocation['longitude'])
+
+                if distance < 15:
 
                     score += 5
 
-                    log('[{}] ok connected {}'.format(tag, string))
+                    log('[{}] ok geolocation ({} km)'.format(tag, distance))
 
-    if 'wifi-fingerprint' in tests:
+                elif distance > 500:
 
-        for wifitag in tests['wifi-fingerprint']:
+                    log('[{}] ko geolocation ({} km)'.format(tag, distance))
 
-            if wifitag in fingerprint:
+                    if not 'country' in tests or\
+                    not 'ipgeolocation' in geolocation or\
+                    not 'country' in geolocation['ipgeolocation'] or\
+                    tests['country'] != geolocation['ipgeolocation']['country'] :
+                        log('[{}] ko country'.format(tag))
+                        return 0
 
-                distance = fingerprint[wifitag]
+                    else:
+                        log('[{}] ok country'.format(tag))
 
-                score += (1 - distance) * 100
 
-                log('[{}] ok fingerprint {} ({})'.format(tag, wifitag, distance))
+        if 'host' in tests:
 
-    if 'latitude' in geolocation and 'longitude' in geolocation:
+            if socket.gethostname() in tests['host']:
 
-        if 'latitude' not in tests:
+                score += 1000
 
-            log('[{}] warning missing latitude'.format(tag))
+                log('[{}] ok host {}'.format(tag, test))
 
-        elif 'longitude' not in tests:
+        if 'gateway' in tests:
 
-            log('[{}] warning missing longitude'.format(tag))
-
-        else:
-
-            distance = km(tests['latitude'], tests['longitude'],
-                          geolocation['latitude'], geolocation['longitude'])
-
-            if distance < 15:
+            if GATEWAY in tests['gateway']:
 
                 score += 5
 
-                log('[{}] ok geolocation ({} km)'.format(tag, distance))
+                log('[{}] ok gateway {}'.format(tag, GATEWAY))
 
-            elif distance > 500:
+        return score
 
-                log('[{}] ko geolocation ({} km)'.format(tag, distance))
+    scores = []
 
-                if not 'country' in tests or\
-                not 'ipgeolocation' in geolocation or\
-                not 'country' in geolocation['ipgeolocation'] or\
-                tests['country'] != geolocation['ipgeolocation']['country'] :
-                    log('[{}] ko country'.format(tag))
-                    return 0
+    for tag, tests in config["tag"].items():
 
-                else:
-                    log('[{}] ok country'.format(tag))
+        scores.append((evaluate(tag, tests), tag))
 
+    log(sorted(scores, reverse=True))
 
-    if 'host' in tests:
+    score, tag = max(scores)
 
-        if socket.gethostname() in tests['host']:
+    tests = config['tag'][tag]
 
-            score += 1000
+    geolocation['tag'] = tag
 
-            log('[{}] ok host {}'.format(tag, test))
+    if 'latitude' in tests:
+        geolocation['latitude'] = tests['latitude']
 
-    if 'gateway' in tests:
-
-        if GATEWAY in tests['gateway']:
-
-            score += 5
-
-            log('[{}] ok gateway {}'.format(tag, GATEWAY))
-
-    return score
-
-scores = []
-
-for tag, tests in config["tag"].items():
-
-    scores.append((evaluate(tag, tests), tag))
-
-log(sorted(scores, reverse=True))
-
-score, tag = max(scores)
-
-tests = config['tag'][tag]
-
-geolocation['tag'] = tag
-
-if 'latitude' in tests:
-    geolocation['latitude'] = tests['latitude']
-
-if 'longitude' in tests:
-    geolocation['longitude'] = tests['longitude']
+    if 'longitude' in tests:
+        geolocation['longitude'] = tests['longitude']
 
 json.dump(geolocation, sys.stdout)

@@ -45,12 +45,18 @@ if [ "$commuting" != '' ]; then
 	prepend="$commuting"','"$prepend"
 fi
 
-geolocation="$(memoize-get 900 geolocation.fetch | jq -r '.tag')"
-if [ "$geolocation" = '?' ]; then
-	geolocation="? ($(memoize-get 900 geolocation.fetch | jq -r '.ipgeolocation.city'))"
+geolocation="$(memoize-get 900 geolocation.fetch)"
+geolocationtag="$(jq <<< "$geolocation" -r '.tag')"
+geolocationtype="$(jq <<< "$geolocation" -r '.type')"
+if [ "$geolocationtag" = '?' ]; then
+	geolocationtag="? ($(memoize-get 900 geolocation.fetch | jq -r '.ipgeolocation.city'))"
 fi
 if [ "$geolocation" != '' ]; then
-	prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocation"'"},'"$prepend"
+	if [ "$geolocationtype" = 'manual' ]; then
+		prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocationtag"'"},'"$prepend"
+	else
+		prepend='{"name":"geolocation","color":"#F45D4C","full_text":" '"$geolocationtag"'"},'"$prepend"
+	fi
 fi
 
 if mobile.mode.plane.is.on ; then
