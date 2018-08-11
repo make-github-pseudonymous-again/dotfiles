@@ -10,6 +10,7 @@ xclip
 xfig
 xorg-xwininfo
 xorg-xprop
+xorg-xev
 
 # Notifications
 xorg-xrdb
@@ -208,6 +209,7 @@ rclone
 
 # Music
 mpd
+mpc
 ncmpcpp
 
 # HTTP monitoring
