@@ -56,6 +56,7 @@ _a libgcj17-bin
 _a phantomjs
 _a impressive
 _a pcmciautils
+_a webkitgtk
 
 # Python / pip
 _p python-cssselect cssselect
