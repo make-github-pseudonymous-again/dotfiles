@@ -754,7 +754,7 @@ for_window [class="biz-papercut-pcng-client-uit-UserClient" title="^Balance for.
 # fzf
 for_window [class="^fzf-menu$"] floating enable
 for_window [class="^fzf-menu$"] border pixel 0
-for_window [class="^fzf-menu$"] move absolute position center
+#for_window [class="^fzf-menu$"] move absolute position center
 
 # resize large floating windows
 for_window [window_role="GtkFileChooserDialog"] resize set 640 480
