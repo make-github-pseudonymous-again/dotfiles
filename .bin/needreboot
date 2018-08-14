@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-running="$(uname -r | sed 's/-ARCH$//g')"
-installed="$(pacman -Q linux | cut -d' ' -f2)"
+running="$(uname -r | sed 's/-ARCH$//g' | tr '.-' ':')"
+installed="$(pacman -Q linux | cut -d' ' -f2 | tr '.-' ':')"
 
 >&2 echo "running=$running"
 >&2 echo "installed=$installed"
