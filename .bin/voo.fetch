@@ -19,6 +19,7 @@ const TYPE_UNKNOWN = 'unknown page' ;
 const TYPE_LOGIN = 'login page' ;
 const TYPE_LOGIN_ERROR = 'login error' ;
 const TYPE_CONSUMPTION = 'consumption page' ;
+const TYPE_CONSUMPTION_UNLIMITED = 'unlimited consumption page' ;
 const TYPE_TIMEOUT = 'timeout error' ;
 
 const TIME_SECOND = 1000 ;
@@ -37,7 +38,7 @@ let lastlogin = 0 ;
 
 const sleep = ms => {
 	console.log(`sleeping for ${ms} ms`)
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 } ;
 
 function main ( browser ) {
@@ -120,7 +121,7 @@ async function load ( page , username , password ) {
 		}
 
 		else {
-			const data = await getinfo(page);
+			const data = await getinfo(_type, page);
 			write(data);
 			return 0;
 		}
@@ -134,14 +135,16 @@ async function type ( page ) {
 	const now = Date.now();
 	if (lastlogin > 0 && now - lastlogin >= LOGIN_TIMEOUT) return TYPE_TIMEOUT;
 
-	return await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_UNKNOWN) => {
+	return await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN) => {
 		const now = Date.now();
 		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
 		else if ( document.querySelector('.validation-summary-errors') !== null ) return TYPE_LOGIN_ERROR ;
 		else if ( document.querySelector('.gauge > .label-current') !== null &&
 			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
+		else if ( document.querySelector('gauge > article.gauge.infinite') !== null &&
+			document.querySelector('#yearlyGraph > .a.la.carte.special.tooltip') !== null ) return TYPE_CONSUMPTION_UNLIMITED ;
 		else return TYPE_UNKNOWN ;
-	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_UNKNOWN);
+	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN);
 
 }
 
@@ -159,18 +162,40 @@ async function login (page, username, password) {
 
 }
 
-async function getinfo ( page ) {
+async function getinfo ( _type , page ) {
 
-	const consumption = await page.evaluate(() => ({
-		'current' : document.querySelector('.gauge .label-current').innerText ,
-		'max'     : document.querySelector('.gauge .label-max').innerText
-	}));
+	let consumption ;
+	let max_float ;
+	let max_unit ;
+
+
+	if ( _type === TYPE_CONSUMPTION ) {
+
+		consumption = await page.evaluate(() => ({
+			'current' : document.querySelector('.gauge .label-current').innerText ,
+			'max'     : document.querySelector('.gauge .label-max').innerText
+		}));
+
+		max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+		max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
+
+
+	}
+
+	else {
+
+		consumption = await page.evaluate(() => ({
+			'current' : document.querySelector('#yearlyGraph > .a.la.carte.special.tooltip:last-child').innerText.replace('\n', '') ,
+			'max'     : 'unlimited'
+		}));
+
+		max_float = null ;
+		max_unit = null ;
+
+	}
 
 	const current_float = parseFloat(consumption.current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
-	const max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
-
 	const current_unit = consumption.current.match(/[a-zA-Z]*$/)[0];
-	const max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
 
 	const data = {
 		'consumption' : {
