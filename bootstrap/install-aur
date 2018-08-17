@@ -8,7 +8,7 @@ fi
 cd /tmp
 
 function fail {
-	echo 'could not install pacaur'
+	echo 'could not install trizen'
 	exit 1
 }
 
@@ -19,14 +19,13 @@ function i {
 	rm -r "$1"
 }
 
-if ! which pacaur 1>/dev/null 2>&1 ; then
-	echo 'installing pacaur'
+if ! which trizen 1>/dev/null 2>&1 ; then
+	echo 'installing trizen'
 	sudo pacman -S expac yajl git --noconfirm --needed
-	i cower
-	i pacaur
+	i trizen
 fi
 
-if ! which pacaur 1>/dev/null 2>&1 ; then
+if ! which trizen 1>/dev/null 2>&1 ; then
 	fail
 fi
 
@@ -35,7 +34,6 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
-pacaur -Sa --needed --noconfirm --noedit $packages
-# stdin not working, see https://github.com/rmarquis/pacaur/issues/588
+trizen -S --aur --needed --noconfirm --noedit - <<< $packages
 
 exit 0

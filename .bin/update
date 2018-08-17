@@ -222,8 +222,8 @@ if $sync ; then
 
   echo '+ Update already installed software'
 
-  echo " * aur"
-  pacaur --noconfirm --noedit -Syu || _exit "$?"
+  echo " * arch & aur (using trizen)"
+  trizen --noconfirm --noedit -Syu || _exit "$?"
 
   if $npm ; then
     echo " * npm"
