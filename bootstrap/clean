@@ -61,6 +61,8 @@ _a phantomjs
 _a impressive
 _a pcmciautils
 _a webkitgtk
+_a pacaur
+_a cower
 
 # Python / pip
 _p python-cssselect cssselect
