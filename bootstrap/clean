@@ -18,11 +18,13 @@ function _a ( ) {
 }
 
 function _p ( ) {
-  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+  pacman_name="$1"
+  pip_name="${2:$pacman_name}"
+  if { <<< "$pacman_installed" grep "^$pacman_name\$" 1>/dev/null 2>&1 ; } ; then
     exit
   fi
-  if { <<< "$pip_installed" grep "^$2\$" 1>/dev/null 2>&1 ; } ; then
-    pip uninstall "$2"
+  if { <<< "$pip_installed" grep "^$pip_name\$" 1>/dev/null 2>&1 ; } ; then
+    pip uninstall "$pip_name"
   fi
 }
 
