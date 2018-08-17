@@ -17,7 +17,7 @@ clean=false    # c
 diff=false     # d
 install=false  # i
 modules=false  # m
-npm=true       # n
+node=true      # n
 homepage=false # o
 pull=false     # p
 restart=false  # r
@@ -63,7 +63,7 @@ while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
         ;;
     m)  modules=true
         ;;
-    n)  npm=true
+    n)  node=true
         ;;
     o)  homepage=true
         ;;
@@ -95,7 +95,7 @@ while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
         ;;
     M)  modules=false
         ;;
-    N)  npm=false
+    N)  node=false
         ;;
     O)  homepage=true
         ;;
@@ -187,7 +187,7 @@ PLUGINS="$HOME/.config/dotfiles/plugins"
 
 if [ "$DOTFILES" = '' ] ; then
   echo '! Could not find dotfiles :('
-  echo ' > Try running boostrap/dotfiles-udpate in the dotfiles directory!'
+  echo ' > Try running boostrap/dotfiles-update in the dotfiles directory!'
   echo ' > The update script should find the dotfiles after that :)'
   _exit 58
 fi
@@ -225,9 +225,9 @@ if $sync ; then
   echo " * arch & aur (using trizen)"
   trizen --noconfirm --noedit -Syu || _exit "$?"
 
-  if $npm ; then
-    echo " * npm"
-    sudo sh "$DOTFILES"/bootstrap/update-npm u || _exit "$?"
+  if $node ; then
+    echo " * node"
+    sudo sh "$DOTFILES"/bootstrap/update-node u || _exit "$?"
   fi
 
   if $pip ; then
@@ -250,9 +250,9 @@ if $install ; then
   echo " * aur"
   sh "$DOTFILES"/bootstrap/install-aur || _exit "$?"
 
-  if $npm ; then
-    echo " * npm"
-    sudo sh "$DOTFILES"/bootstrap/update-npm i || _exit "$?"
+  if $node ; then
+    echo " * node"
+    sudo sh "$DOTFILES"/bootstrap/update-node i || _exit "$?"
   fi
 
   if $pip ; then

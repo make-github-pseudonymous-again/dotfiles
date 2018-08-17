@@ -39,7 +39,7 @@ trap _trap SIGHUP SIGINT SIGTERM
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
-packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/arch | grep -v '^#')"
+packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/arch)"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
 _do pacman -S --needed --noconfirm - <<< "$packages"

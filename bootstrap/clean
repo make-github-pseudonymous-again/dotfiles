@@ -1,15 +1,77 @@
 #!/usr/bin/env sh
 
-if [ $(id -u) != "0" ]
-then
-echo 'must be run as root'
-exit 1
+if [ $(id -u) != "0" ] ; then
+  echo 'must be run as root'
+  exit 1
 fi
 
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
 pacman_installed="$(pacman -Q | cut -d' ' -f1)"
-npm_installed="$(ls -1 "$(npm root -g)")"
-yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
-pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
+
+arch_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete/arch)"
+node_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete/node)"
+pip_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete/pip)"
+
+
+if command -v pip 1>/dev/null; then
+  pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
+
+  function _p ( ) {
+    pacman_name="$1"
+    pip_name="$(sed 's/^python-//g' <<< "$pacman_name")"
+    if { <<< "$pacman_installed" grep "^$pacman_name\$" 1>/dev/null 2>&1 ; } ; then
+      exit
+    fi
+    if { <<< "$pip_installed" grep "^$pip_name\$" 1>/dev/null 2>&1 ; } ; then
+      pip uninstall "$pip_name"
+    fi
+  }
+
+  for package in $pip_packages ; do
+    _p "$package"
+  done
+
+fi
+
+
+if command -v npm 1>/dev/null; then
+  npm_installed="$(ls -1 "$(npm root -g)")"
+
+  function _n ( ) {
+    if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+      exit
+    fi
+    if { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+      npm uninstall -g "$1"
+    fi
+  }
+
+  for package in $node_packages ; do
+    _n "$package"
+  done
+
+fi
+
+
+if command -v yarn 1>/dev/null; then
+
+  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
+
+  function _y ( ) {
+    if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+      exit
+    fi
+    if { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+      yarn global remove "$1"
+    fi
+  }
+
+  for package in $node_packages ; do
+    _y "$package"
+  done
+
+fi
 
 function _a ( ) {
   if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
@@ -17,79 +79,6 @@ function _a ( ) {
   fi
 }
 
-function _p ( ) {
-  pacman_name="$1"
-  pip_name="${2:$pacman_name}"
-  if { <<< "$pacman_installed" grep "^$pacman_name\$" 1>/dev/null 2>&1 ; } ; then
-    exit
-  fi
-  if { <<< "$pip_installed" grep "^$pip_name\$" 1>/dev/null 2>&1 ; } ; then
-    pip uninstall "$pip_name"
-  fi
-}
-
-function _n ( ) {
-  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-    exit
-  fi
-  if { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-    npm uninstall -g "$1"
-  fi
-}
-
-function _y ( ) {
-  if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-    exit
-  fi
-  if { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-    yarn global remove "$1"
-  fi
-}
-
-# Python / pip
-_p python-cssselect cssselect
-_p autopep8
-_p python-lxml lxml
-_p tldr
-
-# Node / NPM
-_n jshint
-_n jslint
-_n gulp
-_n uglify-js
-_n peerflix
-_n torrentflix
-_n ora # others should depend on this
-_n np # should be installed as dev dep
-_n xyz # should be installed as dev dep
-_n jspm # not using it at the moment
-_n grunt-cli # install via arch repo
-
-# Node / Yarn
-
-# Arch & AUR
-_a fzf
-_a st
-_a rxvt-unicode
-_a keybase-release
-_a xkblayout-state
-_a abunchoftags
-_a offlineimap
-_a exa-git
-_a flashplugin
-_a hangups-git
-_a qtox
-_a toxcore
-_a yaourt
-_a package-query
-_a tealdeer-git
-_a pdftk
-_a pdftk-bin
-_a libgcj17-bin
-_a phantomjs
-_a impressive
-_a pcmciautils
-_a webkitgtk
-_a pacaur
-_a cower
-_a npm
+for package in $arch_packages ; do
+  _a "$package"
+done

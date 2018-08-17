@@ -31,7 +31,7 @@ fi
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
 
-packages="$(sed '/^$/d' "$DOTFILES"/bootstrap/packages/aur | grep -v '^#')"
+packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/aur)"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
 trizen -S --aur --needed --noconfirm --noedit - <<< $packages

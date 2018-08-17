@@ -4,6 +4,13 @@
 TEX=$(shell find tex -name '*.tex')
 HTML=$(patsubst tex/%.tex,html/%.html,$(TEX))
 
+
+ifneq ($(wildcard /usr/local/share/.config/yarn/global/node_modules/katex/.),)
+	LIB=/usr/local/share/.config/yarn/global
+else
+	LIB=/usr/lib
+endif
+
 all: $(HTML) index.js katex/katex.min.css
 
 html/%.html: tex/%.tex
@@ -12,8 +19,8 @@ html/%.html: tex/%.tex
 index.js: $(HTML)
 	printf 'const __MATH__  = [ "%s" ] ;\n' '$(shell joinarray '", "' $^)' > index.js
 
-katex/katex.min.css: /usr/lib/node_modules/katex/dist/katex.min.css
-	cp -r /usr/lib/node_modules/katex/dist katex
+katex/katex.min.css: $(LIB)/node_modules/katex/dist/katex.min.css
+	cp -r $(LIB)/node_modules/katex/dist katex
 
 clean:
 	rm -rf $(HTML) index.js katex

@@ -1,0 +1,13 @@
+# Node / npm / yarn
+jshint
+jslint
+gulp
+uglify-js
+peerflix
+torrentflix
+ora # others should depend on this
+np # should be installed as dev dep
+xyz # should be installed as dev dep
+jspm # not using it at the moment
+grunt-cli # install via arch repo
+esdoc
