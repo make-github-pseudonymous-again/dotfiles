@@ -8,6 +8,7 @@ fi
 
 pacman_installed="$(pacman -Q | cut -d' ' -f1)"
 npm_installed="$(ls -1 "$(npm root -g)")"
+yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
 pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
 
 function _a ( ) {
@@ -31,6 +32,9 @@ function _n ( ) {
   fi
   if { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
     npm uninstall -g "$1"
+  fi
+  if { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+    yarn global remove "$1"
   fi
 }
 
