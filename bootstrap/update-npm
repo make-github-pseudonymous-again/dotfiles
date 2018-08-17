@@ -46,12 +46,18 @@ if command -v yarn 1>/dev/null; then
 
   echo "  # using yarn"
 
+  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
+
   function _ ( ) {
-    yarn global add "$@"
+    if ! { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
+      echo "  > installing ~ $@"
+      yarn global add "$@"
+    fi
   }
 
   function _update {
-    yarn global upgrade
+    echo "  - upgrade global packages"
+    yarn global upgrade --latest || exit "$?"
   }
 
 else
