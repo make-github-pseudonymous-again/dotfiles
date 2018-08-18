@@ -55,16 +55,16 @@
 	ap = add -p
 
 	# Commit
-	c = commit -v
+	c = commit --verbose
 
 	# Add all untracked files and unstaged changes
 	aa = add -A
 
 	# Commit all changes
-	ca = commit -av
+	ca = commit --all --verbose
 
 	# Add all untracked files and unstaged changes and commit all changes
-	aaca = !git add -A && git commit -av
+	aaca = !git add -A && git commit --all --verbose
 
 	# Create branch
 	cb = checkout -b
