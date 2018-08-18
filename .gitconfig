@@ -173,6 +173,9 @@
 	# Show the last tag
 	lt = describe --tags --abbrev=0
 
+	# commits
+	cc = "!f() { type=\"$1\" ; shift ; if [ $# -eq 0 ] ; then scope='' ; else scope=\"($@)\" ; fi ; GIT_EDITOR=\"vim -c \\\"normal i$(jq -r < $HOME/.config/conventional-commit/config .[\\\"$type\\\"].title)$scope: \\\" -c 'startinsert!'\" git commit --verbose ; } ; f"
+
 [difftool.latex]
 	cmd = latexdiff-git "$LOCAL" "$REMOTE"
 

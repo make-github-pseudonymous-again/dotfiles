@@ -1,0 +1,38 @@
+{
+	"refactor": {
+		"title": ":recycle: refactor"
+	},
+	"chore": {
+		"title": ":unamused: chore"
+	},
+	"docs": {
+		"title": ":books: docs"
+	},
+	"feat": {
+		"title": ":sparkles: feat"
+	},
+	"fix": {
+		"title": ":bug: fix"
+	},
+	"style": {
+		"title": ":art: style"
+	},
+	"test": {
+		"title": ":mag: test"
+	},
+	"perf": {
+		"title": ":rocket: perf"
+	},
+	"breaking": {
+		"title": ":boom: BREAKING CHANGE"
+	},
+	"build": {
+		"title": ":hammer: build"
+	},
+	"ci": {
+		"title": ":gear: ci"
+	},
+	"revert": {
+		"title": ":wastebasket: revert"
+	}
+}
