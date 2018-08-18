@@ -240,7 +240,9 @@ except:
 
         if 'host' in tests:
 
-            if socket.gethostname() in tests['host']:
+            test = socket.gethostname()
+
+            if test in tests['host']:
 
                 score += 1000
 
