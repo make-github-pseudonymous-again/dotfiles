@@ -11,4 +11,4 @@ if test -d $RUBY_PATH
 end
 
 # node path
-set -gx NODE_PATH /usr/lib/node_modules
+set -gx NODE_PATH /usr/local/share/.config/yarn/global/node_modules:/usr/lib/node_modules
