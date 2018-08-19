@@ -13,7 +13,6 @@ arch_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete
 node_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete/node)"
 pip_packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/obsolete/pip)"
 
-
 if command -v pip 1>/dev/null; then
   pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
 
@@ -21,7 +20,7 @@ if command -v pip 1>/dev/null; then
     pacman_name="$1"
     pip_name="$(sed 's/^python-//g' <<< "$pacman_name")"
     if { <<< "$pacman_installed" grep "^$pacman_name\$" 1>/dev/null 2>&1 ; } ; then
-      exit
+      return
     fi
     if { <<< "$pip_installed" grep "^$pip_name\$" 1>/dev/null 2>&1 ; } ; then
       pip uninstall "$pip_name"
@@ -40,7 +39,7 @@ if command -v npm 1>/dev/null; then
 
   function _n ( ) {
     if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-      exit
+      return
     fi
     if { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
       npm uninstall -g "$1"
@@ -60,7 +59,7 @@ if command -v yarn 1>/dev/null; then
 
   function _y ( ) {
     if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-      exit
+      return
     fi
     if { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
       yarn global remove "$1"
