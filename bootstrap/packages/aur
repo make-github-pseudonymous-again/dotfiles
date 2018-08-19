@@ -1,7 +1,10 @@
-# Utils
+# Owned
 memoize
 myip
 gitdns
+ovh-dns
+
+# Utils
 dmenu2
 stapler
 
