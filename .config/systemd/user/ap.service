@@ -1,0 +1,9 @@
+[Unit]
+Description=Wifi access point daemon
+
+[Service]
+ExecStart=/usr/bin/env bash -c 'sudo /usr/bin/create_ap "$(wifi.chips.default)" "$(network.chips.default)" "$(pass apps/ap/ssid)" "$(pass apps/ap/password)"'
+Restart=always
+
+[Install]
+WantedBy=ready.target
