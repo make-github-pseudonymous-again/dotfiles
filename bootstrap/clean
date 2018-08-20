@@ -55,7 +55,7 @@ fi
 
 if command -v yarn 1>/dev/null; then
 
-  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
+  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]' 2>/dev/null)"
 
   function _y ( ) {
     if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then

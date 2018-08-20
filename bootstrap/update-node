@@ -5,11 +5,12 @@ if [ $(id -u) != "0" ]; then
   exit 1
 fi
 
-if command -v yarn 1>/dev/null; then
+if false; then
+#if command -v yarn 1>/dev/null; then
 
   echo "  # using yarn"
 
-  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]')"
+  yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]' 2>/dev/null)"
 
   function _ ( ) {
     if ! { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then

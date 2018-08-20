@@ -12,4 +12,5 @@ if [ -d "$RUBY_PATH" ] ; then
 fi
 
 # Node path
-export NODE_PATH=/usr/local/share/.config/yarn/global/node_modules:/usr/lib/node_modules;
+#export NODE_PATH=/usr/local/share/.config/yarn/global/node_modules:/usr/lib/node_modules;
+export NODE_PATH=/usr/lib/node_modules;
