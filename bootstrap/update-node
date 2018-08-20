@@ -1,9 +1,13 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [ $(id -u) != "0" ]; then
   echo 'must be run as root'
   exit 1
 fi
+
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+
+packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/node)"
 
 if false; then
 #if command -v yarn 1>/dev/null; then
@@ -12,10 +16,13 @@ if false; then
 
   yarn_installed="$(jq -r < /usr/local/share/.config/yarn/global/package.json '.dependencies | keys[]' 2>/dev/null)"
 
-  function _ ( ) {
-    if ! { <<< "$yarn_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-      echo "  > installing ~ $@"
-      yarn global add "$@"
+  function _install {
+    to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$yarn_installed"))"
+    if [ -z "$to_install" ] ; then
+      echo "  > nothing to install"
+    else
+      echo "  > installing ~ $(tr '\n' ' ' <<< "$to_install")"
+      yarn global add $to_install
     fi
   }
 
@@ -28,12 +35,15 @@ elif command -v npm 1>/dev/null; then
 
   echo "  # using npm"
 
-  npm_installed="$(ls -1 "$(npm root -g)")"
+  npm_installed="$(ls -1 "$(npm root -g)")" # will not work with scoped packages
 
-  function _ ( ) {
-    if ! { <<< "$npm_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-      echo "  > installing ~ $@"
-      npm install -g "$@"
+  function _install {
+    to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$npm_installed"))"
+    if [ -z "$to_install" ] ; then
+      echo "  > nothing to install"
+    else
+      echo "  > installing ~ $(tr '\n' ' ' <<< "$to_install")"
+      npm install -g $to_install
     fi
   }
 
@@ -46,17 +56,6 @@ else
   echo 'yarn or npm is not installed, install one via pacman first'
   exit 2
 fi
-
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
-
-packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/node)"
-
-function _install ( ) {
-  echo "  - install global packages"
-  for package in $packages ; do
-    _ "$package"
-  done
-}
 
 x="${1:-i}"
 
