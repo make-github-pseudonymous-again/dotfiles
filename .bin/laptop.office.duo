@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 
-if xrandr.is.hdmi.connected ; then
-	out="HDMI-0"
-	off="DisplayPort-0"
-else
-	out="DisplayPort-0"
-	off="HDMI-0"
-fi
+#if xrandr.is.hdmi.connected ; then
+	#out="HDMI-0"
+	#off="DisplayPort-0"
+#else
+	#out="DisplayPort-0"
+	#off="HDMI-0"
+#fi
 
-xrandr --fb 0x0 --output LVDS --off --output eDP-1 --off --panning 0x0+0+0 --output DP-1 --auto --output HDMI-2 --primary --auto
-xrandr --output DP-1 --left-of HDMI-2
+xrandr --fb 0x0 --output LVDS --off --output eDP-1 --off --panning 0x0+0+0 --output DP-1 --primary --auto --output HDMI-2 --auto
+xrandr --output HDMI-2 --right-of DP-1
 ~/.bin/wallpaper.refresh
