@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+sudo pacman -R npm semver node-gyp yarn
+
+sudo rm -rf /usr/lib/node_modules
+sudo rm -rf /usr/local/share/.yarnrc
+sudo rm -rf /usr/local/share/.config/yarn
+
+sudo pacman -S npm yarn
+
+update -i
+
+update -a
