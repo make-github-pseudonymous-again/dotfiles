@@ -2,7 +2,7 @@
 
 QUEUEDIR="$HOME/.msmtpqueue"
 LOCKFILE="$QUEUEDIR/.lock"
-SENDDELAY=2
+SENDDELAY=0
 
 # Set secure permissions on created directories and files
 umask 077
