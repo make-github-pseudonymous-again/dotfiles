@@ -74,10 +74,16 @@ function main ( browser ) {
 		executablePath: '/usr/bin/chromium' ,
 	} ;
 
-	puppeteer.launch(options).then(async browser => {
-		await poll(browser, username, password);
-		await browser.close();
-	});
+	puppeteer
+		.launch(options)
+		.then(async browser => {
+			await poll(browser, username, password);
+			await browser.close();
+		})
+		.catch( err => {
+			console.log(err) ;
+			process.exit(100) ;
+		}) ;
 
 }
 
