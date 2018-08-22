@@ -35,8 +35,9 @@ def checkRotation(device):
 
 if __name__ == "__main__":
     context = pyudev.Context()
+    device = None
     for device in context.list_devices(subsystem="iio").match_attribute("name", sensorname): break
-    assert device
+    assert device is not None
     path = device.device_path
-    device = pyudev.Device.from_path(context, path)
+    device = pyudev.Devices.from_path(context, path)
     print(checkRotation(device))
