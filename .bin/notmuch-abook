@@ -106,7 +106,7 @@ class NotMuchConfig(object):
             config_file = os.environ.get('NOTMUCH_CONFIG', '~/.notmuch-config')
 
         # set a default for ignorefile
-        self.config = configparser.ConfigParser({'ignorefile': None})
+        self.config = configparser.RawConfigParser({'ignorefile': None})
         self.config.read(os.path.expanduser(config_file))
 
     def get(self, section, key):
