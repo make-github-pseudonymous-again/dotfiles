@@ -112,6 +112,8 @@ bind xz js window.location = 'https://sci-hub.tw/' + location.href
 
 " github homepage
 quickmark g https://github.com/aureooms
+" github dotfiles
+quickmark d https://github.com/aureooms/dotfiles
 " github trending
 quickmark t https://github.com/trending
 " algo group
