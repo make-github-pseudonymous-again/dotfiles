@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+# Original bash script by (C) 2016 Daniel Faust <hessijames@gmail.com>
+# See https://github.com/dfaust/mkv-bash-tools/blob/master/mkv-extract-subtitles
+
+# A bash script that extracts subtitles from a matroska file.
+#
+# Requires jq, mkvmerge, mkvextract
+#
+# Usage:
+# mkv.extract.subtitles "My File.mkv"
+#
+# This will create a new file for each subtitle in the current directory.
+
+
+if [ "$1" = "" ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+	echo
+	echo "Process single file:"
+	echo "mkv.extract.subtitles file.mkv"
+	echo
+	exit
+fi
+
+
+command -v jq 1>/dev/null || { echo >&2 "Error: Command jq not found"; exit 1; }
+command -v mkvmerge 1>/dev/null || { echo >&2 "Error: Command mkvmerge not found"; exit 1; }
+command -v mkvextract 1>/dev/null || { echo >&2 "Error: Command mkvextract not found"; exit 1; }
+
+path="$1"
+slug="${path%.*}"
+
+filter='.tracks[] | select(.type=="subtitles")'
+mapfile -t subtitles < <(mkvmerge -J "$path" | jq -c "$filter")
+
+if [ ${#subtitles[@]} -eq 0 ] ; then exit; fi
+
+tracks=()
+i=0
+
+for subtitle in ${subtitles[@]}; do
+
+	id="$(jq -r .id <<< "$subtitle")"
+	default="$(jq -r .properties.default_track <<< "$subtitle")"
+	codec="$(jq -r .properties.codec_id <<< "$subtitle")"
+	language="$(jq -r .properties.language <<< "$subtitle")"
+
+	ext=".sub"
+	if [ "$codec" = "S_TEXT/UTF8" ] || [ "$codec" = SubRip/SRT ]; then
+		ext=".srt"
+	elif [ "$codec" = "S_TEXT/ASS" ]; then
+		ext=".ssa"
+	elif [ "$codec" = "S_TEXT/USF" ]; then
+		ext=".usf"
+	elif [ "$codec" = "S_VOBSUB" ]; then
+		ext=".idx"
+	elif [ "$codec" = "S_HDMV/PGS" ]; then
+		ext=".sup"
+	fi
+
+	name="$id"
+	if [ "$language" != "" ]; then
+		name="$name-$language"
+	fi
+
+	if [ "$default" = 'true' ] ; then
+		name="$name-default"
+	fi
+
+
+	tracks[$i]="$id:$slug-$name$ext"
+	(( ++i ))
+
+done
+
+mkvextract tracks "$path" "${tracks[@]}"
