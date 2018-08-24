@@ -37,7 +37,7 @@ if [ ${#subtitles[@]} -eq 0 ] ; then exit; fi
 tracks=()
 i=0
 
-for subtitle in ${subtitles[@]}; do
+for subtitle in "${subtitles[@]}"; do
 
 	id="$(jq -r .id <<< "$subtitle")"
 	default="$(jq -r .properties.default_track <<< "$subtitle")"
