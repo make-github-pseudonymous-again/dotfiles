@@ -11,3 +11,4 @@ xyz # should be installed as dev dep
 jspm # not using it at the moment
 grunt-cli # install via arch repo
 esdoc
+n # not used

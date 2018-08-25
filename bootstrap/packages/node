@@ -1,7 +1,4 @@
-npm-check-updates
-fixpack
-
-n
+# Node / npm / yarn
 eslint
 eslint_d
 babel-eslint
@@ -15,14 +12,19 @@ journally
 ava-codemods
 speed-test
 
-zxcvbn
+zxcvbn # to test quality of passwords
 
-yo
+yo # for scaffolding
 
-geez
-texshake
+geez # for git // execution
+texshake # for LaTeX projects
 
-puppeteer
+puppeteer # voo
 
-http-server
-katex
+http-server # homepage
+katex # homepage
+
+npx # run local npm binaries
+
+npm-check-updates # for js projects
+fixpack # for js projects
