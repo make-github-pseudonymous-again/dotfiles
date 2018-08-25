@@ -12,8 +12,8 @@ console.log('HOME', HOME);
 console.log('CACHE', CACHE);
 console.log('CACHE_INFO', CACHE_INFO);
 
-//const URL_LOGIN = 'https://newmy.voo.be' ;
-const URL_CONSUMPTION = 'https://newmy.voo.be/usage/internet';
+const URL_ROOT = 'https://newmy.voo.be' ;
+const URL_CONSUMPTION = `${URL_ROOT}/usage/internet` ;
 
 const TYPE_UNKNOWN = 'unknown page' ;
 const TYPE_LOGIN = 'login page' ;
@@ -32,9 +32,10 @@ const TIME_HALF_HOUR = TIME_HOUR / 2 | 0 ;
 //const POLL_RATE = TIME_MINUTE ;
 const READ_RATE = TIME_SECOND * 3 ;
 const LOGIN_WAIT = TIME_MINUTE ;
-const LOGIN_TIMEOUT = TIME_MINUTE ;
+const TIMEOUT = TIME_MINUTE ;
 
 let lastlogin = 0 ;
+let lastevent = 0 ;
 
 const sleep = ms => {
 	console.log(`sleeping for ${ms} ms`)
@@ -139,9 +140,9 @@ async function load ( page , username , password ) {
 async function type ( page ) {
 
 	const now = Date.now();
-	if (lastlogin > 0 && now - lastlogin >= LOGIN_TIMEOUT) return TYPE_TIMEOUT;
+	if (lastevent > 0 && now - lastevent >= TIMEOUT) return TYPE_TIMEOUT;
 
-	return await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN) => {
+	const value = await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN) => {
 		const now = Date.now();
 		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
 		else if ( document.querySelector('.validation-summary-errors') !== null ) return TYPE_LOGIN_ERROR ;
@@ -151,6 +152,10 @@ async function type ( page ) {
 			document.querySelector('#yearlyGraph > .a.la.carte.special.tooltip') !== null ) return TYPE_CONSUMPTION_UNLIMITED ;
 		else return TYPE_UNKNOWN ;
 	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN);
+
+	if ( value !== TYPE_UNKNOWN ) lastevent = Date.now() ;
+
+	return value ;
 
 }
 
