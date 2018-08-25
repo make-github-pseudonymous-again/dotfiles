@@ -206,6 +206,7 @@ imagemagick
 
 # File system
 rclone
+bat
 
 # Music
 mpd
