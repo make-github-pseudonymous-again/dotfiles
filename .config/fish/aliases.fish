@@ -28,6 +28,7 @@ abbr ws wifi.endpoints.scan
 alias tk="task rc:~/.config/task/.taskrc"
 abbr srv server
 abbr rfc ref.rename.from.contents
+abbr k "pkill -9"
 
 # Git
 abbr g git

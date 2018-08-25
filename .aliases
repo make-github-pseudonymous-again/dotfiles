@@ -19,6 +19,7 @@ alias ws="wifi.endpoints.scan"
 alias tk="task rc:~/.config/task/.taskrc"
 alias srv="server"
 alias rfc="ref.rename.from.contents"
+alias k="pkill -9"
 
 alias g="git"
 alias e="vim"
