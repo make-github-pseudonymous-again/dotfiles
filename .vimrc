@@ -95,6 +95,8 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
 " React JSX syntax highlighting and indenting for vim
 Plug 'mxw/vim-jsx'
+" :heart: JavaScript happiness style linter
+Plug 'xojs/vim-xo'
 " A code-completion engine for Vim
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 " Compiling requires too much memory, fails every time
@@ -296,7 +298,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint', 'xo']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
 
 "toggle syntastic on a per buffer basis

@@ -3,6 +3,7 @@ eslint
 eslint_d
 babel-eslint
 eslint-plugin-babel
+xo
 
 gulp-cli
 tick
