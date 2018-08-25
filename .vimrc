@@ -46,7 +46,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 " Plug 'mhinz/vim-signify' " possible alternative
 " A tree explorer plugin for vim.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " Preview colours in source code while editing
 Plug 'ap/vim-css-color', { 'for': 'css' }
 " causes all trailing whitespace characters (spaces and tabs) to be highlighted
@@ -103,7 +103,7 @@ Plug 'lervag/vimtex'
 " A vim plugin for writing Latex quickly
 Plug 'brennier/quicktex'
 " Official Vimperator syntax highlighting file.
-Plug 'vimperator/vimperator.vim'
+"Plug 'vimperator/vimperator.vim'
 " Vim syntax for TOML
 Plug 'https://github.com/cespare/vim-toml'
 
@@ -113,7 +113,7 @@ Plug 'easymotion/vim-easymotion'
 
 " ## SELECTION ##
 " True Sublime Text style multiple selections for Vim
-Plug 'terryma/vim-multiple-cursors'
+"Plug 'terryma/vim-multiple-cursors'
 
 " ## SHORTCUTS ##
 " pairs of handy bracket mappings
@@ -262,7 +262,7 @@ map  N <Plug>(easymotion-prev)
 noremap <silent> <leader>e :enew<CR>
 
 " toggle nerdtree
-noremap <silent> <leader>t :NERDTreeToggle<CR>
+"noremap <silent> <leader>t :NERDTreeToggle<CR>
 
 " Strip trailing whitespace (w)
 noremap <silent> <leader>w :StripWhitespace<CR>
