@@ -7,7 +7,7 @@ args = sys.argv[1:]
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 if not args :
-    log( 'usage: arxiv.get <query>')
+    log( 'usage: bib.get <query>')
     sys.exit( 1 )
 
 import arrow
@@ -20,7 +20,7 @@ from lxml.cssselect import CSSSelector
 
 sel = lambda h, s: CSSSelector(s)(h)
 
-REQUEST = 'http://dblp.uni-trier.de/search?{}'
+REQUEST = 'https://dblp.uni-trier.de/search?{}'
 
 query = args[0]
 
@@ -147,12 +147,12 @@ def dblp_query ( query ) :
             'title' : title ,
             'date' : date ,
             'bibtex' : {
-                'condensed' : 'http://dblp.uni-trier.de/rec/bib0/{}.bib'.format(id) ,
-                'standard' : 'http://dblp.uni-trier.de/rec/bib1/{}.bib'.format(id) ,
-                'crossref' : 'http://dblp.uni-trier.de/rec/bib2/{}.bib'.format(id) ,
+                'condensed' : 'https://dblp.uni-trier.de/rec/bib0/{}.bib'.format(id) ,
+                'standard' : 'https://dblp.uni-trier.de/rec/bib1/{}.bib'.format(id) ,
+                'crossref' : 'https://dblp.uni-trier.de/rec/bib2/{}.bib'.format(id) ,
             } ,
-            'xml' : 'http://dblp.uni-trier.de/rec/xml/{}.xml'.format(id),
-            'rdf' : 'http://dblp.uni-trier.de/rec/rdf/{}.rdf'.format(id),
+            'xml' : 'https://dblp.uni-trier.de/rec/xml/{}.xml'.format(id),
+            'rdf' : 'https://dblp.uni-trier.de/rec/rdf/{}.rdf'.format(id),
             'authors' : publication_authors ,
             'metadata' : metadata ,
         }
