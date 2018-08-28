@@ -24,3 +24,6 @@ python-bibtexparser
 python-colored
 python-pydub
 python-pypdf2
+
+# Templates
+gomplate-git
