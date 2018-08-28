@@ -168,6 +168,9 @@ extra/texlive-pstricks
 extra/texlive-publishers
 extra/texlive-science
 
+# Bibliography
+pandoc-citeproc
+
 # Plotting
 gnuplot
 transfig
