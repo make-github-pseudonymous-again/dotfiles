@@ -101,6 +101,9 @@ set searchurls.amfr https://www.amazon.fr/s/?field-keywords=%s
 " amazon de
 set searchurls.amde https://www.amazon.de/s/?field-keywords=%s
 
+" ikea be
+set searchurls.ikea https://www.ikea.com/be/fr/search?k=%s
+
 
 "" bindings
 
