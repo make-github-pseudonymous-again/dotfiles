@@ -337,6 +337,7 @@ let g:quicktex_tex = {
     \'fn' : '\(\mathcal{N}\) ',
     \'fo' : '\(\mathcal{O}\) ',
     \'fp' : '\(\mathcal{P}\) ',
+    \'fq' : '\(\mathcal{Q}\) ',
     \'fr' : '\(\mathcal{R}\) ',
     \'fs' : '\(\mathcal{S}\) ',
     \'ft' : '\(\mathcal{T}\) ',
