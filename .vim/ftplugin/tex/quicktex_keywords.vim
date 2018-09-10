@@ -189,6 +189,7 @@ let g:quicktex_math = {
     \'si'     : "\<BS>_i",
     \'sj'     : "\<BS>_j",
     \'text'   : '\text{<+++>} <++>',
+    \'lbl'    : "\<ESC>s\\label{<+++>}<++>",
     \
 \'Section: Fancy Variables' : 'COMMENT',
     \'fa' : '\mathcal{A} ',
