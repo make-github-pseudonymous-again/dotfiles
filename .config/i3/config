@@ -402,6 +402,8 @@ mode "apps" {
         bindcode 24 mode "audio"
         #-- bindsym v mode "video"
         bindcode 55 mode "video"
+        #-- bindsym Shift+M mode "music"
+        bindcode Shift+47 mode "music"
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
@@ -680,6 +682,21 @@ bindcode $mod+30 bar mode invisible extra
 #-- bindsym $mod+Shift+U bar mode dock extra
 bindcode $mod+Shift+30 bar mode dock extra
 
+mode "music" {
+
+        #-- bindsym t exec music toggle; mode "default"
+        bindcode 28 exec music toggle; mode "default"
+        #-- bindsym n exec music next
+        bindcode 57 exec music next
+        #-- bindsym p exec music prev
+        bindcode 33 exec music prev
+
+        # back to normal: Enter or Escape
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
+}
 
 # volume
 #-- bindsym XF86AudioRaiseVolume exec volume.up 3
