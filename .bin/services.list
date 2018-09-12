@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import subprocess
+
+UNITS_DIR = os.path.expanduser("~/.config/systemd/user")
+
+units = set(filter(lambda x : os.path.isfile(os.path.join(UNITS_DIR, x)), os.listdir(UNITS_DIR)))
+
+STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend']
+ENABLE_CMD = ['systemctl', '--user', 'is-enabled']
+
+status = {}
+
+for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
+
+    unit, load, active, sub, description = map(lambda x : x.strip(), line.split(maxsplit=4))
+
+    name, kind = unit.rsplit('.',maxsplit=1)
+
+    status[unit] = {
+            "loaded": load,
+            "active": active,
+            "running": sub,
+            "description": description,
+            "name": name,
+            "type": kind,
+    }
+
+for unit in units:
+
+    try:
+        enabled = subprocess.check_output(ENABLE_CMD + [unit])
+    except subprocess.CalledProcessError as e:
+        enabled = e.output
+
+    enabled = enabled.decode().splitlines()[0]
+
+    if unit in status:
+        status[unit]["enabled"] = enabled
+        status[unit]["origin"] = "user"
+    else:
+        name, kind = unit.rsplit('.',maxsplit=1)
+        status[unit] = {
+            "origin": "user",
+            "enabled": enabled,
+            "name": name,
+            "type": kind,
+        }
+
+json.dump(status, sys.stdout)

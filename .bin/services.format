@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+from colored import fore, back, style
+
+OK = frozenset(['active'])
+KO = frozenset(['failed', 'dead'])
+
+status = json.load(sys.stdin)
+
+units = status.keys()
+
+def unit_key ( unit ) :
+
+    if "loaded" not in status[unit]: return 1, unit
+
+    active = status[unit]["active"]
+
+    return 0, active not in OK, active in KO, unit
+
+units = sorted(units, key = unit_key )
+
+for unit in units:
+
+    if "loaded" in status[unit]:
+
+        loaded = status[unit]["loaded"]
+        active = status[unit]["active"]
+        running = status[unit]["running"]
+        name = status[unit]["name"]
+        kind = status[unit]["type"]
+        enabled = status[unit]["enabled"]
+
+        ext = '' if kind == 'service' else '.' + kind
+
+        text = '{}{}{} ({}{}{}{}, {}{}{}, {}{}{}, {}{}{})'.format(
+            style.BOLD, name, ext, style.RESET,
+            fore.GREY_50 + style.BOLD, loaded, style.RESET,
+            fore.GREY_50 + style.BOLD, active, style.RESET,
+            fore.GREY_50 + style.BOLD, running, style.RESET,
+            fore.GREY_50 + style.BOLD, enabled, style.RESET
+        )
+
+        if active in OK :
+            if kind == 'target':
+                mark = fore.GREEN + '' + style.RESET
+            else:
+                mark = fore.GREEN + '' + style.RESET
+
+        elif active in KO :
+            if kind == 'target':
+                mark = fore.RED + '' + style.RESET
+            else:
+                mark = fore.RED + '' + style.RESET
+
+        else:
+            mark = fore.BLUE + '' + style.RESET
+
+    else:
+
+        name = status[unit]["name"]
+        kind = status[unit]["type"]
+        enabled = status[unit]["enabled"]
+        ext = '' if kind == 'service' else '.' + kind
+        text = '{}{}{}{}'.format(style.BOLD, name, ext, style.RESET)
+        mark = fore.RED + '' + style.RESET
+
+    x = '' if enabled == 'enabled' else ' '
+
+    print(' {}  {} {}'.format(x, mark, text))

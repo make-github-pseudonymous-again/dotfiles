@@ -1,20 +1,10 @@
 #!/usr/bin/env sh
 
-/usr/bin/systemctl --user import-environment PATH NODE_PATH
-#/usr/bin/systemctl --user start ssh-agent
-#/usr/bin/systemctl --user start clipboard
-#/usr/bin/systemctl --user start news
-/usr/bin/systemctl --user start calendar
-/usr/bin/systemctl --user start urlab
-/usr/bin/systemctl --user start github
-/usr/bin/systemctl --user start weather
-/usr/bin/systemctl --user start ipgeolocation
-/usr/bin/systemctl --user start geolocation
-/usr/bin/systemctl --user start stib
-#/usr/bin/systemctl --user start rtm
-/usr/bin/systemctl --user start wifi-fingerprint
-/usr/bin/systemctl --user start recoll
-/usr/bin/systemctl --user start msmtp
-#/usr/bin/systemctl --user start ulb
-/usr/bin/systemctl --user start voo
-/usr/bin/systemctl --user start mbv
+CACHE="${HOME}/.cache/services"
+
+if [ -e "${CACHE}" ] ; then
+	for service in $(cat "${CACHE}" | jq -r 'with_entries(select(.value.origin == "user" and .value.type == "service" and .value.enabled == "enabled")) | keys[]') ; do
+		echo "  * start ${service}"
+		/usr/bin/systemctl --user start "${service}"
+	done
+fi
