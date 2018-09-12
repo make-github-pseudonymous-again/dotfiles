@@ -3,7 +3,7 @@
 CACHE="${HOME}/.cache/services"
 
 if [ -e "${CACHE}" ] ; then
-	for service in $(cat "${CACHE}" | jq -r 'with_entries(select(.value.origin == "user" and .value.type == "service" and .value.enabled == "enabled")) | keys[]') ; do
+	for service in $(cat "${CACHE}" | jq -r 'with_entries(select(.key != "ssh-agent.service" and .value.origin == "user" and .value.type == "service" and .value.enabled == "enabled")) | keys[]') ; do
 		echo "  * start ${service}"
 		/usr/bin/systemctl --user start "${service}"
 	done
