@@ -302,17 +302,19 @@ if $plugins ; then
       fi
 
       if $diff ; then
-
-        echo '  ° Diff '"$PLUGIN"
-        sh "$PLUGIN"/dotfiles.diff || _exit "$?"
-
+        DIFFER="$PLUGIN"/dotfiles.diff
+        if [ -x "$DIFFER" ] ; then
+          echo '  ° Diff '"$PLUGIN"
+          sh "$DIFFER" || _exit "$?"
+        fi
       fi
 
       if $update ; then
-
-        echo '  ° Update '"$PLUGIN"
-        sh "$PLUGIN"/dotfiles.update -f || _exit "$?"
-
+        UPDATER="$PLUGIN"/dotfiles.update
+        if [ -x "$UPDATER" ] ; then
+          echo '  ° Update '"$PLUGIN"
+          sh "$UPDATER" -f || _exit "$?"
+        fi
       fi
 
     done
