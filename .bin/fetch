@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+# vi:syntax=python
+
+import os
+import sys
+import arrow
+import shutil
+import logging
+from recoll import recoll, rclextract
+from subprocess import check_output, call
+
+querystring = sys.argv[1]
+
+prompt = ['fzf']
+sortby = 'mtime'
+ascending = False
+
+def humanbytes(size):
+
+    B = "B"
+    KB = "KB"
+    MB = "MB"
+    GB = "GB"
+    TB = "TB"
+    UNITS = [B, KB, MB, GB, TB]
+    HUMANFMT = "{:.2f} {}"
+    HUMANRADIX = 1024.
+
+    for u in UNITS[:-1]:
+        if size < HUMANRADIX : return HUMANFMT.format(size, u)
+        size /= HUMANRADIX
+
+    return HUMANFMT.format(size,  UNITS[-1])
+
+def formatdoc(doc):
+
+	path = doc.url[7:]
+	dirname = os.path.dirname(path)
+	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
+
+	try:
+	    timestamp = arrow.get(doc.mtime)
+	    htime = timestamp.humanize()
+	    hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+	except Exception as e:
+	    htime = 'unknown'
+	    hdate = 'unknown'
+
+	try:
+	    hbytes = humanbytes(int(doc.fbytes))
+	except Exception as e:
+	    hbytes = 'unknown'
+
+	formatarray = ['{htime}', '>']
+
+	if doc.title:
+		formatarray.append('{title}')
+		formatarray.append('--')
+
+	formatarray.append('{hint}/{filename}')
+	formatarray.append('({hbytes}, {mtype})')
+	formatarray.append('--')
+
+	if doc.abstract:
+		formatarray.append('{abstract}')
+		formatarray.append('--')
+
+	formatarray.append('{url}')
+	formatarray.append('--')
+	formatarray.append('d@te:{hdate}')
+
+	keys = {
+		'hbytes': hbytes,
+		'htime': htime,
+		'hdate': hdate,
+		'hint': hint,
+		'filename': 'unknown',
+		**doc.items()
+	}
+
+	return ' '.join(formatarray).format(**keys)
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
+handler = logging.StreamHandler(sys.stderr)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+log.addHandler(handler)
+
+db = recoll.connect()
+
+query = db.query()
+
+if sortby:
+	query.sortby(sortby, ascending=ascending)
+
+n = query.execute(querystring)
+
+log.info('{} results'.format(n))
+
+docs = list(query)
+
+def genline(i, doc, formatdoc=formatdoc):
+	return formatdoc(doc) + ' ' + str(i)
+
+lines = (genline(i, doc) for i, doc in enumerate(docs))
+
+raw = '\n'.join(lines).encode()
+
+try:
+	result = check_output(prompt, input=raw)
+
+except Exception as e:
+	log.exception('fzf failed')
+	sys.exit(1)
+
+line = result.decode()[:-1]
+
+try:
+
+	i = int(line.split()[-1])
+
+except Exception as e:
+	log.exception('could not parse line number')
+	sys.exit(2)
+
+try:
+	doc = docs[i]
+except IndexError as e:
+	log.exception('index not in range')
+	sys.exit(3)
+
+if genline(i, doc) != line:
+	log.error('lines do not match')
+	sys.exit(4)
+
+if doc.ipath:
+	extractor = rclextract.Extractor(doc)
+	path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
+	with open(path, 'rb') as f: shutil.copyfileobj(f, sys.stdout.buffer)
+	if path[:5] == '/tmp/':
+		log.info('deleting {}'.format(path))
+		# just in case someone screws up upstreams
+		os.remove(path)
+
+else:
+	path = doc.url[7:]
+	with open(path, 'rb') as f: shutil.copyfileobj(f, sys.stdout.buffer)
