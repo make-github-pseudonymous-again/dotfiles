@@ -85,18 +85,14 @@ if km(*current, *old) > threshold:
 
 
 NOW = arrow.now()
-BEGIN = NOW.timestamp - HALFHOUR
 
 if 'daily' in data:
     daily = data['daily']['data']
-    daily = sorted(daily, key=lambda x: x['time'])
 else:
     daily = []
 
 if 'hourly' in data:
     hourly = data['hourly']['data']
-    hourly = sorted(
-        filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
 else:
     hourly = []
 

@@ -8,7 +8,7 @@ import json
 import arrow
 import urllib.request
 
-URLFMT = 'https://api.forecast.io/forecast/{}/{},{},{}'
+URLFMT = 'https://api.darksky.net/forecast/{}/{},{}'
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -23,7 +23,7 @@ except:
 reader = codecs.getreader('utf8')
 
 APIKEY = subprocess.check_output(
-    ['pass', 'api.forecast.io/aurelien.ooms@gmail.com']).decode().strip()
+    ['pass', 'api.darksky.net/aurelien.ooms@gmail.com']).decode().strip()
 
 try:
 
@@ -33,66 +33,14 @@ try:
     LATITUDE, LONGITUDE = GEOLOCATION['latitude'], GEOLOCATION['longitude']
 
 except Exception as err:
-
     log('could not load geolocation')
     raise err
 
-
-NOW = arrow.utcnow()
-
-timefmt = lambda t: t.format('YYYY-MM-DDTHH:mm:ssZZ')
-
-# get forecast for the whole week
-TIMES = [NOW.replace(days=+d) for d in range(7)]
-
-data = {
-    "hourly": {
-        "data": [],
-    },
-    "daily": {
-        "data": []
-    }
-}
-
-hourly = data['hourly']['data']
-daily = data['daily']['data']
-
-# we assume data lists are sorted according to time value
-
-for TIME in map(timefmt, TIMES):
-
-    URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE, TIME)
-    log('loading {}'.format(URL))
-    _data = json.load(reader(urllib.request.urlopen(URL)))
-
-    # TODO could use a loop instead of the same code twice
-
-    if 'hourly' in _data:
-        last = 0 if not hourly else hourly[-1]['time']
-        hourly.extend(x for x in _data['hourly']['data'] if x['time'] > last)
-
-        for key, value in _data['hourly'].items():
-
-            if key != 'data' and key not in data['hourly']:
-
-                data['hourly'][key] = value
-
-    if 'daily' in _data:
-        last = 0 if not daily else daily[-1]['time']
-        daily.extend(x for x in _data['daily']['data'] if x['time'] > last)
-
-        for key, value in _data['daily'].items():
-
-            if key != 'data' and key not in data['daily']:
-
-                data['daily'][key] = value
-
-    for key, value in _data.items():
-
-        if key not in ['hourly', 'daily'] and key not in data:
-
-            data[key] = value
-
+URL = URLFMT.format(APIKEY, LATITUDE, LONGITUDE)
+log('loading {}'.format(URL))
+conn = urllib.request.urlopen(URL)
+stream = reader(conn)
+data = json.load(stream)
 
 with open(CACHE.format('cache'), 'w') as fd:
     json.dump(data, fd)
