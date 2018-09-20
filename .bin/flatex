@@ -2,10 +2,10 @@
 
 # from https://github.com/johnjosephhorton/flatex
 
-import click
 import os
 import re
 import sys
+import argparse
 
 defaultext = {
     'input' : '.tex',
@@ -73,17 +73,8 @@ def bbl_file(base_file):
     return open(bbl_path).readlines()
 
 
-@click.command()
-@click.argument('base_file', type = click.Path())
-@click.argument('output_file', type = click.File('w'))
-@click.option('--include_bbl/--no_bbl', default=False)
-@click.option('--include_sty/--no_sty', default=False)
-def main(base_file, output_file, include_bbl = False, include_sty = False):
+def run(base_file, output_file, include_bbl = False, include_sty = False):
 
-    """
-    This "flattens" a LaTeX document by replacing all \input{X} lines w/ the
-    text actually contained in X. See associated README.md for details.
-    """
     current_path = os.path.split(base_file)[0]
     output_file.write(''.join(
         expand_file(
@@ -93,6 +84,32 @@ def main(base_file, output_file, include_bbl = False, include_sty = False):
             include_sty
         )
     ))
+
+
+def main():
+
+    description="""
+    This "flattens" a LaTeX document by replacing all \input{X} lines w/ the
+    text actually contained in X.
+    """
+    parser = argparse.ArgumentParser(description=description)
+
+    parser.add_argument('base_file')
+    parser.add_argument('output_file', type=argparse.FileType('w'))
+    parser.add_argument('--include_bbl', dest='bbl', action='store_true')
+    parser.add_argument('--no_bbl', dest='bbl', action='store_false')
+    parser.add_argument('--include_sty', dest='sty', action='store_true')
+    parser.add_argument('--no_sty', dest='sty', action='store_false')
+
+    args = parser.parse_args()
+
+    base_file = args.base_file
+    output_file = args.output_file
+    include_bbl = args.bbl
+    include_sty = args.sty
+
+    run(base_file, output_file, include_bbl=include_bbl, include_sty=include_sty)
+
 
 if __name__ == '__main__':
     main()

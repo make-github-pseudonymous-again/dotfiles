@@ -48,7 +48,6 @@ python-matplotlib
 python-scipy
 python-pillow
 python-cssselect
-python-click
 python-tqdm
 python-oauth2client
 python-google-auth
