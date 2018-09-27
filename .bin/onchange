@@ -133,7 +133,7 @@ function waitforevent() {
 
 		echo "[EVENT] $etype $dir$file"
 
-		return
+		break
 
 	done
 
