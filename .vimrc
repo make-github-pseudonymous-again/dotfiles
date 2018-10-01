@@ -350,6 +350,7 @@ function! s:goyo_enter()
     silent !tmux set status off
   endif
   " hi NonText ctermfg=101
+  set nowrap
   Limelight
 endfunction
 
@@ -361,6 +362,7 @@ function! s:goyo_leave()
   elseif exists('$TMUX')
     silent !tmux set status on
   endif
+  set wrap
   Limelight!
 endfunction
 
