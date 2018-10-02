@@ -160,6 +160,7 @@ let g:quicktex_math = {
     \
 \'Section: Functions' : 'COMMENT',
     \'cln'    : '\colon ',
+    \'gets'   : '\gets ',
     \'to'     : '\to ',
     \'mapsto' : '\mapsto ',
     \'comp'   : '\circ ',
