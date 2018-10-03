@@ -116,6 +116,7 @@ msmtp
 
 # Security
 openssh
+arch-audit
 
 # Disk usage
 ncdu
