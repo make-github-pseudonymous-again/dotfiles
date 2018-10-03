@@ -45,12 +45,16 @@ for unit in units:
         if active in OK :
             if kind == 'target':
                 mark = fore.GREEN + '' + style.RESET
+            elif kind == 'timer':
+                mark = fore.GREEN + '' + style.RESET
             else:
                 mark = fore.GREEN + '' + style.RESET
 
         elif active in KO :
             if kind == 'target':
                 mark = fore.RED + '' + style.RESET
+            elif kind == 'timer':
+                mark = fore.RED + '' + style.RESET
             else:
                 mark = fore.RED + '' + style.RESET
 
