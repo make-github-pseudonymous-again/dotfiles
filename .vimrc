@@ -352,9 +352,12 @@ function! s:goyo_enter()
   " hi NonText ctermfg=101
   set nowrap
   Limelight
+  set scrolloff=999
 endfunction
 
 function! s:goyo_leave()
+  set scrolloff=3
+  Limelight!
   if has('gui_running')
     set nofullscreen
     set background=dark
@@ -363,7 +366,6 @@ function! s:goyo_leave()
     silent !tmux set status on
   endif
   set wrap
-  Limelight!
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
