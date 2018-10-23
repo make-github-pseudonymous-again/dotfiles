@@ -1,0 +1,9 @@
+[Unit]
+Description=Fetch github notifications hourly
+
+[Timer]
+OnCalendar=*:0/1
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -15,6 +15,11 @@ if [ "$urlab_open" = 'true' ] ; then
 	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
 fi
 
+github_notifications="$(memoize-get -1 github.notifications)"
+if [ "$github_notifications" -gt 0 ] ; then
+	prepend='{"name":"github notifications","color":"#73E9CF","full_text":" '"$github_notifications"'"},'"$prepend"
+fi
+
 github_stars="$(memoize-get -1 github.stars "$(2>/dev/null jq < "$HOME/.config/username/config" -r '.["github.com"]')")"
 if [ "$github_stars" != '' ] ; then
 	prepend='{"name":"github stars","color":"#FFEF8C","full_text":" '"$github_stars"'"},'"$prepend"

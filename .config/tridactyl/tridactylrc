@@ -119,6 +119,8 @@ quickmark g https://github.com/aureooms
 quickmark d https://github.com/aureooms/dotfiles
 " github trending
 quickmark t https://github.com/trending
+" github notifications
+quickmark n https://github.com/notifications
 " algo group
 quickmark u https://algo.ulb.be
 " coauthor

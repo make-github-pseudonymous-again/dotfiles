@@ -1,0 +1,6 @@
+[Unit]
+Description=Memoizes github notifications
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh memoize 0 github.notifications

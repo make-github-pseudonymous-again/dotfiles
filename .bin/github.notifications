@@ -10,6 +10,7 @@ import json
 import re
 import urllib.request
 import subprocess
+import base64
 from functools import reduce
 
 # from https://github.com/kennethreitz/requests
@@ -45,11 +46,15 @@ def next_url ( info ) :
     header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
     return header_link_next['url']
 
-def pages ( opener , url ) :
+def pages ( url , credentials = None ) :
 
     while True:
 
-        with opener.open(url) as connection:
+        req = urllib.request.Request(url)
+        if credentials is not None:
+            req.add_header('Authorization', 'Basic %s' % credentials)
+
+        with urllib.request.urlopen(req) as connection:
             data = connection.read()
             info = connection.info()
             yield data
@@ -61,23 +66,33 @@ def pages ( opener , url ) :
         except StopIteration:
             break
 
-if len(sys.argv) < 2:
-    sys.exit(1)
-
-user = sys.argv[1]
-
-stars = 0
-
-
 github_api = 'api.github.com'
+first_page = 'https://{api}/notifications'.format(api=github_api)
 
-first_page = 'https://{api}/users/{user}/repos?per_page=100'.format(api=github_api, user=user)
+notifications = 0
 
-stars = 0
+try:
 
-opener = urllib.request.build_opener()
+    up = subprocess.run(['pass', 'apps/github/user'],stdout=subprocess.PIPE)
+    if up.returncode == 0 :
+        username = up.stdout.decode('utf-8')[:-1]
 
-for page in pages(opener, first_page):
-    stars = reduce(lambda x, y: x + y['stargazers_count'], json.loads(page), stars)
+        pp = subprocess.run(['pass', 'apps/github/password'],stdout=subprocess.PIPE)
+        if pp.returncode == 0 :
+            password = pp.stdout.decode('utf-8')[:-1]
+        else:
+            sys.exit(3)
+    else:
+        sys.exit(2)
 
-print(stars)
+except:
+    sys.exit(4)
+
+credentials = ('%s:%s' % (username, password))
+credentials = base64.b64encode(credentials.encode('ascii'))
+credentials = credentials.decode("ascii")
+
+for page in pages(first_page, credentials=credentials):
+    notifications += len(json.loads(page))
+
+print(notifications)
