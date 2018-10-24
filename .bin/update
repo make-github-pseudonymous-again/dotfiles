@@ -224,6 +224,7 @@ if $sync ; then
 
   echo " * arch & aur (using trizen)"
   trizen --noconfirm --noedit -Syu || _exit "$?"
+  if [ -x /usr/bin/memoize ] ; then memoize 0 arch-audit -qu ; fi
 
   if $node ; then
     echo " * node"
@@ -246,6 +247,7 @@ if $install ; then
 
   echo " * arch"
   sudo sh "$DOTFILES"/bootstrap/install-arch || _exit "$?"
+  if [ -x /usr/bin/memoize ] ; then memoize 0 arch-audit -qu ; fi
 
   echo " * aur"
   sh "$DOTFILES"/bootstrap/install-aur || _exit "$?"
