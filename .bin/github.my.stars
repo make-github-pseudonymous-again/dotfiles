@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+github.stars "$(2>/dev/null jq < "$HOME/.config/username/config" -r '.["github.com"]')"

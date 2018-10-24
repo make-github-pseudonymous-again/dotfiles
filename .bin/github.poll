@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 while true; do
-	if memoize-ft 0 github.stars "$(2>/dev/null jq < "$HOME/.config/username/config" -r '.["github.com"]')"; then
+	if memoize-ft 0 github.my.stars; then
 		sleep 3600
 	else
 		sleep 300
