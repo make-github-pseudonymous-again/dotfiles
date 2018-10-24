@@ -1,7 +1,6 @@
-
 [Default Applications]
 text/plain=vim.desktop
 application/javascript=vim.desktop
 application/x-desktop=vim.desktop
-application/pdf=evince.desktop
-image/vnd.djvu=evince.desktop
+application/pdf=org.gnome.Evince.desktop
+image/vnd.djvu=org.gnome.Evince.desktop
