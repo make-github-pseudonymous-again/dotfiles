@@ -74,7 +74,7 @@ fi
 
 function _a ( ) {
   if { <<< "$pacman_installed" grep "^$1\$" 1>/dev/null 2>&1 ; } ; then
-    pacman -R "$1"
+    echo y | pacman -R "$1"
   fi
 }
 
