@@ -28,17 +28,17 @@ js
 uniconvertor
 sk1libs
 
-extra/texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases
-extra/texlive-fontsextra # TeX Live - all sorts of extra fonts
-extra/texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
-extra/texlive-humanities # TeX Live - LaTeX packages for law, linguistics, social sciences, and humanities
-extra/texlive-publishers # TeX Live - LaTeX classes and packages for specific publishers
-extra/texlive-langchinese # TeX Live - Fonts and macro packages to typeset Chinese texts
-extra/texlive-langcyrillic # TeX Live - Fonts and macro packages to typeset Cyrillic texts
-extra/texlive-langextra # TeX Live - Bundle of all extra language support
-extra/texlive-langgreek # TeX Live - Fonts and support for typesetting Greek
-extra/texlive-langjapanese # TeX Live - Fonts and macro packages to typeset Japanese texts
-extra/texlive-langkorean # TeX Live - Fonts and macro packages to typeset Korean texts
-extra/texlive-latexextra # TeX Live - Large collection of add-on packages for LaTeX
-extra/texlive-games # TeX Live - Setups for typesetting various board games, including chess
-extra/texlive-music # TeX Live - Music typesetting packages
+texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases
+texlive-fontsextra # TeX Live - all sorts of extra fonts
+texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
+texlive-humanities # TeX Live - LaTeX packages for law, linguistics, social sciences, and humanities
+texlive-publishers # TeX Live - LaTeX classes and packages for specific publishers
+texlive-langchinese # TeX Live - Fonts and macro packages to typeset Chinese texts
+texlive-langcyrillic # TeX Live - Fonts and macro packages to typeset Cyrillic texts
+texlive-langextra # TeX Live - Bundle of all extra language support
+texlive-langgreek # TeX Live - Fonts and support for typesetting Greek
+texlive-langjapanese # TeX Live - Fonts and macro packages to typeset Japanese texts
+texlive-langkorean # TeX Live - Fonts and macro packages to typeset Korean texts
+texlive-latexextra # TeX Live - Large collection of add-on packages for LaTeX
+texlive-games # TeX Live - Setups for typesetting various board games, including chess
+texlive-music # TeX Live - Music typesetting packages

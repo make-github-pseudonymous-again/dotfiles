@@ -1,5 +1,5 @@
 # Fonts
-extra/ttf-dejavu
+ttf-dejavu
 powerline-fonts
 ttf-font-awesome
 
@@ -145,11 +145,11 @@ viewnior
 libreoffice-still
 
 # Latex
-extra/texlive-bin # TeX Live binaries
-extra/texlive-core # TeX Live core distribution
-extra/texlive-science # TeX Live - Typesetting for mathematics, natural and computer sciences
-extra/texlive-pictures # TeX Live - Packages for drawings graphics
-extra/texlive-pstricks # TeX Live - Additional PSTricks packages
+texlive-bin # TeX Live binaries
+texlive-core # TeX Live core distribution
+texlive-science # TeX Live - Typesetting for mathematics, natural and computer sciences
+texlive-pictures # TeX Live - Packages for drawings graphics
+texlive-pstricks # TeX Live - Additional PSTricks packages
 
 # Bibliography
 pandoc-citeproc
