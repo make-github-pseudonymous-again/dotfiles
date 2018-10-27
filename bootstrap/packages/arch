@@ -225,3 +225,6 @@ task
 
 # Fast hash
 xxhash
+
+# Web
+hugo
