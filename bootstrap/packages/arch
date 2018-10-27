@@ -145,28 +145,11 @@ viewnior
 libreoffice-still
 
 # Latex
-extra/texlive-bibtexextra
-extra/texlive-bin
-extra/texlive-core
-extra/texlive-fontsextra
-extra/texlive-formatsextra
-extra/texlive-games
-extra/texlive-genericextra
-extra/texlive-htmlxml
-extra/texlive-humanities
-extra/texlive-langchinese
-extra/texlive-langcyrillic
-extra/texlive-langextra
-extra/texlive-langgreek
-extra/texlive-langjapanese
-extra/texlive-langkorean
-extra/texlive-latexextra
-extra/texlive-music
-extra/texlive-pictures
-extra/texlive-plainextra
-extra/texlive-pstricks
-extra/texlive-publishers
-extra/texlive-science
+extra/texlive-bin # TeX Live binaries
+extra/texlive-core # TeX Live core distribution
+extra/texlive-science # TeX Live - Typesetting for mathematics, natural and computer sciences
+extra/texlive-pictures # TeX Live - Packages for drawings graphics
+extra/texlive-pstricks # TeX Live - Additional PSTricks packages
 
 # Bibliography
 pandoc-citeproc
