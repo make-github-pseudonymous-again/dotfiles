@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+output="$(arch-audit -qu)"
+excode="$?"
+
+if [ "$excode" -eq 0 ] ; then
+	echo -n "$output"
+else
+	>&2 echo -n "$output"
+fi
+
+exit "$excode"

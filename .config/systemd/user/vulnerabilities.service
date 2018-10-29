@@ -1,6 +1,6 @@
 [Unit]
-Description=Memoizes arch-audit's output
+Description=Memoizes audit's output
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sh memoize 0 arch-audit -qu
+ExecStart=/usr/bin/sh memoize 0 audit

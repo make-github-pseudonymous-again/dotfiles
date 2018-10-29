@@ -76,7 +76,7 @@ if needreboot ; then
 	append='{"name":"needreboot","color":"#CF4647","full_text":""},'"$append"
 fi
 
-vulnerabilities="$(memoize-get -1 arch-audit -qu | wc -l)"
+vulnerabilities="$(memoize-get -1 audit | wc -l)"
 if [ "$vulnerabilities" -gt 0 ] ; then
 	append='{"name":"vulnerabilities","color":"#CF4647","full_text":" '"$vulnerabilities"'"},'"$append"
 fi
