@@ -150,6 +150,7 @@ texlive-core # TeX Live core distribution
 texlive-science # TeX Live - Typesetting for mathematics, natural and computer sciences
 texlive-pictures # TeX Live - Packages for drawings graphics
 texlive-pstricks # TeX Live - Additional PSTricks packages
+texlive-latexextra # TeX Live - Large collection of add-on packages for LaTeX (contains authblk.sty)
 
 # Bibliography
 pandoc-citeproc
