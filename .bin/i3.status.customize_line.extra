@@ -20,7 +20,7 @@ if [ "$github_notifications" -gt 0 ] ; then
 	prepend='{"name":"github notifications","color":"#73E9CF","full_text":" '"$github_notifications"'"},'"$prepend"
 fi
 
-github_stars="$(memoize-get -1 github.stars "$(2>/dev/null jq < "$HOME/.config/username/config" -r '.["github.com"]')")"
+github_stars="$(memoize-get -1 github.my.stars)"
 if [ "$github_stars" != '' ] ; then
 	prepend='{"name":"github stars","color":"#FFEF8C","full_text":" '"$github_stars"'"},'"$prepend"
 fi
