@@ -3,10 +3,12 @@
 output="$(arch-audit -qu)"
 excode="$?"
 
-if [ "$excode" -eq 0 ] ; then
-	echo -n "$output"
-else
-	>&2 echo -n "$output"
+if [ -n "$output" ] ; then
+	if [ "$excode" -eq 0 ] ; then
+		echo "$output"
+	else
+		>&2 echo "$output"
+	fi
 fi
 
 exit "$excode"
