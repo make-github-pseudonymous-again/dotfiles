@@ -223,7 +223,7 @@ if $sync ; then
   echo '+ Update already installed software'
 
   echo " * arch & aur (using trizen)"
-  trizen --noconfirm --noedit -Syu || _exit "$?"
+  env PATH="$DOTFILES/.config/mock/ninja/j1:$PATH" trizen --noconfirm --noedit -Syu || _exit "$?"
   if [ -x /usr/bin/memoize ] ; then memoize 0 audit 2>&1 1>/dev/null ; fi
 
   if $node ; then
