@@ -27,6 +27,8 @@ gegl02
 js
 uniconvertor
 sk1libs
+ptpython
+ptpython2
 
 texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases
 texlive-fontsextra # TeX Live - all sorts of extra fonts

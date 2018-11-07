@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+python -ic "exec(open(\"$HOME/.config/repl/load_modules.py\").read(), globals())"

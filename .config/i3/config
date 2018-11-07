@@ -534,8 +534,8 @@ mode "organization" {
 }
 
 mode "tools" {
-        #-- bindsym p exec terminator -b -x ptpython; mode "default"
-        bindcode 33 exec terminator -b -x ptpython; mode "default"
+        #-- bindsym p exec terminator -b -x repl; mode "default"
+        bindcode 33 exec terminator -b -x repl; mode "default"
 
         #-- bindsym b exec bib.ui.selection; mode "default"
         bindcode 56 exec bib.ui.selection; mode "default"
