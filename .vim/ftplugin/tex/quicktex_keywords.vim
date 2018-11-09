@@ -163,7 +163,7 @@ let g:quicktex_math = {
     \'gets'   : '\gets ',
     \'to'     : '\to ',
     \'mapsto' : '\mapsto ',
-    \'comp'   : '\circ ',
+    \'circ'   : '\circ ',
     \'of'     : "\<BS>(<+++>) <++>",
     \'sin'    : '\sin{<+++>} <++>',
     \'cos'    : '\cos{<+++>} <++>',
@@ -178,6 +178,8 @@ let g:quicktex_math = {
     \'case'   : '\begin{cases} <+++> \end{cases} <++>',
     \'ceil'   : '\lceil <+++> \rceil <++>',
     \'floor'  : '\lfloor <+++> \rfloor <++>',
+    \'bceil'  : '\left\lceil <+++> \right\rceil <++>',
+    \'bfloor' : '\left\lfloor <+++> \right\rfloor <++>',
     \
 \'Section: LaTeX commands' : 'COMMENT',
     \'sub'    : "\<BS>_{<+++>} <++>",
