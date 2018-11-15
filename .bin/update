@@ -357,7 +357,7 @@ fi
 if $fish ; then
 
   echo '+ Update fish pluggins'
-  fish -c 'fisher up' || _exit "$?"
+  fish -c 'fisher' || _exit "$?"
 
 fi
 
