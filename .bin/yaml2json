@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const fs = require('fs') ;
+const filename = process.argv[2] ;
+const YAML = require('js-yaml') ;
+
+const readStream = fs.createReadStream( filename || '/dev/stdin' ) ;
+const writeStream = process.stdout ;
+
+let text = '';
+
+readStream.on('data', function (chunk) { text += chunk; });
+
+readStream.on('end', function () {
+  const data = YAML.safeLoad(text);
+  const json = JSON.stringify(data);
+  writeStream.write(json);
+  writeStream.write('\n');
+});

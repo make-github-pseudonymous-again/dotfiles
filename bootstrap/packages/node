@@ -29,3 +29,5 @@ npx # run local npm binaries
 
 npm-check-updates # for js projects
 fixpack # for js projects
+
+js-yaml # for yaml2json
