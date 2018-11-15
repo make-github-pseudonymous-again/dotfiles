@@ -7,13 +7,13 @@ const YAML = require('js-yaml') ;
 const readStream = fs.createReadStream( filename || '/dev/stdin' ) ;
 const writeStream = process.stdout ;
 
-let yaml = '';
+let json = '';
 
-readStream.on('data', function (chunk) { yaml += chunk; });
+readStream.on('data', function (chunk) { json += chunk; });
 
 readStream.on('end', function () {
-  const data = YAML.safeLoad(yaml);
-  const json = JSON.stringify(data);
-  writeStream.write(json);
+  const data = JSON.parse(json);
+  const yaml = YAML.safeDump(data);
+  writeStream.write(yaml);
   writeStream.write('\n');
 });
