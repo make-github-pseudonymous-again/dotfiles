@@ -149,6 +149,8 @@ let g:quicktex_math = {
     \'sb'    : '[<+++>] <++>',
     \'bbra'  : '\left\{ <+++> \right\} <++>',
     \'bra'   : '\{<+++>\} <++>',
+    \'bang' : '\left\langle <+++> \right\rangle <++>',
+    \'ang'  : '\langle <+++> \rangle <++>',
     \'grp'   : '{<+++>} <++>',
     \
 \'Section: Group Theory' : 'COMMENT',
@@ -254,6 +256,7 @@ let g:quicktex_math = {
     \
 \'Section: Operators' : 'COMMENT',
     \'op'     : '\mathop{<+++>} <++>',
+    \'sc'     : '\textsc{<+++>}(<++>) <++>',
     \'ope'    : '\operatorname{<+++>}(<++>) <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
     \'dev'    : '\frac{d}{d <+++>} <++>',
