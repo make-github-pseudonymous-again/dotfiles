@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
-prev=normal
+prev=flat
 
 while true; do
-	orientation=$(orientation)
+	orientation="$(orientation)"
 	if [ $orientation != flat ] && [ $orientation != $prev ] ; then
 		rotate $orientation
 		prev=$orientation

@@ -12,26 +12,24 @@ def twos_comp(val):
     if val & (1 << (16-1)) != 0: val = val - (1 << 16)
     return val
 
-def getOrientation(accelX, accelY, accelZ):
+def getOrientation(accelX, accelY): #, accelZ):
     absAccelX = abs(accelX)
     absAccelY = abs(accelY)
-    absAccelZ = abs(accelZ)
+    # absAccelZ = abs(accelZ)
 
-    if absAccelZ > 4 * absAccelX and absAccelZ > 4 * absAccelY:
-        orientation = "flat"
-    elif 3 * absAccelY > 2 * absAccelX:
-        orientation = "inverted" if accelY > 0 else "normal"
-    else:
-        orientation = "left" if accelX > 0 else "right"
+    if absAccelY >= 3 * absAccelX and absAccelY >= 200:
+        return "inverted" if accelY > 0 else "normal"
+    elif absAccelX >= 3 * absAccelY and absAccelX >= 200:
+        return "left" if accelX > 0 else "right"
 
-    return orientation
+    return "flat"
 
 def checkRotation(device):
     accelX = twos_comp(device.attributes.asint("in_accel_x_raw"))
     accelY = twos_comp(device.attributes.asint("in_accel_y_raw"))
-    accelZ = twos_comp(device.attributes.asint("in_accel_z_raw"))
+    # accelZ = twos_comp(device.attributes.asint("in_accel_z_raw"))
 
-    return getOrientation(accelX, accelY, accelZ)
+    return getOrientation(accelX, accelY) #, accelZ)
 
 if __name__ == "__main__":
     context = pyudev.Context()
