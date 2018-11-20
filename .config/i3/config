@@ -436,6 +436,8 @@ mode "internet" {
         #-- bindsym d exec dropbox; mode "default"
         bindcode 40 exec dropbox; mode "default"
 
+        #-- bindsym r exec router.config; mode "default"
+        bindcode 27 exec router.config; mode "default"
         #-- bindsym u exec browser.url; mode "default"
         bindcode 30 exec browser.url; mode "default"
         #-- bindsym h exec firefox.history; mode "default"

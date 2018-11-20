@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+/sbin/ip route | grep via 2>/dev/null | head -1 | cut -d' ' -f3
