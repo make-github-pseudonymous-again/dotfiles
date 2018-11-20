@@ -1,13 +1,30 @@
 #!/usr/bin/env node
 
-const stdin = require('get-stdin');
-const ervy = require('ervy');
+const fs = require('fs');
+const blessed = require('blessed');
+const contrib = require('blessed-contrib');
 
 const chart = process.argv[2];
+const source = process.argv[3];
 
-stdin().then(blob => {
-	const json = JSON.parse(blob);
-	const data = json.data;
-	const options = json.options;
-	console.log(ervy[chart](data, options));
+const blob = fs.readFileSync(source).toString();
+
+const json = JSON.parse(blob);
+const data = json.data;
+const options = json.options;
+
+console.error(chart, data, options);
+
+const screen = blessed.screen();
+
+const widget = contrib[chart](options);
+
+screen.append(widget) //must append before setting data
+
+widget.setData(data);
+
+screen.key(['C-c'], function(ch, key) {
+ return process.exit(0);
 });
+
+screen.render();

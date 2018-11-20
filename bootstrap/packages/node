@@ -13,7 +13,8 @@ journally
 ava-codemods
 speed-test
 
-zxcvbn # to test quality of passwords
+zxcvbn # for passcheck
+ora # for passcheck
 
 yo # for scaffolding
 
@@ -32,5 +33,5 @@ fixpack # for js projects
 
 js-yaml # for yaml2json
 
-ervy # for terminal charts
-get-stdin # for terminal charts
+blessed # for terminal charts
+blessed-contrib # for terminal charts
