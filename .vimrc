@@ -65,8 +65,6 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/goyo.vim'
 " Hyperfocus-writing in Vim
 Plug 'junegunn/limelight.vim'
-" Vim plugin for the Perl module / CLI script 'ack'
-Plug 'mileszs/ack.vim'
 
 " ## COMPLETION ##
 " allows you to use <Tab> for all your insert completion needs
@@ -394,13 +392,6 @@ function! Z(...) "Z - cd to recent / frequent directories
     exec 'cd' fnameescape(path)
   endif
 endfunction
-
-" use ag instead of ack if available
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-"ack.vim shortcut
-nn <silent> <leader>a :Ack<cr>
 
 " undotree config
 let g:undotree_WindowLayout = 2
