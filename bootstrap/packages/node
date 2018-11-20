@@ -31,3 +31,6 @@ npm-check-updates # for js projects
 fixpack # for js projects
 
 js-yaml # for yaml2json
+
+ervy # for terminal charts
+get-stdin # for terminal charts

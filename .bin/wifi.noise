@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+jq < test.json '. | map({"key":.channel, "value": (.signal / 10 | exp10)}) | group_by(.key) | map({"key": .[0].key, "value": (map(.value) | add)})' | jq '{"data": ., "options" : { "barWidth": 23}}' |  chart bar

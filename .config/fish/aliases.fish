@@ -29,6 +29,9 @@ alias tk="task rc:~/.config/task/.taskrc"
 abbr srv server
 abbr rfc ref.rename.from.contents
 abbr k "pkill -9"
+abbr ni "npm i --save"
+abbr nid "npm i --save-dev"
+abbr nig "sudo npm i -g"
 
 # Git
 abbr g git

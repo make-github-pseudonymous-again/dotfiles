@@ -36,10 +36,11 @@ for _cell in by(4, map(str.strip, sys.stdin)):
     _tmp = _frequency.split(':')[1].split(' (')
     channel = int(_tmp[1].split(' ')[1].split(')')[0])
     frequency = float(_tmp[0].split(' ')[0])
+    _quality, _signal = _strength.split('  ')
+    value, maximum = _quality.split('=')[1].split('/')
+    quality = int(value) / int(maximum)
+    signal = int(_signal.split('=')[1].split(' ')[0])
 
-    v, m = _strength.split('  ')[0].split('=')[1].split('/')
-
-    strength = int(v) / int(m)
 
     ESSID = _ESSID[7:-1]
 
@@ -48,7 +49,8 @@ for _cell in by(4, map(str.strip, sys.stdin)):
         "address": address,
         "channel": channel,
         "frequency": frequency,
-        "strength": strength
+        "quality": quality,
+        "signal": signal,
     }
 
     data.append(cell)

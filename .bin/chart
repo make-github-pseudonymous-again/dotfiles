@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const stdin = require('get-stdin');
+const ervy = require('ervy');
+
+const chart = process.argv[2];
+
+stdin().then(blob => {
+	const json = JSON.parse(blob);
+	const data = json.data;
+	const options = json.options;
+	console.log(ervy[chart](data, options));
+});
