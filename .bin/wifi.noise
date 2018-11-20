@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+SOURCE='/tmp/wifi.noise'
+
+IGNORE="$1"
+
+sudo wifi.endpoints.scan
+
+wifi.fingerprint | \
+jq 'map(select([.address] | inside(['"$IGNORE"']) | not))' | \
+jq 'map({"key":.channel, "value": ((.signal / 10) | exp10)})' | \
+jq 'group_by(.key)' | \
+jq 'map({"key": .[0].key, "value": (map(.value) | add)})' | \
+jq 'map({"key": (.key | tostring), "value": ((.value | log10 * 10 + 90) | nearbyint)})' | \
+jq 'map([.key, .value])' | \
+jq 'transpose' | \
+jq '{"titles": .[0] , "data": .[1]}' | \
+jq '{"data": ., "options" : { "label": "Wi-Fi noise (dB)" , "barWidth": 3 , "barSpacing": 4 , "xOffset": 1 , "maxHeight": 9 }}' | \
+cat > "$SOURCE"
+
+chart bar "$SOURCE"

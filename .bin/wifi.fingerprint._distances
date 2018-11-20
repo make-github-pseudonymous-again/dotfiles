@@ -15,7 +15,7 @@ def makedict(data):
     for cell in data:
 
         key = cell['ESSID'], cell['address'], cell['channel']
-        value = cell['strength']
+        value = cell['quality']
 
         out[key] = value
 
