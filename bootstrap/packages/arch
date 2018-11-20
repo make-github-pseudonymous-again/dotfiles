@@ -151,6 +151,7 @@ texlive-science # TeX Live - Typesetting for mathematics, natural and computer s
 texlive-pictures # TeX Live - Packages for drawings graphics
 texlive-pstricks # TeX Live - Additional PSTricks packages
 texlive-latexextra # TeX Live - Large collection of add-on packages for LaTeX (contains authblk.sty)
+texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases (contains plainurl.bst)
 
 # Bibliography
 pandoc-citeproc

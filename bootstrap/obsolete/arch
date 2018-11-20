@@ -32,7 +32,6 @@ ptpython2
 fisherman
 fisherman-git
 
-texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
 texlive-humanities # TeX Live - LaTeX packages for law, linguistics, social sciences, and humanities
