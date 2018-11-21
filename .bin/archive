@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+archive="${HOME}/archive"
+mkdir -p "${archive}"
+
+timestamp="$(now)"
+
+for file in "$@" ; do
+	dest="${archive}/${timestamp}-$(basename "${file}")"
+	cp "${file}" "${dest}"
+done
