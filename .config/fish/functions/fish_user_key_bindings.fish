@@ -1,5 +1,4 @@
 fish_vi_key_bindings
-fzf_key_bindings
 
 function fish_user_key_bindings
     ### sudope insert mode ###
@@ -16,4 +15,8 @@ function fish_user_key_bindings
     # Auto-complete shortcuts
     bind -M insert \co forward-char
     bind -M insert \cp accept-autosuggestion
+
+    # fzf key bindings
+    fzf_key_bindings
+
 end
