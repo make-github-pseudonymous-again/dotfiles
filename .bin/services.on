@@ -3,7 +3,18 @@
 CACHE="${HOME}/.cache/services"
 
 if [ -e "${CACHE}" ] ; then
-	for service in $(cat "${CACHE}" | jq -r 'with_entries(select(.key != "ssh-agent.service" and .value.origin == "user" and .value.type == "service" and .value.enabled == "enabled")) | keys[]') ; do
+	jqselector="with_entries(select( \
+		.key != \"ssh-agent.service\" \
+		and
+		.value.origin == \"user\" \
+		and \
+		([.value.type] | inside([\"service\",\"timer\"])) \
+		and \
+		.value.enabled == \"enabled\" \
+		and \
+		([.value.running] | inside([\"running\",\"waiting\"])) \
+	)) | keys[]"
+	for service in $(cat "${CACHE}" | jq -r "${jqselector}") ; do
 		echo "  * start ${service}"
 		/usr/bin/systemctl --user start "${service}"
 	done
