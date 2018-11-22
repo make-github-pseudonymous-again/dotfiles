@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-acpi -b | sed -E 's/.*([0-9][0-9]*)%.*/\1/g' | head -1
+acpi -b | sed -E 's/.* ([0-9][0-9]*)%.*/\1/g' | head -1
