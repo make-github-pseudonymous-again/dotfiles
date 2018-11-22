@@ -1,6 +1,9 @@
-fish_vi_key_bindings
 
 function fish_user_key_bindings
+
+    # vi-like key bindings
+    fish_vi_key_bindings
+
     ### sudope insert mode ###
     set -q sudope_sequence
     or set -l sudope_sequence \cs
