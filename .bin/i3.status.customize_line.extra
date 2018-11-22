@@ -16,7 +16,7 @@ if [ "$urlab_open" = 'true' ] ; then
 fi
 
 github_notifications="$(memoize-get -1 github.notifications)"
-if [ "$github_notifications" -gt 0 ] ; then
+if [ -n "$github_notifications" ] && [ "$github_notifications" -gt 0 ] ; then
 	prepend='{"name":"github notifications","color":"#73E9CF","full_text":" '"$github_notifications"'"},'"$prepend"
 fi
 
@@ -72,7 +72,7 @@ if screen.is.screensaver.off ; then
 	prepend='{"name":"screen.is.screensaver.off","color":"#FDD949","full_text":""},'"$prepend"
 fi
 
-if needreboot ; then
+if needreboot 2>/dev/null ; then
 	append='{"name":"needreboot","color":"#CF4647","full_text":""},'"$append"
 fi
 
@@ -81,7 +81,7 @@ if [ "$vulnerabilities" -gt 0 ] ; then
 	append='{"name":"vulnerabilities","color":"#CF4647","full_text":" '"$vulnerabilities"'"},'"$append"
 fi
 
-badge="$(system.status.badge)"
+badge="$(system.status.badge 2>/dev/null)"
 append="$badge"','"$append"
 
 kb="$(keyboard.layout)"
@@ -92,7 +92,8 @@ append='{"name":"timezone","color":"#FFFFFF","full_text":" '"$tz"'"},'"$appen
 
 
 if [ "$prepend" != "$PREPEND_INIT" ] || [ "$append" != "$APPEND_INIT" ] ; then
-	line=$(echo '{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}' | jq -Mc '.a[:-1] + .b + .c[:-1]')
+	blob='{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}'
+	line=$(echo "$blob" | jq -Mc '.a[:-1] + .b + .c[:-1]')
 fi
 
 
