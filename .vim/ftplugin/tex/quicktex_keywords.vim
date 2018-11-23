@@ -300,7 +300,7 @@ let g:quicktex_tex = {
     \'prb' : "\\begin{problem}\<CR><+++>\<CR>\\end{problem}",
     \'enum' : "\\begin{enumerate}\<CR>\\item <+++>\<CR>\\end{enumerate}",
     \'itms' : "\\begin{itemize}\<CR>\\item <+++>\<CR>\\end{itemize}",
-    \'eq'  : "\\begin{displaymath}\<CR><+++>\<CR>\\end{displaymath}",
+    \'dm'  : "\\begin{displaymath}\<CR><+++>\<CR>\\end{displaymath}",
     \'eqn' : "\\begin{equation}\\label{<+++>}\<CR><++>\<CR>\\end{equation}",
     \
 \'Section: Other Commands' : 'COMMENT',
@@ -430,6 +430,11 @@ let g:quicktex_tex = {
     \
 \'Section: Text remplacement' : 'COMMENT',
     \'iff' : 'if and only if ',
+    \
+\'Section: Punctuation' : 'COMMENT',
+    \'co'    : "\<BS>, ",
+    \'da'    : "\<BS>-",
+    \'do'    : "\<BS>. ",
 \}
 
 " }}}
