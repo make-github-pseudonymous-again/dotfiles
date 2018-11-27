@@ -434,7 +434,7 @@ let g:quicktex_tex = {
 \'Section: Punctuation' : 'COMMENT',
     \'co'    : "\<BS>, ",
     \'da'    : "\<BS>-",
-    \'do'    : "\<BS>. ",
+    \'pe'    : "\<BS>. ",
 \}
 
 " }}}
