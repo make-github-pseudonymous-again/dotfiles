@@ -154,7 +154,9 @@ set ttyfast
 " From vim.wikia.com:
 " > Using :set gdefault creates confusion because then %s/// is global,
 " > whereas %s///g is not (that is, g reverses its meaning)
-set gdefault
+" > CONCLUSION: DO NOT SET IT AS DEFAULT
+"set gdefault
+"
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 " Change mapleader
