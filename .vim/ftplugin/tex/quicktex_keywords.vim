@@ -95,7 +95,7 @@ let g:quicktex_math = {
     \'smin'  : '\setminus ',
     \'set'   : '\{\, <+++>\,\} <++>',
     \'card'  : '| <+++> | <++>',
-    \'st'    : '\colon\, ',
+    \'cl'    : '\colon\, ',
     \'co'    : "\<BS>, ",
     \'empty' : '\emptyset ',
     \'pair'  : '(<+++>, <++>) <++>',
@@ -230,7 +230,7 @@ let g:quicktex_math = {
     \'bar'  : "\<ESC>F a\\overline{\<ESC>f i} ",
     \'tild' : "\<ESC>F a\\tilde{\<ESC>f i} ",
     \'hat'  : "\<ESC>F a\\hat{\<ESC>f i} ",
-    \'star' : "\<BS>^* ",
+    \'st' : "\<BS>^* ",
     \'vec'  : "\<ESC>F a\\vec{\<ESC>f i} ",
     \
 \'Section: Linear Algebra' : 'COMMENT',
