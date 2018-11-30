@@ -468,3 +468,6 @@ map <leader>R :RangerCurrentFile<CR>
 
 " jsx
 let g:jsx_ext_required = 0
+
+" replace selection shortcut
+vnoremap <C-r> "hy:%s/<C-r>h//g<left><left>
