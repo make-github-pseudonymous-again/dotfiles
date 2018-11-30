@@ -194,6 +194,7 @@ let g:quicktex_math = {
     \'sn'     : "\<BS>_n",
     \'si'     : "\<BS>_i",
     \'sj'     : "\<BS>_j",
+    \'s1n'    : "\<BS>\<ESC>viwxPa_1, \<ESC>pa_2, \\ldots, \<ESC>pa_n",
     \'text'   : '\text{<+++>} <++>',
     \'lbl'    : "\<ESC>s\\label{<+++>}<++>",
     \
