@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
-
-interface="$(wifi.chips.default)"
-
-systemctl | \
-grep 'netctl\(\|-auto\)@'"$interface" | \
-grep -e 'loaded\s*active\s*\(exited\|running\)' | \
-grep -o 'netctl\(\|-auto\)@.*\.service' 1>/dev/null
+ps -xa | grep 'run/netctl/wpa_supplicant-wlp[0-9]s0\.conf' 1>/dev/null
+#interface="$(wifi.chips.default)"
+#systemctl | \
+#grep 'netctl\(\|-auto\)@'"$interface" | \
+#grep -e 'loaded\s*active\s*\(exited\|running\)' | \
+#grep -o 'netctl\(\|-auto\)@.*\.service' 1>/dev/null
