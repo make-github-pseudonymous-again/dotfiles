@@ -62,12 +62,12 @@ fi
 	#prepend='{"name":"new rss","color":"#85bd85","full_text":" '"$rss_count"'"},'"$prepend"
 #fi
 
-volume="$(volume.get)"
-if test "$volume" -lt 50; then
-	if is.volume.on; then
-		execute="$execute"'| map(select(.name == "volume").full_text |= " '"$volume"'%")'
-	fi
-fi
+#volume="$(volume.get)"
+#if test "$volume" -lt 50; then
+	#if is.volume.on; then
+		#execute="$execute"'| map(select(.name == "volume").full_text |= " '"$volume"'%")'
+	#fi
+#fi
 
 if power.battery.has; then
 	if power.adapter.online; then

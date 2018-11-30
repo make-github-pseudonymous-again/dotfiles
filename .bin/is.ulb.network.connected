@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-/sbin/ip route | grep 'via 172.19.78.254 dev enp[0-9]s0' 2>&1 1>/dev/null
+ip route | head -1 | grep 'via 172.19.78.254 dev enp[0-9]s0' 2>&1 1>/dev/null

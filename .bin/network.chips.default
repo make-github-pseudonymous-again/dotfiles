@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-network.chips | head -n 1

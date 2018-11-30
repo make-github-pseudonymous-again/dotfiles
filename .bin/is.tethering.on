@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-if ! command -v create_ap 1>/dev/null ;
-	then exit 1 ;
+if ! command -v create_ap 1>/dev/null ; then
+	exit 1 ;
 fi
 
-if [ ! -n "$(create_ap --list-running | tail +3)" ] ;
-	then exit 1 ;
+if [ ! -n "$(create_ap --list-running | tail +3)" ] ; then
+	exit 1 ;
 fi
 
 exit 0
