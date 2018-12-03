@@ -525,8 +525,8 @@ mode "organization" {
         #-- bindsym s exec scratchpad; mode "default"
         bindcode 39 exec scratchpad; mode "default"
 
-        #-- bindsym t exec sncb-nmbs; mode "default"
-        bindcode 28 exec sncb-nmbs; mode "default"
+        #-- bindsym Shift+T exec sncb-nmbs; mode "default"
+        bindcode Shift+28 exec sncb-nmbs; mode "default"
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
