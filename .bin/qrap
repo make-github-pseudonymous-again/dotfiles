@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+read PASSPHRASE
+
+SSID="$1"
+shift
+SECURITY='WPA2'
+HIDDEN=''
+
+STRING="WIFI:S:${SSID};T:${SECURITY};P:${PASSPHRASE};${HIDDEN};"
+
+echo -n "$STRING" | qrencode "$@"
