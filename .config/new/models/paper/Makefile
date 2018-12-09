@@ -7,7 +7,7 @@ LTX := pdflatex -interaction=nonstopmode -halt-on-error
 
 FIGSDIR := figures
 
-BUILDDIR := build
+BUILDDIR := _build
 
 FIGURES := $(shell sed -E -e 's/:.*$$//' Makefile | grep -E '^figures/[a-z0-9-]*\.pdf$$')
 
@@ -37,7 +37,7 @@ $(BUILDDIR)/%/paper.bib: $(BUILDDIR)/%/src.tex
 		> $(dir $@)paper.bib
 
 $(BUILDDIR)/%/paper.tex: $(BUILDDIR)/%/src.tex $(BUILDDIR)/%/paper.bib
-	cp -t $(dir $@) $(shell texdeps $< | tail +2) $(static) || true
+	cp -t $(dir $@) $(shell texdeps $< | tail +2) $(static) 2>/dev/null || true
 	sed -E -e 's:\\bibliography\{.*\}:\\bibliography{paper}:g' \
 		   -e 's:\{figures/:{:g' $< > $@
 
