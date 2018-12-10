@@ -199,8 +199,14 @@ _do cd "$DOTFILES"
 
 if $pull ; then
 
+  echo '+ Stash local changes'
+  git stash || true
+
   echo '+ Pull dotfiles'
   _do git pull
+
+  echo '+ Apply local changes'
+  git stash pop || true
 
 fi
 
