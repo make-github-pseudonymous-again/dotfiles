@@ -32,6 +32,7 @@ abbr k "pkill -9"
 abbr ni "npm i --save"
 abbr nid "npm i --save-dev"
 abbr nig "sudo npm i -g"
+abbr nuk "rm -rf"
 
 # Git
 abbr g git
