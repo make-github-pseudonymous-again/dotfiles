@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-running="$(uname -r | sed 's/-ARCH$//g' | tr '.-' ':')"
+running="$(uname -r | sed 's/-ARCH$//g' | sed 's/\.0-/-/g' | tr '.-' ':')"
 installed="$(pacman -Q linux | cut -d' ' -f2 | tr '.-' ':')"
 
 >&2 echo "running=$running"
