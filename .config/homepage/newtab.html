@@ -11,33 +11,8 @@
 			margin-top: 3em;
 		}
 		</style>
-		<link rel="stylesheet" href="/math/katex/katex.min.css">
 	</head>
 	<body>
-		<div id="x"></div>
-		<script src="/math/index.js"></script>
-		<script>
-			const N = __MATH__.length ;
-			const i = Math.floor(Math.random() * N) | 0 ;
-			const x = __MATH__[i] ;
-			const url = `/math/${x}` ;
-
-			console.debug(url);
-
-			const onreadystatechange = event => {
-				if (event.target.readyState === XMLHttpRequest.DONE) {
-					if (event.target.status === 200) {
-						const html = event.target.responseText ;
-						console.debug(html) ;
-						document.getElementById('x').innerHTML = html ;
-					}
-				}
-			} ;
-
-			const request = new XMLHttpRequest();
-			request.onreadystatechange = onreadystatechange ;
-			request.open('GET', url);
-			request.send();
-		</script>
+		<div id="x">new tab</div>
 	</body>
 </html>

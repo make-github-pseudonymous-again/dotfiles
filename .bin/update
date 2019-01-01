@@ -18,7 +18,6 @@ diff=false     # d
 install=false  # i
 modules=false  # m
 node=true      # n
-homepage=false # o
 pull=false     # p
 restart=false  # r
 sync=false     # s
@@ -35,7 +34,7 @@ function show_help ( ) {
   echo ' > update script file is '"${BASH_SOURCE}"
 }
 
-while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
+while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -52,7 +51,6 @@ while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
         vim=true
         fish=true
         tldr=true
-        homepage=true
         ;;
     c)  clean=true
         ;;
@@ -64,8 +62,6 @@ while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
     m)  modules=true
         ;;
     n)  node=true
-        ;;
-    o)  homepage=true
         ;;
     p)  pull=true
         ;;
@@ -96,8 +92,6 @@ while getopts "h?acdimnoprstuvwxyzCDIMNOPRSTUVWXYZ" opt; do
     M)  modules=false
         ;;
     N)  node=false
-        ;;
-    O)  homepage=true
         ;;
     P)  pull=false
         ;;
@@ -371,13 +365,6 @@ if $tldr ; then
 
   echo '+ Update tldr cache'
   tldr --update || _exit "$?"
-
-fi
-
-if $homepage ; then
-
-  echo '+ Update homepage'
-  make -C "$HOME/.config/homepage/math" clean all
 
 fi
 
