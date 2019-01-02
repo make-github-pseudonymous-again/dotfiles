@@ -80,8 +80,12 @@ for doc in docs:
     log.info('parsing %s', doc.url)
 
     if doc.ipath:
-        extractor = rclextract.Extractor(doc)
-        path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
+        try:
+            extractor = rclextract.Extractor(doc)
+            path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
+        except Exception as e:
+            log.error(e)
+            continue
 
     else:
         path = doc.url[7:]
@@ -90,6 +94,9 @@ for doc in docs:
         with open(path) as bibtex_file:
             bibtex_str = bibtex_file.read()
     except FileNotFoundError as e:
+        log.error(e)
+        continue
+    except Exception as e:
         log.error(e)
         continue
 
