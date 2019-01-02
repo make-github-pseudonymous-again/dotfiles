@@ -33,6 +33,7 @@ abbr ni "npm i --save"
 abbr nid "npm i --save-dev"
 abbr nig "sudo npm i -g"
 abbr nuk "rm -rf"
+abbr get "rsync -LPav"
 
 # Git
 abbr g git
