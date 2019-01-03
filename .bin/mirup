@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+if [ $(id -u) == "0" ] ; then
+  echo 'must NOT be run as root'
+  exit 1
+fi
+
+COUNTRIES="country=BE&country=FR&country=DE&country=LU&country=NL"
+OPTIONS="protocol=https&ip_version=4"
+URL="https://www.archlinux.org/mirrorlist/?${COUNTRIES}&${OPTIONS}"
+SOURCE=/tmp/mirrorlist-source
+RANKED=/tmp/mirrorlist-ranked
+PACMAN=/etc/pacman.d/mirrorlist
+
+echo "Downloading ${URL}"
+
+curl "${URL}" > "${SOURCE}"
+
+echo "Cleaning up downloaded file ..."
+
+sed -i '/^##/d' "${SOURCE}"
+sed -i 's/^#Server/Server/g' "${SOURCE}"
+
+echo "Ranking mirrors ..."
+
+rankmirrors "${SOURCE}" > "${RANKED}"
+
+echo "Overwriting configuration ..."
+
+sudo mv "${RANKED}" "${PACMAN}"
+
+echo "Cleaning up ..."
+rm "${SOURCE}"

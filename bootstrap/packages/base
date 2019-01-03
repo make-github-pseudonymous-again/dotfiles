@@ -16,6 +16,7 @@ pkgfile
 bind-tools
 thefuck
 tk
+pacman-contrib # rankmirrors
 
 xorg-server
 xorg-xinit
