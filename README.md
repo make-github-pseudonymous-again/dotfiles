@@ -27,11 +27,13 @@ impersonate you. Encrypt your hard drive before it is too late.
 ### Install appropriate graphics driver
 
 Usually one of the following, check the
-[nvidia](https://wiki.archlinux.org/index.php/NVIDIA)
+[intel graphics](https://wiki.archlinux.org/index.php/Intel_graphics),
+[nvidia](https://wiki.archlinux.org/index.php/NVIDIA),
 and 
 [nouveau](https://wiki.archlinux.org/index.php/nouveau)
 pages on the wiki.
 
+    pacman -S mesa xf86-video-intel
     pacman -S xf86-video-nouveau
     pacman -S nvidia
 
