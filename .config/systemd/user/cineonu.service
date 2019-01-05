@@ -3,4 +3,4 @@ Description=CINEONU notifications
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sh cineonu-notifications aurelien.ooms+cineonu@gmail.com
+ExecStart=/usr/bin/sh cineonu-notifications
