@@ -34,3 +34,6 @@ js-yaml # for yaml2json
 
 blessed # for terminal charts
 blessed-contrib # for terminal charts
+
+got # for http requests
+jsdom # for html query selectors (cineonu scripts)

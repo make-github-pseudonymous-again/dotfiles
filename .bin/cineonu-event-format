@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+METADATA="$1"
+
+function k ( ) {
+	key="$1"
+	value="$(jq -r <<< "$METADATA" ."$key")"
+	if [ "$value" != 'null' ] ; then
+		echo "${key}: ${value}"
+	fi
+}
+
+k url
+k year
+k title
+k date
+k time
+k location
+k runtime
+k img
+k trailer
+k imdb
+k facebook
+k eventbrite
+k bozar
+
+echo
+echo "Description"
+echo "=="
+echo
+jq -r <<< "$METADATA" .description
