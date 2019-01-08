@@ -330,14 +330,15 @@ fi
 if $restart ; then
 
   echo '+ Enable ntpd'
-  _do sudo systemctl enable ntpd # clock sync
-  _do sudo systemctl start ntpd
+  _do sudo systemctl enable --now ntpd # clock sync
   echo '+ Enable atd'
-  _do sudo systemctl enable atd # at program
-  _do sudo systemctl start atd
+  _do sudo systemctl enable --now atd # at program
   echo '+ Enable devmon'
-  _do sudo systemctl enable devmon@"$USER" # auto mount usb drives program
-  _do sudo systemctl start devmon@"$USER"
+  _do sudo systemctl enable --now devmon@"$USER" # auto mount usb drives program
+  echo '+ Enable setup-environment'
+  _do systemctl --user enable setup-environment # setup env variables at login
+  echo '+ Enable vulnerabilities.timer'
+  _do systemctl --user enable vulnerabilities.timer # poll for security fixes
 
   echo '+ Restarting services'
   _do services.on
