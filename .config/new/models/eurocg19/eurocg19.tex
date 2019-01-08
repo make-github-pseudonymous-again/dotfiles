@@ -1,0 +1,152 @@
+% for section-numbered lemmas etc., use "numberwithinsect"
+\documentclass[a4paper,english,numberwithinsect]{eurocg19-submission}
+\setcounter{errorcontextlines}{10000}
+\usepackage{style/macros}
+
+% the recommended bibstyle
+\bibliographystyle{plainurl}
+
+% -------------------------------------------------------------------
+\usepackage{microtype} % if unwanted, comment out
+
+%helpful if your graphic files are in another directory
+%\graphicspath{{./graphics/}}
+
+% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\polylog{{\rm polylog}}
+
+% Author metadata::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{An Example Contribution for EuroCG 2019\footnote{Supported by
+our friends.}}
+%optional, in case that the title is too long;
+%the running title should fit into the top page column
+\titlerunning{A Contribution to EuroCG 2019}
+
+\author[1]{Antonio Example}
+\author[2]{Sylvia Veryknown}
+\affil[1]{Important University\\
+  \texttt{aexample@cs.important.de}}
+\affil[2]{Department of Mathematics and Computer
+        Science, University of Somewhere\\
+  \texttt{sveryknown@math.somewhere.nl}}
+%mandatory. First: Use abbreviated first/middle names.
+%Second (only in severe cases): Use first author plus 'et. al.'
+\authorrunning{A. Example and S. Veryknown}
+\ArticleNo{100}
+
+% Author macros::end %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This example file was adapted from Wolfang Mulzer's example file for EuroCG
+  2018, which in turn was adapted from Bettina Speckmann's example file for
+  EuroCG 2005. The current style uses two style-files, \texttt{eurocg19.cls}
+  and \texttt{eurocg19-submission.cls}. The former was adapted from the
+  LIPIcs-style, with kind permission from Dagstuhl publishing. The latter file
+  provides proper line numbering and is adapted from the style file developed
+  for SoCG 2019 by Michael Hoffmann. Thanks again to all of these people.
+
+  Here you should probably write a concise, informative, and exciting abstract
+  for your paper.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{Problem Statement and Solution}
+
+\subsubsection{Problem Setup}
+
+We consider only the two-dimensional setting.
+We assume \dots
+
+\subparagraph{Precise Problem Formulation.}
+
+Describe your problem as clearly as possibly, instead of the usual \dots
+
+\begin{conj}
+Could it really be like this?
+\end{conj}
+\begin{obs}
+Probably not \dots
+\end{obs}
+
+\subsection{Basic Definitions}
+\begin{definition}
+Some things are just not definable \dots
+\end{definition}
+
+\subsection{Related Results from the Literature}
+
+We improve upon the following well-known algorithm of Grace of
+Florence~\cite{g-atpwog-2006} in the following way: \dots
+
+
+\section{The New Algorithm}
+
+%\section{Correctness}
+
+\section{Complexity Analysis}
+
+\begin{theorem}
+This is the most important theorem.
+\end{theorem}
+\begin{proof}
+It even comes with a proof \dots
+\end{proof}
+
+There should be some more text explaining 
+research results in some additional sections, 
+but since this is only an example file \dots
+
+An enumeration:
+\begin{itemize}
+\item a
+\begin{itemize}
+  \item 0
+  \item 1
+\end{itemize}
+\item b
+\end{itemize}
+
+\begin{lemma}
+  % Some mathematics, not entirely convincing.
+  The following formula holds
+  for all integers $n>0$\textup:
+\begin{equation}
+  \label{eq:sum-formula}
+  \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\end{equation}
+\end{lemma}
+\begin{proof} (Not entirely convincing)
+Let \(T(n) := \frac{n(n-1)}{2}\) denote the claimed formula.
+\begin{align}
+  T(n) - T(n-1) &= \frac{n(n+1)}{2} - \frac{(n-1)n}{2}
+\nonumber
+  \\
+                &= \frac{n(n+1) - (n-1)n}{2}
+\nonumber
+  \\
+                &= \frac{n^2+n - (n^2+n)}{2} = \frac {2n}{2} = n
+\label{eq:diff}
+\end{align}
+The induction basis $T(0)=\frac{0\cdot 1}2 = 0$, together with~\eqref{eq:diff},
+establishes~\eqref{eq:sum-formula}.
+\end{proof}
+
+\begin{lemma}
+  And then we also found this lemma, which we state without proof.
+  \qed
+\end{lemma}
+
+\section{Conclusion}
+
+\subparagraph*{Acknowledgments.} We thank the organizers for
+the tasty cookies.
+
+\bibliography{bibliography/all}
+
+\end{document}
