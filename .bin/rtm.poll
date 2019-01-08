@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-while true; do
-	if memoize-ft 0 rtm.fetch; then
-		sleep 30
-	else
-		sleep 10
-	fi
-done

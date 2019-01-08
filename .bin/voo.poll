@@ -11,7 +11,7 @@ function grabusername {
 
   if [ "$username" = '' ] ; then
     echo 'Could not find username'
-    exit 1
+    exit 2
   fi
 
 }
@@ -24,7 +24,7 @@ function grabpassword {
 
   if [ "$password" = '' ] ; then
     echo 'Could not find password'
-    exit 2
+    exit 3
   fi
 
 }
@@ -32,14 +32,12 @@ function grabpassword {
 grabusername
 grabpassword
 
-echo 'Polling'
-while true; do
-  # username and password should not contain new lines \n\r
-  if printf "$username\n$password\n" | voo.fetch; then
-    echo ':)'
-    sleep 1800
-  else
-    echo ':('
-    sleep 100
-  fi
-done
+echo 'Fetching...'
+# username and password should not contain new lines \n\r
+if printf "$username\n$password\n" | voo.fetch; then
+  echo ':)'
+  exit 0
+else
+  echo ':('
+  exit 1
+fi

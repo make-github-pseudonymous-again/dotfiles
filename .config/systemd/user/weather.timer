@@ -1,0 +1,9 @@
+[Unit]
+Description=Weather updates timer
+
+[Timer]
+OnActiveSec=55
+OnUnitActiveSec=900
+
+[Install]
+WantedBy=ready.target

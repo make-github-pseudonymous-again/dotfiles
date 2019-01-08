@@ -1,9 +1,8 @@
 [Unit]
-Description=RTM updates daemon
+Description=RTM updates service
 
 [Service]
-ExecStart=/usr/bin/env sh rtm.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
+Type=simple
+Restart=on-failure
+RestartSec=10
+ExecStart=/usr/bin/sh memoize-ft 0 rtm.fetch

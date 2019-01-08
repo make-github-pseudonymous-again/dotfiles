@@ -3,7 +3,7 @@ Description=to sync emails in the background
 
 [Service]
 Environment=HOME=%h
-ExecStart=/usr/bin/env bash courriel.poll
+ExecStart=/usr/bin/env courriel.poll
 Restart=always
 
 [Install]

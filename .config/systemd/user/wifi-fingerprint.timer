@@ -1,0 +1,9 @@
+[Unit]
+Description=Wifi fingerprinting timer
+
+[Timer]
+OnActiveSec=35
+OnUnitActiveSec=600
+
+[Install]
+WantedBy=ready.target

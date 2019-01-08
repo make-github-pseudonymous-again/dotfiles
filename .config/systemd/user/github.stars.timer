@@ -1,0 +1,9 @@
+[Unit]
+Description=Github stars timer
+
+[Timer]
+OnActiveSec=300
+OnUnitActiveSec=3600
+
+[Install]
+WantedBy=ready.target

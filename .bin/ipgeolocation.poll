@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-while true; do
-	if memoize-ft 0 ipgeolocation.fetch; then
-		sleep 600
-	else
-		sleep 100
-	fi
-done

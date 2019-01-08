@@ -1,10 +1,7 @@
 #!/usr/bin/env sh
 
-while true; do
-	if calendar.fetch; then
-		calendar.filter
-		sleep 600
-	else
-		sleep 100
-	fi
-done
+if calendar.fetch; then
+	calendar.filter || exit 2
+else
+	exit 1
+fi

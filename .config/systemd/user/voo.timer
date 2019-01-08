@@ -1,0 +1,9 @@
+[Unit]
+Description=VOO timer
+
+[Timer]
+OnActiveSec=150
+OnUnitActiveSec=1800
+
+[Install]
+WantedBy=ready.target

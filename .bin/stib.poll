@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-while true; do
-	if stib.fetch; then
-		sleep 30
-	else
-		sleep 10
-	fi
-done

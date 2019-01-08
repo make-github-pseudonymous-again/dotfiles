@@ -1,15 +1,12 @@
 #!/usr/bin/env sh
 
-while true; do
-	if ! is.ulb.network.connected; then
-		ulb.printer.disconnect
-	else
-		ulb.printer.connect
-		if ! is.internet.accessible; then
-			>&2 echo 'Internet is not accessible'
-			>&2 echo 'Authentication for ULB internet'
-			>&2 ulb.internet.auth
-		fi
+if ! is.ulb.network.connected; then
+	ulb.printer.disconnect
+else
+	ulb.printer.connect
+	if ! is.internet.accessible; then
+		>&2 echo 'Internet is not accessible'
+		>&2 echo 'Authentication for ULB internet'
+		>&2 ulb.internet.auth
 	fi
-	sleep 5
-done
+fi

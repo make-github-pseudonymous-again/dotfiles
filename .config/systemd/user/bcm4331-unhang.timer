@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer to unhang the BCM4331 chip that has a bad linux driver
+
+[Timer]
+OnActiveSec=70
+OnUnitActiveSec=20
+
+[Install]
+WantedBy=ready.target

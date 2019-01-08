@@ -1,9 +1,8 @@
 [Unit]
-Description=Wifi fingerprinting daemon
+Description=Wifi fingerprinting service
 
 [Service]
-ExecStart=/usr/bin/env sh wifi.fingerprint.distances.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/env wifi.fingerprint.distances.poll

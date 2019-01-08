@@ -1,9 +1,8 @@
 [Unit]
-Description=Calendar updates daemon
+Description=Calendar updates service
 
 [Service]
-ExecStart=/usr/bin/env sh calendar.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/env calendar.poll

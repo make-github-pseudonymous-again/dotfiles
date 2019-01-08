@@ -1,9 +1,8 @@
 [Unit]
-Description=Geolocation updates daemon
+Description=Geolocation updates service
 
 [Service]
-ExecStart=/usr/bin/env sh geolocation.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/sh memoize-ft 0 geolocation.fetch

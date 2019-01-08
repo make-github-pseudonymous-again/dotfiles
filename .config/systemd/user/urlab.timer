@@ -1,0 +1,9 @@
+[Unit]
+Description=UrLaB updates timer
+
+[Timer]
+OnActiveSec=70
+OnUnitActiveSec=300
+
+[Install]
+WantedBy=ready.target

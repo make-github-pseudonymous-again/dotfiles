@@ -1,0 +1,9 @@
+[Unit]
+Description=Mobile Vikings balance timer
+
+[Timer]
+OnActiveSec=90
+OnUnitActiveSec=1800
+
+[Install]
+WantedBy=ready.target

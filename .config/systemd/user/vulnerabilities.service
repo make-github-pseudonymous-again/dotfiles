@@ -2,5 +2,7 @@
 Description=Memoizes audit's output
 
 [Service]
-Type=oneshot
+Type=simple
+Restart=on-failure
+RestartSec=300
 ExecStart=/usr/bin/sh memoize-ft 0 audit

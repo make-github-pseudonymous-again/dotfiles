@@ -2,13 +2,11 @@
 
 FORECAST="$HOME/.cache/weather/forecast"
 
-while true; do
-	if weather.fetch; then
-		memoize-ft 0 weather.now
-		weather._forecast > "$FORECAST"
-		# that is 96 requests / day i.e. 1000 / 96 ~ 10 devices
-		sleep 900
-	else
-		sleep 100
-	fi
-done
+if weather.fetch; then
+	memoize-ft 0 weather.now
+	weather._forecast > "$FORECAST"
+	# that is 96 requests / day i.e. 1000 / 96 ~ 10 devices
+	exit 0
+else
+	exit 1
+fi

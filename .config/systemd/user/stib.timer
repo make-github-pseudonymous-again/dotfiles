@@ -1,0 +1,9 @@
+[Unit]
+Description=Stib updates timer
+
+[Timer]
+OnActiveSec=110
+OnUnitActiveSec=30
+
+[Install]
+WantedBy=ready.target

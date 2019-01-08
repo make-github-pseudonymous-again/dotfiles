@@ -2,7 +2,7 @@
 Description=Clipboard recording daemon
 
 [Service]
-ExecStart=/bin/bash clipboard.record
+ExecStart=/usr/bin/env clipboard.record
 Restart=always
 
 [Install]

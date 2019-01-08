@@ -1,0 +1,9 @@
+[Unit]
+Description=ULB timer
+
+[Timer]
+OnActiveSec=5
+OnUnitActiveSec=5
+
+[Install]
+WantedBy=ready.target

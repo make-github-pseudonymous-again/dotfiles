@@ -1,0 +1,9 @@
+[Unit]
+Description=IP Geolocation updates timer
+
+[Timer]
+OnActiveSec=35
+OnUnitActiveSec=600
+
+[Install]
+WantedBy=ready.target

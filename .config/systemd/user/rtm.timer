@@ -1,0 +1,9 @@
+[Unit]
+Description=RTM updates timer
+
+[Timer]
+OnActiveSec=60
+OnUnitActiveSec=30
+
+[Install]
+WantedBy=ready.target

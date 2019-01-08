@@ -1,9 +1,8 @@
 [Unit]
-Description=Mobile Vikings daemon
+Description=Mobile Vikings balance service
 
 [Service]
-ExecStart=/usr/bin/env sh mbv.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/sh memoize-ft 0 mbv balance

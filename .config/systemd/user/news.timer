@@ -1,0 +1,9 @@
+[Unit]
+Description=News updates timer
+
+[Timer]
+OnActiveSec=30
+OnUnitActiveSec=300
+
+[Install]
+WantedBy=ready.target

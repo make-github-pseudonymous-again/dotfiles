@@ -1,10 +1,8 @@
 [Unit]
-Description=UrLaB updates daemon
+Description=UrLaB updates service
 
 [Service]
-ExecStart=/usr/bin/env sh urlab.poll
-Restart=always
-
-[Install]
-WantedBy=ready.target
-
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/sh memoize-ft 0 urlab.fetch

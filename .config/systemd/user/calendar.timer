@@ -1,0 +1,9 @@
+[Unit]
+Description=Calendar updates timer
+
+[Timer]
+OnActiveSec=30
+OnUnitActiveSec=600
+
+[Install]
+WantedBy=ready.target

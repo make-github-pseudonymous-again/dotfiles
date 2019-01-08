@@ -1,0 +1,8 @@
+[Unit]
+Description=Github stars service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=300
+ExecStart=/usr/bin/sh memoize-ft 0 github.my.stars

@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-while true; do
-	if news.fetch; then
-		sleep 300
-	else
-		sleep 100
-	fi
-done

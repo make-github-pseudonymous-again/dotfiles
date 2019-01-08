@@ -4,4 +4,4 @@ source ~/.path
 
 /usr/bin/systemctl --user import-environment PATH NODE_PATH
 /usr/bin/systemctl --user start environment.target
-/usr/bin/systemctl --user start ready.target
+/usr/bin/systemctl --user start ready.timer

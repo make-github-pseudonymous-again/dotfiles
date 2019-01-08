@@ -2,7 +2,7 @@
 Description=msmtp queue daemon
 
 [Service]
-ExecStart=/usr/bin/env sh msmtp-runqueue-daemon
+ExecStart=/usr/bin/env msmtp-runqueue-daemon
 Restart=always
 
 [Install]

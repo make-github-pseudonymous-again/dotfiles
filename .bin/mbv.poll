@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-while true; do
-	if memoize-ft 0 mbv balance; then
-		sleep 1800
-	else
-		sleep 100
-	fi
-done
