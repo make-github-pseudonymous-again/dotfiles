@@ -66,11 +66,3 @@ _fasd_bash_hook_cmd_complete v m j o
 
 # bind vi keys
 set -o vi
-
-# use fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-#If you use vi mode on bash, you need to add set -o vi before source ~/.fzf.bash
-#in your .bashrc, so that it correctly sets up key bindings for vi mode.
-
-# travis CLI auto complete
-[ -f /home/aureooms/.travis/travis.sh ] && source /home/aureooms/.travis/travis.sh

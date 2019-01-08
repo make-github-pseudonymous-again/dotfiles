@@ -131,7 +131,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 " ## FUZZY FINDER ## ( Used a lot!!! )
 " A command-line fuzzy finder written in Go
-Plug 'junegunn/fzf', { 'dir': '~/.opt/fzf', 'do': './install --all --no-update-rc' }
+Plug 'junegunn/fzf', { 'dir': '~/.opt/fzf', 'do': './install --all' }
 " bundle of fzf-based commands and mappings
 Plug 'junegunn/fzf.vim'
 Plug 'nhooyr/fasd.vim'

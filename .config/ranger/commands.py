@@ -19,7 +19,7 @@ class Voyager(Command):
             else:
                 self.fm.select_file(target)
 
-_fzf = '"$HOME/.fzf/bin/fzf"' # still ain't workin' yo
+_fzf = '"$HOME/.opt/fzf/bin/fzf"' # still ain't workin' yo
 
 class fzf_select_file(Voyager):
     """

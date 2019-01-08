@@ -15,7 +15,7 @@ bcc=( )
 subject=""
 body=/dev/null
 attachments=( )
-fzf="$HOME/.fzf/bin/fzf"
+fzf="$HOME/.opt/fzf/bin/fzf"
 yolo=false
 
 # Parse arguments

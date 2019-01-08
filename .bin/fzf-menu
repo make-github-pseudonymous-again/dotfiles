@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description='Fzf menu using xterm.')
     parser.add_argument('--lines', type=int, default=10, help='Number of lines')
     parser.add_argument('--columns', type=int, default=100, help='Number of columns')
-    parser.add_argument('--fzf', type=str, default=os.path.expanduser('~/.fzf/bin/fzf'), help='Path to fzf program')
+    parser.add_argument('--fzf', type=str, default=os.path.expanduser('~/.opt/fzf/bin/fzf'), help='Path to fzf program')
     parser.add_argument('--border', type=int, default=0, help='Window border width')
     parser.add_argument('--bg', type=str, default='#1a1a1a', help='Window background color')
 
