@@ -93,6 +93,7 @@ glances
 
 # Keys and Passwords
 gnupg
+openssh
 pass
 keybase
 gnome-keyring
@@ -115,7 +116,6 @@ notmuch-runtime
 msmtp
 
 # Security
-openssh
 arch-audit
 
 # Disk usage
