@@ -23,7 +23,7 @@ sed -i 's/^#Server/Server/g' "${SOURCE}"
 
 echo "Ranking mirrors ..."
 
-rankmirrors "${SOURCE}" > "${RANKED}"
+rankmirrors -v "${SOURCE}" | tee "${RANKED}"
 
 echo "Overwriting configuration ..."
 
