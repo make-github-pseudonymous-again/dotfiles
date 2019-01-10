@@ -2,8 +2,8 @@
 Description=Runs in background to extract and index text from modified documents
 
 [Service]
-ExecStart=/usr/bin/env recollindex -w 15 -m -D
-Restart=always
+ExecStart=/usr/bin/env recollindex -x -w 15 -m -D
+Restart=no
 
 [Install]
 WantedBy=ready.target
