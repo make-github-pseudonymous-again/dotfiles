@@ -8,9 +8,9 @@ import pyudev
 
 sensorname="accel_3d"
 
-def twos_comp(val):
-    if val & (1 << (16-1)) != 0: val = val - (1 << 16)
-    return val
+# def twos_comp(val):
+    # if val & (1 << (16-1)) != 0: val = val - (1 << 16)
+    # return val
 
 def getOrientation(accelX, accelY): #, accelZ):
     absAccelX = abs(accelX)
@@ -25,9 +25,9 @@ def getOrientation(accelX, accelY): #, accelZ):
     return "flat"
 
 def checkRotation(device):
-    accelX = twos_comp(device.attributes.asint("in_accel_x_raw"))
-    accelY = twos_comp(device.attributes.asint("in_accel_y_raw"))
-    # accelZ = twos_comp(device.attributes.asint("in_accel_z_raw"))
+    accelX = device.attributes.asint("in_accel_x_raw")
+    accelY = device.attributes.asint("in_accel_y_raw")
+    # accelZ = device.attributes.asint("in_accel_z_raw")
 
     return getOrientation(accelX, accelY) #, accelZ)
 
