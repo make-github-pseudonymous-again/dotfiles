@@ -6,7 +6,7 @@ function fish_user_key_bindings
 
     ### sudope insert mode ###
     set -q sudope_sequence
-    or set -l sudope_sequence \cs
+    or set -l sudope_sequence \cn
     test (bind | grep -q 'bind -M insert .* sudope')
     or set -l do_bind
     if test (bind -M insert $sudope_sequence ^/dev/null)
