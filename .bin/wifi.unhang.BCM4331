@@ -8,6 +8,6 @@ AP="$(iwgetid --raw --ap)"
 
 CHIP="$(wifi.chips.default)"
 
-QUALITY="$(wifi.endpoints "$CHIP" | jq '.[] | select( .address == "'"$AP"'") | .quality')"
+SIGNAL="$(wifi.endpoints "$CHIP" | jq '.[] | select( .address == "'"$AP"'") | .signal')"
 
-if [ "$QUALITY" == '1' ] ; then wifi.ui.restart ; fi
+if [ "$SIGNAL" -ge 0 ] ; then wifi.ui.restart ; fi
