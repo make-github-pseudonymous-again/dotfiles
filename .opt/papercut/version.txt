@@ -1,6 +1,0 @@
-[version]
-name-with-version=PaperCut NG 14.0 (Build 26241)
-name=PaperCut NG
-version-major=14
-version-minor=0
-version-build=26241

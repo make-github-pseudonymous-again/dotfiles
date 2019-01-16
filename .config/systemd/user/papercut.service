@@ -3,7 +3,7 @@ Description=Papercut daemon
 
 [Service]
 ExecStart=/usr/bin/env sh papercut
-Restart=always
+Restart=no
 
 [Install]
 WantedBy=ready.target
