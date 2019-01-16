@@ -2,6 +2,8 @@
 
 source ~/.path
 
-/usr/bin/systemctl --user import-environment PATH NODE_PATH
+eval $(gnome-keyring-daemon --start) # gnome-keyring with PAM
+
+/usr/bin/systemctl --user import-environment PATH NODE_PATH SSH_AUTH_SOCK
 /usr/bin/systemctl --user start environment.target
 /usr/bin/systemctl --user start ready.timer
