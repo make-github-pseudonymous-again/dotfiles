@@ -8,6 +8,12 @@ import arrow
 import datetime
 import ics
 import json
+import re
+
+REGEX_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+EXCLUDED_URLS = [
+    'https://g.co/calendar',
+]
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -284,6 +290,7 @@ for title, events in sections:
 
         name = event.name
         location = event.location
+        description = event.description
         begin = event.begin.to('local')
         end = event.end.to('local')
 
@@ -295,6 +302,17 @@ for title, events in sections:
 
         if location and location not in name:
             ef += ' ( {location})'
+
+        url = []
+        if description and description not in name:
+            match = re.findall(REGEX_URL, description)
+            url = list(filter(lambda x: x not in EXCLUDED_URLS, match))
+            if url:
+                # could use
+                # https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+                # instead
+                ef += ' ( {url[0]})'
+
 
         if _main is not None and event == _main:
             ef = UNDERLINE + ef + ENDC
@@ -312,7 +330,8 @@ for title, events in sections:
             hend = end.humanize( ) ,
             hduration = 'lasts ' +  _duration( begin , end ) ,
             name = name,
-            location = location
+            location = location,
+            url = url
         )
 
         line = line.replace('\r', '')
