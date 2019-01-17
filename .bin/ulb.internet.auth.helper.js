@@ -67,7 +67,7 @@ async function poll ( browser , username , password ) {
 
 	const page = await browser.newPage();
 
-	return await load( page , username , password );
+	await load( page , username , password );
 
 }
 
@@ -85,7 +85,7 @@ async function load ( page , username , password ) {
 
 	}
 
-	return await login(page, username, password);
+	await login(page, username, password);
 
 }
 
@@ -106,11 +106,13 @@ async function login (page, username, password) {
 
 	console.log( 'login' , username , password.replace(/./g, '*'));
 
-	return await page.evaluate( (username, password, SELECTOR_USERNAME, SELECTOR_PASSWORD) => {
+	await page.evaluate( (username, password, SELECTOR_USERNAME, SELECTOR_PASSWORD) => {
 		document.querySelector(SELECTOR_USERNAME).value = username;
 		document.querySelector(SELECTOR_PASSWORD).value = password;
 		document.forms[0].submit();
 	}, username, password, SELECTOR_USERNAME, SELECTOR_PASSWORD);
+
+	await page.waitForNavigation();
 
 }
 
