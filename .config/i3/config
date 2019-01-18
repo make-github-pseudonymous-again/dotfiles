@@ -433,6 +433,10 @@ mode "internet" {
         bindcode 41 exec wb; mode "default"
         #-- bindsym Shift+F exec wb --private-window; mode "default"
         bindcode Shift+41 exec wb --private-window; mode "default"
+        #-- bindsym c exec chromium; mode "default"
+        bindcode 54 exec chromium; mode "default"
+        #-- bindsym Shift+C exec chromium --incognito; mode "default"
+        bindcode Shift+54 exec chromium --incognito; mode "default"
         #-- bindsym d exec dropbox; mode "default"
         bindcode 40 exec dropbox; mode "default"
 
