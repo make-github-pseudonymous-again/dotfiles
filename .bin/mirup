@@ -14,7 +14,7 @@ PACMAN=/etc/pacman.d/mirrorlist
 
 echo "Downloading ${URL}"
 
-curl "${URL}" > "${SOURCE}"
+curl "${URL}" > "${SOURCE}" || exit 10
 
 echo "Cleaning up downloaded file ..."
 
