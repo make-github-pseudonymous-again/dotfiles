@@ -16,6 +16,17 @@ function fish_mode_prompt --description 'Displays the current mode'
 
 end
 
+function prompt_sudo --description 'Sudo part of the prompt'
+
+	if sudo -n true 2>/dev/null
+		set_color -o FFB05B
+		echo -n ' (sudo)'
+		set_color normal
+	end
+
+end
+
+
 function prompt_git --description 'Git part of the prompt'
 
 	set -l s ''
@@ -95,6 +106,8 @@ function fish_prompt --description 'Left prompt'
 	set_color -o green
 	echo -n (whoami)
 	set_color normal
+
+	echo -n (prompt_sudo)
 
 	set_color -o white
 	echo -n ' at '
