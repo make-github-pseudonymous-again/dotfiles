@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-index="$(mktemp --tmpdir --directory duplicates.group_XXXXXXXXXX)"
+index="$(mktemp --tmpdir --directory "${USER}-duplicates.group-index.XXXXXXXX.d")"
 all="$index/all"
 dup="$index/dup"
 mkdir "$all"

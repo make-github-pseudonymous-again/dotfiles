@@ -8,8 +8,8 @@ fi
 COUNTRIES="country=BE&country=FR&country=DE&country=LU&country=NL"
 OPTIONS="protocol=https&ip_version=4"
 URL="https://www.archlinux.org/mirrorlist/?${COUNTRIES}&${OPTIONS}"
-SOURCE=/tmp/mirrorlist-source
-RANKED=/tmp/mirrorlist-ranked
+SOURCE="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-source.XXXXXXXX")"
+RANKED="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-ranked.XXXXXXXX")"
 PACMAN=/etc/pacman.d/mirrorlist
 
 echo "Downloading ${URL}"

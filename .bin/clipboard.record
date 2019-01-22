@@ -2,7 +2,7 @@
 
 # https://github.com/cdown/clipmenu
 
-cache_dir="/tmp/clipmenu.$USER/"
+cache_dir="/tmp/${USER}-clipmenu.d/"
 mkdir -p -m0700 "$cache_dir"
 
 declare -A last_data

@@ -13,7 +13,7 @@ line_length_limit=500
 declare -A selections
 ordered_selections=()
 
-files=("/tmp/clipmenu.$USER/"*)
+files=("/tmp/${USER}-clipmenu.d/"*)
 
 # We can't use `for ... in` here because we need to add files to
 # ordered_selections from last to first -- that is, newest to oldest. Incoming

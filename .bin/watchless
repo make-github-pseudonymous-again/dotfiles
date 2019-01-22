@@ -2,14 +2,14 @@
 
 pollinterval="$1" ; shift
 
-O=$(mktemp --tmpdir watchless_buf_XXXXXXXX)
+O="$(mktemp --tmpdir "${USER}-watchless-buf.XXXXXXXX")"
 2>/dev/null $@ > "$O" ;
 
 (while true ; do
-	sleep "$pollinterval";
-	T=$(mktemp --tmpdir watchless_src_XXXXXXXX);
-	2>/dev/null $@ > "$T";
-	cat "$T" > "$O"; # avoids less to crash
+	sleep "$pollinterval"
+	T="$(mktemp --tmpdir "${USER}-watchless-src.XXXXXXXX")"
+	2>/dev/null $@ > "$T"
+	cat "$T" > "$O" # avoids less to crash
 	# also `mv` does not work for some reason
 	rm -f "$T"
 done) &

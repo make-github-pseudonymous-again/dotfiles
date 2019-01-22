@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-SOURCE='/tmp/wifi.noise'
+SOURCE="$(mktemp --tmpdir "${USER}-wifi.noise.XXXXXXXX.json")"
 
 IGNORE="$1"
 
@@ -19,3 +19,5 @@ jq '{"data": ., "options" : { "label": "Wi-Fi noise (dB)" , "barWidth": 3 , "bar
 cat > "$SOURCE"
 
 chart bar "$SOURCE"
+
+rm "$SOURCE"
