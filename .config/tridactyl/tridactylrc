@@ -107,8 +107,9 @@ set searchurls.ikea https://www.ikea.com/be/fr/search?k=%s
 
 "" bindings
 
-" type xz to route page through sci-hub's proxy
-bind xz js window.location = 'https://sci-hub.tw/' + location.href
+" type xh to route page through sci-hub's proxy
+unbind x
+bind xh js window.location = 'https://sci-hub.tw/' + window.location.href
 
 
 "" quickmarks
