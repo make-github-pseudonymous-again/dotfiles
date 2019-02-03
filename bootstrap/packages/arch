@@ -25,6 +25,7 @@ firefox
 chromium
 evince
 mupdf
+mupdf-tools
 
 # Compilers and package managers
 nodejs
