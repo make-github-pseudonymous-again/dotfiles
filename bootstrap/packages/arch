@@ -55,6 +55,7 @@ python-google-auth-httplib2
 python-google-api-python-client
 python-keyring
 python-urwid
+python-pypdf2
 autopep8
 
 # Python 2 packages
