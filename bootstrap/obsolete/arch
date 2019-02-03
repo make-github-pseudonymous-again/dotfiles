@@ -44,3 +44,6 @@ texlive-langjapanese # TeX Live - Fonts and macro packages to typeset Japanese t
 texlive-langkorean # TeX Live - Fonts and macro packages to typeset Korean texts
 texlive-games # TeX Live - Setups for typesetting various board games, including chess
 texlive-music # TeX Live - Music typesetting packages
+
+ttf-font-awesome # there is a bug with ttf but not with otf
+# see https://github.com/enkore/i3pystatus

@@ -1,7 +1,7 @@
 # Fonts
 ttf-dejavu
 powerline-fonts
-ttf-font-awesome
+otf-font-awesome
 
 # X
 xorg-xkill
