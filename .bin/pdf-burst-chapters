@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+
+input="$1"
+root="${2:-.}"
+
+if [ -n "$root" ] ; then
+  mkdir -p "$root"
+fi
+
+args="$(mktemp "${USER}-pdf-burst-chapters-commands.XXXXXXXX")"
+
+function _exit {
+  rm -f "$args"
+  exit "$@"
+}
+
+i=0
+
+mutool show "$input" outline | \
+mutool-outline-tojson | \
+mutool-json-outline-format | \
+#jq -c '.children[] | select(.title|test("^[1-9][0-9]* "))' | \
+jq -c '.children[] | select(.title | startswith("I")) | .children[]' | \
+while IFS= read -r chapter; do
+  i=$((i+1))
+  title="$(jq -r <<< "$chapter" .title | trim)"
+  begin="$(jq -r <<< "$chapter" .begin)"
+  end="$(jq -r <<< "$chapter" .end)"
+  if [ "$end" != 'N' ] ; then
+    end="$((end-1))"
+  fi
+  ii="$(printf %02d "$i")"
+  echo "${begin}-${end}" "${ii} ${title}" | tee --append "$args"
+done
+
+vim "$args"
+
+if [ "$?" -ne 0 ] ; then _exit 11 ; fi
+
+while IFS= read -r line || [[ -n "$line" ]]; do
+  output="${root}/$(sed 's/^[^ ]* //' <<< "$line").pdf"
+  range=$(cut -d' ' -f1 <<< "$line")
+  mutool merge -o "$output" "$input" "$range"
+done < "$args"
+
+_exit 0

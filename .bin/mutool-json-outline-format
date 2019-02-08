@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+
+tree = json.load(sys.stdin)
+tree["begin"] = tree["page"]
+tree["end"] = "N" # see fitz/string parse_page_range in mupdf source
+
+def annotate ( parent, prev, current ) :
+
+    current["begin"] = current["page"]
+    current["end"] = parent["end"]
+
+    if prev is not None:
+        prev["end"] = current["begin"]
+
+def walk ( node , callback ) :
+    children = node["children"]
+    for prev, child in zip([None] + children, children): callback(node, prev, child)
+    for child in node["children"]: walk(child, callback)
+
+walk(tree, annotate)
+
+json.dump(tree, sys.stdout)
