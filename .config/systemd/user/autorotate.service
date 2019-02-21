@@ -1,0 +1,9 @@
+[Unit]
+Description=Monitor autorotation service
+
+[Service]
+ExecStart=/usr/bin/env autorotate
+Restart=always
+
+[Install]
+WantedBy=ready.target
