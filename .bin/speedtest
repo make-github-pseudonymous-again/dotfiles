@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium fast --upload

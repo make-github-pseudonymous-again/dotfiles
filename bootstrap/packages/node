@@ -11,7 +11,7 @@ man-n
 babel-cli
 journally
 ava-codemods
-speed-test
+fast-cli
 
 zxcvbn # for passcheck
 ora # for passcheck
