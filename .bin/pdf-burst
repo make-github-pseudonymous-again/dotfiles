@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+input="$1"
+
+pages="$(mutool info "$input" | grep '^Pages:' | cut -d' ' -f2)"
+
+for i in $(seq 1 "$pages"); do
+  extension="${input##*.}"
+  filename="${input%.*}"
+  output="${filename}-${i}.${extension}"
+  mutool merge -o "$output" "$input" "$i"
+done
