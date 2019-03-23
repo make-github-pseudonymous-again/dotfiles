@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+menu.pdf "${HOME}/dropbox/references" '' '#FF4E50' 'ext:xoj'
