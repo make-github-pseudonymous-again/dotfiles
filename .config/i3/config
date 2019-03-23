@@ -678,6 +678,8 @@ mode "files" {
         bindcode 27 exec menu.references; mode "default"
         #-- bindsym p exec menu.pdf; mode "default"
         bindcode 33 exec menu.pdf; mode "default"
+        #-- bindsym x exec menu.xoj; mode "default"
+        bindcode 53 exec menu.xoj; mode "default"
 
         # back to normal: enter or escape
         #-- bindsym Return mode "default"
