@@ -20,9 +20,14 @@ try:
 except IndexError:
     menucolor = '#545151'
 
+try:
+    extensions = sys.argv[4]
+except IndexError:
+    extensions = 'ext:pdf OR ext:djvu'
+
 
 prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', menuicon, '-sb', menucolor, '-l', '10']
-querystring = 'dir:"{}" AND (ext:pdf OR ext:djvu)'.format(location)
+querystring = 'dir:"{}" AND ({})'.format(location, extensions)
 sortby = 'mtime'
 ascending = False
 
