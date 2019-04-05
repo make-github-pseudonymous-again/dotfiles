@@ -54,9 +54,6 @@
 # TODO: We currently ignore './.git' directories. I should add the others.
 # Can the user specify their own regexes?
 
-gitignore=""
-quiet=0
-
 i=0
 files=()
 while [ "$1" != '-c' ] && [ "$#" -gt 0 ] ; do
@@ -68,16 +65,11 @@ shift
 
 i=0
 cmd=()
-while [ "$1" != '-q' ] && [ "$#" -gt 0 ] ; do
+while [ "$#" -gt 0 ] ; do
 	cmd[$i]="$1"
 	((++i))
 	shift
 done
-
-if [ "$#" -gt 0 ] && [ "$1" = '-q' ] ; then
-	quiet=1
-	shift
-fi
 
 if [ "${#files[@]}" -eq 0 ] ; then
 	files[0]="."
@@ -86,63 +78,28 @@ fi
 if [ "${#cmd[@]}" -eq 0 ] ; then
 	function handler() {
 		echo "NOP"
-		gitignore=$(git check-ignore *)
 	}
 else
 	function handler() {
 		echo "${cmd[@]}"
 		"${cmd[@]}"
-		gitignore=$(git check-ignore *)
 	}
 fi
 
 function waitforevent() {
 
-	inotifywait --quiet --recursive --monitor --format "%e/%f/%w" \
+	# vim generates a 4913 file
+
+	inotifywait --recursive --monitor --format "%w%f" \
 		--event close_write --event move --event create --event delete \
-		"${files[@]}" | while read event
-	do
-
-		etype=$(echo "$event" | cut -d '/' -f 1)
-		file=$(echo "$event" | cut -d '/' -f 2)
-		dir=$(echo "$event" | cut -d '/' -f 3-)
-
-		# vim generates that file
-		if [ "$file" = "4913" ] ; then
-			if [ "$quiet" -eq 0 ] ; then
-				echo "[IGNORE] $dir$file"
-			fi
-			continue
-		fi
-
-		ignore=0
-
-		for ignored in $gitignore ; do
-			if [ "$dir$file" = "./""$ignored" ] ; then
-				ignore=1
-				break
-			fi
-		done
-
-		if [ "$ignore" -eq 1 ] ; then
-			if [ "$quiet" -eq 0 ] ; then
-				echo "[IGNORE] $dir$file"
-			fi
-			continue
-		fi
-
-		echo "[EVENT] $etype $dir$file"
-
-		break
-
-	done
+		--exclude '4913$' \
+		"${files[@]}" | \
+		git check-ignore --verbose --non-matching --stdin | \
+		grep --line-buffered --max-count 1  --regexp '^::'
 
 }
 
 while true; do
-
 	handler
-
 	waitforevent
-
 done
