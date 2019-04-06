@@ -27,10 +27,15 @@ function figures {
 	sort | uniq
 }
 
-for path in "$@"; do
-	if [ ! -e "$path" ] ; then continue; fi
-	printf '%s\n' "$path"
-	figures < "$path"
-	sh "$0" $(packages < "$path")
-	sh "$0" $(inputs < "$path")
-done
+function dft {
+	local path
+	for path in "$@"; do
+		if [ ! -e "$path" ] ; then continue; fi
+		printf '%s\n' "$path"
+		figures < "$path"
+		dft $(packages < "$path")
+		dft $(inputs < "$path")
+	done
+}
+
+dft "$@"
