@@ -12,7 +12,7 @@ console.log('CACHE', CACHE);
 console.log('CACHE_INFO', CACHE_INFO);
 
 const URL_ROOT = 'https://newmy.voo.be' ;
-const URL_CONSUMPTION = `${URL_ROOT}/usage/internet` ;
+const URL_CONSUMPTION = `${URL_ROOT}/internet/consumption` ;
 
 const TYPE_UNKNOWN = 'unknown page' ;
 const TYPE_LOGIN = 'login page' ;
@@ -72,6 +72,8 @@ function main ( browser ) {
 
 	const options = {
 		executablePath: '/usr/bin/chromium' ,
+		//headless: false, // debug
+		//slowMo: 250,     // debug
 	} ;
 
 	puppeteer
@@ -143,12 +145,9 @@ async function type ( page ) {
 
 	const value = await page.evaluate((lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN) => {
 		const now = Date.now();
-		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('UserName') !== null ) return TYPE_LOGIN ;
+		if ( now - lastlogin >= LOGIN_WAIT && document.getElementById('email') !== null ) return TYPE_LOGIN ;
 		else if ( document.querySelector('.validation-summary-errors') !== null ) return TYPE_LOGIN_ERROR ;
-		else if ( document.querySelector('.gauge > .label-current') !== null &&
-			document.querySelector('.gauge > .label-max') !== null ) return TYPE_CONSUMPTION ;
-		else if ( document.querySelector('gauge > article.gauge.infinite') !== null &&
-			document.querySelector('#yearlyGraph > .a.la.carte.special.tooltip') !== null ) return TYPE_CONSUMPTION_UNLIMITED ;
+		else if ( document.querySelector('.month-consumption-value') !== null ) return TYPE_CONSUMPTION_UNLIMITED ;
 		else return TYPE_UNKNOWN ;
 	}, lastlogin, LOGIN_WAIT, TYPE_LOGIN, TYPE_LOGIN_ERROR, TYPE_CONSUMPTION, TYPE_CONSUMPTION_UNLIMITED , TYPE_UNKNOWN);
 
@@ -165,8 +164,8 @@ async function login (page, username, password) {
 	console.log( 'login' , username , password.replace(/./g, '*'));
 
 	return await page.evaluate( (username, password) => {
-		document.getElementById('UserName').value = username;
-		document.getElementById('Password').value = password;
+		document.getElementById('email').value = username;
+		document.getElementById('incognito').value = password;
 		document.getElementsByTagName('form')[0].submit();
 	}, username, password);
 
@@ -174,48 +173,26 @@ async function login (page, username, password) {
 
 async function getinfo ( _type , page ) {
 
-	let consumption ;
-	let max_float ;
-	let max_unit ;
+	const current = await page.evaluate(
+		() => document.querySelector('.month-consumption-value').innerText
+	);
 
+	const current_float = parseFloat(current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
+	const current_unit = current.match(/[a-zA-Z]*$/)[0];
 
-	if ( _type === TYPE_CONSUMPTION ) {
-
-		consumption = await page.evaluate(() => ({
-			'current' : document.querySelector('.gauge .label-current').innerText ,
-			'max'     : document.querySelector('.gauge .label-max').innerText
-		}));
-
-		max_float = parseFloat(consumption.max.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
-		max_unit = consumption.max.match(/[a-zA-Z]*$/)[0];
-
-
-	}
-
-	else {
-
-		consumption = await page.evaluate(() => ({
-			'current' : document.querySelector('#yearlyGraph > .a.la.carte.special.tooltip:last-child').innerText.replace('\n', '') ,
-			'max'     : 'unlimited'
-		}));
-
-		max_float = null ;
-		max_unit = null ;
-
-	}
-
-	const current_float = parseFloat(consumption.current.match(/^[0-9]*(,[0-9]*)?/)[0].replace(',', '.')) ;
-	const current_unit = consumption.current.match(/[a-zA-Z]*$/)[0];
+	const max = 'unlimited' ;
+	const max_float = null ;
+	const max_unit = null ;
 
 	const data = {
 		'consumption' : {
 			'current' : {
-				'raw' : consumption.current ,
+				'raw' : current ,
 				'amount' : current_float ,
 				'unit' : current_unit
 			} ,
 			'max' : {
-				'raw' : consumption.max ,
+				'raw' : max ,
 				'amount' : max_float ,
 				'unit' : max_unit
 			}
