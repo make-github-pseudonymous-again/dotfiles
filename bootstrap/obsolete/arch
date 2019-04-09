@@ -32,6 +32,8 @@ ptpython2
 fisherman
 fisherman-git
 stapler
+xfig
+wpa_actiond
 
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
