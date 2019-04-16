@@ -8,7 +8,7 @@ def getchildren ( d ) :
     # filterfalse == do not follow symbolic link
     c = sorted( filterfalse( os.path.islink,  os.listdir( d ) ) )
 
-    return '.git' in c , [ os.path.join( d , x ) for x in c if x[0] != '.' ]
+    return '.git' in c or '.stfolder' in c , [ os.path.join( d , x ) for x in c if x[0] != '.' ]
 
 def recursive ( root ) :
 
