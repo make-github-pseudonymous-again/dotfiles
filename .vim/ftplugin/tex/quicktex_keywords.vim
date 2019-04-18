@@ -275,6 +275,9 @@ let g:quicktex_math = {
 \'Section: More Variables' : 'COMMENT',
     \'ell'   : '\ell ',
     \'nabla' : '\nabla ',
+    \
+\'Section: Decoration' : 'COMMENT',
+    \'ub'    : '\underbrace{<+++>}_{\text{<++>}} <++>',
 \}
 
 " }}}
