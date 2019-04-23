@@ -7,6 +7,11 @@ ROOT="https://www.unric.org"
 LANG="en"
 BASEURI="${ROOT}/${LANG}"
 
+if [ ! -f "${CONFIG}" ] ; then
+	>&2 echo "Missing config file @ ${CONFIG}"
+	exit 2
+fi
+
 FROM="$(jq -r < "${CONFIG}" .mailfrom)"
 TO=$(jq -r < "${CONFIG}" .mailto[])
 
@@ -38,22 +43,28 @@ function main() {
 	next="${storage}/next.json"
 	prev="${storage}/prev.json"
 
-	curl "${url}" | cineonu-parse-list | jq > "${next}"
-
-	if [ -f "${prev}" ] ; then
-
-		run=0
-		diff="$(cineonu-list-diff "${prev}" "${next}")"
-		if [ -n "${diff}" ] ; then
-			while read -r event; do
-				run=1
-				enqueue "${event}"
-			done <<< "${diff}"
-		fi
-
-		if [ "${run}" -gt 0 ] ; then msmtp-runqueue ; fi
-
+	if [ ! -f "${prev}" ] ; then
+		echo '{"events":[]}' > "${prev}"
 	fi
+
+	tmp="$(curl "${url}")"
+
+	if [ "$?" -ne 0 ] ; then
+		exit 1
+	fi
+
+	<<< "${tmp}" cineonu-parse-list | jq > "${next}"
+
+	run=0
+	diff="$(cineonu-list-diff "${prev}" "${next}")"
+	if [ -n "${diff}" ] ; then
+		while read -r event; do
+			run=1
+			enqueue "${event}"
+		done <<< "${diff}"
+	fi
+
+	if [ "${run}" -gt 0 ] ; then msmtp-runqueue ; fi
 
 	mv "${next}" "${prev}"
 
