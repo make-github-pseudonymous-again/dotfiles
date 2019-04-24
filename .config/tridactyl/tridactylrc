@@ -8,10 +8,10 @@ set hintchars hjkasdfgyuopqwertzxcvb
 
 "" search engines
 
-" google
-set searchurls.g    https://www.google.com/search?q=%s
 " duckduckgo
-set searchurls.ddg  https://duckduckgo.com/?q=%s
+set searchurls.g    https://duckduckgo.com/?q=%s
+" google
+set searchurls.goo  https://www.google.com/search?q=%s
 " searx
 set searchurls.srx  https://searx.me/?category_general=on&q=%s
 " qwant
