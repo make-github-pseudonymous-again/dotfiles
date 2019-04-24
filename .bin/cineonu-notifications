@@ -60,32 +60,44 @@ function main() {
 	mkdir -p "${urldir}"
 	mkdir -p "${datdir}"
 
+	log "Downloading Index for ${year} (${url})"
 	html="$(curl "${url}")"
 
-	if [ "$?" -ne 0 ] ; then
-		exit 1
-	fi
+	if [ "$?" -ne 0 ] ; then exit 1 ; fi
 
 	events="$(cineonu-parse-list <<< "${html}")"
 
 	run=0
+
 	while read -r event; do
+
 		metadata="$(getmetadata "${event}")"
+		if [ "$?" -ne 0 ] ; then continue ; fi
+
 		url="$(jq -r <<< "$metadata" .url)"
+		if [ "$?" -ne 0 ] ; then continue ; fi
+
 		dat_key="$(hash "$metadata")"
 		url_key="$(hash "$url")"
+
 		dat_file="${datdir}/${dat_key}"
 		url_file="${urldir}/${url_key}"
+
 		if [ ! -f "${dat_file}" ] ; then
+
 			run=1
+
 			kind=Updated
 			if [ ! -f "${url_file}" ] ; then
 				kind=New
 				echo "${url}" > "${url_file}"
 			fi
+
 			enqueue "${kind}" "${metadata}"
 			jq <<< "${metadata}" > "${dat_file}"
+
 		fi
+
 	done <<< "$(jq --compact-output '.events[]' <<< ${events})"
 
 	if [ "${run}" -gt 0 ] ; then msmtp-runqueue ; fi
