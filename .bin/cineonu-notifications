@@ -38,7 +38,7 @@ function enqueue() {
 	log "Enqueueing ${title} (${url})"
 	subject="${kind} CINEONU event: ${title}"
 
-	cineonu-event-format "${metadata}" | \
+	cineonu-format-event "${metadata}" | \
 	courriel.compose._prompt \
 		--stdin \
 		--yolo \

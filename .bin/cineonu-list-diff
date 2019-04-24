@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-jq -c --argfile old "$1" --argfile new "$2" -n '$new.events - $old.events | .[]'
