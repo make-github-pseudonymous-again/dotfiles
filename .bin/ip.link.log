@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+CACHE="/tmp/${USER}-ip.link.log"
+STAT="${CACHE}/stat"
+
+milliseconds="$(system.time.milliseconds)"
+
+while read -r iface; do
+
+  parts="$(jq -r '.ifname,.stats64.rx.bytes,.stats64.rx.packets,.stats64.tx.bytes,.stats64.tx.packets' <<< "${iface}")"
+  ifname="$(head -n1 <<< "${parts}")"
+  rx_bytes="$(tail -n+2 <<< "${parts}" | head -n1)"
+  rx_packets="$(tail -n+3 <<< "${parts}" | head -n1)"
+  tx_bytes="$(tail -n+4 <<< "${parts}" | head -n1)"
+  tx_packets="$(tail -n+5 <<< "${parts}" | head -n1)"
+
+  folder="${STAT}/${ifname}"
+  mkdir -p "${folder}/rx" "${folder}/tx"
+  f_milliseconds="${folder}/milliseconds"
+  f_rx_bytes="${folder}/rx/bytes"
+  f_rx_bytes_per_second="${folder}/rx/bytes_per_second"
+  f_rx_packets="${folder}/rx/packets"
+  f_tx_bytes="${folder}/tx/bytes"
+  f_tx_bytes_per_second="${folder}/tx/bytes_per_second"
+  f_tx_packets="${folder}/tx/packets"
+
+  if [ -f "${f_milliseconds}" ] ; then
+    p_milliseconds="$(cat "${f_milliseconds}")"
+    p_rx_bytes="$(cat "${f_rx_bytes}")"
+    p_tx_bytes="$(cat "${f_tx_bytes}")"
+    rx_bytes_per_second="$(calc "1000*(${rx_bytes} - ${p_rx_bytes})/(${milliseconds}-${p_milliseconds})")"
+    tx_bytes_per_second="$(calc "1000*(${tx_bytes} - ${p_tx_bytes})/(${milliseconds}-${p_milliseconds})")"
+    printf "${rx_bytes_per_second}\n" > "${f_rx_bytes_per_second}"
+    printf "${tx_bytes_per_second}\n" > "${f_tx_bytes_per_second}"
+  fi
+
+  # write out
+  printf "${milliseconds}\n" > "${f_milliseconds}"
+  printf "${rx_bytes}\n" > "${f_rx_bytes}"
+  printf "${rx_packets}\n" > "${f_rx_packets}"
+  printf "${tx_bytes}\n" > "${f_tx_bytes}"
+  printf "${tx_packets}\n" > "${f_tx_packets}"
+
+done <<< "$(ip -json -stats link | jq -c '.[]')"
