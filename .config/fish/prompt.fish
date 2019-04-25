@@ -153,22 +153,31 @@ function fish_right_prompt --description 'Right prompt'
 
 	set -l last_status $status
 	set -l last_cmd_line "$history[1]"
-	set -l last_cmd_duration $CMD_DURATION
+	set -l last_cmd_milliseconds $CMD_DURATION
 
 	# Show last execution time and notify if it took long enough
-	if test "$last_cmd_duration"
+	if test "$last_cmd_milliseconds"
 
 		set_color -o EDD599
-		echo -n "$last_cmd_duration ms "
+		echo -n "$last_cmd_milliseconds ms "
 		set_color normal
 
 		switch (echo $last_cmd_line | head -1 | cut -d' ' -f1)
 		case man ranger r less vim gca o gdw gdws gdt gdts gd gds ssh pass
 		case '*'
-			if test $last_cmd_duration -gt 30000
+			if test $last_cmd_milliseconds -gt 30000
 				if test $last_cmd_duration_notify -eq 1
+
+					if test $last_status -eq 0
+						set urgency low
+					else
+						set urgency critical
+					end
+
 					set -g last_cmd_duration_notify 0
-					notify-send -u normal "$last_cmd_line" "Returned $last_status, took $last_cmd_duration milliseconds"
+					set -l last_cmd_seconds (math "round($last_cmd_milliseconds/1000)")
+					notify-send -u "$urgency" "$last_cmd_line" "Returned $last_status, took $last_cmd_seconds seconds"
+
 				end
 			end
 		end
