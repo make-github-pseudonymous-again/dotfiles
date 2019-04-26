@@ -9,7 +9,7 @@ if [ -n "${iface}" ] ; then
 		txs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second")"
 		frxs="$(format.human.bytes_per_second "$rxs")"
 		ftxs="$(format.human.bytes_per_second "$txs")"
-		printf "%s\n" "$iface  $frxs  $ftxs"
+		printf "%s\n" "$iface  $ftxs  $frxs"
 	fi
 
 fi
