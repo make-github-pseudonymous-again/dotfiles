@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+iface="$(ip route | head -n1 | cut -d' ' -f5)"
+
+if [ -n "${iface}" ] ; then
+
+	if [ -f "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second" ] ; then
+		rxs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/rx/bytes_per_second")"
+		txs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second")"
+		frxs="$(format.human.bytes_per_second "$rxs")"
+		ftxs="$(format.human.bytes_per_second "$txs")"
+		printf "%s\n" "$iface $frxs  $ftxs "
+	fi
+
+fi

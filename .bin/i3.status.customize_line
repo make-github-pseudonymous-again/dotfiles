@@ -12,6 +12,11 @@ execute="$execute"'| map( select( .full_text != "no IPV6" ) )'
 execute="$execute"'| map( select( .full_text != "No battery" ) )'
 execute="$execute"'| map( select( .full_text != "can'"'"'t read temp" ) )'
 
+linkspeed_string="$(linkspeed)"
+if [ -n "${linkspeed_string}" ] ; then
+	prepend='{"name":"linkspeed","color":"#CC2A41","full_text":"'"$linkspeed_string"'"},'"$prepend"
+fi
+
 if ! is.wifi.running; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
 elif is.wifi.auto.running; then

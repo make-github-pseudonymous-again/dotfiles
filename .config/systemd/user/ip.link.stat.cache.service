@@ -1,0 +1,6 @@
+[Unit]
+Description=Cache link stats
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh ip.link.stat.cache
