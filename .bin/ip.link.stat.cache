@@ -29,10 +29,19 @@ while read -r iface; do
     p_milliseconds="$(cat "${f_milliseconds}")"
     p_rx_bytes="$(cat "${f_rx_bytes}")"
     p_tx_bytes="$(cat "${f_tx_bytes}")"
-    rx_bytes_per_second="$((1000*(${rx_bytes} - ${p_rx_bytes})/(${milliseconds}-${p_milliseconds})))"
-    tx_bytes_per_second="$((1000*(${tx_bytes} - ${p_tx_bytes})/(${milliseconds}-${p_milliseconds})))"
-    printf "%s\n" "${rx_bytes_per_second}" > "${f_rx_bytes_per_second}"
-    printf "%s\n" "${tx_bytes_per_second}" > "${f_tx_bytes_per_second}"
+    d_milliseconds="$((${milliseconds}-${p_milliseconds}))"
+    if [ "${d_milliseconds}" -gt 0 ] ; then
+      d_rx_bytes="$((${rx_bytes} - ${p_rx_bytes}))"
+      if [ "${d_rx_bytes}" -ge 0 ] ; then
+        rx_bytes_per_second="$((1000*${d_rx_bytes}/${d_milliseconds}))"
+        printf "%s\n" "${rx_bytes_per_second}" > "${f_rx_bytes_per_second}"
+      fi
+      d_tx_bytes="$((${tx_bytes} - ${p_tx_bytes}))"
+      if [ "${d_tx_bytes}" -ge 0 ] ; then
+        tx_bytes_per_second="$((1000*${d_tx_bytes}/${d_milliseconds}))"
+        printf "%s\n" "${tx_bytes_per_second}" > "${f_tx_bytes_per_second}"
+      fi
+    fi
   fi
 
   printf "%s\n" "${milliseconds}" > "${f_milliseconds}"
