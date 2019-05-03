@@ -419,6 +419,8 @@ mode "mode" {
 
         #-- bindsym p exec mobile.mode.plane.toggle; mode "default"
         bindcode 33 exec mobile.mode.plane.toggle; mode "default"
+        #-- bindsym m exec mobile.mode.plane.toggle; mode "default"
+        bindcode 47 exec link.mode.metered.toggle; mode "default"
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"

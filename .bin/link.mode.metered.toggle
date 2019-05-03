@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if link.mode.metered.is.on ; then
+	link.mode.metered.off
+else
+	link.mode.metered.on
+fi

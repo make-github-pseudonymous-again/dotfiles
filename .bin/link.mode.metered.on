@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+services.off
+mkdir -p "/tmp/.cache/link/mode/metered"
+touch "/tmp/.cache/link/mode/metered/on"

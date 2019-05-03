@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+ls "/tmp/.cache/link/mode/metered/on" 1>/dev/null 2>&1

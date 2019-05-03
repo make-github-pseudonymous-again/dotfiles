@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+services.on
+mkdir -p "/tmp/.cache/link/mode/metered"
+rm -f "/tmp/.cache/link/mode/metered/on"
