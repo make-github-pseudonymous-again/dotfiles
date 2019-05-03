@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-menu.pdf "${HOME}/research/library" '' '#FF4E50' 'ext:xoj'
