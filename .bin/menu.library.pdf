@@ -1,3 +1,8 @@
 #!/usr/bin/env sh
+# vi:syntax=sh
 
-menu.pdf "${HOME}/research/library" '' '#FF4E50'
+menu.recoll \
+  --location "${HOME}/research/library" \
+  --menuicon '' \
+  --menucolor '#FF4E50' \
+  --extensions 'ext:pdf OR ext:djvu'

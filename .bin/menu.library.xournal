@@ -1,3 +1,8 @@
 #!/usr/bin/env sh
 
-menu.pdf "${HOME}/research/library" '' '#FF4E50' 'ext:xoj OR ext:xopp OR ext:xopt'
+menu.recoll \
+  --location "${HOME}/research/library" \
+  --menuicon '' \
+  --menucolor '#FF4E50' \
+  --extensions 'ext:xoj OR ext:xopp OR ext:xopt' \
+  --opener 'xournalpp'
