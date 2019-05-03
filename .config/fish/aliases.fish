@@ -156,4 +156,4 @@ abbr U systemctl --user
 
 # search
 abbr ff fzf
-abbr agh ag --hidden
+abbr agh ag --hidden --ignore .git
