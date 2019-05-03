@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+menu.recoll \
+  --menuicon '' \
+  --menucolor '#FF4E50' \
+  --extensions 'ext:xoj OR ext:xopp OR ext:xopt' \
+  --opener 'xournalpp'

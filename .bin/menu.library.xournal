@@ -1,8 +1,4 @@
 #!/usr/bin/env sh
 
-menu.recoll \
-  --location "${HOME}/research/library" \
-  --menuicon '' \
-  --menucolor '#FF4E50' \
-  --extensions 'ext:xoj OR ext:xopp OR ext:xopt' \
-  --opener 'xournalpp'
+menu.xournal \
+  --location "${HOME}/research/library"

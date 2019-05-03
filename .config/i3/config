@@ -680,8 +680,8 @@ mode "files" {
         bindcode 27 exec menu.library.pdf; mode "default"
         #-- bindsym p exec menu.pdf; mode "default"
         bindcode 33 exec menu.pdf; mode "default"
-        #-- bindsym x exec menu.library.xournal; mode "default"
-        bindcode 53 exec menu.library.xournal; mode "default"
+        #-- bindsym x exec menu.xournal; mode "default"
+        bindcode 53 exec menu.xournal; mode "default"
 
         # back to normal: enter or escape
         #-- bindsym Return mode "default"
