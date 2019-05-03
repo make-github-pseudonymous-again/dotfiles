@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-ls "$HOME/.cache/mobile/mode/plane/on" 1>/dev/null 2>&1
+ls "/tmp/.cache/mobile/mode/plane/on" 1>/dev/null 2>&1

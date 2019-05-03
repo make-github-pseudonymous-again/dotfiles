@@ -2,5 +2,5 @@
 
 services.off
 wifi.any.stop
-mkdir -p "$HOME/.cache/mobile/mode/plane"
-touch "$HOME/.cache/mobile/mode/plane/on"
+mkdir -p "/tmp/.cache/mobile/mode/plane"
+touch "/tmp/.cache/mobile/mode/plane/on"
