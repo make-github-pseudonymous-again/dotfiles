@@ -35,6 +35,7 @@ pages on the wiki.
 
     pacman -S mesa xf86-video-intel
     pacman -S xf86-video-nouveau
+    pacman -S xf86-video-ati
     pacman -S nvidia
 
 See also [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
