@@ -37,6 +37,8 @@ pages on the wiki.
     pacman -S xf86-video-nouveau
     pacman -S nvidia
 
+See also [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
+laptop battery or power.
 
 ### Install system
 Logout, login, then
