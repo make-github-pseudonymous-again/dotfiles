@@ -21,14 +21,19 @@ def getchildren ( directory ) :
 
 def recursive ( root ) :
 
+    """
+        `root` is the path of a directory.
+    """
+
     safe , children = getchildren( root )
 
     if safe :
-        return True , True , [ 0 ] , 0 , {}
+        return True , True , True , [ 0 ] , 0 , {}
 
     children = list(children)
 
     arenotsafe = {}
+    someissafe = False
     count = 0
     dcount = 0
 
@@ -37,47 +42,46 @@ def recursive ( root ) :
         if os.path.isdir( child ) :
 
             data = recursive( child )
-            isdir , childissafe , dgcc , gcc , grandchildren = data
+            childisdir , childissafe , somegrandchildissafe , dgcc , gcc , grandchildren = data
 
-            if not childissafe :
-                count += gcc
+            if childissafe:
+                someissafe = True
+
+            else:
+                count += gcc # grandchildren count
                 arenotsafe[child] = data
+
 
         else :
             dcount += 1
             count += 1
-            arenotsafe[child] = False , False , [ ] , 1 , child
+            arenotsafe[child] = False , False , False , [ ] , 1 , child
 
-    vcount = [ dcount ] + list( map( sum , zip_longest( *( c[2] for c in arenotsafe.values() ) , fillvalue = 0 ) ) )
+    vcount = [ dcount ] + list( map( sum , zip_longest( *( c[3] for c in arenotsafe.values() ) , fillvalue = 0 ) ) )
 
-    return True , False , vcount , count , arenotsafe
+    return True , False , someissafe , vcount , count , arenotsafe
 
-def output ( data , max_count = 5 , max_level = 5 ) :
+def output ( root , data , max_count = 5 , max_level = 5 ) :
 
-    isdir , aresafe , vcount , count , arenotsafe = data
+    isdir , aresafe , someissafe , vcount , count , arenotsafe = data
 
     if isdir :
 
-        if ( max_level > 0 ) and aresafe or count <= max_count :
+        if ( max_level > 0 ) and someissafe or count <= max_count :
 
-            # if there is some git folder somewhere deep in the subtree
+            # if there is some backed up folder somewhere deep in the subtree
             # or
             # if the object count is small enough for this subtree
             # output subtree recursively
 
-            for _,c in sorted( arenotsafe.items() ):
+            for path, c in sorted( arenotsafe.items() ):
 
-                output( c )
+                output( path, c , max_count = max_count , max_level = max_level - 1)
 
         elif count > 0 :
-
             # otherwise
-            # only output an overview {path} {leave count}
-
-            for d,c in sorted( arenotsafe.items() ) :
-
-                if c[3] > 0 :
-                    print( d,c[3] )
+            # only output a total count
+            print(root, count)
 
     else :
 
@@ -100,7 +104,7 @@ if __name__ == '__main__' :
 
     max_level = -1
     size = args.size
-    for s in data[2] :
+    for s in data[3] :
         if size < s :
             break
 
@@ -110,10 +114,11 @@ if __name__ == '__main__' :
     print( max_level )
 
     if args.short :
-        print( data[3] )
+        print( data[4] )
     elif args.json :
         import sys
         import json
         json.dump( { root : data } , sys.stdout )
     else :
-        output( data , max_count = args.count , max_level = max_level )
+        output( root , data , max_count = args.count , max_level = max_level )
+
