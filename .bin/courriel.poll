@@ -18,14 +18,18 @@ _trap () {
 }
 
 _run () {
+
   echo " > Syncing ..."
   mkdir -p "$FLAG"
   touch "$SYNCING"
   gmi sync
   rm "$SYNCING"
+
+  echo " > Tagging ..."
   notmuch new
   # currently we do not add tags that need to be synced
   # doing this would require a more complex syncing logic
+
 }
 
 while true
