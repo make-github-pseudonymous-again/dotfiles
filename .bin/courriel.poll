@@ -23,6 +23,9 @@ _run () {
   touch "$SYNCING"
   gmi sync
   rm "$SYNCING"
+  notmuch new
+  # currently we do not add tags that need to be synced
+  # doing this would require a more complex syncing logic
 }
 
 while true
