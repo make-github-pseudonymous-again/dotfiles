@@ -7,9 +7,11 @@ if [ -n "${iface}" ] ; then
 	if [ -f "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second" ] ; then
 		rxs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/rx/bytes_per_second")"
 		txs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second")"
-		frxs="$(format.human.bytes_per_second "$rxs")"
-		ftxs="$(format.human.bytes_per_second "$txs")"
-		printf "%s\n" "$iface  $ftxs  $frxs"
+		if [ "$txs" -ge 0 -a "$rxs" -ge 0 ] ; then
+			frxs="$(format.human.bytes_per_second "$rxs")"
+			ftxs="$(format.human.bytes_per_second "$txs")"
+			printf "%s\n" "$iface  $ftxs  $frxs"
+		fi
 	fi
 
 fi
