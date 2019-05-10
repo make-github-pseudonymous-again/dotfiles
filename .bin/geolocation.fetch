@@ -69,7 +69,7 @@ except:
 
                 wifi = ([], connected)
 
-        except CalledProcessError:
+        except (CalledProcessError, FileNotFoundError):
 
             wifi = ([],'')
 
