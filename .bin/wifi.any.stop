@@ -7,3 +7,5 @@ if [ "$profile" != '' ] ; then
 elif is.wifi.auto.running ; then
 	wifi.auto.stop
 fi
+
+sudo ip link set "$(wifi.chips.default)" down
