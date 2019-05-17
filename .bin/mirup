@@ -25,9 +25,19 @@ echo "Ranking mirrors ..."
 
 rankmirrors -v "${SOURCE}" | tee "${RANKED}"
 
-echo "Overwriting configuration ..."
+if grep -q '^Server = https' "${RANKED}" ; then
 
-sudo mv "${RANKED}" "${PACMAN}"
+  echo "Overwriting configuration ..."
+
+  sudo chown root:root "${RANKED}"
+  sudo chmod 744 "${RANKED}"
+  sudo mv "${RANKED}" "${PACMAN}"
+
+else
+
+  echo 'Not overwriting configuration because resulting file does not contain any `^Server = https` line.'
+
+fi
 
 echo "Cleaning up ..."
 rm "${SOURCE}"
