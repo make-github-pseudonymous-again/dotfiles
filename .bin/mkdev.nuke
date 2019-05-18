@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ "$#" -lt 1 ] ; then
+	echo 'usage: mkdev.nuke </dev/sdx>'
+	exit 1
+fi
+
+dev="$1"
+
+sudo wipefs --all --backup "$dev"
+sudo dd if=/dev/zero of="$dev" bs=512 count=1

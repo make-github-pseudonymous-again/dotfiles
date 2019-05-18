@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# from https://forum.manjaro.org/t/how-to-format-a-usb-stick-so-that-it-is-usable-on-manjaro-windows-and-macos/3972
+
+if [ "$#" -lt 2 ] ; then
+	echo 'usage: mkdev.lmw <name> </dev/sdx>'
+	exit 1
+fi
+
+name="$1"
+dev="$2"
+
+mkdev.nuke "$dev"
+
+sudo parted "$dev" mklabel msdos
+sudo parted "$dev" mkpart primary ext4 0% 100%
+sudo mkfs.fat -F32 -n "$name" "${dev}1"

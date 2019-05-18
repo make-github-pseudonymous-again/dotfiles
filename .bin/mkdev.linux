@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# from https://askubuntu.com/a/811954/139673
+
+if [ "$#" -lt 2 ] ; then
+	echo 'usage: mkdev.linux <name> </dev/sdx>'
+	exit 1
+fi
+
+name="$1"
+dev="$2"
+
+mkdev.nuke "$dev"
+
+sudo parted "$dev" mklabel gpt
+sudo parted --align optimal "$dev" mkpart primary ext4 0% 100%
+sudo mkfs.ext4 -L "$name" "${dev}1"

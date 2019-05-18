@@ -5,4 +5,8 @@ if [ "$#" -lt 2 ] ; then
 	exit 1
 fi
 
-sudo dd bs=4M if="$1" of="$2" status=progress oflag=sync
+iso="$1"
+dev="$2"
+
+mkdev.nuke "$dev"
+sudo dd bs=4M if="$iso" of="$dev" status=progress oflag=sync

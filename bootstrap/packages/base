@@ -17,6 +17,7 @@ bind-tools
 thefuck
 tk
 pacman-contrib # rankmirrors
+util-linux # wipefs, rfkill
 
 xorg-server
 xorg-xinit
