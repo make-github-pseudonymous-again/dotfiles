@@ -4,9 +4,11 @@ SOURCE="$(mktemp --tmpdir "${USER}-wifi.noise.XXXXXXXX.json")"
 
 IGNORE="$1"
 
-sudo wifi.endpoints.scan
+DEVICE="$2"
 
-wifi.fingerprint | \
+sudo wifi.endpoints.scan "$DEVICE"
+
+wifi.endpoints "$DEVICE" | \
 jq 'map(select([.address] | inside(['"$IGNORE"']) | not))' | \
 jq 'map({"key":.channel, "value": ((.signal / 10) | exp10)})' | \
 jq 'group_by(.key)' | \

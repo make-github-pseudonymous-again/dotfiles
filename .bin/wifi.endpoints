@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-wifi.endpoints._list "$1" | wifi.endpoints._list.format
+DEVICE="${1:-$(wifi.chips.default)}"
+
+wifi.endpoints._list "$DEVICE" | wifi.endpoints._list.format

@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-sudo /usr/bin/iw dev "$(wifi.chips.default)" scan 1>&2
+DEVICE="${1:-$(wifi.chips.default)}"
+
+sudo /usr/bin/iw dev "$DEVICE" scan 1>&2
