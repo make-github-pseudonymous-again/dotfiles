@@ -176,6 +176,9 @@
 	# commits
 	cc = "!f() { type=\"$1\" ; shift ; if [ $# -eq 0 ] ; then scope='' ; else scope=\"($@)\" ; fi ; GIT_EDITOR=\"vim -c \\\"normal i$(jq -r < $HOME/.config/conventional-commit/config .[\\\"$type\\\"].title)$scope: \\\" -c 'startinsert!'\" git commit --verbose ; } ; f"
 
+	# stash, pull, push, stash pop
+	sync = "!f() { git stash && git pull && git push && git stash pop; } ; f"
+
 [difftool.latex]
 	cmd = latexdiff-git "$LOCAL" "$REMOTE"
 
