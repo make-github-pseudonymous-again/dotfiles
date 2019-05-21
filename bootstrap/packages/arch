@@ -142,9 +142,6 @@ fbida
 gimp
 viewnior
 
-# Libre office
-libreoffice-still
-
 # Latex
 texlive-bin # TeX Live binaries
 texlive-core # TeX Live core distribution
@@ -155,7 +152,7 @@ texlive-latexextra # TeX Live - Large collection of add-on packages for LaTeX (c
 texlive-bibtexextra # TeX Live - Additional BibTeX styles and bibliography databases (contains plainurl.bst)
 
 # Bibliography
-pandoc-citeproc
+pandoc-citeproc # pandoc-citeproc --bib2yaml ...
 
 # Plotting
 gnuplot
