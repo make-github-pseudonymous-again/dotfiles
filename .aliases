@@ -6,7 +6,6 @@ alias .....="cd ../../../.."
 alias -- -="cd -"
 
 # Shortcuts
-alias b="cd ~/dropbox"
 alias dl="cd ~/dl"
 alias u="cd ~/ulb"
 alias h="history"

@@ -31,7 +31,7 @@ fi
 
 CWD="$PWD/"
 
-# check working directory is in dropbox
+# check working directory is in root directory
 if [[ "$CWD" != "$ROOT"* ]] ; then
   _log error "$CWD is not in $ROOT"
   exit 3
