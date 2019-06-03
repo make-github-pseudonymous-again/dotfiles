@@ -6,6 +6,6 @@ mkdir -p "${archive}"
 timestamp="$(now)"
 
 for file in "$@" ; do
-	dest="${archive}/${timestamp}-$(basename "${file}")"
+	dest="${archive}/$(os.path.sanitize "${timestamp}-$(basename "${file}")")"
 	cp "${file}" "${dest}"
 done
