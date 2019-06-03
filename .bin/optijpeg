@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-for file in "$@"
-do
+for file in "$@" ; do
 	jpegtran -optimize "$file" > "$file." && du -b "$file"{,.}
 	newsize=$(wc -c <"$file.")
 	oldsize=$(wc -c <"$file")

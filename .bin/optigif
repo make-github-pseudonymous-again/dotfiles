@@ -3,8 +3,7 @@
 # Image optimization tools (lossless)
 # credits to http://stackoverflow.com/a/19327447/1582182
 
-for file in "$@"
-do
+for file in "$@" ; do
 	gifsicle -O "$file" -o "$file." && du -b "$file"{,.}
 	newsize=$(wc -c <"$file.")
 	oldsize=$(wc -c <"$file")
