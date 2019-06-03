@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=;
 Comment=Edit file in Vim
-Exec=vim %f
+Exec=gvim %f
 GenericName=Text Editor
 Hidden=false
 Icon=vim
