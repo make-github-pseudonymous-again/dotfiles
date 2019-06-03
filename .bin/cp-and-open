@@ -2,10 +2,18 @@
 
 # https://en.wikipedia.org/wiki/URI
 URI_REGEXP='^[a-zA-Z][a-zA-Z0-9+.-]*://'
+FILE_URI_REGEXP='^file://'
 
 function isURI {
 
 	<<< "$1" grep -q "$URI_REGEXP"
+
+}
+
+# https://en.wikipedia.org/wiki/File_URI_scheme
+function isFileURI {
+
+	<<< "$1" grep -q "$FILE_URI_REGEXP"
 
 }
 
