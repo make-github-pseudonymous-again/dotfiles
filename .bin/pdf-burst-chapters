@@ -7,7 +7,7 @@ if [ -n "$root" ] ; then
   mkdir -p "$root"
 fi
 
-args="$(mktemp "${USER}-pdf-burst-chapters-commands.XXXXXXXX")"
+args="$(mktemp --tmpdir "${USER}-pdf-burst-chapters-commands.XXXXXXXX")"
 
 function _exit {
   rm -f "$args"
