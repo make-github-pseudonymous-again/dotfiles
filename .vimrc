@@ -442,7 +442,7 @@ endif
 
 " Email completion using abook and fzf
 function! s:iea_handler(lines)
-  exec ':normal a' . join(a:lines,', ')
+  exec ':normal A' . join(a:lines,', ')
 endfunction
 command! InsertEmailAddresses call fzf#run({'source': 'notmuch-abook export -f email -s name', 'sink*': function('<sid>iea_handler'), 'options': '-m'})
 nn <silent> <leader>v :InsertEmailAddress<cr>
