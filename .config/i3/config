@@ -712,6 +712,14 @@ mode "music" {
         bindcode 66 mode "default"
 }
 
+#-- bindsym $mod+equal exec setxkbmap be; mode "kbbelgian"
+bindcode $mod+61 exec setxkbmap be; mode "kbbelgian"
+
+mode "kbbelgian" {
+        #-- bindsym Escape exec setxkbmap us; mode "default"
+        bindcode 66 exec setxkbmap us; mode "default"
+}
+
 # volume
 #-- bindsym XF86AudioRaiseVolume exec volume.up 3
 bindcode 123 exec volume.up 3
@@ -766,8 +774,8 @@ bindcode $mod+28 exec touchpad.toggle
 #bindsym XF86WLAN exec wifi.ui.auto.toggle
 
 # Change the workspace output
-#-- bindsym $mod+plus exec i3.workspace.swap
-bindcode $mod+61 exec i3.workspace.swap
+#-- bindsym $mod+Shift+equal exec i3.workspace.swap
+bindcode $mod+Shift+61 exec i3.workspace.swap
 #-- bindsym $mod+semicolon move workspace to output right
 bindcode $mod+59 move workspace to output right
 #-- bindsym $mod+colon move workspace to output left
