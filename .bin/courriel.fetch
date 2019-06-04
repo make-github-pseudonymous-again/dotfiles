@@ -6,4 +6,3 @@ if [ -n "$pid" ] ; then
 else
   exit 1
 fi
-
