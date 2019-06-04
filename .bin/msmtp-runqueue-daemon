@@ -1,6 +1,37 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-while true; do
-	msmtp-runqueue
-	sleep 300
+trap _trap1 SIGUSR1
+trap _trap2 SIGUSR2
+
+delay=0
+sleep_with_success=0
+
+_trap1 () {
+  echo " ! Received order to run queue immediately"
+  kill ${!}
+}
+
+_trap2 () {
+  echo " ! Received order to run queue in 30 seconds"
+  sleep_with_success=0
+  delay=30
+  kill ${!}
+}
+
+_run () {
+  msmtp-runqueue
+}
+
+while true ; do
+
+  _run
+
+  sleep_with_success=0
+  delay=300
+  while test "$sleep_with_success" -eq 0 ; do
+    sleep_with_success=1
+    echo " > Sleeping $delay seconds ..."
+    sleep "$delay" & wait ${!}
+  done
+
 done

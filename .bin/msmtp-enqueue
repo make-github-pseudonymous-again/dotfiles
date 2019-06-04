@@ -2,20 +2,13 @@
 
 msmtp-enqueue-only "$@"
 
-SENDDELAY=0
+SENDDELAY=1
 
-# If we are online, run the queue immediately.
-ping -c 1 -w 2 8.8.4.4 > /dev/null
-if [ $? -eq 0 ]; then
-	# Delay
-	if [ "$SENDDELAY" -gt 0 ] ; then
-		echo "[=======] Waiting $SENDDELAY seconds just to let you enough time to cancel that"
-	fi
-	delay "$SENDDELAY" msmtp-runqueue &
+if [ "$SENDDELAY" -gt 0 ] ; then
+	echo "[=======] Waiting 30 seconds just to let you enough time to cancel that"
+	msmtp-runqueue-daemon-30s
 else
-	echo "[*******] Could not ping 8.8.4.4 '_'"
-	echo "[*******] Do not worry though. Your email will eventually be sent"
-	echo "[*******] once the connection is back. Just run msmtp-runqueue again ^_^"
+	msmtp-runqueue-daemon-now
 fi
 
 exit 0

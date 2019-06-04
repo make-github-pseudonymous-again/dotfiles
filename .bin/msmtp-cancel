@@ -1,20 +1,29 @@
 #!/usr/bin/env bash
 
-QUEUEDIR="$HOME/.msmtp/queue"
-LOCKFILE="$QUEUEDIR/.lock"
+MSMTPDIR="${HOME}/.msmtp"
+QUEUEDIR="${MSMTPDIR}/queue"
+CANCELEDDIR="${MSMTPDIR}/canceled"
+LOCKFILE="${QUEUEDIR}/.lock"
 MAXWAIT=120
 
 OPTIONS=$@
 
-echo "[=======] Greetings! This is msmtp-runqueue ()_()"
+echo "[=======] Greetings! This is msmtp-cancel ()_()"
 echo "[=======] Running queue '$QUEUEDIR'"
 echo "[=======] With options '$OPTIONS'"
+echo "[=======] Canceled jobs will be put in '$CANCELEDDIR'"
 
 # Jump to queue directory (create it if necessary)
-if ! mkdir -p "$QUEUEDIR" || ! cd "$QUEUEDIR" ; then
+if ! cd "$QUEUEDIR" ; then
 	echo "[~~~~~~~] Cannot use '$QUEUEDIR' *_*"
 	exit 1
 fi
+
+if ! mkdir -p "$CANCELEDDIR" || [ ! -d "$CANCELEDDIR" ] ; then
+	echo "[~~~~~~~] Cannot use '$CANCELEDDIR' *_*"
+	exit 1
+fi
+
 
 echo "[=======] Waiting $MAXWAIT seconds to acquire lockfile '$LOCKFILE' [<]"
 
@@ -26,7 +35,7 @@ if ! flock -x -w "$MAXWAIT" "$LOCKFD" ; then
 	exit 1
 fi
 
-echo "[=======] Looking for emails to send ..( °°) [x]"
+echo "[=======] Looking for emails to cancel ..( °°) [x]"
 
 # check for empty queuedir
 if [ "`echo *.mail`" = '*.mail' ]; then
@@ -35,25 +44,18 @@ if [ "`echo *.mail`" = '*.mail' ]; then
 	exit 0
 fi
 
-echo "[=======] Sending emails that I found ^_^"
+echo "[=======] Canceling emails that I found ^_^"
 
 # process all emails
 for MAILFILE in *.mail; do
+	echo "[*******] Canceling '$MAILFILE' ..."
 	MSMTPFILE="`echo $MAILFILE | sed -e 's/mail/msmtp/'`"
-	echo "[*******] Sending '$MAILFILE' to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
-	if [ ! -f "$MSMTPFILE" ]; then
-		echo "[FAILURE] Could not find '$MSMTPFILE' matching '$MAILFILE' :("
-		continue
-	fi
-	msmtp $OPTIONS `cat "$MSMTPFILE"` < "$MAILFILE"
-	if [ $? -eq 0 ]; then
-		rm "$MAILFILE" "$MSMTPFILE"
-		echo "[SUCCESS] '$MAILFILE' sent successfully :)"
-	else
-		echo "[FAILURE] Could not send '$MAILFILE' :("
+	mv "$MAILFILE" "$CANCELEDDIR"
+	if ! mv "$MSMTPFILE" "$CANCELEDDIR" ; then
+		echo "[WARNING] Could not find '$MSMTPFILE' matching '$MAILFILE' :("
 	fi
 done
 
-echo "[=======] Reached the end of the queue. Have a good day!"
+echo "[=======] Canceled all emails I could find. Have a good day!"
 
 exit 0

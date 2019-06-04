@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-QUEUEDIR="$HOME/.msmtpqueue"
+QUEUEDIR="$HOME/.msmtp/queue"
 LOCKFILE="$QUEUEDIR/.lock"
 
 if [ -e "$LOCKFILE" ]; then

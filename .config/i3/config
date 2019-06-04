@@ -494,12 +494,8 @@ mode "google" {
 }
 
 mode "organization" {
-        #-- bindsym m exec courriel; mode "default"
-        bindcode 47 exec courriel; mode "default"
-        #-- bindsym Shift+M exec gmail; mode "default"
-        bindcode Shift+47 exec gmail; mode "default"
-        #-- bindsym f exec courriel.fetch; mode "default"
-        bindcode 41 exec courriel.fetch; mode "default"
+        #-- bindsym m mode "mail"
+        bindcode 47 mode "mail"
         #bindsym n exec news; mode "default"
         #-- bindsym n exec notes.menu; mode "default"
         bindcode 57 exec notes.menu; mode "default"
@@ -539,6 +535,32 @@ mode "organization" {
         bindcode 36 mode "default"
         #-- bindsym Escape mode "default"
         bindcode 66 mode "default"
+}
+
+mode "mail" {
+
+        #UI
+        #-- bindsym a exec courriel; mode "default"
+        bindcode 24 exec courriel; mode "default"
+        #-- bindsym g exec gmail; mode "default"
+        bindcode 42 exec gmail; mode "default"
+
+        #LIEER
+        #-- bindsym f exec courriel.fetch; mode "default"
+        bindcode 41 exec courriel.fetch; mode "default"
+
+        #MSMTP
+        #-- bindsym c exec msmtp-cancel; mode "default"
+        bindcode 54 exec msmtp-cancel; mode "default"
+        #-- bindsym s exec msmtp-runqueue-daemon-now; mode "default"
+        bindcode 39 exec msmtp-runqueue-daemon-now; mode "default"
+
+        # back to normal: Enter or Escape
+        #-- bindsym Return mode "default"
+        bindcode 36 mode "default"
+        #-- bindsym Escape mode "default"
+        bindcode 66 mode "default"
+
 }
 
 mode "tools" {

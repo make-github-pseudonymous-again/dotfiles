@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+pid="$(ps aux | awk '/[m]smtp-runqueue-daemon$/ {print $2}')"
+if [ -n "$pid" ] ; then
+  kill -s SIGUSR1 "$pid"
+else
+  exit 1
+fi
