@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+PLUGINS="$(dotfiles-plugins-dir)"
+
+/usr/bin/ls -la "$PLUGINS" | tail -n+4

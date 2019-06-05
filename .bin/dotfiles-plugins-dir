@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+PLUGINS="$HOME/.config/dotfiles/plugins"
+
+printf "%s\n" "$PLUGINS"

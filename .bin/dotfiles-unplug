@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+PLUGINS="$(dotfiles-plugins-dir)"
+
+if [ "$#" -ne 1 ] ; then
+  >&2 echo "usage: $0 <slug>"
+  exit 1
+fi
+
+if [ -n "$1" ] ; then
+  rm "$PLUGINS/$1"
+fi

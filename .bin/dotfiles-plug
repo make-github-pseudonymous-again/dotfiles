@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-PLUGINS="$HOME/.config/dotfiles/plugins"
+PLUGINS="$(dotfiles-plugins-dir)"
 
 if [ "$#" -eq 0 ] ; then
   >&2 echo "usage: $0 <path> [<slug>]"

@@ -22,6 +22,7 @@ alias t="touch"
 alias r="ranger"
 alias q="exit"
 alias lvl="echo $SHLVL"
+alias dot="dotfiles"
 abbr wi wifi
 abbr ws wifi.endpoints.scan
 alias tk="task rc:~/.config/task/.taskrc"
