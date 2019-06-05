@@ -347,14 +347,14 @@ fi
 
 if $vim ; then
 
-  echo '+ Update vim pluggins'
+  echo '+ Update vim plugins'
   vim.update || _exit "$?"
 
 fi
 
 if $fish ; then
 
-  echo '+ Update fish pluggins'
+  echo '+ Update fish plugins'
   fish -c 'fisher' || _exit "$?"
 
 fi
