@@ -172,9 +172,10 @@ endif
 " Don’t create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 
-" Respect modeline in files
-set modeline
-set modelines=4
+" Modelines are a security threat
+" See https://github.com/numirias/security/blob/master/doc/2019-06-04_ace-vim-neovim.md
+set modelines=0
+set nomodeline
 " Do not enable per-directory .vimrc files
 " set exrc
 " and disable unsafe commands in them (just in case)
