@@ -34,6 +34,7 @@ xfig
 wpa_actiond
 python2-keyring
 python2-secretstorage
+notes-git
 
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
