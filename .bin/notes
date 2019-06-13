@@ -30,41 +30,20 @@ without_notes_dir() {
     cat | sed -e "s/^$escaped_notes_dir//g" | sed -E "s/^\/+//g"
 }
 
+FIND_FILTER=(-not -path '*/\.*' -type f)
+
 _find_notes() {
     local root="$1" && shift
-    find "$root" -not -path '*/\.*' -type f "$@"
+    find "$root" "${FIND_FILTER[@]}" "$@"
 }
 
 ls_notes() {
-    local root="$notes_dir/$*"
-    local find_output=$(_find_notes "$root")
-    local find_result=$?
+    local ls_output=$(cd "$notes_dir" && ls "$@")
+    local ls_result=$?
 
-    local formatted_output=$(printf "$find_output" | without_notes_dir)
+    local formatted_output=$(printf "$ls_output" | without_notes_dir)
 
-    if [[ $find_result == 0 && "$formatted_output" ]]; then
-        printf "$formatted_output\n"
-        return 0
-    else
-        return 2
-    fi
-}
-
-search_filenames_and_contents() {
-    if [ "$#" -gt 0 ]; then
-        find_output=$(_find_notes "$notes_dir" -exec bash -c \
-            "shopt -s nocasematch
-            grep -li \"$*\" \"{}\" || if [[ \"{}\" =~ \"$*\" ]]; then
-                echo \"{}\";
-            fi" \;\
-        )
-    else
-        find_output=$(_find_notes "$notes_dir")
-    fi
-    find_result=$?
-    formatted_output=$(printf "$find_output" | without_notes_dir)
-
-    if [[ $find_result == 0 && "$formatted_output" ]]; then
+    if [[ $ls_result == 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
         return 0
     else
@@ -97,6 +76,20 @@ grep_notes() {
 
     if [[ $grep_result == 0 && "$formatted_output" ]]; then
         printf "$formatted_output\n"
+        return 0
+    else
+        return 2
+    fi
+}
+
+search_filenames_and_contents() {
+    if [ "$#" -gt 0 ]; then
+      formatted_output="$({ find_notes "$@" ; grep_notes "$@" ; })"
+    else
+      formatted_output="$(find_notes)"
+    fi
+    if [ "$formatted_output" != '' ] ; then
+        sort <<< "$formatted_output" | uniq
         return 0
     else
         return 2
