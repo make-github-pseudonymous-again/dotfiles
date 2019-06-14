@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# from https://unix.stackexchange.com/a/125702/33933
+
+search="$(sed.escape.search <<< "$1")" && shift
+replace="$(sed.escape.replace <<< "$1")" && shift
+
+sed -r ":1;/${search}/I!b;s//\n&&&\n${replace}\n/;:2
+    s/\n[[:lower:]](.*\n)(.)(.*\n)/\l\2\n\1\3/
+    s/\n[^[:lower:]](.*\n)(.)(.*\n)/\u\2\n\1\3/;t2
+    s/\n.*\n(.*)\n/\1/g;b1" "$@"

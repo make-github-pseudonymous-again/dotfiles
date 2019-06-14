@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# see https://stackoverflow.com/a/29626460/1582182
+
+sed 's/[&/\]/\\&/g'
