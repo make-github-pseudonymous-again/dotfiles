@@ -25,8 +25,8 @@ Plug 'francoiscabrol/ranger.vim'
 
 
 " ## FIXES ##
-" Find-N-Replace helper free of regular expressions
-"Plug 'junegunn/vim-fnr'
+" Find-N-Replace in Vim with live preview (experimental)
+"Plug 'junegunn/vim-fnr' " requires pseudocl
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 " Heuristically set buffer options (auto indentation)
@@ -114,6 +114,11 @@ Plug 'easymotion/vim-easymotion'
 " ## SELECTION ##
 " True Sublime Text style multiple selections for Vim
 "Plug 'terryma/vim-multiple-cursors'
+"
+
+" ## SEARCH & REPLACE ##
+" easily search for, substitute, and abbreviate multiple variants of a word
+Plug 'tpope/vim-abolish'
 
 " ## SHORTCUTS ##
 " pairs of handy bracket mappings
@@ -470,5 +475,7 @@ map <leader>R :RangerCurrentFile<CR>
 " jsx
 let g:jsx_ext_required = 0
 
-" replace selection shortcut
-vnoremap <C-r> "hy:%s/<C-r>h//g<left><left>
+" search and replace selection shortcuts
+vmap // "hy/<C-r>"<CR>
+vnoremap <C-r> "hy:%s/<C-r>=escape(@",'/\')<CR>//Ig<left><left><left>
+vnoremap <C-s> "hy:%Subvert/<C-r>=escape(@",'/\')<CR>//g<left><left>
