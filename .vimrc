@@ -31,6 +31,8 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'tpope/vim-repeat'
 " Heuristically set buffer options (auto indentation)
 Plug 'tpope/vim-sleuth'
+" even better % / navigate and highlight matching words / modern matchit and matchparen replacement
+Plug 'andymass/vim-matchup'
 
 " ## VISUAL ##
 " one colorscheme pack to rule them all!
