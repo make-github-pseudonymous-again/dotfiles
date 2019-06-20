@@ -15,6 +15,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 # Initialize our own variables:
 clean=false    # c
 diff=false     # d
+pacdiff=false  # f
 install=false  # i
 modules=false  # m
 node=true      # n
@@ -45,6 +46,7 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
         plugins=true
         clean=true
         sync=true
+        pacdiff=true
         install=true
         update=true
         restart=true
@@ -56,6 +58,8 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
         ;;
     d)  diff=true
         update=false
+        ;;
+    f)  pacdiff=true
         ;;
     i)  install=true
         ;;
@@ -86,6 +90,8 @@ while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
     C)  clean=false
         ;;
     D)  diff=false
+        ;;
+    F)  pacdiff=false
         ;;
     I)  install=false
         ;;
@@ -363,6 +369,14 @@ if $tldr ; then
 
   echo '+ Update tldr cache'
   tldr --update || _exit "$?"
+
+fi
+
+if $pacdiff ; then
+
+  echo '+ Running pacdiff'
+  sudo pacdiff -f -o
+  sudo pacdiff
 
 fi
 
