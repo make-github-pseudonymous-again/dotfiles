@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+#####################################################
+# Convert video files to work with the Qumi Q3 Plus #
+#####################################################
+
+# The Qumi Q3 Plus only supports a limited set of formats.
+# This script is an attempt at automating transcoding of video files to work
+# with the device.
+# At first I will only implement audio transcoding because video is very slow
+# anyway. For video, just try to generate the proper format from source
+# directly.
+
+if [ "$#" -lt 1 ] ; then
+  >&2 echo "Not enough parameters for $0. Specify at least one."
+  exit 1
+fi
+
+input="$1"; shift
+>&2 echo "INPUT: ${input}"
+
+output="${1:-${input%.*}.mp4}";
+if [ "$#" -ge 1 ] ; then shift ; fi
+>&2 echo "OUTPUT: ${output}"
+
+video_input_format="$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=nokey=1:noprint_wrappers=1 -i "$input")"
+>&2 echo "VIDEO INPUT: ${video_input_format}"
+
+audio_input_format="$(ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of default=nokey=1:noprint_wrappers=1 -i "$input")"
+>&2 echo "AUDIO INPUT: ${audio_input_format}"
+
+case "$video_input_format" in
+  h264)
+    video_output_format=copy
+    ;;
+  *)
+    video_output_format=h264
+    ;;
+esac
+
+case "$audio_input_format" in
+  aac)
+    audio_output_format=copy
+    ;;
+  *)
+    audio_output_format=aac
+    ;;
+esac
+
+
+>&2 echo "VIDEO OUTPUT: ${video_output_format}"
+>&2 echo "AUDIO OUTPUT: ${audio_output_format}"
+
+>&2 echo "FFMPEG PARAMS: $@"
+
+ffmpeg -i "$input" -c:v "$video_output_format" -c:a "$audio_output_format" "$output" "$@"
+
