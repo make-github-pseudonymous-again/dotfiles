@@ -91,6 +91,7 @@ nmap
 go-ipfs
 tldr
 glances
+trash-cli
 
 # Keys and Passwords
 gnupg

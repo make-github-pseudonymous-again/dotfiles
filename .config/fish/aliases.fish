@@ -35,6 +35,12 @@ abbr nig "sudo npm i -g"
 abbr nuk "rm -rf"
 abbr get "rsync -LPav"
 
+# trash-cli abbreviations
+abbr tp "trash-put --"
+abbr tl "trash-list"
+abbr td "trash-rm"
+abbr te "trash-empty"
+
 # Git
 abbr g git
 

@@ -21,6 +21,12 @@ alias srv="server"
 alias rfc="ref.rename.from.contents"
 alias k="pkill -9"
 
+# trash-cli aliases
+alias tp="trash-put --"
+alias tl="trash-list"
+alias td="trash-rm"
+alias te="trash-empty"
+
 alias g="git"
 alias e="vim"
 
