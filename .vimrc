@@ -485,3 +485,5 @@ vnoremap <C-r> "hy:%s/<C-r>=escape(@",'/\')<CR>//Ig<left><left><left>
 " whole file: replace selection using subvert (preserves case and also handles
 " singular/plural with word{,s} syntax
 vnoremap <C-s> "hy:%Subvert/<C-r>=escape(@",'/\')<CR>//g<left><left>
+" current line: add a newline after each occurrence of the last search term
+nnoremap SS :s//&\r/g<CR>
