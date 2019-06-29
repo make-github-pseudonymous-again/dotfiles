@@ -15,25 +15,27 @@ alias j='fasd_cd -d'    # cd, same functionality as j in autojump
 alias o='a -e xdg-open' # quick opening files with xdg-open
 
 # Shortcuts
-alias dl="cd ~/dl"
-alias u="cd ~/ulb"
-alias h="history"
+abbr dl "cd ~/dl"
+abbr u "cd ~/ulb"
+abbr h "history"
 abbr t "touch"
 abbr r "ranger"
-alias q="exit"
+abbr q "exit"
 alias lvl="echo $SHLVL"
-alias dot="dotfiles"
+abbr dot "dotfiles"
 abbr wi wifi
 abbr ws wifi.endpoints.scan
 alias tk="task rc:~/.config/task/.taskrc"
 abbr srv server
 abbr rfc ref.rename.from.contents
 abbr k "pkill -9"
+abbr nuk "rm -rf"
+abbr get "rsync -LPav"
+
+# npm abbreviations
 abbr ni "npm i --save"
 abbr nid "npm i --save-dev"
 abbr nig "sudo npm i -g"
-abbr nuk "rm -rf"
-abbr get "rsync -LPav"
 
 # trash-cli abbreviations
 abbr tp "trash-put --"
