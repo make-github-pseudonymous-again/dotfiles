@@ -32,6 +32,10 @@ abbr k "pkill -9"
 abbr nuk "rm -rf"
 abbr get "rsync -LPav"
 
+# yarn abbreviations
+abbr ya "yarn add"
+abbr yad "yarn add --dev"
+
 # npm abbreviations
 abbr ni "npm i --save"
 abbr nid "npm i --save-dev"
