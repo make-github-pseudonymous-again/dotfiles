@@ -477,7 +477,11 @@ map <leader>R :RangerCurrentFile<CR>
 " jsx
 let g:jsx_ext_required = 0
 
-" search and replace selection shortcuts
+" ## SEARCH AND REPLACE ##
+" search selected text
 vmap // "hy/<C-r>"<CR>
+" whole file: replace selection with the standard search and replace tool
 vnoremap <C-r> "hy:%s/<C-r>=escape(@",'/\')<CR>//Ig<left><left><left>
+" whole file: replace selection using subvert (preserves case and also handles
+" singular/plural with word{,s} syntax
 vnoremap <C-s> "hy:%Subvert/<C-r>=escape(@",'/\')<CR>//g<left><left>
