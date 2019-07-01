@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+name="$1"
+
+if [ "${name}" != '' ] ; then
+  sync || exit 1
+  sudo umount "/dev/mapper/${name}" || exit 2
+  sudo cryptsetup luksClose "${name}" || exit 3
+else
+  >&2 echo "Please specify one of the following:"
+  >&2 sudo dmsetup ls --target crypt
+  exit 99
+fi
