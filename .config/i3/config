@@ -700,8 +700,12 @@ mode "files" {
         bindcode 26 exec menu.edit; mode "default"
         #-- bindsym r exec menu.library.pdf; mode "default"
         bindcode 27 exec menu.library.pdf; mode "default"
+        #-- bindsym Shift+r exec menu.library.pdf --opener evince; mode "default"
+        bindcode Shift+27 exec menu.library.pdf --opener evince; mode "default"
         #-- bindsym p exec menu.pdf; mode "default"
         bindcode 33 exec menu.pdf; mode "default"
+        #-- bindsym Shift+p exec menu.pdf --opener evince; mode "default"
+        bindcode Shift+33 exec menu.pdf --opener evince; mode "default"
         #-- bindsym x exec menu.xournal; mode "default"
         bindcode 53 exec menu.xournal; mode "default"
 

@@ -5,4 +5,5 @@ menu.recoll \
   --location "${HOME}/research/library" \
   --menuicon '' \
   --menucolor '#FF4E50' \
-  --extensions 'ext:pdf OR ext:djvu'
+  --extensions 'ext:pdf OR ext:djvu' \
+  "$@"

@@ -2,7 +2,7 @@
 text/plain=vim.desktop
 application/javascript=vim.desktop
 application/x-desktop=vim.desktop
-application/pdf=org.gnome.Evince.desktop
+application/pdf=mupdf.desktop
 image/vnd.djvu=org.gnome.Evince.desktop
 application/x-xojpp=xournalpp.desktop
 application/x-xopp=xournalpp.desktop
