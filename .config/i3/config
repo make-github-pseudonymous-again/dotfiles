@@ -832,4 +832,7 @@ for_window [class="^fzf-menu$"] move position center
 # resize large floating windows
 for_window [window_role="GtkFileChooserDialog"] resize set 640 480
 
+# FIX disable Ctrl+q (firefox)
+bindsym Ctrl+q exec true
+
 exec --no-startup-id ~/.bin/wallpaper.refresh
