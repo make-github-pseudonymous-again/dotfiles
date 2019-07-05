@@ -835,4 +835,5 @@ for_window [window_role="GtkFileChooserDialog"] resize set 640 480
 # FIX disable Ctrl+q (firefox)
 bindsym Ctrl+q exec true
 
+# wallpaper
 exec --no-startup-id ~/.bin/wallpaper.refresh
