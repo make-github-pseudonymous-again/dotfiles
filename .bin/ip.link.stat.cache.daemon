@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+while true; do
+  sleep 4
+  ip.link.stat.cache
+done

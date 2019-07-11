@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-services.on
+services.on "${HOME}/.config/mode/plane/config.json"
 wifi.ui.restart
 mkdir -p "/tmp/.cache/mobile/mode/plane"
 rm -f "/tmp/.cache/mobile/mode/plane/on"

@@ -1,0 +1,7 @@
+{
+	"whitelist": [
+		"ssh-agent.service",
+		"recoll.service",
+		"homepage.service"
+	]
+}

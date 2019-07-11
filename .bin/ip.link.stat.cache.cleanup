@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+CACHE="/tmp/${USER}-ip.link.stat.cache"
+rm -rf "$CACHE"

@@ -1,6 +1,11 @@
 [Unit]
 Description=Cache link stats
+After=ready.target
 
 [Service]
-Type=oneshot
-ExecStart=/usr/bin/sh ip.link.stat.cache
+ExecStart=/usr/bin/sh ip.link.stat.cache.daemon
+ExecStopPost=/usr/bin/sh ip.link.stat.cache.cleanup
+Restart=on-failure
+
+[Install]
+WantedBy=ready.target

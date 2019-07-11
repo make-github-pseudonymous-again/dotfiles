@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-services.off
+services.off "${HOME}/.config/mode/metered/config.json"
 mkdir -p "/tmp/.cache/link/mode/metered"
 touch "/tmp/.cache/link/mode/metered/on"

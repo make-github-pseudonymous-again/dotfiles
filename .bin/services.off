@@ -1,21 +1,22 @@
 #!/usr/bin/env sh
 
+CONFIG="${1:-"${HOME}/.config/services/config.json"}"
 CACHE="${HOME}/.cache/services"
 
 mkdir -p "$(dirname "${CACHE}")"
 services.list > "${CACHE}"
 
-jqselector="with_entries(select( \
-	.key != \"ssh-agent.service\" \
+jqselector=".[0] as \$config | .[1] as \$cache | \$cache | with_entries(select( \
+	([.key] | inside(\$config.whitelist) | not) \
 	and
-	.value.origin == \"user\" \
+	(.value.origin == \"user\") \
 	and \
 	([.value.type] | inside([\"service\",\"timer\"])) \
 	and \
 	([.value.running] | inside([\"running\",\"waiting\"])) \
 )) | keys[]"
 
-for service in $(cat "${CACHE}" | jq -r "${jqselector}") ; do
+for service in $(jq -s -r "${jqselector}" "${CONFIG}" "${CACHE}") ; do
 	echo "  * stop ${service}"
 	/usr/bin/systemctl --user stop "${service}"
 done

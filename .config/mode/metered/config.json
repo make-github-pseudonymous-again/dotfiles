@@ -1,0 +1,15 @@
+{
+	"whitelist": [
+		"ssh-agent.service",
+		"ip.link.stat.cache.service",
+		"recoll.service",
+		"courriel.service",
+		"homepage.service",
+		"msmtp.service",
+		"calendar.timer",
+		"weather.timer",
+		"geolocation.timer",
+		"ipgeolocation.timer",
+		"vulnerabilities.timer"
+	]
+}

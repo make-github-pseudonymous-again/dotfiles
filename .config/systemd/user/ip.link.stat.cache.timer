@@ -1,9 +1,0 @@
-[Unit]
-Description=Cache link stat every 4 seconds
-
-[Timer]
-OnCalendar=*:*:0/4
-Persistent=true
-
-[Install]
-WantedBy=ready.target
