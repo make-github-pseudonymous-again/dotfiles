@@ -1,5 +1,6 @@
 {
 	"whitelist": [
+		"setup-environment.service",
 		"ssh-agent.service"
 	]
 }

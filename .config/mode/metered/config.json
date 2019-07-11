@@ -1,6 +1,8 @@
 {
 	"whitelist": [
+		"setup-environment.service",
 		"ssh-agent.service",
+		"bcm4331-unhang.timer",
 		"ip.link.stat.cache.service",
 		"recoll.service",
 		"courriel.service",
