@@ -2,6 +2,7 @@
 	"whitelist": [
 		"setup-environment.service",
 		"ssh-agent.service",
+		"autorotate.service",
 		"recoll.service",
 		"homepage.service"
 	]

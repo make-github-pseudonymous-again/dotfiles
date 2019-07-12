@@ -3,6 +3,7 @@
 		"setup-environment.service",
 		"ssh-agent.service",
 		"bcm4331-unhang.timer",
+		"autorotate.service",
 		"ip.link.stat.cache.service",
 		"recoll.service",
 		"courriel.service",
