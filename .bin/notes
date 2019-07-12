@@ -130,6 +130,12 @@ remove_note() {
     popd > /dev/null
 }
 
+trash_note() {
+    pushd "$notes_dir" > /dev/null
+    trash-put -v "$@"
+    popd > /dev/null
+}
+
 handle_multiple_notes() {
     local cmd=$1
 
@@ -201,6 +207,7 @@ Usage:
     ${name} open|o                          # Open your notes directory
     ${name} open|o <name>                   # Open a note for editing by full name
     ${name} rm [-r | --recursive] <name>    # Remove note, or folder if -r or --recursive is given
+    ${name} trash <name>                    # Trash note or folder
     ${name} cat <name>                      # Display note
     echo <name> | ${name} open|o            # Open all note filenames piped in
     echo <name> | ${name} cat               # Display all note filenames piped in
@@ -244,6 +251,9 @@ main() {
             ;;
         "rm" )
             cmd="remove_note"
+            ;;
+        "trash" )
+            cmd="trash_note"
             ;;
         "cat" )
             cmd="handle_multiple_notes cat"
