@@ -502,8 +502,8 @@ mode "google" {
 }
 
 mode "organization" {
-        #-- bindsym m mode "mail"
-        bindcode 47 mode "mail"
+        #-- bindsym m mode "messaging"
+        bindcode 47 mode "messaging"
         #bindsym n exec news; mode "default"
         #-- bindsym n exec notes.menu; mode "default"
         bindcode 57 exec notes.menu; mode "default"
@@ -545,13 +545,15 @@ mode "organization" {
         bindcode 66 mode "default"
 }
 
-mode "mail" {
+mode "messaging" {
 
         #UI
         #-- bindsym a exec courriel; mode "default"
         bindcode 24 exec courriel; mode "default"
         #-- bindsym g exec gmail; mode "default"
         bindcode 42 exec gmail; mode "default"
+        #-- bindsym m exec fractal; mode "default"
+        bindcode 47 exec fractal; mode "default"
 
         #LIEER
         #-- bindsym f exec courriel.fetch; mode "default"
