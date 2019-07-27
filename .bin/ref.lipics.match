@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# LIPIcs-ICALP-2018-77.pdf
+
+[[ "$1" =~ ^LIPIcs-[0-9A-Z]+-[0-9]{4}-[0-9]+\.pdf$ ]]
