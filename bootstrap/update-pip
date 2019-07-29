@@ -45,5 +45,5 @@ else
 
 fi
 
-_ arrow==0.4.2 # for compat with ics
-_ ics
+_ arrow==0.11.0 # for compat with ics
+_ ics==0.5.0
