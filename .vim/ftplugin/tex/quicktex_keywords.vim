@@ -197,8 +197,8 @@ let g:quicktex_math = {
     \'sn'     : "\<BS>_n",
     \'si'     : "\<BS>_i",
     \'sj'     : "\<BS>_j",
-    \'s1n'    : "\<BS>\<ESC>viwxPa_1, \<ESC>pa_2, \\ldots, \<ESC>pa_n",
-    \'t1n'    : "\<BS>\<ESC>viwxPa_1 < \<ESC>pa_2 < \\cdots < \<ESC>pa_n",
+    \'s1n'    : "\<BS>\<ESC>viwxPa_1, \<ESC>pa_2, \\ldots, \<ESC>pa_{<+++>} <++>",
+    \'t1n'    : "\<BS>\<ESC>viwxPa_1 < \<ESC>pa_2 < \\cdots < \<ESC>pa_{<+++>} <++>",
     \'text'   : '\text{<+++>} <++>',
     \'lbl'    : "\<ESC>s\\label{<+++>}<++>",
     \
