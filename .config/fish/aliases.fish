@@ -31,6 +31,7 @@ abbr rfc ref.rename.from.contents
 abbr k "pkill -9"
 abbr nuk "rm -rf"
 abbr get "rsync -LPav"
+abbr send "courriel.compose.prompt -a"
 
 # yarn abbreviations
 abbr ya "yarn add"
