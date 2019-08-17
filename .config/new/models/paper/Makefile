@@ -1,7 +1,7 @@
 .PHONY: all figures clean
 .SECONDARY:
 
-PAPERS := dev.pdf arxiv.pdf
+VERSIONS := dev.pdf arxiv.pdf
 
 LTX := pdflatex -interaction=nonstopmode -halt-on-error
 
@@ -11,7 +11,7 @@ BUILDDIR := _build
 
 FIGURES := $(shell sed -E -e 's/:.*$$//' Makefile | grep -E '^figures/[a-z0-9-]*\.pdf$$')
 
-all: $(PAPERS)
+all: $(VERSIONS)
 
 figures: $(FIGURES)
 
@@ -60,5 +60,5 @@ $(BUILDDIR)/arxiv/paper.zip: $(BUILDDIR)/arxiv/paper.pdf
 
 clean:
 	rm -rf $(BUILDDIR)
-	rm -f $(PAPERS) $(PAPERS:.pdf=.zip)
+	rm -f $(VERSIONS) $(VERSIONS:.pdf=.zip)
 	rm -f $(FIGURES)
