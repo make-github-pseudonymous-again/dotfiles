@@ -177,7 +177,9 @@ open_note() {
 
     note_path=$( get_full_note_path "$note_path" )
 
-    $EDITOR "$note_path" < /dev/tty
+    #$EDITOR "$note_path" < /dev/tty
+    $EDITOR "$note_path"
+
 }
 
 cat_note() {

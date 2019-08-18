@@ -3,5 +3,5 @@
 note=$(notes find | sed 's/\.md$//g' | dmenu_center --rest -i -t -p '' -sb '#24A946' -l 10)
 
 if [ "$note" != '' ]; then
-	terminator -b -x notes new "$note"
+	EDITOR=scratchpad notes new "$note"
 fi

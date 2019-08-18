@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
-FILE="$HOME/notes/scratchpad.md"
-ID=VIMSCRATCHPAD
+FILE="${1:-"$HOME/notes/scratchpad.md"}"
+ID="${2:-"VIMSCRATCHPAD$(<<< "$FILE" sed 's/\([-_A-Z]\)/\1\1/g' | tr '/.[:lower:]' '-_[:upper:]')"}"
+
+>&2 echo "FILE=$FILE"
+>&2 echo "ID=$ID"
 
 if [ "$(vim --serverlist | grep -c "$ID")" -eq 0 ] ; then
   terminator -b -x vim --servername "$ID" "$FILE"
