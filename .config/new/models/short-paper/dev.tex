@@ -1,0 +1,77 @@
+\documentclass[a4paper,french,12pt]{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage{xcolor}
+\usepackage[left=1cm, right=1cm, top=2cm, bottom=1cm]{geometry}
+\usepackage[francais]{babel}
+\usepackage{tcolorbox}
+\usepackage{wrapfig}
+\usepackage{times}
+
+\definecolor{darkblue}{HTML}{004C93}
+\tcbset{
+    center title,
+		top=1cm,
+		right=0cm,
+		left=0cm,
+    colback=darkblue,
+    colframe=white,
+    width=15.85cm,
+		height=5.62cm,
+		halign=right,
+		valign=top,
+		flush right,
+		sharp corners=all
+    }
+\pagenumbering{gobble}
+
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+\begin{document}
+\includegraphics[width=12.3cm, height=3.07cm]{sciences.png} \\ \\
+
+\begin{tcolorbox}
+\color[rgb]{1,1,1}
+
+\Large{\textbf{Data Structures and Algorithms for 3SUM and Friends}} \\
+\large{Geometric Divide-and-Conquer to the Rescue}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=white, halign=left]
+\color{darkblue}
+\large{\textbf{Thèse présentée par Aurélien OOMS}} \\
+\color{black}
+\large{en vue de l'obtention du grade académique de docteur en Sciences Informatiques \\
+Année académique 2019-2020}
+
+\vspace{2cm}
+
+\begin{flushright}
+\color{darkblue}
+Sous la direction du Professeur Jean CARDINAL, \ promoteur  \\
+\color{black}
+Algorithms Research Group
+\end{flushright}
+\end{tcolorbox}
+\vspace{4cm}
+
+
+%\begin{wrapfigure}{r}{0.3\textwidth}
+%\includegraphics{images/image_a_remplacer.png}
+%\end{wrapfigure}
+\noindent
+\textbf{Jury de thèse : } \\  \\
+Samuel Fiorini (Université libre de Bruxelles, Président) \\
+Jean Cardinal (Université libre de Bruxelles, Secrétaire) \\
+Stefan Langerman (Université libre de Bruxelles) \\
+Moshe Lewenstein (Bar Ilan University) \\
+Nabil Mustafa (ESIEE Paris) \\
+
+\afterpage{\blankpage}
+\end{document}
