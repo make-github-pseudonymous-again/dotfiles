@@ -288,7 +288,7 @@ let g:tex_flavor = 'latex'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
-" <cr> expands {_} to {<cr><indent>_<cr>}
+" <CR> expands {_} to {<CR><indent>_<CR>}
 let g:delimitMate_expand_cr = 1
 
 " Experimentally integrate YouCompleteMe with vim-multiple-cursors, otherwise
@@ -331,11 +331,11 @@ endfunction
 
 " Shortcut for toggling syntastic
 command! SyntasticToggle call SyntasticToggle()
-nn <silent> <leader>s :SyntasticToggle<cr>
-nn <silent> <leader>S :SyntasticToggleMode<cr>
+nn <silent> <leader>s :SyntasticToggle<CR>
+nn <silent> <leader>S :SyntasticToggleMode<CR>
 
 " Shortcut for formatting code
-nn <silent> <leader>x :Autoformat<cr>
+nn <silent> <leader>x :Autoformat<CR>
 
 " clean up gvim interface
 if has('gui_running')
@@ -385,10 +385,10 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 nnoremap <Leader>g :Goyo<CR>
 
 " fzf mappings
-nn <silent> <leader>f :Files<cr>
-nn <silent> <leader>b :Buffers<cr>
-nn <silent> <leader>o :History<cr>
-nn <silent> <leader>q :Ag<cr>
+nn <silent> <leader>f :Files<CR>
+nn <silent> <leader>b :Buffers<CR>
+nn <silent> <leader>o :History<CR>
+nn <silent> <leader>q :Ag<CR>
 let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules --ignore "*.pdf" -g ""'
 let g:fzf_files_options = '--preview "begin; coderay {}; or cat {}; end 2>/dev/null | head -'.&lines.'"'
 
@@ -408,13 +408,13 @@ endfunction
 
 " undotree config
 let g:undotree_WindowLayout = 2
-nnoremap <silent> U :UndotreeToggle<cr>
+nnoremap <silent> U :UndotreeToggle<CR>
 
 " search for last function def and call jsdoc
-nmap <silent> <leader>j ?function<cr>:noh<cr><Plug>(jsdoc)
+nmap <silent> <leader>j ?function<CR>:noh<CR><Plug>(jsdoc)
 
 " noh shortcut
-nn <silent> <leader>d :noh<cr>
+nn <silent> <leader>d :noh<CR>
 
 " shorter window moves
 nnoremap <c-h> <c-w>h
@@ -423,10 +423,10 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
 " buffer cycling/toggling/closing shortcuts
-nn <silent> <leader>n :bn<cr>
-nn <silent> <leader>p :bp<cr>
-nn <silent> <leader>t :b#<cr>
-nn <silent> <leader>l :b#<cr>:bd#<cr>
+nn <silent> <leader>n :bn<CR>
+nn <silent> <leader>p :bp<CR>
+nn <silent> <leader>t :b#<CR>
+nn <silent> <leader>l :b#<CR>:bd#<CR>
 
 " Capitalize words and regions easily
 " from http://vim.wikia.com/wiki/Capitalize_words_and_regions_easily
@@ -457,7 +457,7 @@ function! s:iea_handler(lines)
   exec ':normal A' . join(a:lines,', ')
 endfunction
 command! InsertEmailAddresses call fzf#run({'source': 'notmuch-abook export -f email -s name', 'sink*': function('<sid>iea_handler'), 'options': '-m'})
-nn <silent> <leader>v :InsertEmailAddress<cr>
+nn <silent> <leader>v :InsertEmailAddress<CR>
 
 " vimtex + surround = magic
 augroup latexSurround
