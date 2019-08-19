@@ -483,11 +483,11 @@ let g:jsx_ext_required = 0
 
 " ## SEARCH AND REPLACE ##
 " search selected text
-vmap // "hy/<C-r>"<CR>
+vmap // "hy/<C-r>=escape(@",'/\^$.*[~')<CR>
 " whole file: replace selection with the standard search and replace tool
-vnoremap <C-r> "hy:%s/<C-r>=escape(@",'/\')<CR>//Ig<left><left><left>
+vnoremap <C-r> "hy:%s/<C-r>=escape(@",'/\^$.*[~')<CR>//Ig<left><left><left>
 " whole file: replace selection using subvert (preserves case and also handles
 " singular/plural with word{,s} syntax
-vnoremap <C-s> "hy:%Subvert/<C-r>=escape(@",'/\')<CR>//g<left><left>
+vnoremap <C-s> "hy:%Subvert/<C-r>=escape(@",'/\^$.*[~')<CR>//g<left><left>
 " current line: add a newline after each occurrence of the last search term
 nnoremap SS :s//&\r/g<CR>
