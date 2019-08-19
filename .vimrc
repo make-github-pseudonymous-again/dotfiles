@@ -27,6 +27,8 @@ Plug 'francoiscabrol/ranger.vim'
 " ## FIXES ##
 " Find-N-Replace in Vim with live preview (experimental)
 "Plug 'junegunn/vim-fnr' " requires pseudocl
+" Enhancing in-buffer search experience
+Plug 'junegunn/vim-slash'
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 " Heuristically set buffer options (auto indentation)
