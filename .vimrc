@@ -422,7 +422,7 @@ nnoremap <c-l> <c-w>l
 " buffer cycling shortcuts
 nn <silent> <leader>n :bn<cr>
 nn <silent> <leader>p :bp<cr>
-nn <silent> <leader>l :bd<cr>
+nn <silent> <leader>l :b#<cr>:bd#<cr>
 
 " Capitalize words and regions easily
 " from http://vim.wikia.com/wiki/Capitalize_words_and_regions_easily
