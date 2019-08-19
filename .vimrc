@@ -419,9 +419,10 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-" buffer cycling shortcuts
+" buffer cycling/toggling/closing shortcuts
 nn <silent> <leader>n :bn<cr>
 nn <silent> <leader>p :bp<cr>
+nn <silent> <leader>t :b#<cr>
 nn <silent> <leader>l :b#<cr>:bd#<cr>
 
 " Capitalize words and regions easily
