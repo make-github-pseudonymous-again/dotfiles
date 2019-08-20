@@ -261,6 +261,7 @@ let g:quicktex_math = {
     \
 \'Section: Operators' : 'COMMENT',
     \'op'     : '\mathop{<+++>} <++>',
+    \'rm'     : '\mathrm{<+++>} <++>',
     \'sc'     : '\textsc{<+++>} <++>',
     \'ope'    : '\operatorname{<+++>}(<++>) <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
