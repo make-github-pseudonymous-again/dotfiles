@@ -3,8 +3,8 @@
 cat "$@" |
 sed -E 's/%.*$//g' |
 tr '\n' ' ' |
-grep -E -o '\\cite\{[a-zA-Z0-9, ]*\}' |
-sed -E -e 's/\\cite\{//g' -e 's/\}$//g' |
+grep -E -o '\\cite[^\{]*\{[a-zA-Z0-9, ]*\}' |
+sed -E -e 's/\\cite[^\{]*\{//g' -e 's/\}$//g' |
 tr ',' '\n' |
 tr -d ' ' |
 sort | uniq
