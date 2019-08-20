@@ -261,7 +261,7 @@ let g:quicktex_math = {
     \
 \'Section: Operators' : 'COMMENT',
     \'op'     : '\mathop{<+++>} <++>',
-    \'sc'     : '\textsc{<+++>}(<++>) <++>',
+    \'sc'     : '\textsc{<+++>} <++>',
     \'ope'    : '\operatorname{<+++>}(<++>) <++>',
     \'int'    : '\int <+++> \mathop{d <++>} <++>',
     \'dev'    : '\frac{d}{d <+++>} <++>',
@@ -330,6 +330,7 @@ let g:quicktex_tex = {
     \'e'    : '\emph{<+++>} <++>',
     \'b'    : '\textbf{<+++>} <++>',
     \'i'    : '\textit{<+++>} <++>',
+    \'sc'   : '\textsc{<+++>} <++>',
     \'ftn'  : '\footnote{<+++>} <++>',
     \
 \'Section: Common Sets' : 'COMMENT',
