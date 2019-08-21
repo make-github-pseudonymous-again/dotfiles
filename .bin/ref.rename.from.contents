@@ -11,6 +11,8 @@ function debug {
 
 FILE="$1"
 
+# parsing
+
 METADATA="$(pdf.metadata "$FILE")"
 
 >&2 jq . <<< "$METADATA"
@@ -19,6 +21,10 @@ TITLE="$(jq -r '.["/Title"]' <<< "$METADATA")"
 AUTHORS="$(jq -r '.["/Author"]' <<< "$METADATA")"
 MODDATE="$(jq -r '.["/ModDate"]' <<< "$METADATA")"
 CREATIONDATE="$(jq -r '.["/CreationDate"]' <<< "$METADATA")"
+# TODO instead of asking for AA ask for AUTHORS and properly parse it
+# TODO then update file metadata
+debug "AUTHORS: $AUTHORS"
+AA="$(tr ',' "\n" <<< "$AUTHORS" | sed 's/^ //' | cut -d' ' -f2 | cut -c1 | tr -d "\n")"
 
 debug "MODDATE: $MODDATE"
 debug "CREATIONDATE: $CREATIONDATE"
@@ -29,63 +35,81 @@ if [ "$CREATIONDATE" != 'null' ] ; then
 elif [ "$MODDATE" != 'null' ] ; then
 	DATE="$(echo "$MODDATE" | tail -c+3 | head -c8)"
 fi
-debug "DATE: $DATE"
 
+# input
 
-if [ "$DATE" = '????' ] || ask 'Search for better date?' ; then
-	DATE="$(pdftotext "$FILE" - | \
-		grep -Po '(?<=[^0-9]|^)(19|[2-9][0-9])[0-9]{2}(?=[^0-9]|$)' | \
-		filter -le "$(today | head -c4)" | \
-		sort -nr | \
-		head -n1)????"
-	debug "DATE: $DATE"
-	if [ "$DATE" = '????' ] || ask 'Input date yourself?' ; then
-		echo -n "date (YYYYMMDD): "
-		read DATE
+while true ; do
+
+	if ask 'Take a look at the contents of the file?' ; then
+		pdftotext "$FILE" - | less
+		debug '=============================================================='
+		pdftotext "$FILE" - | >&2 head
+		debug '=============================================================='
 	fi
-fi
+
+	debug "DATE: $DATE"
+	if [ "$DATE" = '????' ] || ask 'Search for better date?' ; then
+		DATE="$(pdftotext "$FILE" - | \
+			grep -Po '(?<=[^0-9]|^)(19|[2-9][0-9])[0-9]{2}(?=[^0-9]|$)' | \
+			filter -le "$(today | head -c4)" | \
+			sort -nr | \
+			head -n1)????"
+		debug "DATE: $DATE"
+		if [ "$DATE" = '????' ] || ask 'Input date yourself?' ; then
+			echo -n "date: "
+			read DATE
+		fi
+	else
+		echo -n "edit date or leave as is (YYYYMMDD): "
+		read -e -i "$DATE" DATE
+	fi
 
 
-debug "TITLE: $TITLE"
-if [ "$TITLE" = 'null' ] || [ "$TITLE" = '' ] || ask 'Search for better title?' ; then
-	TITLE="$(pdftotext "$FILE" - | \
-		fzf --multi --no-sort --prompt '> select lines to construct title' | \
-		tac | \
-		sed -e 's/^ *//' -e 's/ *$//' | \
-		tr "\n" ' ' | \
-		tr "\r" ' ' | \
-		head -c-1)"
-fi
+	debug "TITLE: $TITLE"
+	if [ "$TITLE" = 'null' ] || [ "$TITLE" = '' ] || ask 'Search for better title?' ; then
+		tmp="$(pdftotext "$FILE" - | \
+			fzf --multi --no-sort --prompt '> select lines to construct title')"
+		if [ "$?" -eq 0 ] ; then
+			TITLE="$( tac <<< "$tmp" | \
+			sed -e 's/^ *//' -e 's/ *$//' | \
+			tr "\n" ' ' | \
+			tr "\r" ' ' | \
+			head -c-1)"
+		fi
+	fi
 
-echo -n "edit title or leave as is: "
-read -e -i "$TITLE" TITLE
-
-
-debug "AUTHORS: $AUTHORS"
-AA="$(tr ',' "\n" <<< "$AUTHORS" | sed 's/^ //' | cut -d' ' -f2 | cut -c1 | tr -d "\n")"
-debug "AA: $AA"
-if [ "$AUTHORS" = 'null' ] || [ "$AUTHORS" = '' ] || ask 'Input authors first letters yourself?' ; then
-	echo -n "author's names first letters: "
-	read AA
-else
-	echo -n "edit author's names first letters or leave as is: "
-	read -e -i "$AA" AA
-fi
-debug "AA: $AA"
+	echo -n "edit title or leave as is: "
+	read -e -i "$TITLE" TITLE
 
 
-YY="$(echo "$DATE" | tail -c+3 | head -c2)"
-debug "YY: $YY"
-EXT="$(rev <<< "$FILE" | cut -d. -f1 | rev)"
-debug "EXT: $EXT"
-FILENAME="$DATE [$AA$YY] $TITLE.$EXT"
-debug "FILENAME: $FILENAME"
-DIRNAME=$(dirname "$FILE")
-debug "DIRNAME: $DIRNAME"
-DEST="$DIRNAME/$(ref.name.sanitize "$FILENAME")"
-debug "DEST: $DEST"
+	debug "AA: $AA"
+	if [ "$AA" = 'n' ] || [ "$AA" = '' ] || ask 'Input authors first letters yourself?' ; then
+		echo -n "author's names first letters: "
+		read AA
+	else
+		echo -n "edit author's names first letters or leave as is: "
+		read -e -i "$AA" AA
+	fi
+	debug "AA: $AA"
 
 
-if ask 'Move it?' ; then
-	mv "$FILE" "$DEST"
-fi
+	YY="$(echo "$DATE" | tail -c+3 | head -c2)"
+	debug "YY: $YY"
+	EXT="$(rev <<< "$FILE" | cut -d. -f1 | rev)"
+	debug "EXT: $EXT"
+	FILENAME="$DATE [$AA$YY] $TITLE.$EXT"
+	debug "FILENAME: $FILENAME"
+	DIRNAME=$(dirname "$FILE")
+	debug "DIRNAME: $DIRNAME"
+	DEST="$DIRNAME/$(ref.name.sanitize "$FILENAME")"
+	debug "DEST: $DEST"
+
+
+	if ask 'Move it?' ; then
+		mv "$FILE" "$DEST"
+		break
+	elif ask 'Quit without renaming?' ; then
+		break
+	fi
+
+done
