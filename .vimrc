@@ -428,7 +428,7 @@ nnoremap <c-l> <c-w>l
 nn <silent> <leader>n :bn<CR>
 nn <silent> <leader>p :bp<CR>
 nn <silent> <leader>t :b#<CR>
-nn <silent> <leader>l :b#<CR>:bd#<CR>
+nn <silent> <leader>l :bp<CR>:bd#<CR>
 
 " Capitalize words and regions easily
 " from http://vim.wikia.com/wiki/Capitalize_words_and_regions_easily
