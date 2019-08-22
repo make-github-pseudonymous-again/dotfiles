@@ -708,16 +708,24 @@ mode "files" {
         bindcode 32 exec menu.open; mode "default"
         #-- bindsym e exec menu.edit; mode "default"
         bindcode 26 exec menu.edit; mode "default"
-        #-- bindsym r exec menu.library.pdf; mode "default"
-        bindcode 27 exec menu.library.pdf; mode "default"
-        #-- bindsym Shift+r exec menu.library.pdf --opener evince; mode "default"
-        bindcode Shift+27 exec menu.library.pdf --opener evince; mode "default"
+
         #-- bindsym p exec menu.pdf; mode "default"
         bindcode 33 exec menu.pdf; mode "default"
         #-- bindsym Shift+p exec menu.pdf --opener evince; mode "default"
         bindcode Shift+33 exec menu.pdf --opener evince; mode "default"
+
         #-- bindsym x exec menu.xournal; mode "default"
         bindcode 53 exec menu.xournal; mode "default"
+
+        #-- bindsym l exec menu.library; mode "default"
+        bindcode 46 exec menu.library; mode "default"
+        #-- bindsym Shift+l exec menu.library --opener evince; mode "default"
+        bindcode Shift+46 exec menu.library evince; mode "default"
+
+        #-- bindsym r exec menu.pdf.research-library; mode "default"
+        bindcode 27 exec menu.pdf.research-library; mode "default"
+        #-- bindsym Shift+r exec menu.pdf.research-library --opener evince; mode "default"
+        bindcode Shift+27 exec menu.pdf.research-library --opener evince; mode "default"
 
         # back to normal: enter or escape
         #-- bindsym Return mode "default"
