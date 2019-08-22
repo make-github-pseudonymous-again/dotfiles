@@ -18,11 +18,11 @@ for FILE in "$@"; do
 		continue
 	fi
 
-	TITLE=$(echo "$METADATA" | jq -r .title)
-	ABBR=$(echo "$METADATA" | jq -r .abbr)
-	YEAR=$(echo "$METADATA" | jq -r .year)
-	MONTH=$(echo "$METADATA" | jq -r .month)
-	DAY=$(echo "$METADATA" | jq -r .day)
+	TITLE="$(echo "$METADATA" | jq -r .title)"
+	ABBR="$(echo "$METADATA" | jq -r .abbr)"
+	YEAR="$(printf "%04d\n" "$(echo "$METADATA" | jq -r .year)")"
+	MONTH="$(printf "%02d\n" "$(echo "$METADATA" | jq -r .month)")"
+	DAY="$(printf "%02d\n" "$(echo "$METADATA" | jq -r .day)")"
 
 	ref.mv "$FILE" "$DIRNAME/" "$YEAR$MONTH$DAY [$ABBR] $TITLE (doi:$DOI).pdf"
 done
