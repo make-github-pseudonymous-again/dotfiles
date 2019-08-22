@@ -53,7 +53,7 @@ abbr g git
 
 # Vim
 abbr e vim
-abbr ef "vim (fzf -m)"
+abbr ef "vim (bfs -type f | fzf -m)"
 
 # Alias all git aliases
 for al in (git la)
