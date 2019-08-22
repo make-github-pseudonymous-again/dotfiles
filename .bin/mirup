@@ -5,8 +5,8 @@ if [ $(id -u) == "0" ] ; then
   exit 1
 fi
 
-COUNTRIES="country=BE&country=FR&country=DE&country=LU&country=NL"
-OPTIONS="protocol=https&ip_version=4"
+COUNTRIES="${1:-country=BE&country=FR&country=DE&country=LU&country=NL}"
+OPTIONS="${2:-protocol=https&ip_version=4}"
 URL="https://www.archlinux.org/mirrorlist/?${COUNTRIES}&${OPTIONS}"
 SOURCE="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-source.XXXXXXXX")"
 RANKED="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-ranked.XXXXXXXX")"
