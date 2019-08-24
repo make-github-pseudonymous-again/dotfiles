@@ -474,6 +474,7 @@ function! s:latexSurround()
   " vim-surround: q for `foo' and Q for ``foo''
   let b:surround_{char2nr('q')} = "`\r'"
   let b:surround_{char2nr('Q')} = "``\r''"
+  let b:surround_{char2nr('O')} = "O(\r)"
 endfunction
 
 let g:ranger_map_keys = 0
