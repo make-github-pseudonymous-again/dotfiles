@@ -305,7 +305,15 @@ if $plugins ; then
       if $pull ; then
 
         echo '  ° Pull '"$PLUGIN"
+
+        echo '    + Stash local changes'
+        git stash || true
+
+        echo '    + Pull'
         _do git pull
+
+        echo '    + Apply local changes'
+        git stash pop || true
 
       fi
 
