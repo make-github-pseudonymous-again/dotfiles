@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if [ "$#" -lt 1 ] ; then
+	echo 'usage: mkdev.shred </dev/sdx>'
+	exit 1
+fi
+
+dev="$1"
+
+sudo dd if=/dev/urandom of="$dev" bs=4096 status=progress
