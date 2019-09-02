@@ -3,7 +3,8 @@
 QUEUEDIR="$HOME/.msmtp/queue"
 LOCKFILE="$QUEUEDIR/.lock"
 
-if [ -e "$LOCKFILE" ]; then
+exec {LOCKFD}>"$LOCKFILE"
+if flock -x -n "$LOCKFD" ; then
 	exit 0
 else
 	exit 1
