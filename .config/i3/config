@@ -730,6 +730,9 @@ mode "files" {
         #-- bindsym Shift+r exec menu.pdf.research-library --opener evince; mode "default"
         bindcode Shift+27 exec menu.pdf.research-library --opener evince; mode "default"
 
+        #-- bindsym s exec syncthing.webui; mode "default"
+        bindcode 39 exec syncthing.webui; mode "default"
+
         # back to normal: enter or escape
         #-- bindsym Return mode "default"
         bindcode 36 mode "default"
