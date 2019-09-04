@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
-courriel.compose.link "$@"
+if [ "$#" -ge 2 ] ; then
+  courriel.compose.link "$@"
+else
+  courriel.compose.link "$(xsel -b 2>/dev/null)"
+fi
