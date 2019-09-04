@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+url='https://www.buienradar.be/belgie/neerslag/zoom/3uurs?lat=50.850&lon=4.350'
+
+wb --new-window "$url"

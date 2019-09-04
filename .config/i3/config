@@ -463,6 +463,9 @@ mode "internet" {
         #-- bindsym Shift+W exec whatsapp; mode "default"
         bindcode Shift+52 exec whatsapp; mode "default"
 
+        #-- bindsym b exec buienradar.brussels; mode "default"
+        bindcode 56 exec buienradar.brussels; mode "default"
+
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
         bindcode 36 mode "default"
