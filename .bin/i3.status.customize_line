@@ -55,10 +55,14 @@ fi
 
 pending_count="$(msmtp-pending)"
 if test "$pending_count" -gt 0; then
-	if msmtp-runqueue-is-running; then
-		prepend='{"name":"pending sent mail","color":"#85bdbd","full_text":" '"$pending_count"'"},'"$prepend"
+	if msmtp-runqueue-daemon-is-running ; then
+		if msmtp-runqueue-is-running; then
+			prepend='{"name":"pending sent mail","color":"#85bdbd","full_text":" '"$pending_count"'"},'"$prepend"
+		else
+			prepend='{"name":"pending sent mail","color":"#464646","full_text":" '"$pending_count"'"},'"$prepend"
+		fi
 	else
-		prepend='{"name":"pending sent mail","color":"#464646","full_text":" '"$pending_count"'"},'"$prepend"
+		prepend='{"name":"pending sent mail","color":"#F45D4C","full_text":" '"$pending_count"'"},'"$prepend"
 	fi
 fi
 
