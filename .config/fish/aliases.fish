@@ -30,7 +30,7 @@ abbr srv server
 abbr rfc ref.rename.from.contents
 abbr k "pkill -9"
 abbr nuk "rm -rf"
-abbr get "rsync -LPav"
+abbr load "rsync -LPav"
 abbr send "courriel.compose.prompt -a"
 
 # yarn abbreviations
