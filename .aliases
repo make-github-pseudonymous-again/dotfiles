@@ -125,5 +125,5 @@ alias S='systemctl'
 alias U='systemctl --user'
 
 # searching
-alias agh='ag --hidden --ignore .git'
+alias rgh="rg --hidden -g '!.git/*'"
 alias ff='fzf'

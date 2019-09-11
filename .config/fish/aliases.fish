@@ -171,4 +171,4 @@ abbr U systemctl --user
 
 # search
 abbr ff fzf
-abbr agh ag --hidden --ignore .git
+abbr rgh rg --hidden -g "'!.git/*'"

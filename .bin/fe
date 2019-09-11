@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+# TODO fix this using ripgrep
 
 matches="$(ack --nocolor --smart-case --nogroup --column --output=' ' "$@")"
 if [ "$matches" = '' ] ; then

@@ -390,9 +390,17 @@ nnoremap <Leader>g :Goyo<CR>
 nn <silent> <leader>f :Files<CR>
 nn <silent> <leader>b :Buffers<CR>
 nn <silent> <leader>o :History<CR>
-nn <silent> <leader>q :Ag<CR>
-let $FZF_DEFAULT_COMMAND= 'ag --hidden --ignore .git --ignore node_modules --ignore "*.pdf" -g ""'
+nn <silent> <leader>q :Rg<CR>
+let $FZF_DEFAULT_COMMAND= 'fd -t f -H -E ".git/*" -E "*.pdf"'
 let g:fzf_files_options = '--preview "begin; coderay {}; or cat {}; end 2>/dev/null | head -'.&lines.'"'
+
+" https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
+command! -bang -nargs=* Rg
+ \ call fzf#vim#grep(
+ \ "rg --hidden -g '!.git/*' -g '!*.pdf' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>),
+ \ 1,
+ \ {'options': '--delimiter : --nth 4..'},
+ \ <bang>0)
 
 " fasd mappings
 command! -nargs=* Z :call Z(<f-args>)
