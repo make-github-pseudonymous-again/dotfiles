@@ -35,6 +35,8 @@ wpa_actiond
 python2-keyring
 python2-secretstorage
 notes-git
+the_silver_searcher
+ack
 
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'

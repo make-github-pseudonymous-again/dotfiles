@@ -1,8 +1,6 @@
 #!/usr/bin/env sh
 
-# TODO fix this using ripgrep
-
-matches="$(ack --nocolor --smart-case --nogroup --column --output=' ' "$@")"
+matches="$(rg --color never --no-heading --column --only-matching --hidden -g '!.git/*' --smart-case "$@")"
 if [ "$matches" = '' ] ; then
 	exit 1
 fi
