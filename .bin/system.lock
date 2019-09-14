@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 IMG="$(mktemp --tmpdir "${USER}-system.lock-screen.XXXXXXXX.png")"
-scrot "$IMG"
+scrot -o "$IMG"
 convert "$IMG" -scale 10% -scale 1000% "$IMG"
 i3lock -i "$IMG"
 rm "$IMG"
