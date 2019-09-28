@@ -289,6 +289,7 @@ for title, events in sections:
     for event in sorted(events, key=lambda x: x.begin):
 
         name = event.name
+        url = event.url
         location = event.location
         description = event.description
         begin = event.begin.to('local')
@@ -303,15 +304,20 @@ for title, events in sections:
         if location and location not in name:
             ef += ' ( {location})'
 
-        url = []
+        urls = []
+
+        if url:
+            urls.append(url)
+
         if description and description not in name:
             match = re.findall(REGEX_URL, description)
-            url = list(filter(lambda x: x not in EXCLUDED_URLS, match))
-            if url:
-                # could use
-                # https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
-                # instead
-                ef += ' ( {url[0]})'
+            urls.extend(filter(lambda x: x not in EXCLUDED_URLS, match))
+
+        if urls:
+            # could use
+            # https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+            # instead
+            ef += ' ( {urls[0]})'
 
 
         if _main is not None and event == _main:
@@ -331,7 +337,7 @@ for title, events in sections:
             hduration = 'lasts ' +  _duration( begin , end ) ,
             name = name,
             location = location,
-            url = url
+            urls = urls
         )
 
         line = line.replace('\r', '')
