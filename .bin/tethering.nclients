@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+iface="$1"
+
+create_ap --list-clients "$iface" | tail +2 | wc -l
