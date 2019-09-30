@@ -23,8 +23,10 @@ elif is.wifi.auto.running; then
 	execute="$execute"'| map( if .name == "wireless" then .full_text = " " + .full_text else . end )'
 fi
 
-if is.tethering.on; then
-	prepend='{"name":"tethering","color":"#0CD0F7","full_text":""},'"$prepend"
+tethering_iface="$(memoize 900 tethering.iface.default)"
+if [ -n "$tethering_iface" ]; then
+	tethering_nclients="$(memoize 60 tethering.nclients "$tethering_iface")"
+	prepend='{"name":"tethering","color":"#0CD0F7","full_text":" '"${tethering_nclients}"'"},'"$prepend"
 fi
 
 if is.ulb.network.connected; then
