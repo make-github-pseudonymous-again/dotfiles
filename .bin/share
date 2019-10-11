@@ -1,7 +1,17 @@
 #!/usr/bin/env sh
 
-if [ "$#" -ge 2 ] ; then
+if [ "$#" -ge 1 ] ; then
   courriel.compose.link "$@"
 else
-  courriel.compose.link "$(xsel -b 2>/dev/null)"
+  selection="$(xsel -b 2>/dev/null)"
+  if [ -z "$selection" ] ; then
+    >&2 echo "No command line arguments and selection is empty :("
+    exit 11
+  else
+    if ask "Share '$selection'?" ; then
+      courriel.compose.link "$selection"
+    else
+      exit 12
+    fi
+  fi
 fi
