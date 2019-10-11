@@ -4,12 +4,14 @@
 # Convert video files to work with the Qumi Q3 Plus #
 #####################################################
 
-# The Qumi Q3 Plus only supports a limited set of formats.
+# The Qumi Q3 Plus only supports a limited set of audio and video formats.
+# For instance, it does not decode x265 video.
 # This script is an attempt at automating transcoding of video files to work
 # with the device.
-# At first I will only implement audio transcoding because video is very slow
-# anyway. For video, just try to generate the proper format from source
-# directly.
+#
+# Note:
+# Video transcoding is very slow.
+# To avoid this, try to generate the proper format from source directly.
 
 if [ "$#" -lt 1 ] ; then
   >&2 echo "Not enough parameters for $0. Specify at least one."
@@ -51,7 +53,14 @@ esac
 >&2 echo "VIDEO OUTPUT: ${video_output_format}"
 >&2 echo "AUDIO OUTPUT: ${audio_output_format}"
 
->&2 echo "FFMPEG PARAMS: $@"
+if [ "$video_output_format" = "copy" ] && [ "$audio_output_format" = "copy" ] ; then
 
-ffmpeg -i "$input" -c:v "$video_output_format" -c:a "$audio_output_format" "$output" "$@"
+  >&2 echo "Nothing to do!"
 
+else
+
+  >&2 echo "FFMPEG PARAMS: $@"
+
+  ffmpeg -i "$input" -c:v "$video_output_format" -c:a "$audio_output_format" "$output" "$@"
+
+fi
