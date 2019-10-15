@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
-what=$(ui.dialog.input -p '' -sb '#3B3242')
+engine="https://duckduckgo.com/"
+
+what="$(ui.dialog.input -p '' -sb '#3B3242')"
 
 if [ "$what" != '' ] ; then
-	wb --search "$what"
+	query="$(head -c -1 <<< "$what" | urlencode)"
+	wb --new-window "${engine}?q=${query}"
 fi

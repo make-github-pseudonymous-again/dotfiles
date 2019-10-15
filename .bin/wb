@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-firefox -p default "$@"
+profile="default"
+
+firefox -p "$profile" "$@"
