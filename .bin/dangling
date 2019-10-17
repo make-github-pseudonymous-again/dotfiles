@@ -39,23 +39,25 @@ def recursive ( root ) :
 
     for child in children :
 
-        if os.path.isdir( child ) :
+        if not os.path.islink( child ) :
 
-            data = recursive( child )
-            childisdir , childissafe , somegrandchildissafe , dgcc , gcc , grandchildren = data
+            if os.path.isdir( child ) :
 
-            if childissafe:
-                someissafe = True
+                data = recursive( child )
+                childisdir , childissafe , somegrandchildissafe , dgcc , gcc , grandchildren = data
 
-            else:
-                count += gcc # grandchildren count
-                arenotsafe[child] = data
+                if childissafe:
+                    someissafe = True
+
+                else:
+                    count += gcc # grandchildren count
+                    arenotsafe[child] = data
 
 
-        else :
-            dcount += 1
-            count += 1
-            arenotsafe[child] = False , False , False , [ ] , 1 , child
+            else :
+                dcount += 1
+                count += 1
+                arenotsafe[child] = False , False , False , [ ] , 1 , child
 
     vcount = [ dcount ] + list( map( sum , zip_longest( *( c[3] for c in arenotsafe.values() ) , fillvalue = 0 ) ) )
 
