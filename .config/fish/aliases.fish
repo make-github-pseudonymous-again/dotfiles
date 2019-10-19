@@ -32,6 +32,7 @@ abbr k "pkill -9"
 abbr nuk "rm -rf"
 abbr load "rsync -LPav"
 abbr send "courriel.compose.prompt -a"
+abbr dg dangling
 
 # yarn abbreviations
 abbr ya "yarn add"
