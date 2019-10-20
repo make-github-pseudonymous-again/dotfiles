@@ -3,34 +3,49 @@
 
 import os
 import sys
+import stat
 import arrow
 import shutil
 import logging
 from recoll import recoll, rclextract
 from subprocess import check_output, call
 
+stats = os.fstat(sys.stdout.fileno())
+mode = stats.st_mode
+redirect = stat.S_ISREG(mode) or stat.S_ISFIFO(mode)
+
 querystring = sys.argv[1]
 
 prompt = ['fzf']
+
+if redirect:
+	prompt.append('--header')
+	prompt.append('Choose one')
+
+else:
+	prompt.append('-m')
+	prompt.append('--header')
+	prompt.append('Choose many')
+
 sortby = 'mtime'
 ascending = False
 
 def humanbytes(size):
 
-    B = "B"
-    KB = "KB"
-    MB = "MB"
-    GB = "GB"
-    TB = "TB"
-    UNITS = [B, KB, MB, GB, TB]
-    HUMANFMT = "{:.2f} {}"
-    HUMANRADIX = 1024.
+	B = "B"
+	KB = "KB"
+	MB = "MB"
+	GB = "GB"
+	TB = "TB"
+	UNITS = [B, KB, MB, GB, TB]
+	HUMANFMT = "{:.2f} {}"
+	HUMANRADIX = 1024.
 
-    for u in UNITS[:-1]:
-        if size < HUMANRADIX : return HUMANFMT.format(size, u)
-        size /= HUMANRADIX
+	for u in UNITS[:-1]:
+		if size < HUMANRADIX : return HUMANFMT.format(size, u)
+		size /= HUMANRADIX
 
-    return HUMANFMT.format(size,  UNITS[-1])
+	return HUMANFMT.format(size, UNITS[-1])
 
 def formatdoc(doc):
 
@@ -39,17 +54,17 @@ def formatdoc(doc):
 	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
 
 	try:
-	    timestamp = arrow.get(doc.mtime)
-	    htime = timestamp.humanize()
-	    hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+		timestamp = arrow.get(doc.mtime)
+		htime = timestamp.humanize()
+		hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
 	except Exception as e:
-	    htime = 'unknown'
-	    hdate = 'unknown'
+		htime = 'unknown'
+		hdate = 'unknown'
 
 	try:
-	    hbytes = humanbytes(int(doc.fbytes))
+		hbytes = humanbytes(int(doc.fbytes))
 	except Exception as e:
-	    hbytes = 'unknown'
+		hbytes = 'unknown'
 
 	formatarray = ['{htime}', '>']
 
@@ -116,35 +131,77 @@ except Exception as e:
 	log.exception('fzf failed')
 	sys.exit(1)
 
-line = result.decode()[:-1]
+subset = result.decode()[:-1]
 
-try:
+for line in subset.split('\n'):
 
-	i = int(line.split()[-1])
+	try:
+		i = int(line.split()[-1])
 
-except Exception as e:
-	log.exception('could not parse line number')
-	sys.exit(2)
+	except Exception as e:
+		log.exception('could not parse line number')
+		sys.exit(2)
 
-try:
-	doc = docs[i]
-except IndexError as e:
-	log.exception('index not in range')
-	sys.exit(3)
+	try:
+		doc = docs[i]
+	except IndexError as e:
+		log.exception('index not in range')
+		sys.exit(3)
 
-if genline(i, doc) != line:
-	log.error('lines do not match')
-	sys.exit(4)
+	if genline(i, doc) != line:
+		log.error('lines do not match')
+		sys.exit(4)
 
-if doc.ipath:
-	extractor = rclextract.Extractor(doc)
-	path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
-	with open(path, 'rb') as f: shutil.copyfileobj(f, sys.stdout.buffer)
-	if path[:5] == '/tmp/':
-		log.info('deleting {}'.format(path))
-		# just in case someone screws up upstreams
-		os.remove(path)
+	unique_filename = '{}-{}'.format(i,doc.filename)
 
-else:
-	path = doc.url[7:]
-	with open(path, 'rb') as f: shutil.copyfileobj(f, sys.stdout.buffer)
+	if doc.ipath:
+		extractor = rclextract.Extractor(doc)
+		path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
+		with open(path, 'rb') as f:
+			if redirect:
+				shutil.copyfileobj(f, sys.stdout.buffer)
+			else:
+				with open(unique_filename, 'wb') as fdest:
+					shutil.copyfileobj(f, fdest)
+		if path[:5] == '/tmp/':
+			log.info('deleting {}'.format(path))
+			# just in case someone screws up upstreams
+			os.remove(path)
+
+	else:
+		path = doc.url[7:]
+		with open(path, 'rb') as f:
+			if redirect:
+				shutil.copyfileobj(f, sys.stdout.buffer)
+			else:
+				with open(unique_filename, 'wb') as fdest:
+					shutil.copyfileobj(f, fdest)
+
+# stats = os.fstat(sys.stdout.fileno())
+# mode = stats.st_mode
+# print(stats, file=sys.stderr)
+# print(mode, file=sys.stderr)
+# print("S_ISDIR", file=sys.stderr)
+# print(stat.S_ISDIR(mode), file=sys.stderr)
+# print("S_ISCHR", file=sys.stderr)
+# print(stat.S_ISCHR(mode), file=sys.stderr)
+# print("S_ISBLK", file=sys.stderr)
+# print(stat.S_ISBLK(mode), file=sys.stderr)
+# print("S_ISREG", file=sys.stderr)
+# print(stat.S_ISREG(mode), file=sys.stderr)
+# print("S_ISFIFO", file=sys.stderr)
+# print(stat.S_ISFIFO(mode), file=sys.stderr)
+# print("S_ISLNK", file=sys.stderr)
+# print(stat.S_ISLNK(mode), file=sys.stderr)
+# print("S_ISSOCK", file=sys.stderr)
+# print(stat.S_ISSOCK(mode), file=sys.stderr)
+# print("S_ISDOOR", file=sys.stderr)
+# print(stat.S_ISDOOR(mode), file=sys.stderr)
+# print("S_ISPORT", file=sys.stderr)
+# print(stat.S_ISPORT(mode), file=sys.stderr)
+# print("S_ISWHT", file=sys.stderr)
+# print(stat.S_ISWHT(mode), file=sys.stderr)
+# print("S_IMODE", file=sys.stderr)
+# print(stat.S_IMODE(mode), file=sys.stderr)
+# print("S_IFMR", file=sys.stderr)
+# print(stat.S_IFMT(mode), file=sys.stderr)
