@@ -152,7 +152,9 @@ for line in subset.split('\n'):
 		log.error('lines do not match')
 		sys.exit(4)
 
-	unique_filename = '{}-{}'.format(i,doc.filename)
+	name, ext = os.path.splitext(doc.filename) if doc.filename else ('unknown', '.dat')
+
+	unique_filename = '{}-{}{}'.format(name, i, ext)
 
 	if doc.ipath:
 		extractor = rclextract.Extractor(doc)
