@@ -73,7 +73,7 @@ for _calendar in _calendars:
         log(err)
         traceback.print_tb(err.__traceback__, file=sys.stderr)
 
-    except ics.parse.ParseError as err:
+    except ics.grammar.parse.ParseError as err:
 
         log('Error parsing file: {}'.format(url))
         log(err)

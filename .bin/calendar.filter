@@ -56,7 +56,7 @@ for _calendar in _calendars:
 
             fd.writelines(calendar)
 
-    except ics.parse.ParseError as err:
+    except ics.grammar.parse.ParseError as err:
 
         log('Error parsing file: {}'.format(url))
         log(err)

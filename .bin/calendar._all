@@ -199,6 +199,12 @@ for _calendar in _calendars:
                 allevents.add(event)
                 icons[event] = _calendar['icon']
 
+    except ics.grammar.parse.ParseError as err:
+
+        log('Error parsing file: {}'.format(url))
+        log(err)
+        traceback.print_tb(err.__traceback__, file=sys.stderr)
+
     except FileNotFoundError as err:
 
         log('Error reading cache for: {}'.format(url))
