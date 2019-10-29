@@ -171,7 +171,7 @@ for day in daily:
     icon, color = icons.get(iconname, ("?", RED))
     fmt = color + fmt + ENDC
 
-    if time < NOW.replace(hours=+3):
+    if time < NOW.shift(hours=+3):
         fmt = BOLD + fmt + ENDC
 
     fmt = UNDERLINE + fmt + ENDC
@@ -184,7 +184,7 @@ for day in daily:
 
         time = arrow.get(hour['time']).to('local')
 
-        if time < daytime or time >= daytime.replace(days=+1):
+        if time < daytime or time >= daytime.shift(days=+1):
             continue
 
         t = round(ftoc(hour['apparentTemperature']))
@@ -204,7 +204,7 @@ for day in daily:
         icon, color = icons.get(iconname, ("?", RED))
         fmt = color + fmt + ENDC
 
-        if time < NOW.replace(hours=+3):
+        if time < NOW.shift(hours=+3):
             fmt = BOLD + fmt + ENDC
 
         print(fmt.format(dtime, t, icon, summary, htime, p, i))

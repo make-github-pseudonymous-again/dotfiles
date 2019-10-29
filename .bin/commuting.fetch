@@ -254,7 +254,7 @@ def routes(path, leave=None, total=0, prev=()):
             for timestamp in times:
 
                 _path = path[1:]
-                _leave = timestamp.replace(seconds=-total)
+                _leave = timestamp.shift(seconds=-total)
                 _total = total + duration
                 _prev = prev + (path[0], )
 
@@ -279,8 +279,8 @@ def routes(path, leave=None, total=0, prev=()):
 
                 else:
 
-                    A = leave.replace(seconds=+total)
-                    B = A.replace(seconds=+waiting)
+                    A = leave.shift(seconds=+total)
+                    B = A.shift(seconds=+waiting)
 
                     _path = path[1:]
                     _leave = leave
@@ -307,7 +307,7 @@ for name, route in allroutes():
     elif _leave < NOW:
         continue
 
-    _arrival = _leave.replace(seconds=+_total)
+    _arrival = _leave.shift(seconds=+_total)
 
     myroutes.append((name, _path, _leave, _arrival))
 

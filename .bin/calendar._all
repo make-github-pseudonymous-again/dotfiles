@@ -208,12 +208,12 @@ for _calendar in _calendars:
 
 now = arrow.now()
 today = now.floor('day')
-tomorrow = today.replace(days=+1)
-dayaftertomorrow = tomorrow.replace(days=+1)
-nextweek = now.floor('week').replace(weeks=+1)
-weekafternextweek = nextweek.replace(weeks=+1)
-nextmonth = now.floor('month').replace(months=+1)
-monthafternextmonth = nextmonth.replace(months=+1)
+tomorrow = today.shift(days=+1)
+dayaftertomorrow = tomorrow.shift(days=+1)
+nextweek = now.floor('week').shift(weeks=+1)
+weekafternextweek = nextweek.shift(weeks=+1)
+nextmonth = now.floor('month').shift(months=+1)
+monthafternextmonth = nextmonth.shift(months=+1)
 
 _fresh = set(filter(lambda x: x.end >= now, allevents))
 

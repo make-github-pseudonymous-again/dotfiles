@@ -91,7 +91,7 @@ for halt in config:
                                 second=0, microsecond=0)
 
         # let's say it is 23:57 and time == '00:05'
-        if timestamp < now.replace(minutes=-1):
-            timestamp = timestamp.replace(days=+1)
+        if timestamp < now.shift(minutes=-1):
+            timestamp = timestamp.shift(days=+1)
 
         save(halt, line, dest, timestamp)

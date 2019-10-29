@@ -79,7 +79,7 @@ for halt, lines in config.items():
 
         w = {tag.tag: tag.text for tag in waitingtime}
 
-        timestamp = now.replace(minutes=+int(w['minutes']))
+        timestamp = now.shift(minutes=+int(w['minutes']))
 
         if w['line'] in lines:
 
