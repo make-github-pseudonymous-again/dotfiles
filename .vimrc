@@ -143,7 +143,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.opt/fzf', 'do': './install --all' }
 " bundle of fzf-based commands and mappings
 Plug 'junegunn/fzf.vim'
-Plug 'nhooyr/fasd.vim'
+"Plug 'nhooyr/fasd.vim'
 
 call plug#end()
 
