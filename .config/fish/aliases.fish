@@ -33,6 +33,8 @@ abbr nuk "rm -rf"
 abbr load "rsync -LPav"
 abbr send "courriel.compose.prompt -a"
 abbr dg dangling
+abbr dp detectportal
+abbr mk make
 
 # yarn abbreviations
 abbr ya "yarn add"
