@@ -21,7 +21,8 @@ except:
     pass
 
 with open(CALENDARS, 'r') as fd:
-    _calendars = json.load( fd )['calendars']
+
+    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
 
 def _match(it, text):
     for line in it:

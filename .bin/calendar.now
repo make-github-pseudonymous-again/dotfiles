@@ -72,7 +72,7 @@ CALENDARS = os.path.expanduser('~/.config/calendar/config')
 
 with open(CALENDARS, 'r') as fd:
 
-    _calendars = json.load( fd )['calendars']
+    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
 
 calendar = ics.Calendar()
 

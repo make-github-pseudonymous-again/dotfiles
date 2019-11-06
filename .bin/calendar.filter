@@ -23,7 +23,7 @@ except:
 
 with open(CALENDARS, 'r') as fd:
 
-    _calendars = json.load( fd )['calendars']
+    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
 
 now = arrow.now()
 
