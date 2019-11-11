@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+while read line ; do
+    output="$(echo "$line" | cut -d' ' -f1)"
+    case "$output" in
+        DP-*) echo "$line" ;;
+        DisplayPort-*) echo "$line" ;;
+    esac
+done

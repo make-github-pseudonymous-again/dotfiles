@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+grep ' disconnected' | cut -d' ' -f1

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+primary="$1" && shift
+
+switchoff=""
+
+for output in "$@" ; do
+  switchoff="${switchoff} --output ${output} --off"
+done
+
+xrandr.apply \
+  --fb 0x0 --output "$primary" --primary --auto --panning 0x0+0+0 \
+  $switchoff

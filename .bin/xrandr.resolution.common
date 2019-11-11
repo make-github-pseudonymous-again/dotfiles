@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+{ xrandr.resolution "$1" ; xrandr.resolution "$2" ; } |
+sort -nr |
+uniq -d

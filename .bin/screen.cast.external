@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+default="$(xrandr.list.external | head -1)"
+
+screen.cast "$default"

@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+primary="$1" && shift
+secondary="$1" && shift
+resolution="$1" && shift
+
+switchoff=""
+
+for output in "$@" ; do
+  switchoff="${switchoff} --output ${output} --off"
+done
+
+xrandr.apply \
+  --fb "$resolution" --output "$primary" --primary --auto --panning "$resolution" \
+  --output "$secondary" --auto \
+  $switchoff

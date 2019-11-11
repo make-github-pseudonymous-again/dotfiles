@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+while read line ; do
+    output="$(echo "$line" | cut -d' ' -f1)"
+    case "$output" in
+        HDMI-*) echo "$line" ;;
+    esac
+done

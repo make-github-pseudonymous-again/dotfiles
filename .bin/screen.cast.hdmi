@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+default="$(xrandr.list.connected | xrandr.filter.hdmi | head -1)"
+
+screen.cast "$default"

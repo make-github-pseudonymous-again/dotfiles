@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+output="$1"
+
+xrandr |
+  awk -v monitor="^$output connected" '/connected/ {p = 0}
+    $0 ~ monitor {p = 1}
+    p'

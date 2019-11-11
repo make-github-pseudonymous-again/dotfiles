@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-xrandr --output HDMI-0 --off --output HDMI-1 --off --output eDP-1 --primary --fb 0x0 --panning 0x0+0+0 --auto
-~/.bin/wallpaper.refresh

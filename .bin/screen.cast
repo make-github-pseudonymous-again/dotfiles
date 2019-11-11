@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+default="$1"
+
+if [ -z "$default" ] ; then
+  2>&1 echo 'No output specified'
+  exit 124
+fi
+
+connected="$(xrandr.list.connected)"
+
+if ! <<< "$connected" grep -q "^${default}\$" ; then
+  2>&1 echo "Invalid output ${default}, available outputs are:"
+  2>&1 echo "$connected"
+  exit 125
+fi
+
+screen.layout.single "$default" $(<<< "$connected" xrandr.filter.not "$default")
+
+wallpaper.refresh

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+xrandr.info "$@" | tail +2 | awk '{print $1}'

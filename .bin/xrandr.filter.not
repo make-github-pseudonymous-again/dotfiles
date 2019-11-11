@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+excluded="$1"
+
+while read line ; do
+    output="$(echo "$line" | cut -d' ' -f1)"
+	if [ "$output" != "$excluded" ] ; then
+        echo "$output"
+	fi
+done
