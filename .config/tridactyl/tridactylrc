@@ -124,12 +124,14 @@ quickmark t https://github.com/trending
 quickmark n https://github.com/notifications
 " algo group
 quickmark u https://algo.ulb.be
+" barc
+quickmark k https://barc.ku.dk
 " coauthor
 quickmark c https://coauthor.ulb.be
 " homepage
-quickmark h https://aureooms.github.io
+quickmark h https://aurelienooms.be
 " academic homepage
-quickmark a http://homepages.ulb.be/~aureooms
+quickmark a https://research.aurelienooms.be
 
 
 "" homepages
