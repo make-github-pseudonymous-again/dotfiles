@@ -4,7 +4,7 @@ _running="$(uname -r)"
 _lts="$(<<< "$_running" grep '\-\lts$' -o)"
 _installed="$(pacman -Q linux"$_lts")"
 
-running="$(<<< "${_running}" sed 's/-ARCH$//g' | sed 's/\.0-/-/g' | tr '.-' ':')"
+running="$(<<< "${_running}" sed 's/-arch/-/g' | sed 's/\.0-/-/g' | tr '.-' ':')"
 installed="$(<<< "${_installed}${_lts}" cut -d' ' -f2 | tr '.-' ':')"
 
 >&2 echo "running=$running"
