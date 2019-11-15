@@ -5,8 +5,18 @@ if [ $(id -u) == "0" ] ; then
   exit 1
 fi
 
-COUNTRIES="${1:-country=BE&country=FR&country=DE&country=LU&country=NL}"
-OPTIONS="${2:-protocol=https&ip_version=4}"
+CONFIG="$HOME/.config/mirup/config"
+
+COUNTRIES="$1"
+OPTIONS="$2"
+
+if [ -e "$CONFIG" ] ; then
+  COUNTRIES="${COUNTRIES:-$(jq -r .countries "$CONFIG")}"
+  OPTIONS="${OPTIONS:-$(jq -r .options "$CONFIG")}"
+fi
+
+COUNTRIES="${COUNTRIES:-country=all}"
+OPTIONS="${OPTIONS:-protocol=https&ip_version=4}"
 URL="https://www.archlinux.org/mirrorlist/?${COUNTRIES}&${OPTIONS}"
 SOURCE="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-source.XXXXXXXX")"
 RANKED="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-ranked.XXXXXXXX")"
