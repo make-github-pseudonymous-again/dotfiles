@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+outputs="$(xrandr.list.connected | fzf-menu --lines 5 --columns 60 --prompt ' left to right' -m)"
+
+if [ -n "$outputs" ] ; then
+  <<< "$outputs" xargs screen.cast.multi
+fi

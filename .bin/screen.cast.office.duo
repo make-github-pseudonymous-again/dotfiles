@@ -4,6 +4,6 @@ primary=DP-1
 secondary=HDMI-2
 
 screen.layout.double "$primary" "$secondary" --right-of \
-  $(xrandr.list | xrandr.filter.connected | xrandr.filter.not "$primary" | xrandr.filter.not "$secondary")
+  $(xrandr.list | xrandr.filter.connected | xrandr.filter.not "$primary" "$secondary")
 
 wallpaper.refresh

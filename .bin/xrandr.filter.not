@@ -1,10 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-excluded="$1"
+blacklist="$(for x in "$@" ; do echo "$x" ; done | sort)"
 
 while read line ; do
-    output="$(echo "$line" | cut -d' ' -f1)"
-	if [ "$output" != "$excluded" ] ; then
-        echo "$output"
-	fi
+    <<< "$line" cut -d' ' -f1 | comm -23 - <(echo "$blacklist")
 done

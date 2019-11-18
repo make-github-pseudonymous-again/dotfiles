@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+for output in "$@" ; do
+  if [ -n "$output" ] ; then
+    printf ' --output %s --off' "$output"
+  fi
+done

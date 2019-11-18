@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+primary="$1" && shift
+side='--right-of'
+
+previous="$primary"
+secondary=""
+
+for output in "$@" ; do
+  secondary="${secondary} --output ${output} --auto ${side} ${previous}"
+  previous="$output"
+done
+
+switchoff="$(xrandr.args.off "$(xrandr.list.connected | xrandr.filter.not "$primary" "$@")")"
+
+xrandr.apply \
+  --fb 0x0 --output "$primary" --primary --auto --panning 0x0+0+0 \
+  $secondary \
+  $switchoff
