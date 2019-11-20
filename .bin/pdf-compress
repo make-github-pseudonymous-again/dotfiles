@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+#https://unix.stackexchange.com/questions/274428/how-do-i-reduce-the-size-of-a-pdf-file-that-contains-images
+#gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -q -o output.pdf file.pdf
+
+#https://gist.github.com/firstdoit/6390547
+#gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+
+#https://ghostscript.com/doc/current/Use.htm#Interaction_related_parameters
+
+
+if [ "$#" -lt 1 ] ; then
+  >&2 echo "usage: $0 <configuration> <*gs args>"
+  >&2 echo
+  >&2 echo 'where <configuration> is one of:'
+  >&2 echo '  - /screen selects low-resolution output similar to the Acrobat Distiller "Screen Optimized" setting.'
+  >&2 echo '  - /ebook selects medium-resolution output similar to the Acrobat Distiller "eBook" setting.'
+  >&2 echo '  - /printer selects output similar to the Acrobat Distiller "Print Optimized" setting.'
+  >&2 echo '  - /prepress selects output similar to Acrobat Distiller "Prepress Optimized" setting.'
+  >&2 echo '  - /default selects output intended to be useful across a wide variety of uses, possibly at the expense of a larger output file.'
+  >&2 echo
+  >&2 echo "example: $0 printer -o output.pdf input.pdf"
+  exit 127
+fi
+
+compression="$1" && shift
+dflt_options='-dSAFER -q'
+device='pdfwrite'
+
+gs "-sDEVICE=${device}" "-dPDFSETTINGS=/${compression}" ${dflt_options} "$@"

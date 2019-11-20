@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# https://unix.stackexchange.com/questions/162922/is-there-a-way-to-flatten-a-pdf-image-from-the-command-line
+
+source="$1"
+destination="${2:-flat-${source}}"
+
+pdf2ps "$source" - | ps2pdf - "$destination"
