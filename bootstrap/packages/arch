@@ -165,7 +165,6 @@ antiword
 catdoc
 unrtf
 id3lib
-mutagen
 python-mutagen
 python2-pychm
 perl-image-exiftool
