@@ -137,7 +137,12 @@ quickmark c https://coauthor.ulb.be
 quickmark h https://aurelienooms.be
 " academic homepage
 quickmark a https://research.aurelienooms.be
-
+" ku science webprint
+quickmark p https://webprint.science.ku.dk
+" barc chat
+quickmark b https://basicalgoresearchcph.slack.com
+" lifex chat
+quickmark l https://lifexdk.slack.com
 
 "" homepages
 set home http://localhost:7342/newtab.html
