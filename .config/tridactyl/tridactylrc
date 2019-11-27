@@ -143,6 +143,8 @@ quickmark p https://webprint.science.ku.dk
 quickmark b https://basicalgoresearchcph.slack.com
 " lifex chat
 quickmark l https://lifexdk.slack.com
+" ku support
+quickmark s https://sd.ku.dk
 
 "" homepages
 set home http://localhost:7342/newtab.html
