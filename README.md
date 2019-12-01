@@ -13,7 +13,7 @@ impersonate you. Encrypt your hard drive before it is too late.
 
     cd
     cd dev
-    git clone git@github.com:aureooms/dotfiles
+    git clone https://github.com/aureooms/dotfiles
     cd dotfiles
 
 ### Install software
