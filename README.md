@@ -33,6 +33,7 @@ and
 [nouveau](https://wiki.archlinux.org/index.php/nouveau)
 pages on the wiki.
 
+    pacman -S mesa vulkan-intel
     pacman -S mesa xf86-video-intel
     pacman -S xf86-video-nouveau
     pacman -S xf86-video-ati
