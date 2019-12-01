@@ -8,7 +8,7 @@ xo
 gulp-cli
 tick
 man-n
-babel-cli
+@babel/cli
 journally
 ava-codemods
 fast-cli
