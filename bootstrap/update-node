@@ -35,7 +35,8 @@ elif command -v npm 1>/dev/null; then
 
   echo "  # using npm"
 
-  npm_installed="$(ls -1 "$(npm root -g)")" # will not work with scoped packages
+  npm_root="$(npm root -g)"
+  npm_installed="$(find "$npm_root" -maxdepth "$(<<< "$npm_root" sed 's:/: :g' | wc -w)" -name package.json | cut -d/ -f5- | sed -e 's:/package.json$::' -e '/^[^@].*\//d')"
 
   function _install {
     to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$npm_installed"))"
