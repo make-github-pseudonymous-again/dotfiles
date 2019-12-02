@@ -11,7 +11,7 @@ for output in "$@" ; do
   previous="$output"
 done
 
-switchoff="$(xrandr.args.off "$(xrandr.list.connected | xrandr.filter.not "$primary" "$@")")"
+switchoff="$(xrandr.args.off $(xrandr.list.connected | xrandr.filter.not "$primary" "$@"))"
 
 xrandr.apply \
   --fb 0x0 --output "$primary" --primary --auto --panning 0x0+0+0 \
