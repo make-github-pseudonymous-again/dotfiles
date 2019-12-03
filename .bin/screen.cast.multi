@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# similar to `autorandr --load common` (virtual configs, see `autorandr --help`)
+
 primary="$1" && shift
 side='--right-of'
 
