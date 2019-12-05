@@ -29,6 +29,10 @@ if [ -n "$tethering_iface" ]; then
 	prepend='{"name":"tethering","color":"#0CD0F7","full_text":" '"${tethering_nclients}"'"},'"$prepend"
 fi
 
+if is.bluetooth.running ; then
+	prepend='{"name":"bluetooth","color":"#0082fc","full_text":""},'"$prepend"
+fi
+
 if is.ulb.network.connected; then
 	if is.internet.accessible; then
 		prepend='{"name":"ulb network","color":"#85bd85","full_text":" ulb"},'"$prepend"

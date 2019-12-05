@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+cache='.cache/bluetooth/last'
+
+if is.bluetooth.running ; then
+	bluetooth.stop
+	mkdir -p "$(dirname "$cache")"
+	touch "$cache"
+else
+	rm -f "$cache"
+fi

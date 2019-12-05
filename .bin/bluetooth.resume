@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+cache='.cache/bluetooth/last'
+
+if [ -e "$cache" ] ; then
+	bluetooth.start
+fi

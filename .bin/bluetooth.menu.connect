@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+device="$(bluetoothctl paired-devices | fzf-menu --lines 5 --columns 60 --prompt ' connect' | cut -d' ' -f2)"
+
+if [ -n "$device" ] ; then
+  bluetoothctl connect "$device"
+fi

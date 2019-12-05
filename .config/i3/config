@@ -366,6 +366,30 @@ mode "wifi" {
 #-- bindsym $mod+w mode "wifi"
 bindcode $mod+52 mode "wifi"
 
+mode "bluetooth" {
+
+  #-- bindsym d exec bluetooth.menu.disconnect; mode "default"
+  bindcode 40 exec bluetooth.menu.disconnect; mode "default"
+  #-- bindsym Shift+D exec bluetooth.disconnect.all; mode "default"
+  bindcode Shift+40 exec bluetooth.disconnect.all; mode "default"
+  #-- bindsym c exec bluetooth.menu.connect; mode "default"
+  bindcode 54 exec bluetooth.menu.connect; mode "default"
+  #-- bindsym Shift+S exec bluetooth.stop; mode "default"
+  bindcode Shift+39 exec bluetooth.stop; mode "default"
+  #-- bindsym s exec bluetooth.start; mode "default"
+  bindcode 39 exec bluetooth.start; mode "default"
+
+  # back to normal: Enter or Escape
+  #-- bindsym Return mode "default"
+  bindcode 36 mode "default"
+  #-- bindsym Escape mode "default"
+  bindcode 66 mode "default"
+
+}
+
+#-- bindsym $mod+Shift+T mode "bluetooth"
+bindcode $mod+Shift+28 mode "bluetooth"
+
 mode "layout" {
 
         #-- bindsym Shift+D exec laptop.default; mode "default"

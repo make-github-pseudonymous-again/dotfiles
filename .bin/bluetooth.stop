@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+sudo /usr/bin/systemctl stop bluetooth

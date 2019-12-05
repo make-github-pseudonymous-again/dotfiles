@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-true
+source ~/.path
+bluetooth.resume
