@@ -1,0 +1,7 @@
+[Unit]
+Description=Trigger action when docked
+After=ready.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh on-dock

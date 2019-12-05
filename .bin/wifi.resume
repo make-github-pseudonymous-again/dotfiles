@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+cache='.cache/netctl/last'
+profile="$(cat "$cache")"
+
+sudo ip link set "$(wifi.chips.default)" down
+
+if [ "$profile" = 'auto' ] ; then
+	wifi.auto.start
+elif [ "$profile" != '' ] ; then
+	wifi.profile.start "$profile"
+fi

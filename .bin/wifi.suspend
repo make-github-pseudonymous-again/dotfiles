@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+cache='.cache/netctl/last'
+profile="$(wifi.profiles.running)"
+
+if [ "$profile" != '' ] ; then
+	wifi.profile.stop "$profile"
+	mkdir -p "$(dirname "$cache")"
+	echo "$profile" > "$cache"
+elif is.wifi.auto.running ; then
+	wifi.auto.stop
+	mkdir -p "$(dirname "$cache")"
+	echo "auto" > "$cache"
+else
+	rm -f "$cache"
+fi
+
+sudo ip link set "$(wifi.chips.default)" down
