@@ -31,10 +31,10 @@ alias g="git"
 alias e="vim"
 
 alias up="update"
-alias ss="services.show"
+alias ss="services.show | less -r"
 
 # errors from journal
-alias errors="journalctl -b -p err|less"
+alias errors="journalctl -b -p err -r"
 
 # List all files colorized in long format
 alias l="exa -l"

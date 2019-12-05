@@ -64,11 +64,11 @@ for al in (git la)
 end
 
 abbr up "update"
-abbr ss "services.show"
+abbr ss "services.show | less -r"
 
 
 # errors from journal
-abbr errors "journalctl -b -p err | less"
+abbr errors "journalctl -b -p err -r"
 
 # List all files colorized in long format
 abbr l "exa -l"
