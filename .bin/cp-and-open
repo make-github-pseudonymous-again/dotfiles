@@ -31,8 +31,11 @@ function copyAndOpen {
 	filetype="$(xdg-mime query filetype "$1")"
 
 	case "$filetype" in
-	'text/html')
+	'text/html'|'text/plain')
 		html2text $HTML2TEXT_OPTIONS -- "$1" | sed 's/\s*$//' > "$tmp"
+		if [ "$?" != 0 ] ; then
+			cp "$1" "$tmp"
+		fi
 		;;
 	*)
 		cp "$1" "$tmp"
