@@ -4,15 +4,14 @@
 # depends on xorg-xrandr, xorg-xinput, and xf86-input-wacom
 
 # if it breaks, update by looking at output of xinput
-TOUCHSCREEN='NTRG0001:01 1B96:1B05'
-STYLUS='NTRG0001:01 1B96:1B05 Pen Pen (0)'
-#ERASER='NTRG0001:01 1B96:1B05 Pen'
+
+input_orientation="$1" && shift
 
 orientation=normal
 transform='1 0 0 0 1 0 0 0 1'
 rotate=none
 
-case $1 in
+case "$input_orientation" in
     left|1)
     orientation=left
     transform='0 -1 1 1 0 0 0 0 1'
@@ -31,8 +30,8 @@ case $1 in
 esac
 
 xrandr -o "$orientation"
-xinput --set-prop "$TOUCHSCREEN" --type=float 'Coordinate Transformation Matrix' $transform
-xinput --set-prop "$STYLUS" --type=float 'Coordinate Transformation Matrix' $transform
-#xinput --set-prop "$ERASER" --type=float 'Coordinate Transformation Matrix' $transform
-#xsetwacom set "$STYLUS" Rotate "$rotate"
-#xsetwacom set "$ERASER" Rotate "$rotate"
+
+for device in "$@" ; do
+    xinput --set-prop "$device" --type=float 'Coordinate Transformation Matrix' $transform
+    #xsetwacom set "$device" Rotate "$rotate"
+done
