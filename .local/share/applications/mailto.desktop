@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=mailto: application
+Comment=mailto: via astroid
+Exec=astroid --mailto %u
+Icon=astroid
+Terminal=false
+Type=Application
+Keywords=Email;E-mail;
+Categories=Network;Email;
+MimeType=x-scheme-handler/mailto;
