@@ -3,6 +3,7 @@
 # https://en.wikipedia.org/wiki/URI
 URI_REGEXP='^[a-zA-Z][a-zA-Z0-9+.-]*://'
 FILE_URI_REGEXP='^file://'
+HTML2TEXT_OPTIONS='--decode-errors ignore --links-after-para --mark-code --ignore-images --dash-unordered-list -b 79 --reference-links'
 
 function isURI {
 
@@ -31,14 +32,14 @@ function copyAndOpen {
 
 	case "$filetype" in
 	'text/html')
-		html2text "$1" > "$tmp"
+		html2text $HTML2TEXT_OPTIONS -- "$1" | sed 's/\s*$//' > "$tmp"
 		;;
 	*)
 		cp "$1" "$tmp"
 		;;
 	esac
 
-	xdg-open "$tmp" &
+	open "$tmp"
 
 }
 
