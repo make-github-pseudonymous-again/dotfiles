@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# Inspired by https://gist.github.com/asmz/84734cdc0a18e72eec25
+#
+# Usage
+#  slack-notifications-for-conversation <channel_id>
+#
+# Configuration
+#  Requires SLACK_API_TOKEN environment variable.
+#
+# Requirements
+#  *) curl
+#  *) jq - command-line JSON processor
+#     http://stedolan.github.io/jq/
+#
+
+data="$(jq -r '.id + "," + (.is_im | tostring)')"
+
+channel_id="$(cut -d, -f1 <<< "$data")"
+is_im="$(cut -d, -f2 <<< "$data")"
+
+endpoint='channels.info'
+if [ "$is_im" == "true" ] ; then
+    endpoint='conversations.info'
+fi
+
+unread_count="$(slack-api-fetch "$endpoint" "channel=${channel_id}" | jq -r '.channel.unread_count_display // 0')"
+
+if [ -z "${unread_count}" ] ; then
+    echo 0
+    exit 2
+fi
+
+echo "$unread_count"

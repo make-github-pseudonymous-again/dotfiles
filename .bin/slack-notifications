@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 
 slack-users-conversations |
-jq -r '.id' |
-slack-notifications-for-channels
+slack-notifications-for-conversations

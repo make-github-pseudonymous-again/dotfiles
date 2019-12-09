@@ -18,5 +18,5 @@ if [ -z ${SLACK_API_TOKEN} ] ; then
     exit 1
 fi
 
-mapreduce xargs -L1 slack-notifications-for-channel |
+mapreduce slack-notifications-for-conversation |
 awk '{s+=$1} END {print s}'
