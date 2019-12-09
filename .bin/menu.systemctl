@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable"
+actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable\nreenable"
 action=$(echo -e "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
 
 if [ "$action" = '' ]; then
