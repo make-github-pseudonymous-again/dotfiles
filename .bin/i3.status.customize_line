@@ -50,37 +50,6 @@ if is.tablet; then
 	prepend='{"name":"tablet-mode","color":"#FA2A65","full_text":""},'"$prepend"
 fi
 
-mail_count="$(courriel.count)"
-if courriel.is.running ; then
-	if test "$mail_count" -gt 0; then
-		prepend='{"name":"new mail","color":"#85bdbd","full_text":" '"$mail_count"'"},'"$prepend"
-	fi
-else
-	prepend='{"name":"new mail","color":"#F45D4C","full_text":" '"$mail_count"'"},'"$prepend"
-fi
-
-if courriel.is.syncing ; then
-	prepend='{"name":"mail syncing","color":"#464646","full_text":""},'"$prepend"
-fi
-
-pending_count="$(msmtp-pending)"
-if test "$pending_count" -gt 0; then
-	if msmtp-runqueue-daemon-is-running ; then
-		if msmtp-runqueue-is-running; then
-			prepend='{"name":"pending sent mail","color":"#85bdbd","full_text":" '"$pending_count"'"},'"$prepend"
-		else
-			prepend='{"name":"pending sent mail","color":"#464646","full_text":" '"$pending_count"'"},'"$prepend"
-		fi
-	else
-		prepend='{"name":"pending sent mail","color":"#F45D4C","full_text":" '"$pending_count"'"},'"$prepend"
-	fi
-fi
-
-#rss_count="$(rss.count)"
-#if test "$rss_count" -gt 0; then
-	#prepend='{"name":"new rss","color":"#85bd85","full_text":" '"$rss_count"'"},'"$prepend"
-#fi
-
 #volume="$(volume.get)"
 #if test "$volume" -lt 50; then
 	#if is.volume.on; then
