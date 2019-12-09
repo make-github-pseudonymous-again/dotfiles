@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-cache='.cache/bluetooth/last'
+cache="${HOME}/.cache/bluetooth/last"
 
 if is.bluetooth.running ; then
 	bluetooth.stop
