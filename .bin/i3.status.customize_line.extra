@@ -8,12 +8,12 @@ APPEND_INIT='{}'
 prepend="$PREPEND_INIT"
 append="$APPEND_INIT"
 
-urlab_data="$(memoize-get 1800 urlab.fetch)"
-urlab_open="$(echo "$urlab_data" | head -1)"
-urlab_people="$(echo "$urlab_data" | tail -1)"
-if [ "$urlab_open" = 'true' ] ; then
-	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
-fi
+#urlab_data="$(memoize-get 1800 urlab.fetch)"
+#urlab_open="$(echo "$urlab_data" | head -1)"
+#urlab_people="$(echo "$urlab_data" | tail -1)"
+#if [ "$urlab_open" = 'true' ] ; then
+#	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
+#fi
 
 github_notifications="$(memoize-get -1 github.notifications)"
 if [ -n "$github_notifications" ] && [ "$github_notifications" -gt 0 ] ; then
@@ -25,15 +25,15 @@ if [ "$github_stars" != '' ] ; then
 	prepend='{"name":"github stars","color":"#FFEF8C","full_text":" '"$github_stars"'"},'"$prepend"
 fi
 
-voo_current="$(2>/dev/null cat "$HOME/.cache/voo/info.json" | jq -r '.consumption.current.raw')"
-if [ "$voo_current" != '' ] ; then
-	prepend='{"name":"voo consumption","color":"#464646","full_text":" '"$voo_current"'"},'"$prepend"
-fi
+#voo_current="$(2>/dev/null cat "$HOME/.cache/voo/info.json" | jq -r '.consumption.current.raw')"
+#if [ "$voo_current" != '' ] ; then
+#	prepend='{"name":"voo consumption","color":"#464646","full_text":" '"$voo_current"'"},'"$prepend"
+#fi
 
-mv_current="$(memoize-get 3600 mbv balance | jq '.data' | human 2 1)"
-if [ "$mv_current" != '' ] ; then
-	prepend='{"name":"mv data","color":"#464646","full_text":" '"$mv_current"'"},'"$prepend"
-fi
+#mv_current="$(memoize-get 3600 mbv balance | jq '.data' | human 2 1)"
+#if [ "$mv_current" != '' ] ; then
+#	prepend='{"name":"mv data","color":"#464646","full_text":" '"$mv_current"'"},'"$prepend"
+#fi
 
 calendar="$(memoize-ft 0 calendar.now)"
 if [ "$calendar" != '' ]; then
@@ -45,10 +45,10 @@ if [ "$weather" != '' ]; then
 	prepend="$weather"','"$prepend"
 fi
 
-commuting="$(commuting.fetch | head -n 1)"
-if [ "$commuting" != '' ]; then
-	prepend="$commuting"','"$prepend"
-fi
+#commuting="$(commuting.fetch | head -n 1)"
+#if [ "$commuting" != '' ]; then
+#	prepend="$commuting"','"$prepend"
+#fi
 
 geolocation="$(memoize-get 900 geolocation.fetch)"
 geolocationtag="$(jq <<< "$geolocation" -r '.tag')"
