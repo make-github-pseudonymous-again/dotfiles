@@ -116,6 +116,9 @@ bind xh js window.location = 'https://sci-hub.tw/' + window.location.href
 bind xs js window.location = 'https://sci-hub.se/' + window.location.href
 bind xl js window.location = 'https://sci-hub.ltd/' + window.location.href
 
+" type xa to route page through archive.org's proxy
+bind xa js window.location = 'https://web.archive.org/' + window.location.href
+
 
 "" quickmarks
 
