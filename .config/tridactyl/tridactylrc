@@ -110,7 +110,7 @@ set searchurls.ng https://books.google.com/ngrams/graph?content=%s
 
 "" bindings
 
-" type xh to route page through sci-hub's proxy
+" type xh, xs, or xl, to route page through sci-hub's proxy
 unbind x
 bind xh js window.location = 'https://sci-hub.tw/' + window.location.href
 bind xs js window.location = 'https://sci-hub.se/' + window.location.href
