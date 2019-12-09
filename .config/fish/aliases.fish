@@ -16,7 +16,6 @@ alias o='a -e xdg-open' # quick opening files with xdg-open
 
 # Shortcuts
 abbr dl "cd ~/dl"
-abbr u "cd ~/ulb"
 abbr h "history"
 abbr t "touch"
 abbr r "ranger"

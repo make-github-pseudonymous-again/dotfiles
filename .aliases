@@ -7,7 +7,6 @@ alias -- -="cd -"
 
 # Shortcuts
 alias dl="cd ~/dl"
-alias u="cd ~/ulb"
 alias h="history"
 alias t="touch"
 alias r="ranger"
