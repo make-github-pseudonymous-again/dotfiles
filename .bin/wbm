@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+url="$1"
+
+curl "https://web.archive.org/save/${url}" >/dev/null
