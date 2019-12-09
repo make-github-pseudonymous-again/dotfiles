@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-cache='.cache/netctl/last'
+cache="${HOME}/.cache/netctl/last"
 profile="$(cat "$cache")"
 
 sudo ip link set "$(wifi.chips.default)" down
