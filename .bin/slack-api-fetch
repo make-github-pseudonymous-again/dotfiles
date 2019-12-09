@@ -29,4 +29,6 @@ fi
 API_URL_BASE="https://slack.com/api/"
 HTTP_GET="curl -s -G"
 
-${HTTP_GET} "${API_URL_BASE}${ENDPOINT}?token=${SLACK_API_TOKEN}${PARAMS}"
+url="${API_URL_BASE}${ENDPOINT}?token=${SLACK_API_TOKEN}${PARAMS}"
+>&2 echo "$url"
+${HTTP_GET} "$url"

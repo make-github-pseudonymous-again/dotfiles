@@ -18,6 +18,5 @@ if [ -z ${SLACK_API_TOKEN} ] ; then
     exit 1
 fi
 
-for channel_id in "$@" ; do echo "$channel_id" ; done |
 mapreduce slack-notifications-for-channel |
 awk '{s+=$1} END {print s}'
