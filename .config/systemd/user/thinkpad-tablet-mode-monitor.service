@@ -1,0 +1,9 @@
+[Unit]
+Description=Thinkpad tablet mode monitor daemon
+
+[Service]
+ExecStart=/usr/bin/env thinkpad-tablet-mode-monitor
+Restart=always
+
+[Install]
+WantedBy=ready.target

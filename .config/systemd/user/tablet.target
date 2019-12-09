@@ -1,0 +1,4 @@
+[Unit]
+Description=Tablet mode
+Requires=ready.target
+After=ready.target

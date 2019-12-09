@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+sudo /usr/bin/stdbuf -oL -eL \
+libinput debug-events --device /dev/input/by-path/platform-thinkpad_acpi-event |
+grep -oP --line-buffered 'switch tablet-mode state \K\d+' |
+while read state; do
+
+  if [ "$state" -eq 0 ] ; then
+    systemctl --user stop tablet.target
+  elif [ "$state" -eq 1 ] ; then
+    systemctl --user start tablet.target
+  fi
+
+done

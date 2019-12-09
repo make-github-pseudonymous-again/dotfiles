@@ -1,9 +1,11 @@
 [Unit]
 Description=Monitor autorotation service
+PartOf=tablet.target
 
 [Service]
 ExecStart=/usr/bin/env autorotate
+ExecStop=/usr/bin/env rotate default
 Restart=always
 
 [Install]
-WantedBy=ready.target
+WantedBy=tablet.target

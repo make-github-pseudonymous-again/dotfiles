@@ -46,6 +46,10 @@ if is.ulb.network.connected; then
 	fi
 fi
 
+if is.tablet; then
+	prepend='{"name":"tablet-mode","color":"#FA2A65","full_text":""},'"$prepend"
+fi
+
 mail_count="$(courriel.count)"
 if courriel.is.running ; then
 	if test "$mail_count" -gt 0; then
