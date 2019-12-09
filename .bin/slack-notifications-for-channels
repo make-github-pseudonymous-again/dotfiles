@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Inspired from https://gist.github.com/asmz/84734cdc0a18e72eec25
+#
+# Usage
+#  slack-notifications <channels...>
+#
+# Configuration
+#  Requires SLACK_API_TOKEN environment variable.
+#
+# Requirements
+#  *) curl
+#  *) jq - command-line JSON processor
+#     http://stedolan.github.io/jq/
+#
+
+if [ -z ${SLACK_API_TOKEN} ] ; then
+    exit 1
+fi
+
+for channel_id in "$@" ; do echo "$channel_id" ; done |
+mapreduce slack-notifications-for-channel |
+awk '{s+=$1} END {print s}'

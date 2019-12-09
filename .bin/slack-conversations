@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+slack-api-paginate conversations.list channels 'exclude_archived=1&types=public_channel,private_channel,mpim,im'

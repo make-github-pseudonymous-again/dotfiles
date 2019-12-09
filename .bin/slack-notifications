@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+slack-notifications-for-channels $(slack-users-conversations | jq -sr '.[] | .id')

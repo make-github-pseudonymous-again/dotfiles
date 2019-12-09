@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [ -n "$1" ] ; then
+  user="user=$1&"
+fi
+
+slack-api-paginate users.conversations channels "${user}exclude_archived=1&types=public_channel,private_channel,mpim,im"

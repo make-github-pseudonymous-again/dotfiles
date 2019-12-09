@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+#
+# Inspired by https://gist.github.com/asmz/84734cdc0a18e72eec25
+#
+# Usage
+#  slack-api-fetch <endpoint> [<params...>]
+#
+# Configuration
+#  Requires SLACK_API_TOKEN environment variable.
+#
+# Requirements
+#  *) curl
+
+if [ -z "$SLACK_API_TOKEN" ] ; then
+    exit 1
+fi
+
+if [ "$#" -lt 1 ] ; then
+    exit 2
+fi
+
+ENDPOINT="$1"
+PARAMS="$2"
+
+if [ -n "$PARAMS" ] ; then
+    PARAMS="&${PARAMS}"
+fi
+
+API_URL_BASE="https://slack.com/api/"
+HTTP_GET="curl -s -G"
+
+${HTTP_GET} "${API_URL_BASE}${ENDPOINT}?token=${SLACK_API_TOKEN}${PARAMS}"

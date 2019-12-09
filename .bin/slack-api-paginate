@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+#
+# Inspired by https://gist.github.com/asmz/84734cdc0a18e72eec25
+#
+# Usage
+#  slack-api-paginate <endpoint> <result_key> [<params...>]
+#
+# Configuration
+#  Requires SLACK_API_TOKEN environment variable.
+#
+# Requirements
+#  *) curl
+#  *) jq
+
+if [ -z "$SLACK_API_TOKEN" ] ; then
+    exit 1
+fi
+
+if [ "$#" -lt 2 ] ; then
+    exit 2
+fi
+
+ENDPOINT="$1"
+KEY="$2"
+PARAMS="$3"
+
+if [ -n "$PARAMS" ] ; then
+    PARAMS="&${PARAMS}"
+fi
+
+API_URL_BASE="https://slack.com/api/"
+HTTP_GET="curl -s -G"
+
+cursor=''
+
+while true ; do
+    response="$(${HTTP_GET} "${API_URL_BASE}${ENDPOINT}?token=${SLACK_API_TOKEN}${cursor}${PARAMS}")"
+    # TODO error handling
+    # if [ "$?" -ne 0 ] ; then ... ; fi
+    # ok="$(<<< "$response" jq -r '.ok')"
+    # if [ "$ok" != 'true' ] ; then ... ; fi
+    <<< "$response" jq -c ".${KEY}[]"
+    next_cursor="$(<<< "$response" jq -r '.response_metadata.next_cursor? // ""')"
+    if [ -z "$next_cursor" ] ; then break ; fi
+    cursor="&cursor=${next_cursor}"
+done
