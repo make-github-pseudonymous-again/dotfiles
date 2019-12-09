@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
-while read -r index; do
-  for entry in $(find "$index/dup" -type f); do
+while read -r line; do
+  index="$(<<< "$line" cut -d' ' -f1)"
+  dup="$(<<< "$line" cut -d' ' -f2)"
+  for entry in $(find "$dup" -type f); do
     fzf -m --prompt 'select files to delete > ' < "$entry"
   done
   rm -r "$index"

@@ -6,16 +6,37 @@ dup="$index/dup"
 mkdir "$all"
 mkdir "$dup"
 
-function hash {
+mkdir "$dup/0"
+cat > "$dup/0/0"
+
+function hash1 {
+  stat --printf="%s" "$1"
+}
+
+function hash2 {
   xxhsum "$1" 2>/dev/null | head -c 16
 }
 
-while read -r path; do
-  key="$(hash "$path")"
-  orig="$all/$key"
-  link="$dup/$key"
-  if [ -e "$orig" ] && [ ! -e "$link" ] ; then ln "$orig" "$link" ; fi
-  printf "%s\n" "$path" >> "$orig"
+# TODO compare contents
+
+hashfns="hash1 hash2"
+
+i=0
+for hashfn in $hashfns ; do
+  prev="$i"
+  ((++i))
+  mkdir "$all/$i"
+  mkdir "$dup/$i"
+  for entry in $(find "$dup/$prev" -type f) ; do
+    prevkey="$(basename "$entry")"
+    while read -r path; do
+      newkey="$prevkey-$("$hashfn" "$path")"
+      orig="$all/$i/$newkey"
+      link="$dup/$i/$newkey"
+      if [ -e "$orig" ] && [ ! -e "$link" ] ; then ln "$orig" "$link" ; fi
+      printf "%s\n" "$path" >> "$orig"
+    done < "$entry"
+  done
 done
 
-printf "%s\n" "$index"
+printf "%s %s\n" "$index" "$dup/$i"
