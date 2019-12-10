@@ -1,8 +1,16 @@
 #!/usr/bin/env sh
-service=$(services.list | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)
+service="$(services.list | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)"
 
 if [ "$service" = '' ]; then
 	exit 102
+fi
+
+if grep -q <<< "$service" '@\.' ; then
+	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
+	if [ "$argument" = '' ]; then
+		exit 103
+	fi
+	service="$(sed <<< "$service" "s/@\\./@"$argument"./")"
 fi
 
 terminator -b -x watch systemctl --user status "$service" -n 25

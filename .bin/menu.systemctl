@@ -12,4 +12,12 @@ if [ "$service" = '' ]; then
 	exit 102
 fi
 
+if grep -q <<< "$service" '@\.' ; then
+	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
+	if [ "$argument" = '' ]; then
+		exit 103
+	fi
+	service="$(sed <<< "$service" "s/@\\./@"$argument"./")"
+fi
+
 systemctl --user $action "$service"
