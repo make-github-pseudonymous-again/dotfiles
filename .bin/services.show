@@ -1,3 +1,6 @@
 #!/usr/bin/env sh
 
-services.list | jq 'with_entries(select(.value.origin == "user"))' | services.format
+services.list |
+services.info |
+jq 'with_entries(select(.value.origin == "user"))' |
+services.format
