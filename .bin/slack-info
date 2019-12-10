@@ -14,11 +14,14 @@
 #     http://stedolan.github.io/jq/
 #
 
-unread_count="$(slack-info | jq -r '.channel.unread_count_display // 0')"
+data="$(jq -r '.id + "," + (.is_im | tostring)')"
 
-if [ -z "${unread_count}" ] ; then
-    echo 0
-    exit 2
+channel_id="$(cut -d, -f1 <<< "$data")"
+is_im="$(cut -d, -f2 <<< "$data")"
+
+endpoint='channels.info'
+if [ "$is_im" == "true" ] ; then
+    endpoint='conversations.info'
 fi
 
-echo "$unread_count"
+slack-api-fetch "$endpoint" "channel=${channel_id}"
