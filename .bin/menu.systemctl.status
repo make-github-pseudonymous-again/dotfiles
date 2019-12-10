@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-services=$(ls "$HOME/.config/systemd/user")
+services=$(find "$HOME/.config/systemd/user/" -type f,l | xargs -L1 basename | sort | uniq)
 service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)
 
 if [ "$service" = '' ]; then

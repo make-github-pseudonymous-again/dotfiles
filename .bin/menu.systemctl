@@ -6,7 +6,7 @@ if [ "$action" = '' ]; then
 	exit 101
 fi
 
-services=$(ls "$HOME/.config/systemd/user")
+services=$(find "$HOME/.config/systemd/user/" -type f,l | xargs -L1 basename | sort | uniq)
 service=$(echo "$services" | dmenu_center --rest -i -t -sb '#D24858' -p "$action" -l 10)
 
 if [ "$service" = '' ]; then
