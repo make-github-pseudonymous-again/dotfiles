@@ -5,6 +5,7 @@ PartOf=tablet.target
 [Service]
 ExecStart=/usr/bin/env autorotate
 ExecStopPost=/usr/bin/env rotate default
+ExecStopPost=/usr/bin/env i3 restart
 Restart=always
 
 [Install]
