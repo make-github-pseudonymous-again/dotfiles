@@ -9,7 +9,7 @@ set hintchars hjkasdfgyuopqwertzxcvb
 "" search engines
 
 " duckduckgo
-set searchurls.g    https://duckduckgo.com/?q=%s
+set searchurls.g    https://duckduckgo.com/html?q=%s
 " google
 set searchurls.goo  https://www.google.com/search?q=%s
 " searx

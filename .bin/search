@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-engine="https://duckduckgo.com/"
+engine="https://duckduckgo.com/html"
 
 what="$(ui.dialog.input -p '' -sb '#3B3242')"
 
