@@ -4,7 +4,7 @@ PartOf=tablet.target
 
 [Service]
 ExecStart=/usr/bin/env autorotate
-ExecStop=/usr/bin/env rotate default
+ExecStopPost=/usr/bin/env rotate default
 Restart=always
 
 [Install]
