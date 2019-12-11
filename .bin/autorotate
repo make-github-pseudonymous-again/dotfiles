@@ -2,13 +2,11 @@
 
 prev=flat
 
-CONFIG="$HOME/.config/autorotate/config"
-
 while true; do
 	orientation="$(orientation)"
-	if [ $orientation != flat ] && [ $orientation != $prev ] ; then
-		jq -r '.devices[]' "$CONFIG" | xargs -d'\n' rotate $orientation
-		prev=$orientation
+	if [ "$orientation" != flat ] && [ "$orientation" != "$prev" ] ; then
+		rotate "$orientation"
+		prev="$orientation"
 	fi
 	sleep 3
 done

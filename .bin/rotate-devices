@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# rotate script for surface pro 3 on Xorg
+# depends on xorg-xrandr, xorg-xinput, and xf86-input-wacom
+
+# if it breaks, update by looking at output of xinput
+
+input_orientation="$1" && shift
+
+orientation=normal
+transform='1 0 0 0 1 0 0 0 1'
+rotate=none
+
+case "$input_orientation" in
+    left|1)
+    orientation=left
+    transform='0 -1 1 1 0 0 0 0 1'
+    rotate=ccw
+    ;;
+    right|3)
+    orientation=right
+    transform='0 1 0 -1 0 1 0 0 1'
+    rotate=cw
+    ;;
+    half|inverted|2)
+    orientation=inverted
+    transform='-1 0 1 0 -1 1 0 0 1'
+    rotate=half
+    ;;
+esac
+
+xrandr -o "$orientation"
+
+for device in "$@" ; do
+    xinput --set-prop "$device" --type=float 'Coordinate Transformation Matrix' $transform
+    #xsetwacom set "$device" Rotate "$rotate"
+done
