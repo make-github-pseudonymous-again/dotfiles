@@ -136,6 +136,9 @@ abbr afk "system.LS"
 abbr vdl 'youtube-dl --'
 abbr adl 'youtube-dl -f140 --'
 
+# youtube-viewer
+abbr yt 'youtube-viewer'
+
 # thefuck aliases
 # THIS IS WAY TOO SLOW
 # eval $(thefuck --alias fu)
