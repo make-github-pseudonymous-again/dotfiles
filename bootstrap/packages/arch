@@ -58,7 +58,6 @@ python-urwid
 autopep8
 
 # Python 2 packages
-python2-xlib
 python2-numpy
 python2-lxml
 
