@@ -7,4 +7,4 @@ if [ "$profile" = '' ]; then
 	exit 102
 fi
 
-terminator -b -x watch netctl status "$profile"
+terminator -b -x watch netctl status "$(escape-characters '\\' ' ' <<< "$profile")"
