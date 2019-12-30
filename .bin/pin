@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import secrets
+import string
+
+DEFAULT_LENGTH = 4
+DEFAULT_ALPHABET = string.digits
+DEFAULT_SEPARATOR = ''
+
+# TODO Rename to password and add --pin flag with argument autofill
+# TODO Allow to feed alphabet from file (newline separated words)
+# TODO Minimum entropy using zxcvbn?
+
+def get_arg_parser():
+
+	import argparse
+
+	parser = argparse.ArgumentParser(description='Generate a secure random PIN.')
+	parser.add_argument('--length', '-n', type=int, default=DEFAULT_LENGTH, help='length of the PIN')
+	parser.add_argument('--alphabet', '-a', nargs='+', default=DEFAULT_ALPHABET, help='PIN alphabet')
+	parser.add_argument('--separator', '-s', default=DEFAULT_SEPARATOR, help='PIN separator')
+
+	return parser
+
+def generate_digits ( length , alphabet ) :
+	return map(lambda x : secrets.choice(alphabet), range(length))
+
+def generate_pin ( length, alphabet, separator ) :
+	return separator.join(generate_digits(length, alphabet))
+
+def main ( length = DEFAULT_LENGTH, alphabet = DEFAULT_ALPHABET, separator = DEFAULT_SEPARATOR ) :
+	pin = generate_pin(length, alphabet, separator)
+	print(pin)
+
+if __name__ == '__main__':
+	parser = get_arg_parser()
+	args = parser.parse_args()
+	main(**vars(args))
