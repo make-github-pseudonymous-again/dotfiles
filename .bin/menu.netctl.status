@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-profiles=$(wifi.profiles | cut -b3-)
+profiles=$(wifi.profiles | sort -k1,1 | cut -b3-)
 profile=$(echo "$profiles" | dmenu_center --rest -i -t -sb '#D24858' -p "profile to watch" -l 10)
 
 if [ "$profile" = '' ]; then
