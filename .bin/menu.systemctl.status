@@ -13,4 +13,4 @@ if grep -q <<< "$service" '@\.' ; then
 	service="$(sed <<< "$service" "s/@\\./@"$argument"./")"
 fi
 
-terminator -b -x watch systemctl --user status "$service" -n 25
+terminator -b -x watch systemctl --user status "$(systemd-escape "$(escape-characters '\\' ' ' <<< "$service")")" -n 25
