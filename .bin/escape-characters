@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+escapechar="$(sed.escape.replace <<< "$1")"
+toescape="$1$2"
+
+sed "s/\\([${toescape}]\\)/${escapechar}\\1/g"
