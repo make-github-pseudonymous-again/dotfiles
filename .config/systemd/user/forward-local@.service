@@ -1,0 +1,13 @@
+[Unit]
+Description=AutoSSH local forward service with parameters %I
+After=ready.target
+
+[Service]
+Environment="AUTOSSH_GATETIME=0"
+Environment="SSH_AUTH_SOCK=/run/user/1000/keyring/ssh"
+ExecStart=/usr/bin/autossh -M 0 -NL %I
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=ready.target
