@@ -17,7 +17,8 @@ if grep -q <<< "$service" '@\.' ; then
 	if [ "$argument" = '' ]; then
 		exit 103
 	fi
-	service="$(sed <<< "$service" "s/@\\./@"$argument"./")"
+	escaped_argument="$(systemd-escape "$argument" | sed.escape.replace)"
+	service="$(sed <<< "$service" "s/@\\./@${escaped_argument}./")"
 fi
 
 systemctl --user $action "$service"
