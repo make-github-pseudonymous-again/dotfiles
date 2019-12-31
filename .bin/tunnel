@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+action="$1" && shift
+
+if [ "$1" = "--now" ] ; then
+	flags='--now'
+	shift
+fi
+
+args="$@"
+escaped_args="$(systemd-escape -- "$args")"
+
+if [ -z "$escaped_args" ] ; then
+	exit 3
+fi
+
+systemctl --user "$action" $flags tunnel@"${escaped_args}".service

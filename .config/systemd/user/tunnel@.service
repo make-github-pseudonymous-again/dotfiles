@@ -1,11 +1,14 @@
 [Unit]
-Description=AutoSSH reverse tunnel service for %I
+Description=AutoSSH forward service with parameters `%I`.
 After=ready.target
 
 [Service]
 Environment="AUTOSSH_GATETIME=0"
 Environment="SSH_AUTH_SOCK=/run/user/1000/keyring/ssh"
-ExecStart=/usr/bin/autossh -M 0 -NR %I tunnel
+Environment="AUTOSSH_ARGS=%I"
+ExecStart=/usr/bin/autossh -M 0 -N $AUTOSSH_ARGS
+Restart=always
+RestartSec=15
 
 [Install]
 WantedBy=ready.target
