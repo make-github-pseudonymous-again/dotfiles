@@ -107,6 +107,9 @@ set searchurls.ikea https://www.ikea.com/be/fr/search?k=%s
 " google ngrams
 set searchurls.ng https://books.google.com/ngrams/graph?content=%s
 
+" insect
+set searchurls.ins https://insect.sh/?q=%s
+
 
 "" bindings
 
