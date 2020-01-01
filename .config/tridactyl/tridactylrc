@@ -15,7 +15,7 @@ set searchurls.goo  https://www.google.com/search?q=%s
 " searx
 set searchurls.srx  https://searx.me/?category_general=on&q=%s
 " qwant
-set searchurls.qw   https://www.qwant.com/?q%s
+set searchurls.qw   https://www.qwant.com/?q=%s
 " bing
 set searchurls.bing https://www.bing.com/search?q=%s
 " yahoo
