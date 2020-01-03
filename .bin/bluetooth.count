@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+bluetoothctl info | grep 'Connected: yes' | wc -l

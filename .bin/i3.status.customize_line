@@ -30,6 +30,8 @@ if [ -n "$tethering_iface" ]; then
 fi
 
 if is.bluetooth.running ; then
+	#bluetooth_count="$(bluetooth.count)"
+	#prepend='{"name":"bluetooth","color":"#0082fc","full_text":" '"${bluetooth_count}"'"},'"$prepend"
 	prepend='{"name":"bluetooth","color":"#0082fc","full_text":""},'"$prepend"
 fi
 
