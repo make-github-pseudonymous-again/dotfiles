@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-ssh "$1" -t screen -x -R -S oc
+ssh "$@" -t screen -x -R -S oc
