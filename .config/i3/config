@@ -502,9 +502,6 @@ mode "internet" {
 
 mode "google" {
 
-        #-- bindsym h exec hangouts; mode "default"
-        bindcode 43 exec hangouts; mode "default"
-
         #-- bindsym g exec google; mode "default"
         bindcode 42 exec google; mode "default"
         #-- bindsym Shift+G exec google.withlr; mode "default"
@@ -577,23 +574,26 @@ mode "organization" {
 
 mode "messaging" {
 
-        #UI
+        # UI
         #-- bindsym a exec courriel; mode "default"
         bindcode 24 exec courriel; mode "default"
         #-- bindsym g exec gmail; mode "default"
         bindcode 42 exec gmail; mode "default"
         #-- bindsym m exec fractal; mode "default"
         bindcode 47 exec fractal; mode "default"
+        #-- bindsym h exec hangouts; mode "default"
+        bindcode 43 exec hangouts; mode "default"
+        #-- bindsym s exec signal-desktop; mode "default"
+        bindcode 39 exec signal-desktop; mode "default"
 
-        #LIEER
-        #-- bindsym f exec courriel.fetch; mode "default"
-        bindcode 41 exec courriel.fetch; mode "default"
 
-        #MSMTP
-        #-- bindsym c exec msmtp-cancel; mode "default"
-        bindcode 54 exec msmtp-cancel; mode "default"
-        #-- bindsym s exec msmtp-runqueue-daemon-now; mode "default"
-        bindcode 39 exec msmtp-runqueue-daemon-now; mode "default"
+        # SYNC E-MAIL
+        #-- bindsym Shift+F exec courriel.fetch; mode "default"
+        bindcode Shift+41 exec courriel.fetch; mode "default"
+        #-- bindsym Shift+C exec msmtp-cancel; mode "default"
+        bindcode Shift+54 exec msmtp-cancel; mode "default"
+        #-- bindsym Shift+S exec msmtp-runqueue-daemon-now; mode "default"
+        bindcode Shift+39 exec msmtp-runqueue-daemon-now; mode "default"
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
