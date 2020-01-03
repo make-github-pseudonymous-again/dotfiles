@@ -139,6 +139,9 @@ abbr adl 'youtube-dl -f140 --'
 # youtube-viewer
 abbr yt 'youtube-viewer'
 
+# coursera-dl
+abbr cdl 'coursera-dl --download-quizzes --download-notebooks --about --video-resolution 720p'
+
 # thefuck aliases
 # THIS IS WAY TOO SLOW
 # eval $(thefuck --alias fu)
