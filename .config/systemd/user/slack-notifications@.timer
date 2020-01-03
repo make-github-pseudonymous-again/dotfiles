@@ -1,0 +1,9 @@
+[Unit]
+Description=Slack unread notifications for %I channels timer
+
+[Timer]
+OnActiveSec=120
+OnUnitActiveSec=120
+
+[Install]
+WantedBy=ready.target

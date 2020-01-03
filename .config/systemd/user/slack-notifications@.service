@@ -1,0 +1,8 @@
+[Unit]
+Description=Slack unread notifications for %I channels
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/sh memoize-ft 0 slack-notifications-for-token %I

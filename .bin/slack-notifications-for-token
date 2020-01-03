@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+env SLACK_API_TOKEN="$(pass "$1")" slack-notifications
