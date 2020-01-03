@@ -8,3 +8,5 @@ style "vimfix" {
 widget "vim-main-window.*GtkForm" style "vimfix"
 
 # taken from a very helpful post here: https://bbs.archlinux.org/viewtopic.php?id=65285
+
+#gtk-font-name="sans-serif 16"
