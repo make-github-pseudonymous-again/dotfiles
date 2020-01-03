@@ -180,3 +180,6 @@ abbr U systemctl --user
 # search
 abbr ff fzf
 abbr rgh rg --hidden -g "'!.git/*'"
+
+# ssh
+abbr pxy ssh -N -D
