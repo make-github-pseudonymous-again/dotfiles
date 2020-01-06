@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+url='https://www.dmi.dk/lokation/show/DK/2618425/København'
+
+wb --new-window "$url"
