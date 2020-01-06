@@ -133,6 +133,7 @@ command -v grunt > /dev/null; and alias grunt="grunt --stack"
 abbr afk "system.LS"
 
 # youtube-dl
+abbr ydl 'youtube-dl'
 abbr vdl 'youtube-dl --'
 abbr adl 'youtube-dl -f140 --'
 
