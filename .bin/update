@@ -32,7 +32,14 @@ fish=false     # z
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
-  echo ' > update script file is '"${BASH_SOURCE}"
+  echo ' > Here is the code of the update script. The file is located at '"${BASH_SOURCE}".
+  if command -v bat > /dev/null ; then
+    bat "${BASH_SOURCE}"
+  elif command -v less > /dev/null ; then
+    less "${BASH_SOURCE}"
+  else
+    cat "${BASH_SOURCE}"
+  fi
 }
 
 while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
