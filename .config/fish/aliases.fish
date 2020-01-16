@@ -34,6 +34,8 @@ abbr send "courriel.compose.prompt -a"
 abbr dg dangling
 abbr dp detectportal
 abbr mk make
+abbr jrnl " jrnl"
+abbr log " jrnl -from 1970 | less -r +G"
 
 # yarn abbreviations
 abbr ya "yarn add"
