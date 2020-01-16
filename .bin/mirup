@@ -5,19 +5,11 @@ if [ $(id -u) == "0" ] ; then
   exit 1
 fi
 
+DEFAULT="$HOME/.config/mirup/default"
 CONFIG="$HOME/.config/mirup/config"
 
-COUNTRIES="$1"
-OPTIONS="$2"
-
-if [ -e "$CONFIG" ] ; then
-  COUNTRIES="${COUNTRIES:-$(jq -r .countries "$CONFIG")}"
-  OPTIONS="${OPTIONS:-$(jq -r .options "$CONFIG")}"
-fi
-
-COUNTRIES="${COUNTRIES:-country=all}"
-OPTIONS="${OPTIONS:-protocol=https&ip_version=4}"
-URL="https://www.archlinux.org/mirrorlist/?${COUNTRIES}&${OPTIONS}"
+PARAMS="$(urlgetparams "$DEFAULT" "$CONFIG" "$@")"
+URL="https://www.archlinux.org/mirrorlist/${PARAMS}"
 SOURCE="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-source.XXXXXXXX")"
 RANKED="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-ranked.XXXXXXXX")"
 PACMAN=/etc/pacman.d/mirrorlist
