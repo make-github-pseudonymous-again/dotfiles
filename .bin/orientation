@@ -4,6 +4,7 @@
 # requires python-pyudev
 # stolen from https://github.com/freundTech/surface-tools/blob/bfe4483d48c4ec858c30c6cbd486847dcec73fc0/autorotate/autorotate
 
+# import sys
 import pyudev
 
 sensorname="accel_3d"
@@ -12,14 +13,17 @@ sensorname="accel_3d"
     # if val & (1 << (16-1)) != 0: val = val - (1 << 16)
     # return val
 
-def getOrientation(accelX, accelY): #, accelZ):
+def getOrientation(accelX, accelY, relative=5, absolute=200000): #, accelZ):
     absAccelX = abs(accelX)
     absAccelY = abs(accelY)
     # absAccelZ = abs(accelZ)
 
-    if absAccelY >= 3 * absAccelX and absAccelY >= 200:
+    # print(absAccelX, file=sys.stderr)
+    # print(absAccelY, file=sys.stderr)
+
+    if absAccelY >= relative * absAccelX and absAccelY >= absolute:
         return "inverted" if accelY > 0 else "normal"
-    elif absAccelX >= 3 * absAccelY and absAccelX >= 200:
+    elif absAccelX >= relative * absAccelY and absAccelX >= absolute:
         return "left" if accelX > 0 else "right"
 
     return "flat"
