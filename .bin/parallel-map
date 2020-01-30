@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-OUTPUT_DIR="$(mktemp --tmpdir --directory "${USER}-mapreduce.XXXXXXXX.d")"
+OUTPUT_DIR="$(mktemp --tmpdir --directory "${USER}-parallel-map.XXXXXXXX.d")"
 
 i=0
 while read -r line ; do
