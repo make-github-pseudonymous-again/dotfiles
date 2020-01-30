@@ -7,6 +7,8 @@ if [ -e '/sys/class/leds/smc::kbd_backlight' ] ; then
   backlight='/sys/class/leds/smc::kbd_backlight'
 elif [ -e '/sys/class/leds/asus::kbd_backlight' ] ; then
   backlight='/sys/class/leds/asus::kbd_backlight'
+elif [ -e '/sys/class/leds/tpacpi::kbd_backlight' ] ; then
+  backlight='/sys/class/leds/tpacpi::kbd_backlight'
 else
   exit 1
 fi
@@ -14,6 +16,7 @@ fi
 max_brightness="$(cat "$backlight/max_brightness")"
 actual_brightness="$(cat "$backlight/brightness")"
 step="$(($max_brightness / 100 * $i))"
+if [ "$step" -eq 0 ] ; then step=1 ; fi
 brightness="$(($actual_brightness - $step))"
 
 if [ "$brightness" -lt 0 ] ; then
