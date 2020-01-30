@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+man "$1" 2>/dev/null
+
+if [ "$?" -eq 0 ] ; then exit ; fi
+
+if ! command -v "$1" >/dev/null ; then
+  >&2 echo "Could not find command '$1'."
+fi
+
+2>&1 "$@" --help | less -r
+
+if [ "$?" -eq 0 ] ; then exit ; fi
+
+2>&1 "$@" -h | less -r
+
+if [ "$?" -eq 0 ] ; then exit ; fi
+
+tldr "$@" 2>/dev/null
+
+if [ "$?" -eq 0 ] ; then exit ; fi
+
+code "$1"
