@@ -2,9 +2,9 @@
 
 # swap escape and caps lock
 # setxkbmap -option "caps:swapescape"
-# should be done via localectl
+# Is done via localectl
 # example:
-# localectl set-x11-keymap us ... ... caps:swapescape
-# does not work :(
-setxkbmap us
-setxkbmap -option "caps:swapescape"
+# localectl --no-convert set-x11-keymap us '' '' caps:swapescape
+
+# setxkbmap us
+# setxkbmap -option "caps:swapescape"
