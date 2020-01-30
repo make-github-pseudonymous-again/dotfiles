@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# https://unix.stackexchange.com/q/181254/33933
+
+grep -Eo '(http|https)://[a-zA-Z0-9~&;+,./?=_-]*' "$@"
+#grep -Eoi '<[aA] [^>]+>' "$@" |
+#grep -Eo '(href|HREF)="[^\"]+"' |
+#grep -Eo '(http|https)://[^/"]+'

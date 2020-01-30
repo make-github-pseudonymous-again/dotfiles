@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# https://unix.stackexchange.com/a/181257/33933
+
+grep -Po '(?<=(href|HREF)=")[^"]*(?=")' "$@"
