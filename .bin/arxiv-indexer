@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import urllib.request
+import feedparser
+
+from itertools import chain
+
+from arxiv import log
+from arxiv import get_params
+from arxiv import get_state
+
+from arxiv import sanitize
+from arxiv import get_arg_parser
+
+from arxiv import unescape_filename
+from arxiv import escape_filename
+
+from arxiv import get_slug
+
+from arxiv import get_lastname_first_letter
+
+from arxiv import extract_tags
+
+def main ( kwargs ) :
+
+    log('================================')
+    params = get_params ( kwargs )
+    _state = get_state(params)
+    log('================================')
+
+    return init( _state = _state , **params )
+
+def init ( storage = None , metadata = None , index = None , **kwargs ) :
+
+    storage = os.path.expanduser(storage)
+    metadata = os.path.expanduser(metadata)
+    index = os.path.expanduser(index)
+
+    uids = map(lambda x: unescape_filename(os.path.splitext(x)[0]), os.listdir(metadata))
+
+    return run_once( uids , storage = storage , metadata = metadata, index = index, **kwargs )
+
+def run_once ( uids , _state = None , state = None , throttle = None , batch = None ,
+        storage = None , metadata = None , index = None ,
+        request = None , format = None, **kwargs ) :
+
+        for uid in uids:
+
+            log('indexing', uid)
+
+            metadata_path = '{}/{}.json'.format(metadata, escape_filename(uid))
+            pdf_path = '{}/{}.pdf'.format(storage, escape_filename(uid))
+
+            with open(metadata_path) as fd:
+                entry = json.load(fd)
+
+            title = sanitize(entry['title'])
+            authors = list(map(lambda x: sanitize(x['name']), entry['authors']))
+            # links = entry['links']
+            published = entry['published']
+            # updated = entry['updated']
+            # summary = sanitize(entry['summary'])
+            tags = list(chain(*map(lambda x: extract_tags(x['term']), entry['tags'])))
+
+            year = published[:4]
+            month = published[5:7]
+            day = published[8:10]
+
+            abbr = ''.join(
+                sorted(map(get_lastname_first_letter, authors))) + year[2:4]
+
+            log('url: {}'.format(entry['id']))
+            log('arxiv-id: {}'.format(uid))
+            log('Published: {}'.format(published))
+            log('Title:  {}'.format(title))
+            log('Authors:  {}'.format(', '.join(authors)))
+
+            slug = get_slug(format, uid=uid, year=year, month=month, day=day, title=title, abbr=abbr)
+
+            filename = "{}.pdf".format(slug)
+
+            all_path = "{}/all".format(index)
+            os.makedirs(all_path, exist_ok=True)
+
+            link_path = "{}/{}".format(all_path, filename)
+
+            try:
+                os.symlink(pdf_path, link_path)
+            except FileExistsError as e:
+                pass
+
+            for author in authors:
+                author_path = "{}/author/{}".format(index, escape_filename(author))
+                os.makedirs(author_path, exist_ok=True)
+                link_path = "{}/{}".format(author_path, filename)
+                try:
+                    os.symlink(pdf_path, link_path)
+                except FileExistsError as e:
+                    pass
+
+            for tag in tags:
+                tag_path = "{}/tag/{}".format(index, escape_filename(tag))
+                os.makedirs(tag_path, exist_ok=True)
+                link_path = "{}/{}".format(tag_path, filename)
+                try:
+                    os.symlink(pdf_path, link_path)
+                except FileExistsError as e:
+                    pass
+
+
+if __name__ == '__main__':
+    parser = get_arg_parser()
+    args = parser.parse_args()
+    rc = main(vars(args))
+    sys.exit(rc)
