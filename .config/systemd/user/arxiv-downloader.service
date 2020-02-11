@@ -1,0 +1,8 @@
+[Unit]
+Description=arXiv downloader daemon service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/sh python3 arxiv-downloader

@@ -1,0 +1,226 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import time
+import json
+import re
+import urllib.request
+import feedparser
+from collections import ChainMap
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+DEFAULT_CACHE = os.path.expanduser("~/.cache/arxiv-downloader")
+DEFAULT_STATE = '{}/state.json'.format(DEFAULT_CACHE)
+DEFAULT_CONFIG = os.path.expanduser("~/.config/arxiv-downloader/config.json")
+
+DEFAULT_REQUEST = 'https://export.arxiv.org/api/query?sortBy=submittedDate&sortOrder=ascending&search_query={search_query}&max_results={max_results}&start={start}'
+
+DEFAULT_FORMAT = "{year}{month}{day} [{abbr}] {title} (arxiv:{uid})"
+
+DEFAULT_THROTTLE = 3
+DEFAULT_BATCH = 1
+DEFAULT_STORAGE = '/tmp/arxiv-downloader/storage'
+DEFAULT_METADATA = '/tmp/arxiv-downloader/metadata'
+DEFAULT_QUERIES = ()
+
+DEFAULTS = {
+    "cache": DEFAULT_CACHE,
+    "state": DEFAULT_STATE,
+    "config": DEFAULT_CONFIG,
+    "request": DEFAULT_REQUEST,
+    "format": DEFAULT_FORMAT,
+    "throttle": DEFAULT_THROTTLE,
+    "batch": DEFAULT_BATCH,
+    "storage": DEFAULT_STORAGE,
+    "metadata": DEFAULT_METADATA,
+    "queries": DEFAULT_QUERIES,
+}
+
+
+def escape_filename(string):
+    return string.replace('\\', '\\\\').replace('|', '\\|').replace('/', '|')
+
+
+def unescape_filename(filename):
+    return filename.replace('|', '/').replace('\\|', '|').replace('\\\\', '\\')
+
+
+def get_lastname_first_letter(name):
+    if ',' in name:
+        lastname = name.split(', ')[0]
+    else:
+        lastname = name.split(' ')[-1]
+
+    return lastname[0]
+
+
+def wait ( seconds ):
+    log('Sleeping for {} seconds'.format(seconds))
+    time.sleep(seconds)
+
+def sanitize ( string ):
+    return re.sub(r'\s+', ' ', string).strip()
+
+def get_arg_parser():
+
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Generate a secure random PIN.')
+    parser.add_argument('--config', '-c', default=DEFAULT_CONFIG, help='config file')
+    parser.add_argument('--state', '-S', help='state file')
+    parser.add_argument('--throttle', '-t', type=int, help='query delay')
+    parser.add_argument('--batch', '-b', type=int, help='batch size')
+    parser.add_argument('--storage', '-s', help='storage path')
+    parser.add_argument('--metadata', '-m', help='metadata path')
+    parser.add_argument('--queries', '-q', nargs='*', help='queries')
+    parser.add_argument('--request', '-r', help='arXiv API request')
+    parser.add_argument('--format', '-f', help='format string for filename')
+
+    return parser
+
+def main ( kwargs ) :
+
+    kwargs = { key: value for key, value in kwargs.items() if value is not None }
+
+    config = os.path.expanduser(kwargs['config'])
+    log('config file: {}'.format(config))
+
+    try:
+        with open(config) as fp:
+            _config = json.load(fp)
+    except:
+        if config == DEFAULT_CONFIG:
+            pass
+        else:
+            log("Could not open config file ({})".format(config))
+            sys.exit(1)
+
+    params = ChainMap(kwargs, _config, DEFAULTS)
+
+    state = os.path.expanduser(params['state'])
+    log('state file: {}'.format(state))
+
+    try:
+        with open(state) as fp:
+            _state = json.load(fp)
+    except:
+        _state = {}
+
+    log('params')
+    json.dump(vars(params), sys.stderr, indent=2)
+    log()
+
+    log('state')
+    json.dump(_state, sys.stderr, indent=2)
+    log()
+
+    log('================================')
+
+    return run_once( _state = _state , **params )
+
+def run_once ( _state = None , state = None , throttle = None , batch = None ,
+        storage = None , metadata = None , queries = None ,
+        request = None , format = None, **kwargs ) :
+
+    storage = os.path.expanduser(storage)
+    metadata = os.path.expanduser(metadata)
+
+    rc = 0
+
+    for search_query in queries:
+        log("search_query", search_query)
+        start = _state.setdefault(search_query, 0)
+
+        query_url = request.format(search_query=search_query, start=start, max_results=batch)
+        log(query_url)
+
+        wait(throttle)
+        try:
+            response = urllib.request.urlopen(query_url).read()
+        except urllib.error.HTTPError:
+            log('failed to download', url)
+            sys.exit(2)
+
+        document = feedparser.parse(response)
+        feed = document.feed
+        if int(feed.opensearch_startindex) + int(feed.opensearch_itemsperpage) < int(feed.opensearch_totalresults):
+            rc = 127
+
+        for entry in document.entries:
+
+            uid = entry.id.split('/abs/')[-1]
+            title = sanitize(entry.title)
+            authors = entry.authors
+            authors_names = list(map(lambda x: sanitize(x.name), authors))
+            links = entry.links
+            published = entry.published
+            updated = entry.updated
+            summary = sanitize(entry.summary)
+            category = entry.category
+
+            year = published[:4]
+            month = published[5:7]
+            day = published[8:10]
+
+            abbr = ''.join(
+                sorted(map(get_lastname_first_letter, authors_names))) + year[2:4]
+
+            log('url: {}'.format(entry.id))
+            log('arxiv-id: {}'.format(uid))
+            log('Published: {}'.format(published))
+            log('Title:  {}'.format(title))
+            log('Authors:  {}'.format(authors_names))
+            log('Abbr: {}'.format(abbr))
+
+            _metadata = entry
+
+            slug = escape_filename(format.format(
+                uid=uid,
+                year=year,
+                month=month,
+                day=day,
+                title=title,
+                abbr=abbr,
+            ))
+
+            filename = "{}.pdf".format(slug)
+
+            path = "{}/{}".format(storage, filename)
+
+            if os.path.exists(path):
+                log("{} already exists, skipping".format(path))
+            else:
+                url = next(filter(lambda x: x.type == 'application/pdf', links)).href
+                os.makedirs(storage, exist_ok=True)
+
+                wait(throttle)
+
+                log("Downloading {} to {}.".format(url, path))
+                try:
+                    urllib.request.urlretrieve(url, path)
+                except:
+                    log("Failed to download {}", url)
+                    break
+
+            _state[search_query] += 1
+
+            metadata_path = '{}/{}.json'.format(metadata, slug)
+
+            os.makedirs(metadata, exist_ok=True)
+            with open(metadata_path, 'w') as fp:
+                # https://docs.python.org/3/library/json.html?highlight=json#json.dump
+                json.dump(_metadata, fp, separators=(',', ':'))
+
+    os.makedirs(os.path.dirname(state), exist_ok=True)
+    with open(state, 'w') as fp:
+        json.dump(_state, fp, separators=(',', ':'))
+
+    return rc
+
+if __name__ == '__main__':
+    parser = get_arg_parser()
+    args = parser.parse_args()
+    rc = main(vars(args))
+    sys.exit(rc)

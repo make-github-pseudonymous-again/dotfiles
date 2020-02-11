@@ -1,0 +1,8 @@
+{
+	"throttle": 3,
+	"storage": "~/dl/arxiv-downloader/storage",
+	"metadata": "~/dl/arxiv-downloader/metadata",
+	"index": "~/dl/arxiv-downloader/index",
+	"batch": 100,
+	"queries": [ "cat:cs.CG" , "cat:cs.DS" ]
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=arXiv downloader daemon timer
+
+# arXiv updates occur every at midnight UTC-4 or UTC-5
+
+[Timer]
+OnCalendar=*-*-* 06:00:00 UTC
+OnActiveSec=300
+
+[Install]
+WantedBy=ready.target
