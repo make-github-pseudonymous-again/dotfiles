@@ -17,8 +17,6 @@ DEFAULT_CONFIG = os.path.expanduser("~/.config/arxiv-downloader/config.json")
 
 DEFAULT_REQUEST = 'https://export.arxiv.org/api/query?sortBy=submittedDate&sortOrder=ascending&search_query={search_query}&max_results={max_results}&start={start}'
 
-DEFAULT_FORMAT = "{year}{month}{day} [{abbr}] {title} (arxiv:{uid})"
-
 DEFAULT_THROTTLE = 3
 DEFAULT_BATCH = 1
 DEFAULT_STORAGE = '/tmp/arxiv-downloader/storage'
@@ -30,7 +28,6 @@ DEFAULTS = {
     "state": DEFAULT_STATE,
     "config": DEFAULT_CONFIG,
     "request": DEFAULT_REQUEST,
-    "format": DEFAULT_FORMAT,
     "throttle": DEFAULT_THROTTLE,
     "batch": DEFAULT_BATCH,
     "storage": DEFAULT_STORAGE,
@@ -76,36 +73,8 @@ def get_arg_parser():
     parser.add_argument('--metadata', '-m', help='metadata path')
     parser.add_argument('--queries', '-q', nargs='*', help='queries')
     parser.add_argument('--request', '-r', help='arXiv API request')
-    parser.add_argument('--format', '-f', help='format string for filename')
 
     return parser
-
-def get_slug ( format , title=None, abbr=None, **kwargs ) :
-
-    # does not work if title appears twice in format
-
-    max_filename_length = 255 - 5 # Take into account .json suffix
-    # max_abbr_length = 3
-
-    # abbr_truncated = (abbr[:max_abbr_length] + '+') if len(abbr) > max_abbr_length else abbr
-
-    abbr_truncated = abbr
-
-    slug = format.format(title=title, abbr=abbr_truncated, **kwargs)
-
-    slug_escaped = escape_filename(slug)
-
-    extra = len(slug_escaped) - max_filename_length
-
-    if extra > 0:
-
-        title_truncated = title[:-(2*extra+2)] + '..' # * 2 in case of escaped characters
-
-        slug = format.format(title=title_truncated, abbr=abbr_truncated, **kwargs)
-
-        slug_escaped = escape_filename(slug)
-
-    return slug_escaped
 
 def main ( kwargs ) :
 
@@ -203,7 +172,7 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
 
             _metadata = entry
 
-            slug = get_slug(format, uid=uid, year=year, month=month, day=day, title=title, abbr=abbr)
+            slug = escape_filename(uid)
 
             filename = "{}.pdf".format(slug)
 
