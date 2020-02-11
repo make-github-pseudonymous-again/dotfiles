@@ -160,15 +160,11 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
             month = published[5:7]
             day = published[8:10]
 
-            abbr = ''.join(
-                sorted(map(get_lastname_first_letter, authors_names))) + year[2:4]
-
             log('url: {}'.format(entry.id))
             log('arxiv-id: {}'.format(uid))
             log('Published: {}'.format(published))
             log('Title:  {}'.format(title))
-            log('Authors:  {}'.format(authors_names))
-            log('Abbr: {}'.format(abbr))
+            log('Authors:  {}'.format(', '.join(authors_names)))
 
             _metadata = entry
 
