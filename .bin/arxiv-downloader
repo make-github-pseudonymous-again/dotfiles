@@ -105,6 +105,17 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
                 except Exception as e:
                     log("Failed to download", url)
                     log(e)
+                    try:
+                        log("Cleaning up...")
+                        if os.path.exists(path):
+                            log("Removing", path)
+                            os.remove(path)
+                            log("Success :)")
+                        else:
+                            log("Nothing to do!")
+                    except Exception as e:
+                        log("Failed :(")
+                        log(e)
                     break
 
             _state[search_query] += 1
