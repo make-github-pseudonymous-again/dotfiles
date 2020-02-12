@@ -92,6 +92,7 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
                 exists = False
 
             if exists :
+                # TODO add option to check if size in HTTP header corresponds
                 log("{} already exists, skipping".format(path))
             else:
                 url = next(filter(lambda x: x.type == 'application/pdf', links)).href
