@@ -39,7 +39,11 @@ def init ( storage = None , metadata = None , index = None , **kwargs ) :
     metadata = os.path.expanduser(metadata)
     index = os.path.expanduser(index)
 
-    uids = map(lambda x: unescape_filename(os.path.splitext(x)[0]), os.listdir(metadata))
+    ignore_syncthing_conflicts = lambda x: 'sync-conflict' not in x
+
+    get_uid = lambda x: unescape_filename(os.path.splitext(x)[0])
+
+    uids = filter(ignore_syncthing_conflicts, map(get_uid, os.listdir(metadata)))
 
     return run_once( uids , storage = storage , metadata = metadata, index = index, **kwargs )
 
