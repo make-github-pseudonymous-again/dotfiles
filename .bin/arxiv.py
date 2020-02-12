@@ -7,6 +7,7 @@ import json
 import re
 import urllib.request
 import feedparser
+import shutil
 from collections import ChainMap
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
@@ -26,6 +27,8 @@ DEFAULT_METADATA = '/tmp/arxiv-downloader/metadata'
 DEFAULT_INDEX = '/tmp/arxiv-downloader/index'
 DEFAULT_QUERIES = ()
 
+DEFAULT_TIMEOUT = 60
+
 DEFAULTS = {
     "cache": DEFAULT_CACHE,
     "state": DEFAULT_STATE,
@@ -38,6 +41,7 @@ DEFAULTS = {
     "metadata": DEFAULT_METADATA,
     "index": DEFAULT_INDEX,
     "queries": DEFAULT_QUERIES,
+    "timeout": DEFAULT_TIMEOUT,
 }
 
 
@@ -80,6 +84,7 @@ def get_arg_parser():
     parser.add_argument('--queries', '-q', nargs='*', help='queries')
     parser.add_argument('--request', '-r', help='arXiv API request')
     parser.add_argument('--format', '-f', help='format string for filename')
+    parser.add_argument('--timeout', '-T', help='timeout for requests')
 
     return parser
 
@@ -157,3 +162,8 @@ def get_state ( params ) :
 def extract_tags ( term ) :
     matches = re.findall(r"[\w.]+", term)
     return matches
+
+def download ( url , filename , **kwargs ) :
+    with urllib.request.urlopen(url, **kwargs) as response:
+        with open(filename, 'wb') as fp:
+            shutil.copyfileobj(response, fp)

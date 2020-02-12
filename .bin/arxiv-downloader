@@ -16,6 +16,8 @@ from arxiv import get_arg_parser
 
 from arxiv import escape_filename
 
+from arxiv import download
+
 def main ( kwargs ) :
 
     log('================================')
@@ -27,7 +29,7 @@ def main ( kwargs ) :
 
 def run_once ( _state = None , state = None , throttle = None , batch = None ,
         storage = None , metadata = None , queries = None ,
-        request = None , format = None, **kwargs ) :
+        request = None , format = None, timeout = None, **kwargs ) :
 
     storage = os.path.expanduser(storage)
     metadata = os.path.expanduser(metadata)
@@ -43,10 +45,11 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
 
         wait(throttle)
         try:
-            response = urllib.request.urlopen(query_url).read()
-        except urllib.error.HTTPError:
-            log('failed to download', url)
-            sys.exit(2)
+            response = urllib.request.urlopen(query_url, timeout=timeout)
+        except Exception as e:
+            log('Failed to download', url)
+            log(e)
+            break
 
         document = feedparser.parse(response)
         feed = document.feed
@@ -83,7 +86,12 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
 
             path = "{}/{}".format(storage, filename)
 
-            if os.path.exists(path):
+            try:
+                exists = os.path.getsize(path) > 0
+            except:
+                exists = False
+
+            if exists :
                 log("{} already exists, skipping".format(path))
             else:
                 url = next(filter(lambda x: x.type == 'application/pdf', links)).href
@@ -93,9 +101,10 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
 
                 log("Downloading {} to {}.".format(url, path))
                 try:
-                    urllib.request.urlretrieve(url, path)
-                except:
-                    log("Failed to download {}", url)
+                    download(url, path, timeout=timeout)
+                except Exception as e:
+                    log("Failed to download", url)
+                    log(e)
                     break
 
             _state[search_query] += 1
