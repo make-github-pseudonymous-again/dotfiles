@@ -7,6 +7,8 @@ import urllib.error
 import argparse
 import subprocess
 
+_cache = {}
+
 parser = argparse.ArgumentParser(description="bibtex entries via DBLP search")
 parser.add_argument('query', type=str, help='query')
 args = parser.parse_args()
@@ -28,14 +30,24 @@ def menu(title, choices):
 
 def item_chosen(button, choice):
 
+    original_widget = main.original_widget
+
+    def back ( button ) :
+        main.original_widget = original_widget
+
     head = urwid.Text(['You chose ', choice['title'], '\n'])
     url = choice['bibtex']['condensed']
     downloading = urwid.Text( ['Downloading ', url, '\n'])
     main.original_widget = urwid.Filler(urwid.Pile([head,downloading]))
 
     try:
-        with urllib.request.urlopen( url ) as response :
-            raw = response.read( )
+
+        if url not in _cache:
+
+            with urllib.request.urlopen( url ) as response :
+                _cache[url] = response.read( )
+
+        raw = _cache[url]
         bibtex = raw.decode()
         result = urwid.Text(['Copied to clipboard\n\n',bibtex])
         p = subprocess.Popen( [ 'xsel' , '-bi' ] , stdin = subprocess.PIPE )
@@ -44,12 +56,17 @@ def item_chosen(button, choice):
     except urllib.error.HTTPError:
         result = urwid.Text(['Failed to download', url, '\n'])
 
-
     head = urwid.Text(['You chose ', choice['title'], '\n'])
-    done = urwid.Button('Ok')
-    urwid.connect_signal(done, 'click', exit_program)
-    main.original_widget = urwid.Filler(urwid.Pile([head,result,
-        urwid.AttrMap(done, None, focus_map='reversed')]))
+    done_button = urwid.Button('Ok')
+    urwid.connect_signal(done_button, 'click', exit_program)
+    back_button = urwid.Button('Back')
+    urwid.connect_signal(back_button, 'click', back)
+    main.original_widget = urwid.Filler(urwid.Pile([
+        head,
+        result,
+        urwid.AttrMap(back_button, None, focus_map='reversed'),
+        urwid.AttrMap(done_button, None, focus_map='reversed'),
+    ]))
 
 def exit_program(button):
     raise urwid.ExitMainLoop()
