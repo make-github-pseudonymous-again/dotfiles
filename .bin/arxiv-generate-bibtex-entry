@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+
+# @article{RSZ16,
+ # author = {Orit E. Raz and Micha Sharir and Frank de Zeeuw},
+ # journal = {arXiv e-prints},
+ # note = {\href{https://arxiv.org/abs/1607.03600}{arXiv:1607.03600 [cs.CO]}},
+ # title = {The {E}lekes-{S}zab{\'{o}} Theorem in four dimensions},
+ # year = {2016}
+# }
+import os
+import sys
+import json
+
+from bibtexparser.bwriter import BibTexWriter
+from bibtexparser.bibdatabase import BibDatabase
+
+from arxiv import log
+from arxiv import escape_filename
+from arxiv import sanitize
+from arxiv import get_lastname_first_letter
+
+def main ( uid ) :
+
+    path_format_metadata = '~/library/arxiv/metadata/{}.json'
+
+    uid_escaped = escape_filename(uid)
+
+    path_metadata = os.path.expanduser(path_format_metadata.format(uid_escaped))
+
+    with open(path_metadata) as fp:
+        metadata = json.load(fp)
+
+    title = sanitize(metadata['title'])
+    authors = list(map(lambda x: sanitize(x['name']), metadata['authors']))
+    # links = metadata['links']
+    published = metadata['published']
+    # updated = metadata['updated']
+    # summary = sanitize(metadata['summary'])
+    category = metadata["arxiv_primary_category"]["term"]
+
+    year = published[:4]
+    month = published[5:7]
+    day = published[8:10]
+
+    abbr = ''.join(
+        sorted(map(get_lastname_first_letter, authors))) + year[2:4]
+
+    log('url: {}'.format(metadata['id']))
+    log('arxiv-id: {}'.format(uid))
+    log('Published: {}'.format(published))
+    log('Title:  {}'.format(title))
+    log('Authors:  {}'.format(', '.join(authors)))
+
+    format_link = '{{\href{{https://arxiv.org/abs/{uid}}}{{arXiv:{uid} [{category}]}}}}'
+
+    entry = {
+        'ENTRYTYPE': 'misc',
+        # 'ENTRYTYPE': 'article',
+        'archivePrefix': 'arXiv',
+        # 'journal': 'arXiv e-prints',
+        'ID': abbr,
+        'author': ' and '.join(authors),
+        'title': title,
+        'year': str(int(year)),
+        'month': str(int(month)),
+        # 'note': format_link.format(uid=uid, category=category),
+        'eprint': uid,
+        'primaryClass': category,
+    }
+
+    db = BibDatabase()
+    db.entries = [ entry ]
+    writer = BibTexWriter()
+    writer.indent = ' '
+    writer.entry_separator = ''
+    writer.comma_first = True
+    writer.display_order = ('title', 'author', 'year', 'month', 'journal', 'note', 'archivePrefix', 'eprint', 'primaryClass')
+    sys.stdout.write(writer.write(db))
+
+if __name__ == '__main__':
+    uid = sys.argv[1]
+    main(uid)
