@@ -6,6 +6,8 @@ import urllib.request
 import urllib.error
 import argparse
 import subprocess
+import asyncio
+import aiohttp
 
 _cache = {}
 
@@ -40,12 +42,20 @@ def item_chosen(button, choice):
     downloading = urwid.Text( ['Downloading ', url, '\n'])
     main.original_widget = urwid.Filler(urwid.Pile([head,downloading]))
 
+    async_loop.create_task(display(url, choice , back))
+
+
+
+async def display ( url , choice , back ) :
+
     try:
 
         if url not in _cache:
 
-            with urllib.request.urlopen( url ) as response :
-                _cache[url] = response.read( )
+            # with urllib.request.urlopen( url ) as response :
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    _cache[url] = await response.read( )
 
         raw = _cache[url]
         bibtex = raw.decode()
@@ -57,7 +67,7 @@ def item_chosen(button, choice):
         result = urwid.Text(['Failed to download', url, '\n'])
 
     head = urwid.Text(['You chose ', choice['title'], '\n'])
-    done_button = urwid.Button('Ok')
+    done_button = urwid.Button('Exit')
     urwid.connect_signal(done_button, 'click', exit_program)
     back_button = urwid.Button('Back')
     urwid.connect_signal(back_button, 'click', back)
@@ -71,9 +81,18 @@ def item_chosen(button, choice):
 def exit_program(button):
     raise urwid.ExitMainLoop()
 
+async_loop = asyncio.get_event_loop()
+event_loop = urwid.AsyncioEventLoop(loop=async_loop)
+
 main = urwid.Padding(menu('List of publications', choices), left=2, right=2)
 top = urwid.Overlay(main, urwid.SolidFill('\N{MEDIUM SHADE}'),
     align='center', width=('relative', 60),
     valign='middle', height=('relative', 60),
     min_width=20, min_height=9)
-urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
+loop = urwid.MainLoop(
+        top,
+        palette=[('reversed', 'standout', '')],
+        event_loop=event_loop,
+)
+
+loop.run()

@@ -58,6 +58,7 @@ python-keyring
 python-urwid
 python-xlib
 python-feedparser
+python-aiohttp
 autopep8
 
 # Python 2 packages
