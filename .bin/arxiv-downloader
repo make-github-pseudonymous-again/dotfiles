@@ -18,6 +18,10 @@ from arxiv import escape_filename
 
 from arxiv import download
 
+from arxiv import RC_DONE
+from arxiv import RC_FAILED_QUERY
+from arxiv import RC_CONTINUE
+
 def main ( kwargs ) :
 
     log('================================')
@@ -34,7 +38,7 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
     storage = os.path.expanduser(storage)
     metadata = os.path.expanduser(metadata)
 
-    rc = 0
+    rc = RC_DONE
 
     for search_query in queries:
         log("search_query", search_query)
@@ -49,12 +53,13 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
         except Exception as e:
             log('Failed to query', query_url)
             log(e)
+            rc = RC_FAILED_QUERY
             break
 
         document = feedparser.parse(response)
         feed = document.feed
         if int(feed.opensearch_startindex) + int(feed.opensearch_itemsperpage) < int(feed.opensearch_totalresults):
-            rc = 127
+            rc = RC_CONTINUE
 
         for entry in document.entries:
 
@@ -106,6 +111,7 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
                 except Exception as e:
                     log("Failed to download", url)
                     log(e)
+                    rc = RC_FAILED_QUERY
                     try:
                         log("Cleaning up...")
                         if os.path.exists(path):

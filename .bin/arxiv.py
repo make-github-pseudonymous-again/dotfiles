@@ -12,6 +12,11 @@ from collections import ChainMap
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
+RC_DONE = 0
+RC_MISSING_CONFIG = 1
+RC_FAILED_QUERY = 11
+RC_CONTINUE = 12
+
 DEFAULT_CACHE = os.path.expanduser("~/.cache/arxiv-downloader")
 DEFAULT_STATE = '{}/state.json'.format(DEFAULT_CACHE)
 DEFAULT_CONFIG = os.path.expanduser("~/.config/arxiv-downloader/config.json")
@@ -131,7 +136,7 @@ def get_params ( kwargs ) :
             pass
         else:
             log("Could not open config file ({})".format(config))
-            sys.exit(1)
+            sys.exit(RC_MISSING_CONFIG)
 
     params = ChainMap(kwargs, _config, DEFAULTS)
 
