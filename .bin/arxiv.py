@@ -28,7 +28,7 @@ RC_MIRROR = { value: key for key, value in RC.items()}
 def _rc_decode ( code ) :
     for key in reversed(_sorted_return_codes):
         value = RC[key]
-        if value & code:
+        if value & code or value == code:
             yield key
 
 def rc_decode ( code ) :
