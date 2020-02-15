@@ -12,10 +12,27 @@ from collections import ChainMap
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
-RC_DONE = 0
-RC_MISSING_CONFIG = 1
-RC_FAILED_QUERY = 11
-RC_CONTINUE = 12
+_sorted_return_codes = (
+    'done',
+    'missing config',
+    'continue',
+    'failed search query',
+    'failed download',
+)
+
+
+RC = { key: 2**i for i, key in enumerate(_sorted_return_codes) }
+
+RC_MIRROR = { value: key for key, value in RC.items()}
+
+def _rc_decode ( code ) :
+    for key in reversed(_sorted_return_codes):
+        value = RC[key]
+        if value & code:
+            yield key
+
+def rc_decode ( code ) :
+    return list(_rc_decode(code))
 
 DEFAULT_CACHE = os.path.expanduser("~/.cache/arxiv-downloader")
 DEFAULT_STATE = '{}/state.json'.format(DEFAULT_CACHE)
@@ -136,7 +153,7 @@ def get_params ( kwargs ) :
             pass
         else:
             log("Could not open config file ({})".format(config))
-            sys.exit(RC_MISSING_CONFIG)
+            sys.exit(RC['missing config'])
 
     params = ChainMap(kwargs, _config, DEFAULTS)
 

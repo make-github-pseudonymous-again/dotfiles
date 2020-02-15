@@ -18,9 +18,8 @@ from arxiv import escape_filename
 
 from arxiv import download
 
-from arxiv import RC_DONE
-from arxiv import RC_FAILED_QUERY
-from arxiv import RC_CONTINUE
+from arxiv import RC
+from arxiv import rc_decode
 
 def main ( kwargs ) :
 
@@ -35,10 +34,14 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
         storage = None , metadata = None , queries = None ,
         request = None , format = None, timeout = None, **kwargs ) :
 
+    old_state = dict(_state)
+    rc = {search_query: RC['done'] for search_query in queries }
+    count_metadata = { search_query: 0 for search_query in queries }
+    count_pdf = { search_query: 0 for search_query in queries }
+    total = { search_query: '?' for search_query in queries }
+
     storage = os.path.expanduser(storage)
     metadata = os.path.expanduser(metadata)
-
-    rc = RC_DONE
 
     for search_query in queries:
         log("search_query", search_query)
@@ -53,70 +56,72 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
         except Exception as e:
             log('Failed to query', query_url)
             log(e)
-            rc = RC_FAILED_QUERY
+            rc[search_query] = RC['failed search query']
             break
 
         document = feedparser.parse(response)
         feed = document.feed
-        if int(feed.opensearch_startindex) + int(feed.opensearch_itemsperpage) < int(feed.opensearch_totalresults):
-            rc = RC_CONTINUE
+        total_results = int(feed.opensearch_totalresults)
+        first_result_in_response = int(feed.opensearch_startindex)
+        last_result_in_response = first_result_in_response + int(feed.opensearch_itemsperpage)
+        if last_result_in_response < total_results:
+            total[search_query] = total_results
+            rc[search_query] = RC['continue']
 
-        for entry in document.entries:
+        for _metadata in document.entries:
 
-            uid = entry.id.split('/abs/')[-1]
-            title = sanitize(entry.title)
-            authors = entry.authors
+            uid = _metadata.id.split('/abs/')[-1]
+
+            uid_escaped = escape_filename(uid)
+            metadata_path = '{}/{}.json'.format(metadata, uid_escaped)
+            pdf_path = '{}/{}.pdf'.format(storage, uid_escaped)
+
+            title = sanitize(_metadata.title)
+            authors = _metadata.authors
             authors_names = list(map(lambda x: sanitize(x.name), authors))
-            links = entry.links
-            published = entry.published
-            updated = entry.updated
-            summary = sanitize(entry.summary)
-            category = entry.category
+            links = _metadata.links
+            published = _metadata.published
+            updated = _metadata.updated
+            summary = sanitize(_metadata.summary)
+            category = _metadata.category
 
             year = published[:4]
             month = published[5:7]
             day = published[8:10]
 
-            log('url: {}'.format(entry.id))
+            log('url: {}'.format(_metadata.id))
             log('arxiv-id: {}'.format(uid))
             log('Published: {}'.format(published))
             log('Title:  {}'.format(title))
             log('Authors:  {}'.format(', '.join(authors_names)))
 
-            _metadata = entry
-
-            slug = escape_filename(uid)
-
-            filename = "{}.pdf".format(slug)
-
-            path = "{}/{}".format(storage, filename)
-
             try:
-                exists = os.path.getsize(path) > 0
+                exists = os.path.getsize(pdf_path) > 0
             except:
                 exists = False
 
             if exists :
                 # TODO add option to check if size in HTTP header corresponds
-                log("{} already exists, skipping".format(path))
+                log("{} already exists, skipping".format(pdf_path))
             else:
                 url = next(filter(lambda x: x.type == 'application/pdf', links)).href
                 os.makedirs(storage, exist_ok=True)
 
                 wait(throttle)
 
-                log("Downloading {} to {}.".format(url, path))
+                log("Downloading {} to {}.".format(url, pdf_path))
                 try:
-                    download(url, path, timeout=timeout)
+                    download(url, pdf_path, timeout=timeout)
+                    count_pdf[search_query] += 1
                 except Exception as e:
                     log("Failed to download", url)
                     log(e)
-                    rc = RC_FAILED_QUERY
+                    rc[search_query] = RC['failed download']
                     try:
                         log("Cleaning up...")
-                        if os.path.exists(path):
-                            log("Removing", path)
-                            os.remove(path)
+                        if os.path.exists(pdf_path):
+                            log("Removing", pdf_path)
+                            os.remove(pdf_path)
                             log("Success :)")
                         else:
                             log("Nothing to do!")
@@ -127,18 +132,39 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
 
             _state[search_query] += 1
 
-            metadata_path = '{}/{}.json'.format(metadata, slug)
-
             os.makedirs(metadata, exist_ok=True)
             with open(metadata_path, 'w') as fp:
                 # https://docs.python.org/3/library/json.html?highlight=json#json.dump
                 json.dump(_metadata, fp, separators=(',', ':'))
+                count_metadata[search_query] += 1
 
     os.makedirs(os.path.dirname(state), exist_ok=True)
     with open(state, 'w') as fp:
         json.dump(_state, fp, separators=(',', ':'))
 
-    return rc
+    log('*****')
+
+    for search_query in queries:
+
+        _old_state = old_state.get(search_query, 0)
+        _new_state = _state.get(search_query, 0)
+
+        log_format = 'query:"{query}" total({total}) dl(metadata:{metadata}, pdf:{pdf}) state({old_state} (+{progress}) -> {new_state}) rc({rc}: {message})'
+        log_string = log_format.format(
+            query = search_query,
+            metadata = count_metadata[search_query],
+            pdf = count_pdf[search_query],
+            old_state = _old_state,
+            new_state = _new_state,
+            progress = _new_state - _old_state,
+            message = ', '.join(rc_decode(rc[search_query])),
+            rc = rc[search_query],
+            total = total[search_query],
+        )
+
+        log(log_string)
+
+    return max(rc.values())
 
 if __name__ == '__main__':
     parser = get_arg_parser()
