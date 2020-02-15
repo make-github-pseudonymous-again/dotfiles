@@ -55,8 +55,9 @@ def run_once ( uids , _state = None , state = None , throttle = None , batch = N
 
             log('indexing', uid)
 
-            metadata_path = '{}/{}.json'.format(metadata, escape_filename(uid))
-            pdf_path = '{}/{}.pdf'.format(storage, escape_filename(uid))
+            uid_escaped = escape_filename(uid)
+            metadata_path = '{}/{}.json'.format(metadata, uid_escaped)
+            pdf_path = '{}/{}.pdf'.format(storage, uid_escaped)
 
             with open(metadata_path) as fd:
                 _metadata = json.load(fd)
