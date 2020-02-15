@@ -59,15 +59,15 @@ def run_once ( uids , _state = None , state = None , throttle = None , batch = N
             pdf_path = '{}/{}.pdf'.format(storage, escape_filename(uid))
 
             with open(metadata_path) as fd:
-                entry = json.load(fd)
+                _metadata = json.load(fd)
 
-            title = sanitize(entry['title'])
-            authors = list(map(lambda x: sanitize(x['name']), entry['authors']))
-            # links = entry['links']
-            published = entry['published']
-            # updated = entry['updated']
-            # summary = sanitize(entry['summary'])
-            tags = list(chain(*map(lambda x: extract_tags(x['term']), entry['tags'])))
+            title = sanitize(_metadata['title'])
+            authors = list(map(lambda x: sanitize(x['name']), _metadata['authors']))
+            # links = _metadata['links']
+            published = _metadata['published']
+            # updated = _metadata['updated']
+            # summary = sanitize(_metadata['summary'])
+            tags = list(chain(*map(lambda x: extract_tags(x['term']), _metadata['tags'])))
 
             year = published[:4]
             month = published[5:7]
@@ -76,7 +76,7 @@ def run_once ( uids , _state = None , state = None , throttle = None , batch = N
             abbr = ''.join(
                 sorted(map(get_lastname_first_letter, authors))) + year[2:4]
 
-            log('url: {}'.format(entry['id']))
+            log('url: {}'.format(_metadata['id']))
             log('arxiv-id: {}'.format(uid))
             log('Published: {}'.format(published))
             log('Title:  {}'.format(title))
