@@ -63,8 +63,9 @@ async def display ( url , choice , back ) :
         p = subprocess.Popen( [ 'xsel' , '-bi' ] , stdin = subprocess.PIPE )
         p.communicate( raw )
 
-    except urllib.error.HTTPError:
-        result = urwid.Text(['Failed to download', url, '\n'])
+    # except urllib.error.HTTPError:
+    except aiohttp.ClientError:
+        result = urwid.Text(['Failed to download ', url, '\n'])
 
     head = urwid.Text(['You chose ', choice['title'], '\n'])
     done_button = urwid.Button('Exit')
