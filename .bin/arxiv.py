@@ -21,7 +21,7 @@ _sorted_return_codes = (
 )
 
 
-RC = { key: 2**i for i, key in enumerate(_sorted_return_codes) }
+RC = { key: 0 if i==0 else 2**(i-1) for i, key in enumerate(_sorted_return_codes) }
 
 RC_MIRROR = { value: key for key, value in RC.items()}
 
