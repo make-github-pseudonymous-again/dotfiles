@@ -183,7 +183,27 @@ def get_state ( params ) :
 
 def extract_tags ( term ) :
     matches = re.findall(r"[\w.]+", term)
-    return matches
+    return filter(is_tag, map(sanitize_tag, matches))
+
+def sanitize_tag ( string ) :
+
+    string = string.lower()
+
+    string = string.strip(' .')
+
+    return string
+
+NOT_A_TAG = {
+    'primary',
+    'secondary',
+}
+
+def is_tag ( string ) :
+
+    if string in NOT_A_TAG: return False
+
+    return True
+
 
 def download ( url , filename , **kwargs ) :
     with urllib.request.urlopen(url, **kwargs) as response:
