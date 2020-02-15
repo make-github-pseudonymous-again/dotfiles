@@ -62,10 +62,10 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
         document = feedparser.parse(response)
         feed = document.feed
         total_results = int(feed.opensearch_totalresults)
+        total[search_query] = total_results
         first_result_in_response = int(feed.opensearch_startindex)
         last_result_in_response = first_result_in_response + int(feed.opensearch_itemsperpage)
         if last_result_in_response < total_results:
-            total[search_query] = total_results
             rc[search_query] = RC['continue']
 
         for _metadata in document.entries:
