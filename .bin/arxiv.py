@@ -40,7 +40,7 @@ DEFAULT_CONFIG = os.path.expanduser("~/.config/arxiv-downloader/config.json")
 
 DEFAULT_REQUEST = 'https://export.arxiv.org/api/query?sortBy=submittedDate&sortOrder=ascending&search_query={search_query}&max_results={max_results}&start={start}'
 
-DEFAULT_FORMAT = "{year}{month}{day} [{abbr}] {title} (arxiv:{uid})"
+DEFAULT_FORMAT_LINKNAME = "{year}{month}{day} [{abbr}] {title} (arxiv:{uid})"
 
 DEFAULT_THROTTLE = 3
 DEFAULT_BATCH = 1
@@ -49,6 +49,8 @@ DEFAULT_METADATA = '/tmp/arxiv-downloader/metadata'
 DEFAULT_INDEX = '/tmp/arxiv-downloader/index'
 DEFAULT_QUERIES = ()
 
+DEFAULT_FORMAT_SUMMARY = 'query:"{query}" total({total}) dl(metadata:{metadata}, pdf:{pdf}) state({old_state} (+{progress}) -> {new_state}) rc({rc}: {message})'
+
 DEFAULT_TIMEOUT = 60
 
 DEFAULTS = {
@@ -56,7 +58,7 @@ DEFAULTS = {
     "state": DEFAULT_STATE,
     "config": DEFAULT_CONFIG,
     "request": DEFAULT_REQUEST,
-    "format": DEFAULT_FORMAT,
+    "format": DEFAULT_FORMAT_LINKNAME,
     "throttle": DEFAULT_THROTTLE,
     "batch": DEFAULT_BATCH,
     "storage": DEFAULT_STORAGE,
@@ -64,6 +66,7 @@ DEFAULTS = {
     "index": DEFAULT_INDEX,
     "queries": DEFAULT_QUERIES,
     "timeout": DEFAULT_TIMEOUT,
+    "summary": DEFAULT_FORMAT_SUMMARY,
 }
 
 
@@ -107,6 +110,7 @@ def get_arg_parser():
     parser.add_argument('--request', '-r', help='arXiv API request')
     parser.add_argument('--format', '-f', help='format string for filename')
     parser.add_argument('--timeout', '-T', help='timeout for requests')
+    parser.add_argument('--summary', help='format string for summary')
 
     return parser
 
@@ -157,8 +161,11 @@ def get_params ( kwargs ) :
 
     params = ChainMap(kwargs, _config, DEFAULTS)
 
-    log('params')
+    log('params details')
     json.dump(vars(params), sys.stderr, indent=2)
+    log()
+    log('params')
+    json.dump(dict(**params), sys.stderr, indent=2)
     log()
 
     return params

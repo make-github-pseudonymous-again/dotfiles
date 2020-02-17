@@ -32,7 +32,7 @@ def main ( kwargs ) :
 
 def run_once ( _state = None , state = None , throttle = None , batch = None ,
         storage = None , metadata = None , queries = None ,
-        request = None , format = None, timeout = None, **kwargs ) :
+        request = None , format = None, timeout = None, summary = None, **kwargs ) :
 
     old_state = dict(_state)
     rc = {search_query: RC['done'] for search_query in queries }
@@ -63,10 +63,6 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
         feed = document.feed
         total_results = int(feed.opensearch_totalresults)
         total[search_query] = total_results
-        first_result_in_response = int(feed.opensearch_startindex)
-        last_result_in_response = first_result_in_response + int(feed.opensearch_itemsperpage)
-        if last_result_in_response < total_results:
-            rc[search_query] = RC['continue']
 
         for _metadata in document.entries:
 
@@ -81,13 +77,6 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
             authors_names = list(map(lambda x: sanitize(x.name), authors))
             links = _metadata.links
             published = _metadata.published
-            updated = _metadata.updated
-            summary = sanitize(_metadata.summary)
-            category = _metadata.category
-
-            year = published[:4]
-            month = published[5:7]
-            day = published[8:10]
 
             log('url: {}'.format(_metadata.id))
             log('arxiv-id: {}'.format(uid))
@@ -130,27 +119,30 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
                         log(e)
                     break
 
-            _state[search_query] += 1
-
             os.makedirs(metadata, exist_ok=True)
             with open(metadata_path, 'w') as fp:
                 # https://docs.python.org/3/library/json.html?highlight=json#json.dump
                 json.dump(_metadata, fp, separators=(',', ':'))
                 count_metadata[search_query] += 1
 
+            _state[search_query] += 1
+
+
     os.makedirs(os.path.dirname(state), exist_ok=True)
     with open(state, 'w') as fp:
         json.dump(_state, fp, separators=(',', ':'))
 
-    log('*****')
+    log('='*79)
 
     for search_query in queries:
 
         _old_state = old_state.get(search_query, 0)
         _new_state = _state.get(search_query, 0)
 
-        log_format = 'query:"{query}" total({total}) dl(metadata:{metadata}, pdf:{pdf}) state({old_state} (+{progress}) -> {new_state}) rc({rc}: {message})'
-        log_string = log_format.format(
+        if _new_state < total[search_query]:
+            rc[search_query] = max(rc[search_query], RC['continue'])
+
+        summary_string = summary.format(
             query = search_query,
             metadata = count_metadata[search_query],
             pdf = count_pdf[search_query],
@@ -162,7 +154,7 @@ def run_once ( _state = None , state = None , throttle = None , batch = None ,
             total = total[search_query],
         )
 
-        log(log_string)
+        log(summary_string)
 
     return max(rc.values())
 
