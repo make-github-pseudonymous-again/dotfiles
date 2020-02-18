@@ -37,6 +37,12 @@ abbr mk make
 abbr jrnl " jrnl"
 abbr log " jrnl -from 1970 | less -r +G"
 
+# interpret
+abbr js node
+abbr py python3
+abbr py2 python2
+
+
 # yarn abbreviations
 abbr ya "yarn add"
 abbr yad "yarn add --dev"
@@ -137,7 +143,7 @@ abbr afk "system.LS"
 # youtube-dl
 abbr ydl 'youtube-dl'
 abbr vdl 'youtube-dl --'
-abbr adl 'youtube-dl -f140 --'
+abbr adl 'youtube-dl -f251 --'
 
 # youtube-viewer
 abbr yt 'youtube-viewer'
