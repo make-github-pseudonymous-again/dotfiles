@@ -33,7 +33,7 @@ npm
 yarn
 grunt-cli
 pypy3
-go
+go-pie
 
 # Python 3 packages
 python-pip
