@@ -55,3 +55,10 @@ texlive-music # TeX Live - Music typesetting packages
 
 ttf-font-awesome # there is a bug with ttf but not with otf
 # see https://github.com/enkore/i3pystatus
+
+python2-networkx
+python2-cycler
+python2-libnacl
+python2-lz4
+python2-matplotlib
+python2-plyvel
