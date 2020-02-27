@@ -63,13 +63,13 @@ def recursive ( root ) :
 
     return True , False , someissafe , vcount , count , arenotsafe
 
-def output ( root , data , max_count = 5 , max_level = 5 ) :
+def output ( root , data , max_count = 5 , max_level = 5 , sep = None , end = None ) :
 
     isdir , aresafe , someissafe , vcount , count , arenotsafe = data
 
     if isdir :
 
-        if ( max_level > 0 ) and someissafe or count <= max_count :
+        if ( max_level > 0 ) and someissafe or (count <= max_count or max_count < 0):
 
             # if there is some backed up folder somewhere deep in the subtree
             # or
@@ -78,16 +78,16 @@ def output ( root , data , max_count = 5 , max_level = 5 ) :
 
             for path, c in sorted( arenotsafe.items() ):
 
-                output( path, c , max_count = max_count , max_level = max_level - 1)
+                output( path, c , max_count = max_count , max_level = max_level - 1, sep=sep, end=end)
 
         elif count > 0 :
             # otherwise
             # only output a total count
-            print(root, count)
+            print(root, count, sep=sep, end=end)
 
     else :
 
-        print( arenotsafe, 1 )
+        print(arenotsafe, 1, sep=sep, end=end)
 
 if __name__ == '__main__' :
 
@@ -97,21 +97,37 @@ if __name__ == '__main__' :
     parser.add_argument('-r', '--root', type=str, default='.', help='root directory')
     parser.add_argument('-n', '--short', action='store_true', help='short output')
     parser.add_argument('-j', '--json', action='store_true', help='json output')
-    parser.add_argument('-c', '--count', type=int, default=5, help='count threshold output')
-    parser.add_argument('-s', '--size', type=int, default=30, help='max output size')
+    parser.add_argument('-c', '--max-count', type=int, default=5, help='count threshold output')
+    parser.add_argument('-s', '--max-size', type=int, default=30, help='max output size')
+    parser.add_argument('-l', '--max-level', type=int, default=-1, help='max output level')
+    parser.add_argument('--sep', default=None, help='sep parameter for print')
+    parser.add_argument('--end', default=None, help='end parameter for print')
+    parser.add_argument('-z', '--null-terminated', action='store_true', help='null-terminate lines')
     args = parser.parse_args()
+
+    if args.max_level < -1:
+        parser.error('`--max-level` must be >= -1')
+
+    if args.null_terminated:
+        if args.end is not None:
+            parser.error('You cannot specify both `--null-terminated` and `--end`.')
+        end = '\0'
+    else:
+        end = args.end
 
     root = args.root
     data = recursive( root )
 
-    max_level = -1
-    size = args.size
-    for s in data[3] :
-        if size < s :
-            break
+    max_level = args.max_level
 
-        size -= s
-        max_level += 1
+    if args.max_count >= 0 and max_level == -1:
+        size = args.max_size
+        for s in data[3] :
+            if size < s :
+                break
+
+            size -= s
+            max_level += 1
 
     # print( max_level )
 
@@ -122,5 +138,5 @@ if __name__ == '__main__' :
         import json
         json.dump( { root : data } , sys.stdout )
     else :
-        output( root , data , max_count = args.count , max_level = max_level )
+        output( root , data , max_count = args.max_count , max_level = max_level , sep = args.sep , end = end )
 
