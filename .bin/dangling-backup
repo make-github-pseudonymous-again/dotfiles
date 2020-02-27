@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+
+if [ "$#" -lt 2 ] ; then
+  >&2 echo "Not enough arguments."
+  >&2 echo "Syntax is: $0 <root> <dst> [...<additional rsync args>]"
+  exit 1
+fi
+
+root="$1" && shift
+dst="$1" && shift
+src='.'
+
+echo 'Params'
+echo " root:" "$root"
+echo "  dst:" "$dst"
+echo "rsync:" "$@"
+echo '==============='
+
+echo -n 'Generating file list...'
+
+DANGLING="$(mktemp --tmpdir "${USER}-dangling-backup-list.XXXXXXXX")"
+
+#dangling -z -c -1 | tr '\0\n' '\n\0' | rev | cut -d' ' -f2- | rev | tr '\0\n' '\n\0' > "$DANGLING"
+dangling -z -r "$root" -c -1 | sed -z 's/.\{2\}$//' > "$DANGLING"
+
+echo ' DONE'
+echo '==============='
+
+n="$(< "$DANGLING" tr '\0\n' '\n\0' | wc -l)"
+
+echo 'Number of files'
+echo "$n"
+echo '==============='
+
+human_size="$(du --files0-from "$DANGLING" -ch | tail -1 | cut -f1)"
+
+echo 'Storage'
+echo "$human_size"
+echo '==============='
+
+echo 'Overview'
+< "$DANGLING" tr '\0\n' '\n\0' | head -5
+echo '...'
+echo '==============='
+
+if ask "Backup ${n} files (${human_size}) from '${src}' to '${dst}'?" ; then
+  set -x
+  rsync -0 -avP "$@" --files-from "$DANGLING" "$src" "$dst"
+fi
