@@ -6,8 +6,8 @@ echo 'must be run as root'
 exit 1
 fi
 
-O="$(mktemp --tmpdir update.out.XXXXXXXX)"
-E="$(mktemp --tmpdir update.err.XXXXXXXX)"
+O="$(mktemp --tmpdir "${USER}-install-arch-out.XXXXXXXX")"
+E="$(mktemp --tmpdir "${USER}-install-arch-err.XXXXXXXX")"
 
 function _exit ( ) {
   rm -f "$O" "$E"
