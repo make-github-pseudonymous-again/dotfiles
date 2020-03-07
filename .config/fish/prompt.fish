@@ -109,11 +109,9 @@ function fish_prompt --description 'Left prompt'
 
 	echo -n (prompt_sudo)
 
-	set_color -o white
-	echo -n ' at '
-	set_color normal
-
 	if test "$SSH_TTY"
+		set_color -o white
+		echo -n ' at '
 		set_color -o red
 		echo -n (hostname)
 		set_color normal
