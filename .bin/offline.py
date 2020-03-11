@@ -283,7 +283,7 @@ def validate_content_length ( url , path , **kwargs ) :
     return False
 
 
-def download ( url , path , expected_content_type = None , check_content_type = None, **kwargs ) :
+def download ( url , path , expected_content_type = None , **kwargs ) :
 
     log("Checking headers of {}".format(url))
     with urlopen(url, **kwargs) as response:
@@ -292,10 +292,7 @@ def download ( url , path , expected_content_type = None , check_content_type = 
             content_type = response.info().get_content_type()
             if content_type != expected_content_type:
                 msg = '{}: Received {} while expecting {}'.format(url, content_type, expected_content_type)
-                if check_content_type:
-                    raise ContentTypeMismatchException(msg)
-                else:
-                    log('! Warning: {}'.format(msg))
+                raise ContentTypeMismatchException(msg)
 
         log("Downloading {} to {}.".format(url, path))
         with open(path, 'wb') as fp:
@@ -320,7 +317,8 @@ def download_once (
         _state = None , throttle = None , batch = None ,
         storage = None , metadata_type = None, metadata_ext = None, queries = None ,
         endpoint = None , timeout = None, summary = None,
-        get_uid = None, get_resources = None , check = None , reverse_entries = False, **kwargs ) :
+        get_uid = None, get_resources = None , check = None ,
+        check_content_type = None, reverse_entries = False, **kwargs ) :
 
     delimit('=')
 
@@ -414,10 +412,11 @@ def download_once (
                             log("Clean up failed :(")
                             log(e)
 
-                        increment_state = 0
-
                         if not isinstance(e, ContentTypeMismatchException):
+                            increment_state = 0
                             break
+                        elif check_content_type:
+                            increment_state = 0
 
                 os.makedirs(metadata_dir, exist_ok=True)
                 with open(metadata_path, 'w') as fp:
