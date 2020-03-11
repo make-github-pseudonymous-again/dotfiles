@@ -418,12 +418,12 @@ def download_once (
                         elif check_content_type:
                             increment_state = 0
 
-                os.makedirs(metadata_dir, exist_ok=True)
-                with open(metadata_path, 'w') as fp:
-                    dumpjson(entry, fp)
-                    count[search_query]['metadata'] += 1
+            os.makedirs(metadata_dir, exist_ok=True)
+            with open(metadata_path, 'w') as fp:
+                dumpjson(entry, fp)
+                count[search_query]['metadata'] += 1
 
-                _state[search_query] += increment_state
+            _state[search_query] += increment_state
 
         delimit('+')
 
