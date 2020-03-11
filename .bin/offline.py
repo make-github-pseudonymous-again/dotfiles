@@ -75,6 +75,7 @@ DEFAULT_QUERIES = ()
 
 # SANE DEFAULTS FOR REGULAR USAGE
 DEFAULT_CHECK_MTIME = True
+DEFAULT_CHECK_CONTENT_TYPE = True
 DEFAULT_METADATA_TYPE = 'metadata'
 DEFAULT_METADATA_EXTENSION = '.json'
 DEFAULT_STATE = '{}/state.json'
@@ -92,6 +93,7 @@ DEFAULTS = {
 
     "check": DEFAULT_CHECK,
     "check_mtime": DEFAULT_CHECK_MTIME,
+    "check_content_type": DEFAULT_CHECK_CONTENT_TYPE,
     "storage": DEFAULT_STORAGE,
     "index": DEFAULT_INDEX,
     "format": DEFAULT_FORMAT_LINKNAME,
@@ -131,6 +133,8 @@ def get_arg_parser(default_config=None, description = 'Feed downloader.'):
     parser.add_argument('--summary', help='format string for summary')
     parser.add_argument('--index-summary', help='format string for summary')
     parser.add_argument('--index-polling-interval', help='polling interval for inotify')
+    parser.add_argument('--check-mtime', help='check file modification time in indexer')
+    parser.add_argument('--check-content-type', help='check http content type in downloader')
 
     # Those do not have sensible defaults but one can run the program without.
     parser.add_argument('--config', '-c', default=default_config, help='config file')
@@ -279,7 +283,7 @@ def validate_content_length ( url , path , **kwargs ) :
     return False
 
 
-def download ( url , path , expected_content_type = None , **kwargs ) :
+def download ( url , path , expected_content_type = None , check_content_type = None, **kwargs ) :
 
     log("Checking headers of {}".format(url))
     with urlopen(url, **kwargs) as response:
@@ -288,7 +292,10 @@ def download ( url , path , expected_content_type = None , **kwargs ) :
             content_type = response.info().get_content_type()
             if content_type != expected_content_type:
                 msg = '{}: Received {} while expecting {}'.format(url, content_type, expected_content_type)
-                raise ContentTypeMismatchException(msg)
+                if check_content_type:
+                    raise ContentTypeMismatchException(msg)
+                else:
+                    log('! Warning: {}'.format(msg))
 
         log("Downloading {} to {}.".format(url, path))
         with open(path, 'wb') as fp:

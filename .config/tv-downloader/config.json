@@ -5,6 +5,7 @@
 	"storage": "~/library/tv/{type}/{uid}{ext}",
 	"index": "~/dl/tv-downloader/index/{tag}/{slug}{ext}",
 	"check": true,
+	"check_content_type": false,
 	"timeout": 120,
 	"batch": 1
 }
