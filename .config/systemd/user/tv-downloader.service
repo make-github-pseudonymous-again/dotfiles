@@ -1,0 +1,8 @@
+[Unit]
+Description=tv downloader daemon service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=60
+ExecStart=/usr/bin/env tv-downloader

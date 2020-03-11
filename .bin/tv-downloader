@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+import sys
+
+from offline import get_arg_parser
+from offline import get_params
+from offline import get_state
+from offline import download_once
+
+from tv import DEFAULTS
+from tv import get_uid
+from tv import get_resources
+
+def main ( kwargs ) :
+
+    params = get_params(kwargs, DEFAULTS)
+    _state = get_state(params)
+
+    return download_once( _state = _state , get_uid = get_uid , get_resources =
+            get_resources, reverse_entries=True, **params )
+
+if __name__ == '__main__':
+    parser = get_arg_parser(description='tv-downloader')
+    args = parser.parse_args()
+    rc = main(vars(args))
+    sys.exit(rc)

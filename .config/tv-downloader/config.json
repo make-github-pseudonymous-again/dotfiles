@@ -1,0 +1,10 @@
+{
+	"throttle": 3,
+	"metadata_type": "metadata",
+	"metadata_ext": ".json",
+	"storage": "~/library/tv/{type}/{uid}{ext}",
+	"index": "~/dl/tv-downloader/index/{tag}/{slug}{ext}",
+	"check": true,
+	"timeout": 120,
+	"batch": 1
+}
