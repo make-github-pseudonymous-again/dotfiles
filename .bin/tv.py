@@ -39,19 +39,21 @@ def get_slug (entry) :
 
 def get_resources ( entry ):
 
-    if entry['author'] != ('v' + 'eill' + 'e' + 'ur'):
+    if entry['author'] == ('v' + 'eill' + 'e' + 'ur'): return
+    if any(map(lambda tag: tag == ('V' + 'eill' + 'e'), entry['tags'])): return
+    if DOMAIN_NAME not in entry['link']: return
 
-        audio_url = 'https://www.' + DOMAIN_NAME + '/podcast-player/{uid}/{slug}.mp3?_=1'
+    audio_url = 'https://www.' + DOMAIN_NAME + '/podcast-player/{uid}/{slug}.mp3?_=1'
 
-        uid = get_uid(entry)
-        slug = get_slug(entry)
+    uid = get_uid(entry)
+    slug = get_slug(entry)
 
-        yield {
-            "type": "mp3",
-            "ext": ".mp3",
-            "url": audio_url.format(uid=uid, slug=slug),
-            "content_type": "audio/mpeg",
-        }
+    yield {
+        "type": "mp3",
+        "ext": ".mp3",
+        "url": audio_url.format(uid=uid, slug=slug),
+        "content_type": "audio/mpeg",
+    }
 
 def compile_metadata ( title=None, authors=None, **entry ) :
 
