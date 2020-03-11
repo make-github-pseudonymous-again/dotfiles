@@ -39,17 +39,19 @@ def get_slug (entry) :
 
 def get_resources ( entry ):
 
-    audio_url = 'https://www.' + DOMAIN_NAME + '/podcast-player/{uid}/{slug}.mp3?_=1'
+    if entry['author'] != ('v' + 'eil' + 'e' + 'ur'):
 
-    uid = get_uid(entry)
-    slug = get_slug(entry)
+        audio_url = 'https://www.' + DOMAIN_NAME + '/podcast-player/{uid}/{slug}.mp3?_=1'
 
-    yield {
-        "type": "mp3",
-        "ext": ".mp3",
-        "url": audio_url.format(uid=uid, slug=slug),
-        "content_type": "audio/mpeg",
-    }
+        uid = get_uid(entry)
+        slug = get_slug(entry)
+
+        yield {
+            "type": "mp3",
+            "ext": ".mp3",
+            "url": audio_url.format(uid=uid, slug=slug),
+            "content_type": "audio/mpeg",
+        }
 
 def compile_metadata ( title=None, authors=None, **entry ) :
 
@@ -80,7 +82,7 @@ def extract_tags ( term ) :
     return filter(is_tag, map(sanitize_tag, matches))
 
 def extract_authors ( name ) :
-    if name != ('Thi' + 'nkerv' + 'iew'): yield name
+    yield name
 
 def generate_tags ( entry ) :
 
