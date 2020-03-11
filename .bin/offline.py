@@ -549,13 +549,17 @@ def index_once ( uids , _state = None , state = None ,
 def get_metadata_dir ( storage , metadata_type ):
     return get_path_from_format_or_execute(storage, type=metadata_type, uid='', ext='')
 
+not_a_syncthing_file = lambda x: 'sync-conflict' not in x and 'syncthing' not in x
+
+def non_syncthing_files ( filenames ) :
+    return filter(not_a_syncthing_file, filenames)
+
 def get_files ( directory ):
-    ignore_syncthing_conflicts = lambda x: 'sync-conflict' not in x
-    return filter(ignore_syncthing_conflicts, os.listdir(directory))
+    return non_syncthing_files(os.listdir(directory))
 
 def index_init ( storage = None , metadata_type = None , **kwargs ) :
 
-    metadata_dir = get_metadata_dir( storage , metadata_type)
+    metadata_dir = get_metadata_dir(storage , metadata_type)
 
     uids = map(get_uid_from_filename, get_files(metadata_dir))
 
@@ -583,9 +587,9 @@ def index_daemon ( _state = None, check_mtime = None , storage = None ,
     if out_of_sync:
         log('+ Info: {} files are out of sync.'.format(len(out_of_sync)))
 
-    close_write_events = lambda e: e is None or 'IN_CLOSE_WRITE' in e[1]
+    sentinel_and_close_write_events = lambda e: e is None or ('IN_CLOSE_WRITE' in e[1] and not_a_syncthing_file(e[3]))
     to_uid_or_none = lambda e: None if e is None else get_uid_from_filename(e[3])
-    inotify_events = map(to_uid_or_none, filter(close_write_events, i.event_gen()))
+    inotify_events = map(to_uid_or_none, filter(sentinel_and_close_write_events, i.event_gen()))
     events = chain(out_of_sync, inotify_events)
     index_events(events, _state = _state , storage = storage, metadata_type=metadata_type, **kwargs)
 
