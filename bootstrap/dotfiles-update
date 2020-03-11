@@ -4,7 +4,7 @@ function doIt() {
 
 	mkdir -p "$HOME/.bin"
 	mkdir -p "$HOME/.opt"
-	mkdir -p "$HOME/.mail"
+	mkdir -p "$HOME/.mail/draft"
 	mkdir -p "$HOME/.config"
 	mkdir -p "$HOME/.config/newsbeuter"
 	mkdir -p "$HOME/.config/dotfiles"
