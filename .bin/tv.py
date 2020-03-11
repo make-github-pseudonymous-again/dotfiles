@@ -39,7 +39,7 @@ def get_slug (entry) :
 
 def get_resources ( entry ):
 
-    if entry['author'] != ('v' + 'eil' + 'e' + 'ur'):
+    if entry['author'] != ('v' + 'eill' + 'e' + 'ur'):
 
         audio_url = 'https://www.' + DOMAIN_NAME + '/podcast-player/{uid}/{slug}.mp3?_=1'
 
