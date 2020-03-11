@@ -10,12 +10,14 @@ import feedparser
 import shutil
 
 from itertools import islice
+from itertools import chain
 
 from collections import ChainMap
 from collections import Counter
 from collections import defaultdict
 
 from copy import copy
+import inotify.adapters
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
@@ -34,11 +36,14 @@ _sorted_return_codes = (
     'done',
     'missing config',
     'mangled config',
+    'mangled state',
+    'mangled index_state',
     'continue',
     'failed search query',
     'failed download',
 )
 
+DEFAULT_HEADERS = {'User-Agent': 'Mozilla'}
 
 RC = { key: 0 if i==0 else 2**(i-1) for i, key in enumerate(_sorted_return_codes) }
 
@@ -57,16 +62,23 @@ def rc_decode ( code ) :
 DEFAULT_THROTTLE = 3
 DEFAULT_BATCH = 1
 DEFAULT_TIMEOUT = 60
+DEFAULT_INDEX_POLLING_INTERVAL = 60
 DEFAULT_FORMAT_SUMMARY = 'query:"{query}" total({total}) dl({counts}) state({old_state} (+{progress}) -> {new_state}) rc({rc}: {message})'
+DEFAULT_INDEX_FORMAT_SUMMARY = 'files(+{count[files]}) tags(+{count[tags]}) state({old_state[mtime]} -> {new_state[mtime]})'
 
 # SAFE DEFAULTS FOR TESTING
 DEFAULT_CHECK = False
 DEFAULT_STORAGE = '/tmp/offline/{type}/{uid}{ext}'
-DEFAULT_METADATA_TYPE = 'metadata'
-DEFAULT_METADATA_EXTENSION = '.json'
 DEFAULT_INDEX = '/tmp/offline/index/{tag}/{slug}{ext}'
 DEFAULT_FORMAT_LINKNAME = "{uid}"
 DEFAULT_QUERIES = ()
+
+# SANE DEFAULTS FOR REGULAR USAGE
+DEFAULT_CHECK_MTIME = True
+DEFAULT_METADATA_TYPE = 'metadata'
+DEFAULT_METADATA_EXTENSION = '.json'
+DEFAULT_STATE = '{}/state.json'
+DEFAULT_INDEX_STATE = '{}/index.json'
 
 
 DEFAULTS = {
@@ -75,14 +87,20 @@ DEFAULTS = {
     "batch": DEFAULT_BATCH,
     "timeout": DEFAULT_TIMEOUT,
     "summary": DEFAULT_FORMAT_SUMMARY,
+    "index_summary": DEFAULT_INDEX_FORMAT_SUMMARY,
+    "index_polling_interval": DEFAULT_INDEX_POLLING_INTERVAL,
 
     "check": DEFAULT_CHECK,
+    "check_mtime": DEFAULT_CHECK_MTIME,
     "storage": DEFAULT_STORAGE,
-    "metadata_type": DEFAULT_METADATA_TYPE,
-    "metadata_ext": DEFAULT_METADATA_EXTENSION,
     "index": DEFAULT_INDEX,
     "format": DEFAULT_FORMAT_LINKNAME,
     "queries": DEFAULT_QUERIES,
+
+    "metadata_type": DEFAULT_METADATA_TYPE,
+    "metadata_ext": DEFAULT_METADATA_EXTENSION,
+    "state": DEFAULT_STATE,
+    "index_state": DEFAULT_INDEX_STATE,
 }
 
 
@@ -111,10 +129,13 @@ def get_arg_parser(default_config=None, description = 'Feed downloader.'):
     parser.add_argument('--timeout', '-T', help='timeout for requests')
     parser.add_argument('--batch', '-b', type=int, help='batch size')
     parser.add_argument('--summary', help='format string for summary')
+    parser.add_argument('--index-summary', help='format string for summary')
+    parser.add_argument('--index-polling-interval', help='polling interval for inotify')
 
     # Those do not have sensible defaults but one can run the program without.
     parser.add_argument('--config', '-c', default=default_config, help='config file')
     parser.add_argument('--state', '-S', help='state file')
+    parser.add_argument('--index-state', help='index state file')
 
     # These can have default for testing purposes.
     parser.add_argument('--check', '-C', help='check that downloaded files have correct size')
@@ -161,74 +182,78 @@ def get_params ( kwargs, *defaults ) :
     kwargs2 = ChainMap(kwargs, *defaults)
 
     if kwargs2['config'] is None:
-        log("Warning: working without a config file!")
+        log("! Warning: working without a config file!")
         _config = {}
     else:
         config = os.path.expanduser(kwargs2['config'])
-        log('config file: {}'.format(config))
+        log('> config file: {}'.format(config))
 
         try:
             with open(config) as fp:
                 _config = json.load(fp)
         except json.decoder.JSONDecodeError as e:
-            log("Could not load config file ({})".format(config))
+            log("! Error: Could not load config file ({})".format(config))
             log(e)
             sys.exit(RC['mangled config'])
         except:
             if config == ChainMap(*defaults, DEFAULTS).get('config', None):
-                log("Warning: could not open default config file!")
+                log("! Warning: could not open default config file!")
                 _config = {}
             else:
-                log("Could not open config file ({})".format(config))
+                log("! Error: Could not open config file ({})".format(config))
                 sys.exit(RC['missing config'])
 
     params = ChainMap(kwargs, _config, *defaults, DEFAULTS)
 
-    log('params details')
+    log('> params details', end = ' ')
     logjson(vars(params))
-    log('params')
+    log('> params', end = ' ')
     logjson(dict(**params))
 
     return params
 
-def get_state_path ( params ) :
-    return get_path_from_format_or_execute(params['state'], params['cache'])
+def get_state_path ( key, params ) :
+    return get_path_from_format_or_execute(params[key], params['cache'])
 
-def get_state ( params ) :
+def get_state ( key, params ) :
 
     _state = {}
 
-    if 'state' in params:
-        state = get_state_path(params)
-        log('state file: {}'.format(state))
+    if key in params:
+        state = get_state_path(key, params)
+        log('> {} file: {}'.format(key, state))
 
         try:
             with open(state) as fp:
                 _state = json.load(fp)
+        except json.decoder.JSONDecodeError as e:
+            log("! Error: Could not load {} file ({})".format(key, state))
+            log(e)
+            sys.exit(RC['mangled {}'.format(key)])
         except:
-            log('State file is configured but could not load its contents!')
+            log('! Warning: {} file is configured but could not load its contents!'.format(key))
 
     else:
-        log('No state path provided. Will proceed without it.')
+        log('! Warning: No {} path provided. Will proceed without it.'.format(key))
 
 
-    log('state')
+    log('> {}'.format(key), end = ' ')
     logjson(_state)
 
     return Counter(_state)
 
-def dump_state ( params , _state):
-    if 'state' in params:
-        state = get_state_path(params)
+def dump_state ( key, params , _state):
+    if key in params:
+        state = get_state_path(key, params)
         os.makedirs(os.path.dirname(state), exist_ok=True)
         with open(state, 'w') as fp:
             dumpjson(_state, fp)
     else:
-        log('Not saving state because no state path given. Here it is anyway!')
+        log('Not saving {key} because no {key} path given. Here it is anyway!'.format(key=key))
         dumpjson(_state)
 
 def urlopen ( url , **kwargs) :
-    request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla'})
+    request = urllib.request.Request(url, headers=DEFAULT_HEADERS)
     return urllib.request.urlopen(request, **kwargs)
 
 class ContentTypeMismatchException(Exception):
@@ -397,7 +422,7 @@ def download_once (
         delimit('+')
 
 
-    dump_state(kwargs, _state)
+    dump_state('state', kwargs, _state)
 
     for search_query in queries:
         incomplete_single_query = opensearch_startindex == 0 and _state[search_query] < len(document.entries)
@@ -457,48 +482,116 @@ get_uid_from_filename = lambda x: unescape_filename(os.path.splitext(x)[0])
 
 def index_once ( uids , _state = None , state = None ,
         storage = None , metadata_type = None , metadata_ext = None , index = None ,
-        format = None, compile_metadata = None, generate_tags = None, **kwargs ) :
+        format = None, compile_metadata = None, generate_tags = None,
+        index_summary = None , **kwargs ) :
+
+    old_state = _state
+    new_state = copy(old_state)
+    count = Counter()
+
+    for uid in uids:
 
         delimit('=')
 
-        for uid in uids:
+        log('indexing', uid)
 
-            log('indexing', uid)
+        uid_escaped = escape_filename(uid)
+        metadata_path = get_path_from_format_or_execute(storage, type=metadata_type, uid=uid_escaped, ext=metadata_ext)
 
-            uid_escaped = escape_filename(uid)
-            metadata_path = get_path_from_format_or_execute(storage, type=metadata_type, uid=uid_escaped, ext=metadata_ext)
+        statinfo = os.stat(metadata_path)
+        metadata_mtime = statinfo.st_mtime
 
-            with open(metadata_path) as fd:
-                _metadata = json.load(fd)
+        new_state['mtime'] = max(new_state['mtime'], metadata_mtime)
 
-            logmetadata(uid, _metadata)
+        with open(metadata_path) as fd:
+            _metadata = json.load(fd)
 
-            info = compile_metadata(**_metadata)
+        logmetadata(uid, _metadata)
 
-            slug = get_slug(format, uid=uid, **info)
+        info = compile_metadata(**_metadata)
 
-            for resource, tag in generate_tags(_metadata):
+        slug = get_slug(format, uid=uid, **info)
 
-                resource_type = resource['type']
-                resource_ext = resource['ext']
-                resource_path = get_path_from_format_or_execute(storage, type=resource_type, uid=uid_escaped, ext=resource_ext)
+        for resource, tag in generate_tags(_metadata):
 
-                link_path = get_path_from_format_or_execute(index, tag=tag, slug=slug, ext=resource_ext)
-                link_dir = os.path.dirname(link_path)
-                os.makedirs(link_dir, exist_ok=True)
-                try:
-                    os.symlink(resource_path, link_path)
-                except FileExistsError as e:
-                    pass
+            resource_type = resource['type']
+            resource_ext = resource['ext']
+            resource_path = get_path_from_format_or_execute(storage, type=resource_type, uid=uid_escaped, ext=resource_ext)
 
+            link_path = get_path_from_format_or_execute(index, tag=tag, slug=slug, ext=resource_ext)
+            link_dir = os.path.dirname(link_path)
+            os.makedirs(link_dir, exist_ok=True)
+            try:
+                os.symlink(resource_path, link_path)
+                count['tags'] += 1
+            except FileExistsError as e:
+                pass
+
+        count['files'] += 1
+
+
+    if new_state != old_state:
+        dump_state('index_state', kwargs, new_state)
+
+    if count['files'] > 0:
         delimit('=')
+        summary_string = format_or_execute(index_summary, count=count, old_state=old_state, new_state=new_state)
+        log(summary_string)
+
+    return new_state
+
+def get_metadata_dir ( storage , metadata_type ):
+    return get_path_from_format_or_execute(storage, type=metadata_type, uid='', ext='')
+
+def get_files ( directory ):
+    ignore_syncthing_conflicts = lambda x: 'sync-conflict' not in x
+    return filter(ignore_syncthing_conflicts, os.listdir(directory))
 
 def index_init ( storage = None , metadata_type = None , **kwargs ) :
 
-    metadata_dir = get_path_from_format_or_execute(storage, type=metadata_type, uid='', ext='')
+    metadata_dir = get_metadata_dir( storage , metadata_type)
 
-    ignore_syncthing_conflicts = lambda x: 'sync-conflict' not in x
-
-    uids = filter(ignore_syncthing_conflicts, map(get_uid_from_filename, os.listdir(metadata_dir)))
+    uids = map(get_uid_from_filename, get_files(metadata_dir))
 
     return index_once( uids , storage = storage , metadata_type = metadata_type, **kwargs )
+
+def index_daemon ( _state = None, check_mtime = None , storage = None ,
+        metadata_type = None , index_polling_interval = None , **kwargs ) :
+
+    metadata_dir = get_metadata_dir( storage , metadata_type)
+
+    i = inotify.adapters.Inotify(block_duration_s=index_polling_interval)
+    i.add_watch(metadata_dir)
+
+    log('+ Info: READY!')
+
+    out_of_sync = []
+
+    if check_mtime and os.stat(metadata_dir).st_mtime >= _state['mtime']:
+        for filename in get_files(metadata_dir):
+            path = metadata_dir + '/' + filename
+            if os.stat(path).st_mtime >= _state['mtime']:
+                uid = get_uid_from_filename(filename)
+                out_of_sync.append(uid)
+
+    if out_of_sync:
+        log('+ Info: {} files are out of sync.'.format(len(out_of_sync)))
+
+    close_write_events = lambda e: e is None or 'IN_CLOSE_WRITE' in e[1]
+    to_uid_or_none = lambda e: None if e is None else get_uid_from_filename(e[3])
+    inotify_events = map(to_uid_or_none, filter(close_write_events, i.event_gen()))
+    events = chain(out_of_sync, inotify_events)
+    index_events(events, _state = _state , storage = storage, metadata_type=metadata_type, **kwargs)
+
+def index_events ( events , _state = None, **kwargs ) :
+
+    queue = []
+
+    for uid in events:
+
+        if uid is None:
+            _state = index_once( queue , _state = _state , **kwargs )
+            queue = []
+
+        else:
+            queue.append(uid)

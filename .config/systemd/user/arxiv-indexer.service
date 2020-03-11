@@ -1,0 +1,9 @@
+[Unit]
+Description=index arXiv papers in the background
+
+[Service]
+ExecStart=/usr/bin/env arxiv-indexer
+Restart=always
+
+[Install]
+WantedBy=ready.target

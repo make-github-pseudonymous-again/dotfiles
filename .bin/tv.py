@@ -11,7 +11,6 @@ from offline import sanitize
 DOMAIN_NAME = 'thi' + 'nkerv' + 'iew' + '.com'
 
 DEFAULT_CACHE = os.path.expanduser("~/.cache/tv-downloader")
-DEFAULT_STATE = '{}/state.json'
 DEFAULT_CONFIG = os.path.expanduser("~/.config/tv-downloader/config.json")
 
 DEFAULT_ENDPOINT = 'https://' + DOMAIN_NAME + '/feed/'
@@ -29,7 +28,6 @@ DEFAULTS = {
 
     "endpoint": DEFAULT_ENDPOINT,
     "cache": DEFAULT_CACHE,
-    "state": DEFAULT_STATE,
     "config": DEFAULT_CONFIG,
 }
 

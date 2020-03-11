@@ -9,7 +9,6 @@ from offline import escape_filename
 from offline import sanitize
 
 DEFAULT_CACHE = os.path.expanduser("~/.cache/arxiv-downloader")
-DEFAULT_STATE = '{}/state.json'
 DEFAULT_CONFIG = os.path.expanduser("~/.config/arxiv-downloader/config.json")
 
 DEFAULT_ENDPOINT = 'https://export.arxiv.org/api/query?sortBy=submittedDate&sortOrder=ascending&search_query={search_query}&max_results={max_results}&start={start}'
@@ -25,7 +24,6 @@ DEFAULTS = {
 
     "endpoint": DEFAULT_ENDPOINT,
     "cache": DEFAULT_CACHE,
-    "state": DEFAULT_STATE,
     "config": DEFAULT_CONFIG,
 }
 

@@ -1,0 +1,9 @@
+[Unit]
+Description=index tv files in the background
+
+[Service]
+ExecStart=/usr/bin/env tv-indexer
+Restart=always
+
+[Install]
+WantedBy=ready.target

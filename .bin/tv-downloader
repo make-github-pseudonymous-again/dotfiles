@@ -14,7 +14,7 @@ from tv import get_resources
 def main ( kwargs ) :
 
     params = get_params(kwargs, DEFAULTS)
-    _state = get_state(params)
+    _state = get_state('state', params)
 
     return download_once( _state = _state , get_uid = get_uid , get_resources =
             get_resources, reverse_entries=True, **params )

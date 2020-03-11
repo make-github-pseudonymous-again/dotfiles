@@ -5,7 +5,7 @@ import sys
 from offline import get_arg_parser
 from offline import get_params
 from offline import get_state
-from offline import index_init
+from offline import index_daemon
 
 from arxiv import DEFAULTS
 from arxiv import generate_tags
@@ -14,9 +14,9 @@ from arxiv import compile_metadata
 def main ( kwargs ) :
 
     params = get_params ( kwargs , DEFAULTS )
-    _state = get_state(params)
+    _state = get_state('index_state', params)
 
-    return index_init( _state = _state , compile_metadata = compile_metadata,
+    return index_daemon( _state = _state , compile_metadata = compile_metadata,
             generate_tags=generate_tags, **params )
 
 if __name__ == '__main__':
