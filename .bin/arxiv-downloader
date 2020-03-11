@@ -1,165 +1,26 @@
 #!/usr/bin/env python3
 
-import os
 import sys
-import json
-import urllib.request
-import feedparser
 
-from arxiv import log
-from arxiv import get_params
-from arxiv import get_state
+from offline import get_arg_parser
+from offline import get_params
+from offline import get_state
+from offline import download_once
 
-from arxiv import wait
-from arxiv import sanitize
-from arxiv import get_arg_parser
-
-from arxiv import escape_filename
-
-from arxiv import download
-
-from arxiv import RC
-from arxiv import rc_decode
+from arxiv import DEFAULTS
+from arxiv import get_uid
+from arxiv import get_resources
 
 def main ( kwargs ) :
 
-    log('================================')
-    params = get_params ( kwargs )
+    params = get_params(kwargs, DEFAULTS)
     _state = get_state(params)
-    log('================================')
 
-    return run_once( _state = _state , **params )
-
-def run_once ( _state = None , state = None , throttle = None , batch = None ,
-        storage = None , metadata = None , queries = None ,
-        request = None , format = None, timeout = None, summary = None, **kwargs ) :
-
-    old_state = dict(_state)
-    rc = {search_query: RC['done'] for search_query in queries }
-    count_metadata = { search_query: 0 for search_query in queries }
-    count_pdf = { search_query: 0 for search_query in queries }
-    total = { search_query: '?' for search_query in queries }
-
-    storage = os.path.expanduser(storage)
-    metadata = os.path.expanduser(metadata)
-
-    for search_query in queries:
-        log("search_query", search_query)
-        start = _state.setdefault(search_query, 0)
-
-        query_url = request.format(search_query=search_query, start=start, max_results=batch)
-        log(query_url)
-
-        wait(throttle)
-        try:
-            response = urllib.request.urlopen(query_url, timeout=timeout)
-        except Exception as e:
-            log('Failed to query', query_url)
-            log(e)
-            rc[search_query] = RC['failed search query']
-            break
-
-        document = feedparser.parse(response)
-        feed = document.feed
-        total_results = int(feed.opensearch_totalresults)
-        total[search_query] = total_results
-
-        for _metadata in document.entries:
-
-            uid = _metadata.id.split('/abs/')[-1]
-
-            uid_escaped = escape_filename(uid)
-            metadata_path = '{}/{}.json'.format(metadata, uid_escaped)
-            pdf_path = '{}/{}.pdf'.format(storage, uid_escaped)
-
-            title = sanitize(_metadata.title)
-            authors = _metadata.authors
-            authors_names = list(map(lambda x: sanitize(x.name), authors))
-            links = _metadata.links
-            published = _metadata.published
-
-            log('url: {}'.format(_metadata.id))
-            log('arxiv-id: {}'.format(uid))
-            log('Published: {}'.format(published))
-            log('Title:  {}'.format(title))
-            log('Authors:  {}'.format(', '.join(authors_names)))
-
-            try:
-                exists = os.path.getsize(pdf_path) > 0
-            except:
-                exists = False
-
-            if exists :
-                # TODO add option to check if size in HTTP header corresponds
-                log("{} already exists, skipping".format(pdf_path))
-            else:
-                url = next(filter(lambda x: x.type == 'application/pdf', links)).href
-                os.makedirs(storage, exist_ok=True)
-
-                wait(throttle)
-
-                log("Downloading {} to {}.".format(url, pdf_path))
-                try:
-                    download(url, pdf_path, timeout=timeout)
-                    count_pdf[search_query] += 1
-                except Exception as e:
-                    log("Failed to download", url)
-                    log(e)
-                    rc[search_query] = RC['failed download']
-                    try:
-                        log("Cleaning up...")
-                        if os.path.exists(pdf_path):
-                            log("Removing", pdf_path)
-                            os.remove(pdf_path)
-                            log("Success :)")
-                        else:
-                            log("Nothing to do!")
-                    except Exception as e:
-                        log("Failed :(")
-                        log(e)
-                    break
-
-            os.makedirs(metadata, exist_ok=True)
-            with open(metadata_path, 'w') as fp:
-                # https://docs.python.org/3/library/json.html?highlight=json#json.dump
-                json.dump(_metadata, fp, separators=(',', ':'))
-                count_metadata[search_query] += 1
-
-            _state[search_query] += 1
-
-
-    os.makedirs(os.path.dirname(state), exist_ok=True)
-    with open(state, 'w') as fp:
-        json.dump(_state, fp, separators=(',', ':'))
-
-    log('='*79)
-
-    for search_query in queries:
-
-        _old_state = old_state.get(search_query, 0)
-        _new_state = _state.get(search_query, 0)
-
-        if _new_state < total[search_query]:
-            rc[search_query] = max(rc[search_query], RC['continue'])
-
-        summary_string = summary.format(
-            query = search_query,
-            metadata = count_metadata[search_query],
-            pdf = count_pdf[search_query],
-            old_state = _old_state,
-            new_state = _new_state,
-            progress = _new_state - _old_state,
-            message = ', '.join(rc_decode(rc[search_query])),
-            rc = rc[search_query],
-            total = total[search_query],
-        )
-
-        log(summary_string)
-
-    return max(rc.values())
+    return download_once( _state = _state , get_uid = get_uid , get_resources =
+            get_resources, **params )
 
 if __name__ == '__main__':
-    parser = get_arg_parser()
+    parser = get_arg_parser(description='arxiv-downloader')
     args = parser.parse_args()
     rc = main(vars(args))
     sys.exit(rc)

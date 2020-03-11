@@ -1,8 +1,9 @@
 {
 	"throttle": 3,
-	"storage": "~/library/arxiv/storage",
-	"metadata": "~/library/arxiv/metadata",
-	"index": "~/dl/arxiv-downloader/index",
+	"metadata_type": "metadata",
+	"metadata_ext": ".json",
+	"storage": "~/library/arxiv/{type}/{uid}{ext}",
+	"index": "~/dl/arxiv-downloader/index/{tag}/{slug}{ext}",
 	"batch": 100,
 	"queries": [ "cat:cs.CG" , "cat:cs.DS" ]
 }
