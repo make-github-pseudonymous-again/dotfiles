@@ -549,13 +549,16 @@ def index_once ( uids , _state = None , state = None ,
 def get_metadata_dir ( storage , metadata_type ):
     return get_path_from_format_or_execute(storage, type=metadata_type, uid='', ext='')
 
-not_a_syncthing_file = lambda x: 'sync-conflict' not in x and 'syncthing' not in x
+def not_a_special_file ( filename ) :
+    if any(map(lambda kw: kw in filename, ['sync-conflict', 'syncthing'])): return False
+    if filename == '4913': return False
+    return True
 
-def non_syncthing_files ( filenames ) :
-    return filter(not_a_syncthing_file, filenames)
+def non_special_files ( filenames ) :
+    return filter(not_a_special_file, filenames)
 
 def get_files ( directory ):
-    return non_syncthing_files(os.listdir(directory))
+    return non_special_files(os.listdir(directory))
 
 def index_init ( storage = None , metadata_type = None , **kwargs ) :
 
@@ -564,6 +567,10 @@ def index_init ( storage = None , metadata_type = None , **kwargs ) :
     uids = map(get_uid_from_filename, get_files(metadata_dir))
 
     return index_once( uids , storage = storage , metadata_type = metadata_type, **kwargs )
+
+def is_modification_event ( e ) :
+    types = ['IN_CREATE' , 'IN_MODIFY', 'IN_MOVED_TO']
+    return any(map(lambda x: x in e[1], types))
 
 def index_daemon ( _state = None, check_mtime = None , storage = None ,
         metadata_type = None , index_polling_interval = None , **kwargs ) :
@@ -577,17 +584,17 @@ def index_daemon ( _state = None, check_mtime = None , storage = None ,
 
     out_of_sync = []
 
-    if check_mtime and os.stat(metadata_dir).st_mtime >= _state['mtime']:
+    if check_mtime and os.stat(metadata_dir).st_mtime > _state['mtime']:
         for filename in get_files(metadata_dir):
             path = metadata_dir + '/' + filename
-            if os.stat(path).st_mtime >= _state['mtime']:
+            if os.stat(path).st_mtime > _state['mtime']:
                 uid = get_uid_from_filename(filename)
                 out_of_sync.append(uid)
 
     if out_of_sync:
         log('+ Info: {} files are out of sync.'.format(len(out_of_sync)))
 
-    sentinel_and_close_write_events = lambda e: e is None or ('IN_CLOSE_WRITE' in e[1] and not_a_syncthing_file(e[3]))
+    sentinel_and_close_write_events = lambda e: e is None or (is_modification_event(e) and not_a_special_file(e[3]))
     to_uid_or_none = lambda e: None if e is None else get_uid_from_filename(e[3])
     inotify_events = map(to_uid_or_none, filter(sentinel_and_close_write_events, i.event_gen()))
     events = chain(out_of_sync, inotify_events)
