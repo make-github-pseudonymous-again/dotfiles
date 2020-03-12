@@ -35,7 +35,9 @@ cursor=''
 
 while true ; do
     url="${API_URL_BASE}${ENDPOINT}?token=${SLACK_API_TOKEN}${cursor}${PARAMS}"
-    >&2 echo "$url"
+    if [ -n "$VERBOSITY" ] && [ "$VERBOSITY" -gt 0 ] ; then
+        >&2 echo "$url"
+    fi
     response="$(${HTTP_GET} "$url")"
     # TODO error handling
     # if [ "$?" -ne 0 ] ; then ... ; fi
