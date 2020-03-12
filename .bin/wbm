@@ -17,4 +17,4 @@ fi
 url="$selection"
 
 curl -v 2>&1 >/dev/null "https://web.archive.org/save/${url}" |
-sed -n 's/^< content-location: /https:\/\/web.archive.org/p'
+sed -n 's/^< location: //p'
