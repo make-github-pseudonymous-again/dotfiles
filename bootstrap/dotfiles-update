@@ -14,17 +14,15 @@ function doIt() {
 
 	mkdir -p "$HOME/ac"
 	mkdir -p "$HOME/dev"
-	mkdir -p "$HOME/games"
 	mkdir -p "$HOME/shots"
 	mkdir -p "$HOME/sandbox"
 	mkdir -p "$HOME/notes"
 
 	mkdir -p "$HOME/dl"
 	mkdir -p "$HOME/share"
-	mkdir -p "$HOME/lib/audio/music"
-	mkdir -p "$HOME/lib/picture"
-	mkdir -p "$HOME/lib/video"
-	mkdir -p "$HOME/library"
+	mkdir -p "$HOME/library/audio/music"
+	mkdir -p "$HOME/library/picture"
+	mkdir -p "$HOME/library/video"
 
 
 	DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
