@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-env SLACK_API_TOKEN="$(pass "$1")" slack-notifications
+key="$1" && shift
+
+env SLACK_API_TOKEN="$(pass "$key")" slack-notifications "$@"

@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 
+filter="${1:-select(true)}"
+
 slack-users-conversations |
+jq -c "$filter" |
 slack-notifications-for-conversations
