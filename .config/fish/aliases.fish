@@ -36,6 +36,7 @@ abbr dp detectportal
 abbr mk make
 abbr jrnl " jrnl"
 abbr log " jrnl -from 1970 | less -r +G"
+abbr bundle "makepkg --printsrcinfo > .SRCINFO"
 
 # interpret
 abbr js node
