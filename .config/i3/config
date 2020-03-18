@@ -393,18 +393,20 @@ mode "bluetooth" {
 #-- bindsym $mod+Shift+T mode "bluetooth"
 bindcode $mod+Shift+28 mode "bluetooth"
 
-mode "layout" {
+mode "cast" {
 
-        #-- bindsym Shift+D exec laptop.default; mode "default"
-        bindcode Shift+40 exec laptop.default; mode "default"
-        #-- bindsym f exec laptop.forum.G; mode "default"
-        bindcode 41 exec laptop.forum.G; mode "default"
-        #-- bindsym d exec laptop.office.duo; mode "default"
-        bindcode 40 exec laptop.office.duo; mode "default"
-        #-- bindsym s exec laptop.office.single; mode "default"
-        bindcode 39 exec laptop.office.single; mode "default"
-        #-- bindsym t exec laptop.talk.displayport; mode "default"
-        bindcode 28 exec laptop.talk.displayport; mode "default"
+        #-- bindsym d exec screen.cast.default; mode "default"
+        bindcode 40 exec screen.cast.default; mode "default"
+        #-- bindsym t exec screen.cast.talk; mode "default"
+        bindcode 28 exec screen.cast.talk; mode "default"
+        #-- bindsym e exec screen.cast.external; mode "default"
+        bindcode 26 exec screen.cast.external; mode "default"
+        #-- bindsym m exec screen.cast.mirror; mode "default"
+        bindcode 58 exec screen.cast.mirror; mode "default"
+        #-- bindsym h exec screen.cast.hdmi; mode "default"
+        bindcode 43 exec screen.cast.hdmi; mode "default"
+        #-- bindsym p exec screen.cast.displayport; mode "default"
+        bindcode 33 exec screen.cast.displayport; mode "default"
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
@@ -413,8 +415,8 @@ mode "layout" {
         bindcode 66 mode "default"
 }
 
-#-- bindsym $mod+y mode "layout"
-bindcode $mod+29 mode "layout"
+#-- bindsym $mod+y mode "cast"
+bindcode $mod+29 mode "cast"
 
 mode "apps" {
         #-- bindsym m mode "mode"
