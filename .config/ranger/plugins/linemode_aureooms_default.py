@@ -10,7 +10,7 @@ extensions_multi = (
     (('.sh','.bash','.fish','.bat'), ''),
     (('.js',), ''),
     (('.py',), ''),
-    (('.webm','.flac','.mp3','.m4a','.wma'), ''),
+    (('.webm','.aac','.flac','.mp3','.m4a','.wma'), ''),
     (('.png','.gif','.jpg','.jpeg','.pgm','.svg'), ''),
     (('.mkv','.mp4'), ''),
     (('.gpg',), ''),
