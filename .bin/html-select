@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import arrow
+import shutil
+import urllib.request
+
+import lxml.html as html
+from lxml.cssselect import CSSSelector
+
+sel = lambda h, s: CSSSelector(s)(h)
+
+log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+
+selector = ' '.join(sys.argv[1:])
+
+tree = html.parse(sys.stdin)
+
+nodes = sel(tree, selector)
+
+for node in nodes:
+    print(node.text)
