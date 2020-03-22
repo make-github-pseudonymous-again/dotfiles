@@ -143,7 +143,7 @@ abbr afk "system.LS"
 
 # youtube-dl
 abbr ydl 'youtube-dl'
-abbr vdl 'youtube-dl --'
+abbr vdl 'youtube-dl -f best --'
 abbr adl 'youtube-dl -f251 --'
 
 # youtube-viewer
