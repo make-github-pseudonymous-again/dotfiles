@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+# @article{RSZ16,
+ # author = {Orit E. Raz and Micha Sharir and Frank de Zeeuw},
+ # journal = {arXiv e-prints},
+ # note = {\href{https://arxiv.org/abs/1607.03600}{arXiv:1607.03600 [cs.CO]}},
+ # title = {The {E}lekes-{S}zab{\'{o}} Theorem in four dimensions},
+ # year = {2016}
+# }
+import sys
+import json
+from bibtexparser.bwriter import BibTexWriter
+from bibtexparser.bibdatabase import BibDatabase
+
+entry = json.load(sys.stdin)
+
+db = BibDatabase()
+db.entries = [ entry ]
+# {'journal': 'Nice Journal',
+# 'comments': 'A comment',
+# 'pages': '12--23',
+# 'month': 'jan',
+# 'abstract': 'This is an abstract. This line should be long enough to test\nmultilines...',
+# 'title': 'An amazing title',
+# 'year': '2013',
+# 'volume': '12',
+# 'ID': 'Cesar2013',
+# 'author': 'Jean César',
+# 'keyword': 'keyword1, keyword2',
+# 'ENTRYTYPE': 'article'}]
+
+writer = BibTexWriter()
+writer.indent = ' '
+writer.entry_separator = ''
+writer.comma_first = True
+sys.stdout.write(writer.write(db))
