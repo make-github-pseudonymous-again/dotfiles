@@ -195,4 +195,4 @@ abbr rgh rg --hidden -g "'!.git/*'"
 abbr pxy ssh -N -D
 
 # covid19
-abbr co 'curl -s https://corona-stats.online | html-select pre | less'
+abbr co 'curl -s https://corona-stats.online | html-select pre | html-format text | less'
