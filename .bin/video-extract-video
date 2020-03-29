@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+if [ "$#" -lt 1 ] ; then
+  >&2 echo "Not enough parameters for $0. Specify at least one."
+  exit 1
+fi
+
+input="$1"; shift
+>&2 echo "INPUT: ${input}"
+
+video_input_format="$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=nokey=1:noprint_wrappers=1 -i "$input")"
+>&2 echo "VIDEO INPUT: ${video_input_format}"
+
+output="${1:-${input%.*}.${video_input_format}}";
+if [ "$#" -ge 1 ] ; then shift ; fi
+>&2 echo "OUTPUT: ${output}"
+
+video_output_format=copy
+
+>&2 echo "VIDEO OUTPUT: ${video_output_format}"
+
+>&2 echo "FFMPEG PARAMS: $@"
+
+ffmpeg -i "$input" -c:v "$video_output_format" "$output" "$@"
