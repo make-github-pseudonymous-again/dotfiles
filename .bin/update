@@ -324,18 +324,26 @@ if $plugins ; then
 
       fi
 
+      CHEZMOIIGNORE="${PLUGIN}/.chezmoiignore"
+
       if $diff ; then
         DIFFER="$PLUGIN"/dotfiles.diff
-        if [ -x "$DIFFER" ] ; then
-          echo '  ° Diff '"$PLUGIN"
+        if [ -e "$CHEZMOIIGNORE" ] ; then
+          echo "  ° Diff ${PLUGIN} (chezmoi)"
+          chezmoi --source "$(readlink -f "$PLUGIN")" diff
+        elif [ -x "$DIFFER" ] ; then
+          echo "  ° Diff ${PLUGIN} (${DIFFER})"
           sh "$DIFFER" || _exit "$?"
         fi
       fi
 
       if $update ; then
         UPDATER="$PLUGIN"/dotfiles.update
-        if [ -x "$UPDATER" ] ; then
-          echo '  ° Update '"$PLUGIN"
+        if [ -e "$CHEZMOIIGNORE" ] ; then
+          echo "  ° Update ${PLUGIN} (chezmoi)"
+          chezmoi --source "$(readlink -f "$PLUGIN")" apply
+        elif [ -x "$UPDATER" ] ; then
+          echo "  ° Update ${PLUGIN} (${UPDATER})"
           sh "$UPDATER" -f || _exit "$?"
         fi
       fi
