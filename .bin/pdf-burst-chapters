@@ -2,6 +2,7 @@
 
 input="$1"
 root="${2:-.}"
+selector="${3:-select(true)}"
 
 if [ -n "$root" ] ; then
   mkdir -p "$root"
@@ -20,7 +21,8 @@ mutool show "$input" outline | \
 mutool-outline-tojson | \
 mutool-json-outline-format | \
 #jq -c '.children[] | select(.title|test("^[1-9][0-9]* "))' | \
-jq -c '.children[] | select(.title | startswith("I")) | .children[]' | \
+#jq -c '.children[] | select(.title | startswith("I")) | .children[]' | \
+jq -c '.children[] | '"$selector" | \
 while IFS= read -r chapter; do
   i=$((i+1))
   title="$(jq -r <<< "$chapter" .title | trim)"
@@ -29,7 +31,7 @@ while IFS= read -r chapter; do
   if [ "$end" != 'N' ] ; then
     end="$((end-1))"
   fi
-  ii="$(printf %02d "$i")"
+  ii="$(printf %03d "$i")"
   echo "${begin}-${end}" "${ii} ${title}" | tee --append "$args"
 done
 

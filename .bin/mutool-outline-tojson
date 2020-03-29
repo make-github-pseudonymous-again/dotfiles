@@ -11,14 +11,18 @@ root = {
 
 stack = [ root ]
 
-currentlvl = 0
+currentlvl = 1
 
 for line in fileinput.input():
     line = line[:-1]
     parts = line.split('\t')
     title, parameters = parts[-2:]
-    page_s = parameters.split(',')[0] # i.e. #444,-18,622
-    page = int(page_s[1:]) # remove the `#` before the page number
+    title = title[1:-1] # remove surrounding `"`'s
+    if parameters == '(null)':
+        page = None
+    else:
+        page_s = parameters.split(',')[0] # i.e. #444,-18,622
+        page = int(page_s[1:]) # remove the `#` before the page number
     lvl = len(parts) - 2
     if lvl == currentlvl + 1: # should check for error here
         stack.append(stack[-1]['children'][-1])
