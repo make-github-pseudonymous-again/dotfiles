@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+if [ "$#" -eq 0 ] ; then
+  pkg-parse
+else
+  for uri in "$@" ; do
+    if [ "${uri:0:4}" = http ] ; then
+      curl -L "$uri" | pkg-parse
+    else
+      pkg-parse "$uri"
+    fi
+  done
+fi | sort -u

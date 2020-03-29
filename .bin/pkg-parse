@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+sed -e 's/\s*#.*$//g' -e '/^$/d' "$@"
