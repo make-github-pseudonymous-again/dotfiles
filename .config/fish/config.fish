@@ -18,6 +18,8 @@ function fish_vi_cursor; end
 
 if status --is-login
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-		exec startx -- -keeptty
+		if command -v startx
+			exec startx -- -keeptty
+		end
 	end
 end

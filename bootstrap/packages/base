@@ -20,22 +20,13 @@ pacman-contrib # rankmirrors
 util-linux # wipefs, rfkill
 chezmoi # dotfiles sync
 
-xorg-server
-xorg-xinit
-i3-wm
-i3lock
-i3status
-terminator
-xterm
 fish
 ranger
 exa
-xorg-xrandr
-xorg-xsetroot
 alsa-utils
 pulseaudio
 pulseaudio-alsa
-pavucontrol
+pulsemixer
 cups
 gtk3-print-backends
 

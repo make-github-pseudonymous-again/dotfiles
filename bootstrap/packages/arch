@@ -1,31 +1,20 @@
-# Fonts
-ttf-dejavu
-powerline-fonts
-noto-fonts-emoji # emojis
-otf-font-awesome
-
-# X
-xorg-xkill
-xsel
-xclip
-xorg-xwininfo
-xorg-xprop
-xorg-xev
-
 # Notifications
-xorg-xrdb
-inotify-tools
 libnotify
-dunst
 
-# Main apps
+# Terminal command completion
 bash-completion
-gvim
-firefox
+
+# Headless browser
 chromium
-evince
-mupdf
+
+# Text editor
+gvim # with graphical version included + lots of additional flags w.r.t. vim
+
+# PDF manipulation
 mupdf-tools
+
+# System Information
+screenfetch
 
 # Compilers and package managers
 nodejs
@@ -56,7 +45,6 @@ python-google-auth-httplib2
 python-google-api-python-client
 python-keyring
 python-urwid
-python-xlib
 python-feedparser
 python-aiohttp
 autopep8
@@ -103,9 +91,6 @@ gnome-keyring
 libsecret
 seahorse
 
-# Typing training
-klavaro
-
 # RSS
 # i newsbeuter # does not exist anymore
 
@@ -132,16 +117,11 @@ thunar
 exfat-utils
 
 # Image manipulation
-scrot
-screenfetch
 libjpeg-turbo
 gifsicle
 optipng
-feh
-eog
 imagemagick
 fbida
-viewnior
 
 # Bibliography
 pandoc-citeproc # pandoc-citeproc --bib2yaml ...
@@ -181,6 +161,7 @@ unrtf
 imagemagick
 
 # File system
+inotify-tools
 rclone
 bat
 
