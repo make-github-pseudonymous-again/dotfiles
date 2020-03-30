@@ -40,6 +40,7 @@ notes-git
 the_silver_searcher
 ack
 nerd-fonts-complete # this package is way too big
+pygtk # unmaintained
 
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
