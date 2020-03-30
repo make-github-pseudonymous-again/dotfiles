@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+calc "$1" + "$2"

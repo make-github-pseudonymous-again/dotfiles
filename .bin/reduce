@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+fn="$1"
+init="${2:-0}"
+current="$init"
+
+while IFS="" read -r line || [ -n "$line" ] ; do
+  current="$($fn "$current" "$line")"
+done
+
+printf '%s\n' "$current"
