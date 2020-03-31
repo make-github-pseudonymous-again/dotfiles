@@ -196,3 +196,6 @@ abbr pxy ssh -N -D
 
 # covid19
 abbr co 'curl -s https://corona-stats.online | html-select pre | html-format text | less'
+
+# network
+abbr ports nmap -Pn
