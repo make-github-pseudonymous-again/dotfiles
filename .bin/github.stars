@@ -7,77 +7,19 @@
 
 import sys
 import json
-import re
-import urllib.request
-import subprocess
 from functools import reduce
-
-# from https://github.com/kennethreitz/requests
-def parse_header_links(value):
-    """Return a dict of parsed link headers proxies.
-    i.e. Link: <http:/.../front.jpeg>; rel=front; type="image/jpeg",<http://.../back.jpeg>; rel=back;type="image/jpeg"
-    :rtype: list
-    """
-
-    replace_chars = ' \'"'
-
-    for val in re.split(', *<', value):
-        try:
-            url, params = val.split(';', 1)
-        except ValueError:
-            url, params = val, ''
-
-        link = {'url': url.strip('<> \'"')}
-
-        for param in params.split(';'):
-            try:
-                key, value = param.split('=')
-            except ValueError:
-                break
-
-            link[key.strip(replace_chars)] = value.strip(replace_chars)
-
-        yield link
-
-def next_url ( info ) :
-    header = dict(info)
-    header_link = header['Link']
-    header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
-    return header_link_next['url']
-
-def pages ( opener , url ) :
-
-    while True:
-
-        with opener.open(url) as connection:
-            data = connection.read()
-            info = connection.info()
-            yield data
-
-        try:
-            url = next_url(info)
-        except KeyError:
-            break
-        except StopIteration:
-            break
+import github
 
 if len(sys.argv) < 2:
     sys.exit(1)
 
 user = sys.argv[1]
 
-stars = 0
-
-
-github_api = 'api.github.com'
-
-first_page = 'https://{api}/users/{user}/repos?per_page=100'.format(api=github_api, user=user)
+first_page = github.api('/users/{user}/repos?per_page=100', user=user)
 
 stars = 0
 
-opener = urllib.request.build_opener()
-
-for page in pages(opener, first_page):
+for page in github.pages(first_page):
     stars = reduce(lambda x, y: x + y['stargazers_count'], json.loads(page), stars)
 
 print(stars)

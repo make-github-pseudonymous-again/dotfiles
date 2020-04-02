@@ -7,69 +7,9 @@
 
 import sys
 import json
-import re
-import urllib.request
 import subprocess
 import base64
-from functools import reduce
-
-# from https://github.com/kennethreitz/requests
-def parse_header_links(value):
-    """Return a dict of parsed link headers proxies.
-    i.e. Link: <http:/.../front.jpeg>; rel=front; type="image/jpeg",<http://.../back.jpeg>; rel=back;type="image/jpeg"
-    :rtype: list
-    """
-
-    replace_chars = ' \'"'
-
-    for val in re.split(', *<', value):
-        try:
-            url, params = val.split(';', 1)
-        except ValueError:
-            url, params = val, ''
-
-        link = {'url': url.strip('<> \'"')}
-
-        for param in params.split(';'):
-            try:
-                key, value = param.split('=')
-            except ValueError:
-                break
-
-            link[key.strip(replace_chars)] = value.strip(replace_chars)
-
-        yield link
-
-def next_url ( info ) :
-    header = dict(info)
-    header_link = header['Link']
-    header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
-    return header_link_next['url']
-
-def pages ( url , credentials = None ) :
-
-    while True:
-
-        req = urllib.request.Request(url)
-        if credentials is not None:
-            req.add_header('Authorization', 'Basic %s' % credentials)
-
-        with urllib.request.urlopen(req) as connection:
-            data = connection.read()
-            info = connection.info()
-            yield data
-
-        try:
-            url = next_url(info)
-        except KeyError:
-            break
-        except StopIteration:
-            break
-
-github_api = 'api.github.com'
-first_page = 'https://{api}/notifications'.format(api=github_api)
-
-notifications = 0
+import github
 
 try:
 
@@ -92,7 +32,10 @@ credentials = ('%s:%s' % (username, password))
 credentials = base64.b64encode(credentials.encode('ascii'))
 credentials = credentials.decode("ascii")
 
-for page in pages(first_page, credentials=credentials):
+first_page = github.api('/notifications')
+notifications = 0
+
+for page in github.pages(first_page, credentials=credentials):
     notifications += len(json.loads(page))
 
 print(notifications)
