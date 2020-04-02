@@ -32,7 +32,7 @@ def parse_header_links(value):
 
 def next_url ( info ) :
     header = dict(info)
-    header_link = header['Link']
+    header_link = header['link']
     header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
     return header_link_next['url']
 
