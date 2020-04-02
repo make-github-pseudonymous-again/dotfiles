@@ -33,6 +33,7 @@ fisherman-git
 stapler
 xfig
 wpa_actiond
+python-html2text
 python2-keyring
 python2-secretstorage
 python2-xlib
