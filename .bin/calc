@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 result="$(printf -- "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
-if [[ "$result" == *.* ]]; then
+if grep -q '[.]' <<< "$result" ; then
 	# improve the output for decimal numbers
 	printf -- "$result" |
 	sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
