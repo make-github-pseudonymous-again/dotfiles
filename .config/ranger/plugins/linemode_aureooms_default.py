@@ -23,6 +23,7 @@ extensions_multi = (
     (('.conf','.ini'), ''),
     (('.bak',), ''),
     (('.srt',), ''),
+    (('.part'), ''),
 )
 
 
