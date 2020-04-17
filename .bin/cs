@@ -3,13 +3,20 @@
 key="$1"
 
 if [ "$key" = 'ports' ] ; then
+  KIND='wikipedia'
   URL='https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers'
   OPTIONS=''
 elif [ "$key" = 'currencies' ] ; then
+  KIND='wikipedia'
   URL='https://en.wikipedia.org/wiki/List_of_circulating_currencies'
   OPTIONS='--pad-tables'
+elif [ "$key" = 'airports' ] ; then
+  KIND='csv'
+  URL='https://raw.githubusercontent.com/datasets/airport-codes/master/data/airport-codes.csv'
 fi
 
-if [ -n "$URL" ] ; then
+if [ "$KIND" = 'wikipedia' ] ; then
   curl -s -L "$URL" | html-select table.wikitable | html2text --decode-errors replace -b 0 --reference-links $OPTIONS | less -S
+elif [ "$KIND" = 'csv' ] ; then
+  curl -s -L "$URL" | less -S
 fi
