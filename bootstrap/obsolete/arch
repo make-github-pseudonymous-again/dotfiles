@@ -65,3 +65,5 @@ python2-libnacl
 python2-lz4
 python2-matplotlib
 python2-plyvel
+
+electron2 # not used anymore
