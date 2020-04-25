@@ -1,6 +1,10 @@
 " This will have to do until someone writes us a nice syntax file :)
 " vim: set filetype=vim:
 
+"" Disable all default searchurls.
+"" See https://github.com/tridactyl/tridactyl/issues/2306#issuecomment-615798111
+"" Defaults are here https://github.com/tridactyl/tridactyl/blob/master/src/lib/config.ts
+jsb Object.keys(tri.config.get("searchurls")).reduce((prev, u) => prev.then(_ => tri.config.set("searchurls", u, null)), Promise.resolve())
 
 "" Hint chars
 set hintchars hjkasdfgyuopqwertzxcvb
@@ -12,6 +16,8 @@ set hintchars hjkasdfgyuopqwertzxcvb
 set searchurls.g    https://duckduckgo.com/html?q=%s
 " google
 set searchurls.goo  https://www.google.com/search?q=%s
+" google lucky
+set searchurls.gol  https://www.google.com/search?btnI=I'm+Feeling+Lucky&q=%s
 " searx
 set searchurls.srx  https://searx.me/?category_general=on&q=%s
 " qwant
@@ -51,8 +57,12 @@ set searchurls.dblp https://dblp.uni-trier.de/search?q=%s
 " arxiv
 set searchurls.arx  https://arxiv.org/search/?searchtype=all&query=%s
 
-" arch packages
+" arch wiki
 set searchurls.arch https://wiki.archlinux.org/?search=%s
+" gentoo wiki
+set searchurls.gentoo https://wiki.gentoo.org/index.php?title=Special%3ASearch&profile=default&fulltext=Search&search=%s
+
+" arch packages
 set searchurls.arcp https://archlinux.org/packages/?q=%s
 " aur packages
 set searchurls.aur  https://aur.archlinux.org/packages/?K=%s
@@ -79,8 +89,12 @@ set searchurls.ipfs https://ipfs.io/ipfs/%s
 
 " wikipedia (in English)
 set searchurls.w    https://en.wikipedia.org/wiki/%s
+" wikipedia search (in English)
+set searchurls.ws   https://en.wikipedia.org/wiki/Special:Search/%s
 " wikipedia (in French)
 set searchurls.wfr  https://fr.wikipedia.org/wiki/%s
+" wikipedia search (in French)
+set searchurls.wsfr https://fr.wikipedia.org/wiki/Special:Search/%s
 
 " English wiktionary
 set searchurls.dict https://en.wiktionary.org/wiki/%s
@@ -109,6 +123,9 @@ set searchurls.ng https://books.google.com/ngrams/graph?content=%s
 
 " insect
 set searchurls.ins https://insect.sh/?q=%s
+
+" twitter
+set searchurls.twt https://twitter.com/search?q=%s
 
 
 "" bindings
