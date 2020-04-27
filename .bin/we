@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+ssh "$@" -t "TERM=xterm screen -x -R -S weechat"
