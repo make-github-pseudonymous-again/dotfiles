@@ -37,6 +37,7 @@ abbr mk make
 abbr jrnl " jrnl"
 abbr log " jrnl -from 1970 | less -r +G"
 abbr bundle "makepkg --printsrcinfo > .SRCINFO"
+abbr irc "weechat -d ~/.config/weechat"
 
 # interpret
 abbr js node
