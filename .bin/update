@@ -42,7 +42,7 @@ function show_help ( ) {
   fi
 }
 
-while getopts "h?acdimnprstuvwxyzCDIMNPRSTUVWXYZ" opt; do
+while getopts "h?acdfimnprstuvwxyzCDFIMNPRSTUVWXYZ" opt; do
     case "$opt" in
     h|\?)
         show_help
