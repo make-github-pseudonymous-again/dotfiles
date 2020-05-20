@@ -22,7 +22,7 @@ npm
 yarn
 grunt-cli
 pypy3
-go-pie
+go
 
 # Python 3 packages
 python-pip
