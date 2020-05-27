@@ -153,6 +153,9 @@ abbr yt 'youtube-viewer'
 # coursera-dl
 abbr cdl 'coursera-dl --download-quizzes --download-notebooks --about --video-resolution 720p'
 
+# http resumable download
+abbr wdl 'wget -c -N --no-if-modified-since'
+
 # thefuck aliases
 # THIS IS WAY TOO SLOW
 # eval $(thefuck --alias fu)
