@@ -124,6 +124,7 @@ optipng
 imagemagick
 fbida
 gifski
+libwebp
 
 # Bibliography
 pandoc-citeproc # pandoc-citeproc --bib2yaml ...
