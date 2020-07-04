@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+pacmd list-sources | \
+grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
+sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
+sed 's/ <.*>//g' | \
+xargs -L 2 echo

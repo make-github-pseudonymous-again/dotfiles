@@ -1,9 +1,6 @@
 #!/usr/bin/env sh
 
-output="$(pacmd list-source-output | \
-grep '^\s*\(index:\|application.name =\|application.process.binary =\) ' | \
-sed 's/^\s*\(index:\|application.name =\|application.process.binary =\) //g' | \
-xargs -L 3 echo | \
+output="$(audio.outputs | \
 dmenu_center --rest -i -t -p 'output' -sb '#F24130' -l 10 | \
 cut -d' ' -f1)"
 
@@ -11,11 +8,7 @@ if [ "$output" = '' ]; then
 	exit 1
 fi
 
-source="$(pacmd list-sources | \
-grep  '^\s*\(\(\* \)\?index:\|device.description =\)' | \
-sed 's/^\s*\(\(\* \)\?index:\|device.description =\) //g' | \
-sed 's/ <.*>//g' | \
-xargs -L 2 echo | \
+source="$(audio.sources | \
 dmenu_center --rest -i -t -p 'source' -sb '#F24130' -l 10 | \
 cut -d' ' -f1)"
 

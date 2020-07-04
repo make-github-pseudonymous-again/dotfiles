@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+pacmd list-sink-inputs | \
+grep '^\s*index: ' | \
+sed 's/^\s*index: //g'

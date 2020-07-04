@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+pacmd list-sink-inputs | \
+grep '^\s*\(index:\|application.name =\|application.process.binary =\) ' | \
+sed 's/^\s*\(index:\|application.name =\|application.process.binary =\) //g' | \
+xargs -L 3 echo
