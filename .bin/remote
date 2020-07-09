@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+ssh -YC "$@" 'x2x -east -to :0'
