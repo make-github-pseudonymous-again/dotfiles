@@ -21,7 +21,6 @@ from __future__ import division
 import os
 import sys
 PATH_MODULES = os.path.expanduser('~/.config/repl/modules')
-print('Loading modules from', PATH_MODULES)
 sys.path.insert(1, PATH_MODULES)
 
 from sympy import *

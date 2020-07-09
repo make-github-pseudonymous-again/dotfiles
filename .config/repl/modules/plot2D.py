@@ -14,9 +14,9 @@ def plot2D ( fns , rangex , ymin = None , ymax = None , hints = (),
         yfmt = '{:.4f}', **kwargs ) :
 
     if not isinstance(fns, (list, tuple)): fns = (fns,)
-    lmbds = list(map(lambda f: lam2D(f,x), fns))
     x, xmin, xmax = rangex
     domain = np.linspace(xmin, xmax, points)
+    lmbds = list(map(lambda f: lam2D(f,x), fns))
 
     plt.figure(figure)
 
