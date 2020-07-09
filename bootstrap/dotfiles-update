@@ -32,7 +32,6 @@ function doIt() {
 		--exclude ".gitmodules" \
 		--exclude "bootstrap/" \
 		--exclude "files/" \
-		--exclude "modules/" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
 		-avhL --no-perms \

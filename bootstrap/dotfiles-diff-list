@@ -7,7 +7,6 @@ rsync \
 	--exclude ".gitmodules" \
 	--exclude "bootstrap/" \
 	--exclude "files/" \
-	--exclude "modules/" \
 	--exclude "README.md" \
 	--exclude "LICENSE" \
 	-avnchL \
