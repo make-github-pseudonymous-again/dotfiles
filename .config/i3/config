@@ -565,6 +565,8 @@ mode "organization" {
 
         #-- bindsym s exec scratchpad; mode "default"
         bindcode 39 exec scratchpad; mode "default"
+        #-- bindsym Shift+S exec draft; mode "default"
+        bindcode Shift+39 exec draft; mode "default"
 
         #-- bindsym Shift+T exec sncb-nmbs; mode "default"
         bindcode Shift+28 exec sncb-nmbs; mode "default"
@@ -883,6 +885,8 @@ for_window [window_role="GtkFileChooserDialog"] floating disable
 
 # FIX disable Ctrl+q (firefox)
 bindsym Ctrl+q exec true
+#bindsym button8 exec terminator
+#bindsym button9 exec terminator
 
 # wallpaper
 exec --no-startup-id ~/.bin/wallpaper.refresh
