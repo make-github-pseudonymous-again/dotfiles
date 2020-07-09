@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+scratchpad "$(mktemp --tmpdir "${USER}-draft.XXXXXXXX")"
