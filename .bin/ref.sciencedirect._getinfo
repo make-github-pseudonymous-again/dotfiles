@@ -22,7 +22,7 @@ for line in fileinput.input() :
     if match :
         doi = match.group(0)
         break
-    match = re.search(r'(?<=<meta name="citation_doi" content=").*?(?=">)',line)
+    match = re.search(r'(?<=<meta name="citation_doi" content=").*?(?=")',line)
     if match :
         doi = match.group(0)
         break
