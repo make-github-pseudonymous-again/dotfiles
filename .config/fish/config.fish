@@ -12,9 +12,11 @@ set fish_greeting
 . ~/.config/fish/exports.fish
 . ~/.config/fish/aliases.fish
 . ~/.config/fish/functions.fish
-. ~/.config/fish/prompt.fish
+#. ~/.config/fish/prompt.fish
+#
+starship init fish | source
 
-function fish_vi_cursor; end
+#function fish_vi_cursor; end
 
 if status --is-login
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
