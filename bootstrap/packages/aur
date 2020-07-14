@@ -14,6 +14,5 @@ fisher
 bfs
 python-bibtexparser
 python-colored
-python-pydub
 python-pypdf2
 python-inotify
