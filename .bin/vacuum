@@ -2,4 +2,16 @@
 
 printf "%s\n%s\n" y n | sudo pacman -Sc
 
+while true ; do
+
+  unrequired="$(pacman -Qdtq)"
+
+  if [ -z "$unrequired" ] ; then
+    break
+  fi
+
+  sudo pacman -R $unrequired
+
+done
+
 sudo journalctl --vacuum-size 50M
