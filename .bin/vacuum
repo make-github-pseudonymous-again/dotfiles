@@ -10,7 +10,7 @@ while true ; do
     break
   fi
 
-  sudo pacman -R $unrequired
+  sudo pacman -R $unrequired --noconfirm
 
 done
 
