@@ -103,8 +103,8 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# Use Git's colored diff when available
-command -v git > /dev/null; and alias diff="git diff --no-index --color-words"
+# diff abbreviation. Use Git's colored diff when available.
+command -v git > /dev/null; and abbr --add dif "git diff --no-index --color-words"; or abbr --add dif "diff"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
