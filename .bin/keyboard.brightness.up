@@ -16,4 +16,4 @@ if [ "$brightness" -gt "$max_brightness" ] ; then
 brightness="$max_brightness"
 fi
 
-echo "$brightness" | sudo /usr/bin/tee "$backlight/brightness"
+sudo /usr/bin/tee "$backlight/brightness" <<< "$brightness"

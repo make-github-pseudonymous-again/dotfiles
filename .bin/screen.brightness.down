@@ -17,4 +17,4 @@ if [ "$brightness" -lt 0 ] ; then
 brightness=0
 fi
 
-echo "$brightness" | sudo /usr/bin/tee "$backlight/brightness"
+sudo /usr/bin/tee "$backlight/brightness" <<< "$brightness"

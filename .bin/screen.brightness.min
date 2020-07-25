@@ -3,4 +3,4 @@
 backlight="$(screen.brightness.handle)"
 if [ "$?" -ne 0 ] ; then exit 1 ; fi
 
-echo 1 | sudo /usr/bin/tee "$backlight/brightness"
+sudo /usr/bin/tee "$backlight/brightness" <<< 1
