@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -e '/sys/class/backlight/gmux_backlight' ] ; then
+  backlight='/sys/class/backlight/gmux_backlight'
+elif [ -e '/sys/class/backlight/intel_backlight' ] ; then
+  backlight='/sys/class/backlight/intel_backlight'
+else
+  exit 1
+fi
+
+echo 1 | sudo /usr/bin/tee "$backlight/brightness"
