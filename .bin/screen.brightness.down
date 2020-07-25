@@ -5,13 +5,8 @@ i="$1"
 s="$2"
 : ${s:=100}
 
-if [ -e '/sys/class/backlight/gmux_backlight' ] ; then
-  backlight='/sys/class/backlight/gmux_backlight'
-elif [ -e '/sys/class/backlight/intel_backlight' ] ; then
-  backlight='/sys/class/backlight/intel_backlight'
-else
-  exit 1
-fi
+backlight="$(screen.brightness.handle)"
+if [ "$?" -ne 0 ] ; then exit 1 ; fi
 
 max_brightness="$(cat "$backlight/max_brightness")"
 actual_brightness="$(cat "$backlight/actual_brightness")"

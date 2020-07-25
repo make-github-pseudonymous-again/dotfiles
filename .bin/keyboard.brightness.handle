@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -e '/sys/class/leds/smc::kbd_backlight' ] ; then
+  echo '/sys/class/leds/smc::kbd_backlight'
+elif [ -e '/sys/class/leds/asus::kbd_backlight' ] ; then
+  echo '/sys/class/leds/asus::kbd_backlight'
+elif [ -e '/sys/class/leds/tpacpi::kbd_backlight' ] ; then
+  echo '/sys/class/leds/tpacpi::kbd_backlight'
+else
+  exit 1
+fi

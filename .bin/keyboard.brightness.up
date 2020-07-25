@@ -3,15 +3,8 @@
 i="$1"
 : ${i:=3}
 
-if [ -e '/sys/class/leds/smc::kbd_backlight' ] ; then
-  backlight='/sys/class/leds/smc::kbd_backlight'
-elif [ -e '/sys/class/leds/asus::kbd_backlight' ] ; then
-  backlight='/sys/class/leds/asus::kbd_backlight'
-elif [ -e '/sys/class/leds/tpacpi::kbd_backlight' ] ; then
-  backlight='/sys/class/leds/tpacpi::kbd_backlight'
-else
-  exit 1
-fi
+backlight="$(keyboard.brightness.handle)"
+if [ "$?" -ne 0 ] ; then exit 1 ; fi
 
 max_brightness="$(cat "$backlight/max_brightness")"
 actual_brightness="$(cat "$backlight/brightness")"
