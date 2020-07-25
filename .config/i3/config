@@ -670,6 +670,10 @@ mode "system" {
         bindcode Shift+25 exec screen.brightness.up 1
         #-- bindsym Shift+A exec screen.brightness.down 1
         bindcode Shift+24 exec screen.brightness.down 1
+        #-- bindsym Ctrl+Shift+Z exec screen.brightness.max
+        bindcode Ctrl+Shift+25 exec screen.brightness.max
+        #-- bindsym Ctrl+Shift+A exec screen.brightness.min
+        bindcode Ctrl+Shift+24 exec screen.brightness.min
 
         # keyboard backlight
         #-- bindsym r exec keyboard.brightness.up 10
@@ -680,6 +684,10 @@ mode "system" {
         bindcode Shift+27 exec keyboard.brightness.up 1
         #-- bindsym Shift+E exec keyboard.brightness.down 1
         bindcode Shift+26 exec keyboard.brightness.down 1
+        #-- bindsym Ctrl+Shift+R exec keyboard.brightness.max
+        bindcode Ctrl+Shift+27 exec keyboard.brightness.max
+        #-- bindsym Ctrl+Shift+E exec keyboard.brightness.min
+        bindcode Ctrl+Shift+26 exec keyboard.brightness.min
 
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
@@ -829,6 +837,10 @@ bindcode 232 exec screen.brightness.down 10
 bindcode Shift+233 exec screen.brightness.up 1
 #-- bindsym Shift+XF86MonBrightnessDown exec screen.brightness.down 1
 bindcode Shift+232 exec screen.brightness.down 1
+#-- bindsym Ctrl+Shift+XF86MonBrightnessUp exec screen.brightness.max
+bindcode Ctrl+Shift+233 exec screen.brightness.max
+#-- bindsym Ctrl+Shift+XF86MonBrightnessDown exec screen.brightness.min
+bindcode Ctrl+Shift+232 exec screen.brightness.min
 
 # keyboard backlight
 #-- bindsym XF86KbdBrightnessUp exec keyboard.brightness.up 10
@@ -839,6 +851,10 @@ bindcode 237 exec keyboard.brightness.down 10
 bindcode Shift+238 exec keyboard.brightness.up 1
 #-- bindsym Shift+XF86KbdBrightnessDown exec keyboard.brightness.down 1
 bindcode Shift+237 exec keyboard.brightness.down 1
+#-- bindsym Ctrl+Shift+XF86KbdBrightnessUp exec keyboard.brightness.max
+bindcode Ctrl+Shift+238 exec keyboard.brightness.max
+#-- bindsym Ctrl+Shift+XF86KbdBrightnessDown exec keyboard.brightness.min
+bindcode Ctrl+Shift+237 exec keyboard.brightness.min
 
 # print screen
 bindsym --release Print exec screenshot.all
