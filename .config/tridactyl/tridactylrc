@@ -187,11 +187,13 @@ js tri.config.set("autocontain", "^https?://([^/]*\\.|)stackoverflow\\.com/", "s
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)stackexchange\\.com/", "se")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)mathoverflow\\.com/", "se")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)mathoverflow\\.net/", "se")
+js tri.config.set("autocontain", "^https?://([^/]*\\.|)superuser\\.com/", "se")
 
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)youtube\\.com/", "yt")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)youtu\\.be/", "yt")
 
-js tri.config.set("autocontain", "^https?://([^/]*\\.|)amazon\\.(com|fr|de)/", "shop")
+js tri.config.set("autocontain", "^https?://([^/]*\\.|)amazon\\.(com|fr|de)/", "amzn")
+js tri.config.set("autocontain", "^https?://([^/]*\\.|)mediamarkt\\.(be)/", "mediamarkt")
 
-js tri.config.set("autocontain", "^https?://([^/]*\\.|)github\\.com/", "dev")
+js tri.config.set("autocontain", "^https?://([^/]*\\.|)github\\.com/", "github")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)indfak2\\.dk/", "barc")
