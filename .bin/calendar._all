@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
-import os
-import traceback
-import hashlib
 import arrow
-import datetime
-import ics
-import json
 import re
 
 REGEX_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
@@ -15,7 +8,11 @@ EXCLUDED_URLS = [
     'https://g.co/calendar',
 ]
 
-log = lambda *x, **y: print(*x, **y, file=sys.stderr)
+from events import _range
+from events import log
+from events import _cache_load_url
+from events import calendars
+from events import FRESH
 
 def _humanize(time, ref):
 
@@ -45,62 +42,6 @@ def _duration(A, B):
         return '1 minute'
 
     return x[3:]
-
-def _range ( now , begin , end ) :
-
-    if end - begin < datetime.timedelta(1) :
-        hour = True
-    elif begin.to('utc').time().minute != end.to('utc').time().minute :
-        hour = True
-    elif begin.to('utc').time().second != end.to('utc').time().second :
-        hour = True
-    elif begin.to('utc').time().hour in [ 22 , 23 , 0 ] and end.to('utc').time().hour in [ 22 , 23 , 0 ] :
-        hour = False
-    else :
-        hour = True
-
-    if hour :
-
-        bf = 'YYYY, MMM DD, HH:mm'
-        if begin.year == now.year:
-            if begin.month == now.month:
-                if begin.day == now.day:
-                    bf = 'HH:mm'
-                else :
-                    bf = 'ddd DD, HH:mm'
-            else:
-                bf = 'MMM DD, HH:mm'
-
-        ef = 'YYYY, MMM DD, HH:mm'
-        if end.year == begin.year:
-            if end.month == begin.month:
-                if end.day == begin.day:
-                    ef = 'HH:mm'
-                else:
-                    ef = 'DD, HH:mm'
-            else:
-                ef = 'MMM DD, HH:mm'
-
-    else :
-
-        bf = 'YYYY, MMM DD'
-        if begin.year == now.year:
-            if begin.month == now.month:
-                if begin.day == now.day:
-                    bf = 'HH:mm'
-                else :
-                    bf = 'ddd DD'
-            else:
-                bf = 'MMM DD'
-
-        ef = 'YYYY, MMM DD'
-        if end - begin < datetime.timedelta(365) :
-            if end.month == begin.month:
-                ef = 'DD'
-            else:
-                ef = 'MMM DD'
-
-    return begin.format( bf ) + ' - ' + end.format( ef )
 
 
 def _shortduration(A, B):
@@ -163,54 +104,14 @@ def _icon(event):
         return icons[event]
 
 
-
-CACHE = os.path.expanduser('~/.cache/calendar/fresh/{}')
-CALENDARS = os.path.expanduser('~/.config/calendar/config')
-
-with open(CALENDARS, 'r') as fd:
-
-    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
-
-calendar = ics.Calendar()
-
-allevents = calendar.events
+allevents = set()
 icons = {}
 
-for _calendar in _calendars:
-
-    url = _calendar['url']
-
-    h = hashlib.sha1(url.encode()).hexdigest()
-
-    filename = CACHE.format(h)
-
-    log('loading {} from {}'.format(url, filename))
-
-    try:
-
-        with open(filename, 'rb') as fd:
-
-            data = fd.read()
-            text = data.decode()
-
-            calendar = ics.Calendar(text)
-
-            for event in calendar.events:
-                allevents.add(event)
-                icons[event] = _calendar['icon']
-
-    except ics.grammar.parse.ParseError as err:
-
-        log('Error parsing file: {}'.format(url))
-        log(err)
-        traceback.print_tb(err.__traceback__, file=sys.stderr)
-
-    except FileNotFoundError as err:
-
-        log('Error reading cache for: {}'.format(url))
-        log(err)
-        traceback.print_tb(err.__traceback__, file=sys.stderr)
-
+for _calendar in calendars():
+    calendar_events = _cache_load_url(FRESH, _calendar['url'])
+    allevents.update(calendar_events)
+    for event in calendar_events:
+        icons[event] = _calendar['icon']
 
 now = arrow.now()
 today = now.floor('day')

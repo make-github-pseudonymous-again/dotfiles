@@ -1,69 +1,35 @@
 #!/usr/bin/env python3
 
-import sys
-import os.path
-import traceback
-import hashlib
-import urllib.request
-import urllib.error
+import os
 import arrow
 import ics
-import json
 
-log = lambda *x, **y: print(*x, **y, file=sys.stderr)
-
-CACHE = os.path.expanduser('~/.cache/calendar/{}')
-FRESH = os.path.expanduser('~/.cache/calendar/fresh/{}')
-CALENDARS = os.path.expanduser('~/.config/calendar/config')
+from events import log
+from events import _cache_load_url
+from events import calendars
+from events import FRESH
+from events import CACHE
+from events import url_hash
 
 try:
     os.makedirs(FRESH.format(''))
 except:
     pass
 
-with open(CALENDARS, 'r') as fd:
-
-    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
-
 now = arrow.now()
 
-for _calendar in _calendars:
-
+for _calendar in calendars():
     url = _calendar['url']
+    h = url_hash(url)
+    calendar_events = _cache_load_url(CACHE, url)
 
-    h = hashlib.sha1(url.encode()).hexdigest()
+    calendar = ics.Calendar()
+    calendar.events.update(filter(lambda x: x.end >= now, calendar_events))
 
-    cachefilename = CACHE.format(h)
+    freshfilename = FRESH.format(h)
 
-    log('loading {} from {}'.format(url, cachefilename))
+    log('writing {} to {}'.format(url, freshfilename))
 
-    try:
+    with open(freshfilename, 'w') as fd:
 
-        with open(cachefilename, 'rb') as fd:
-
-            data = fd.read()
-            text = data.decode()
-
-        calendar = ics.Calendar(text)
-
-        calendar.events = set(filter(lambda x: x.end >= now, calendar.events))
-
-        freshfilename = FRESH.format(h)
-
-        log('writing {} to {}'.format(url, freshfilename))
-
-        with open(freshfilename, 'w') as fd:
-
-            fd.writelines(calendar)
-
-    except ics.grammar.parse.ParseError as err:
-
-        log('Error parsing file: {}'.format(url))
-        log(err)
-        traceback.print_tb(err.__traceback__, file=sys.stderr)
-
-    except FileNotFoundError as err:
-
-        log('Error reading file for {}'.format(url))
-        log(err)
-        traceback.print_tb(err.__traceback__, file=sys.stderr)
+        fd.writelines(calendar)

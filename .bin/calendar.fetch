@@ -10,34 +10,18 @@ import arrow
 import ics
 import json
 
-log = lambda *x, **y: print(*x, **y, file=sys.stderr)
-
-CACHE = os.path.expanduser('~/.cache/calendar/{}')
-CALENDARS = os.path.expanduser('~/.config/calendar/config')
+from events import log
+from events import CACHE
+from events import calendars
+from events import url_hash
+from events import dropalarms
 
 try:
     os.makedirs(CACHE.format(''))
 except:
     pass
 
-with open(CALENDARS, 'r') as fd:
-
-    _calendars = list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
-
-def _match(it, text):
-    for line in it:
-        if line == text : break
-
-def _dropalarms(string):
-    it = iter(string.splitlines())
-    for line in it:
-        if line == 'BEGIN:VALARM' : _match(it, 'END:VALARM')
-        else: yield line
-
-def dropalarms(string):
-    return '\n'.join(_dropalarms(string))
-
-for _calendar in _calendars:
+for _calendar in calendars():
 
     url = _calendar['url']
 
@@ -60,7 +44,7 @@ for _calendar in _calendars:
         text = dropalarms(text)
         calendar = ics.Calendar(text)
 
-        h = hashlib.sha1(url.encode()).hexdigest()
+        h = url_hash(url)
         filename = CACHE.format(h)
 
         log('writing {} to {}'.format(url, filename))
