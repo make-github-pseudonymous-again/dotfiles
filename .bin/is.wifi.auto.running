@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-ps -xa | grep '[n]etctl/auto.action$' 1>/dev/null
+#!/usr/bin/env dash
+ps -u root -o command | grep -q '[n]etctl/auto.action$'
 #interface="$(wifi.chips.default)"
 #systemctl | \
 #grep 'netctl-auto@'"$interface" | \

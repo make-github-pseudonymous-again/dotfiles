@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 iface="$(ip route | head -n1 | cut -d' ' -f5)"
 
@@ -7,7 +7,7 @@ if [ -n "${iface}" ] ; then
 	if [ -f "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second" ] ; then
 		rxs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/rx/bytes_per_second")"
 		txs="$(cat "/tmp/${USER}-ip.link.stat.cache/${iface}/tx/bytes_per_second")"
-		if [ "$txs" -ge 0 -a "$rxs" -ge 0 ] ; then
+		if [ "$txs" -ge 0 ] && [ "$rxs" -ge 0 ] ; then
 			frxs="$(format.human.bytes_per_second "$rxs")"
 			ftxs="$(format.human.bytes_per_second "$txs")"
 			printf "%s\n" "$iface  $ftxs  $frxs"

@@ -1,19 +1,18 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 # skip version
-read line || exit 1
-echo "$line"
+read -r line || exit 1
+printf "%s\n" "$line"
 
 # skip opening bracket
-read line || exit 1
-echo "$line"
+read -r line || exit 1
+printf "%s\n" "$line"
 
-read line || exit 1
-echo "$(echo "$line" | i3.status.customize_line.extra)"
+read -r line || exit 1
+printf "%s\n" "$(printf "%s\n" "$line" | i3.status.customize_line.extra)"
 
 while :
 do
-	read line || exit 1
-	line="${line:1:${#line}-1}"
-	echo ",$(echo "$line" | i3.status.customize_line.extra)"
+	read -r line || exit 1
+	printf ",%s\n" "$(printf "%s" "$line" | tail -c+2 | i3.status.customize_line.extra)"
 done

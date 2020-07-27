@@ -1,16 +1,15 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 value="$1"
-units="$(echo -e "B/s\nKB/s\nMB/s")"
-last="GB/s"
+last="GB"
 
-while read -r unit; do
+for unit in B KB MB ; do
   if [ "$value" -lt 10000 ] ; then
-    printf '%s %s\n' "$value" "$unit"
+    printf '%s %s/s\n' "$value" "$unit"
     exit
   else
-    value="$(($value/1000))"
+    value="$((value/1000))"
   fi
-done <<< "$units"
+done
 
-printf '%s %s\n' "$value" "$last"
+printf '%s %s/s\n' "$value" "$last"

@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-ps -xa | grep '[r]un/netctl/wpa_supplicant-wlp' 1>/dev/null
+#!/usr/bin/env dash
+ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-wlp'
 #interface="$(wifi.chips.default)"
 #systemctl | \
 #grep 'netctl\(\|-auto\)@'"$interface" | \

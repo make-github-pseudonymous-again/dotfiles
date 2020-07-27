@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-if [ "$(acpi -b)" == "" ] ; then
+#!/usr/bin/env dash
+if [ "$(acpi -b)" = "" ] ; then
 	exit 1
 else
 	exit 0

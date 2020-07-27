@@ -1,6 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
-read line || exit 1
+read -r line || exit 1
 
 PREPEND_INIT='{}'
 APPEND_INIT='{}'
@@ -9,8 +9,8 @@ prepend="$PREPEND_INIT"
 append="$APPEND_INIT"
 
 #urlab_data="$(memoize-get 1800 urlab.fetch)"
-#urlab_open="$(echo "$urlab_data" | head -1)"
-#urlab_people="$(echo "$urlab_data" | tail -1)"
+#urlab_open="$(printf "%s\n" "$urlab_data" | head -1)"
+#urlab_people="$(printf "%s\n" "$urlab_data" | tail -1)"
 #if [ "$urlab_open" = 'true' ] ; then
 #	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
 #fi
@@ -83,8 +83,8 @@ fi
 #fi
 
 geolocation="$(memoize-get 900 geolocation.fetch)"
-geolocationtag="$(jq <<< "$geolocation" -r '.tag')"
-geolocationtype="$(jq <<< "$geolocation" -r '.type')"
+geolocationtag="$(printf "%s\n" "$geolocation" | jq -r '.tag')"
+geolocationtype="$(printf "%s\n" "$geolocation" | jq -r '.type')"
 if [ "$geolocationtag" = '?' ]; then
 	geolocationtag="? ($(memoize-get 900 geolocation.fetch | jq -r '.ipgeolocation.city'))"
 fi
@@ -129,8 +129,8 @@ append='{"name":"timezone","color":"#FFFFFF","full_text":" '"$tz"'"},'"$appen
 
 if [ "$prepend" != "$PREPEND_INIT" ] || [ "$append" != "$APPEND_INIT" ] ; then
 	blob='{ "a" : ['"$prepend"'] , "b" : '"$line"' , "c" : ['"$append"']}'
-	line=$(echo "$blob" | jq -Mc '.a[:-1] + .b + .c[:-1]')
+	line=$(printf "%s\n" "$blob" | jq -Mc '.a[:-1] + .b + .c[:-1]')
 fi
 
 
-echo "$line"
+printf "%s\n" "$line"

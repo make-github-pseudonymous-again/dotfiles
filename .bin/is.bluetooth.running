@@ -1,2 +1,2 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 systemctl status bluetooth.service | grep running 1>/dev/null

@@ -14,7 +14,7 @@
 #     http://stedolan.github.io/jq/
 #
 
-if [ -z ${SLACK_API_TOKEN} ] ; then
+if [ -z "$SLACK_API_TOKEN" ] ; then
     exit 1
 fi
 

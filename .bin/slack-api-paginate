@@ -43,8 +43,8 @@ while true ; do
     # if [ "$?" -ne 0 ] ; then ... ; fi
     # ok="$(<<< "$response" jq -r '.ok')"
     # if [ "$ok" != 'true' ] ; then ... ; fi
-    <<< "$response" jq -c ".${KEY}[]"
-    next_cursor="$(<<< "$response" jq -r '.response_metadata.next_cursor? // ""')"
+    printf '%s' "$response" | jq -c ".${KEY}[]"
+    next_cursor="$(printf '%s' "$response" | jq -r '.response_metadata.next_cursor? // ""')"
     if [ -z "$next_cursor" ] ; then break ; fi
     cursor="&cursor=${next_cursor}"
 done

@@ -1,20 +1,20 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 color_good="#85bd85"
 color_degraded="#C5E946"
 color_bad="#CF4647"
 
-failures1=$(cat "$HOME/".cache/memoize/*/R | grep '^[1-9]' | wc -l)
+failures1=$(cat "$HOME/".cache/memoize/*/R | grep -c '^[1-9]')
 failures2=$(systemctl --user show | grep '^NFailedUnits=' | cut -d '=' -f2)
 
 >&2 echo "memoize failures: $failures1"
 >&2 echo "systemctl failures: $failures2"
 
-failures=`expr $failures1 + $failures2`
+failures=$((failures1 + failures2))
 
-if test $failures -ge 3; then
+if test "$failures" -ge 3; then
 	color="$color_bad"
-elif test $failures -ge 1; then
+elif test "$failures" -ge 1; then
 	color="$color_degraded"
 else
 	color="$color_good"

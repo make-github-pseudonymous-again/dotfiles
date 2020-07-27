@@ -1,6 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
-read line || exit 1
+read -r line || exit 1
 
 PREPEND_INIT=''
 EXECUTE_INIT='.'
@@ -17,9 +17,10 @@ if [ -n "${linkspeed_string}" ] ; then
 	prepend='{"name":"linkspeed","color":"#CC2A41","full_text":"'"$linkspeed_string"'"},'"$prepend"
 fi
 
-if ! is.wifi.running ; then
+wifi_status="$(wifi.status)"
+if [ "$wifi_status" = disabled ] ; then
 	execute="$execute"'| map( select( .name != "wireless" ) )'
-elif is.wifi.auto.running ; then
+elif [ "$wifi_status" = auto ] ; then
 	execute="$execute"'| map( if .name == "wireless" then .full_text = " " + .full_text else . end )'
 fi
 
@@ -88,11 +89,11 @@ execute="$execute"'| map(select(.name == "tztime").color |= "#EDD599" )'
 
 
 if  [ "$execute" != "$EXECUTE_INIT" ] ; then
-	line="$(echo "$line" | jq -cM "$execute")"
+	line="$(printf "%s\n" "$line" | jq -cM "$execute")"
 fi
 
 if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line="[""$(echo "$prepend")""$(echo "$line" | tail -c +2)"
+	line="[${prepend}$(printf "%s\n" "$line" | tail -c +2)"
 fi
 
-echo "$line"
+printf "%s\n" "$line"

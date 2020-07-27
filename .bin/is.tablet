@@ -1,2 +1,2 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 systemctl --user status tablet.target | grep '\sactive\s' 1>/dev/null
