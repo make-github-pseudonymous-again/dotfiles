@@ -4,85 +4,19 @@ import sys
 import arrow
 import json
 
-from events import _range
-from events import log
 from events import load
 from events import calendars
 from events import FRESH
+from events import main
+from events import event_to_i3_status_object
 
 calendar = load(calendars(), cache = FRESH)
 
 try:
 
     now = arrow.now()
-
-    _fresh = list(filter(lambda x: x.end >= now, calendar.events))
-    _future = filter(lambda x: x.begin >= now, _fresh)
-    _happening = filter(lambda x: x.begin < now, _fresh)
-    _current = min(_happening, key=lambda x: x.end, default=None)
-    _next = min(_future, key=lambda x: x.begin, default=None)
-
-    if _current is None:
-
-        if _next is None:
-
-            raise ValueError('no main event')
-
-        else:
-
-            _main = _next
-
-    else:
-
-        _main = _current if _next is None or _next.begin >= _current.end else _next
-
-    event = _main
-
-    name = event.name
-    location = event.location
-    short_location = location.split(',')[0] if location else None
-    begin = event.begin.to('local')
-    end = event.end.to('local')
-
-    # event format
-    ef = '{name}'
-    if location and location not in name:
-        ef += ' ( {location})'
-
-    if begin < now:
-        ef += ' - (started {hbegin}, ends {hend})'
-    else:
-        ef += ' - {range} ({hbegin})'
-
-    full_text = ef.format(
-        range = _range( now , begin , end ) ,
-        hbegin = begin.humanize(),
-        hend = end.humanize( ) ,
-        name = name,
-        location = location
-    )
-
-    full_text = full_text.replace('\r', '')
-    full_text = full_text.replace('\n', ' ')
-
-    short_text = ef.format(
-        range = _range( now , begin , end ) ,
-        hbegin = begin.humanize(),
-        hend = end.humanize( ) ,
-        name = (name[:47] + '..') if len(name) > 49 else name,
-        location = short_location
-    )
-
-    short_text = short_text.replace('\r', '')
-    short_text = short_text.replace('\n', ' ')
-
-    output = {
-        "name":"calendar",
-        "color":"#A7C5BD",
-        "full_text":" {}".format(full_text),
-        "short_text":" {}".format(short_text)
-    }
-
+    event = main(now, calendar.events)
+    output = event_to_i3_status_object(now, event)
     json.dump( output , sys.stdout )
 
 except ValueError:
