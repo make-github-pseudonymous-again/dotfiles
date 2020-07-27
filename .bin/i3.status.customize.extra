@@ -14,5 +14,5 @@ printf "%s\n" "$(printf "%s\n" "$line" | i3.status.customize_line.extra)"
 while :
 do
 	read -r line || exit 1
-	printf ",%s\n" "$(printf "%s" "$line" | tail -c+2 | i3.status.customize_line.extra)"
+	printf ",%s\n" "$(printf "%s\n" "$line" | tail -c+2 | i3.status.customize_line.extra)"
 done
