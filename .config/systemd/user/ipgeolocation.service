@@ -5,4 +5,4 @@ Description=IP Geolocation updates service
 Type=simple
 Restart=on-failure
 RestartSec=100
-ExecStart=/usr/bin/sh memoize-ft 0 ipgeolocation.fetch
+ExecStart=/usr/bin/env memoize-ft 0 ipgeolocation.fetch

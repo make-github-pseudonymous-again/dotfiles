@@ -5,4 +5,4 @@ Description=Github stars service
 Type=simple
 Restart=on-failure
 RestartSec=300
-ExecStart=/usr/bin/sh memoize-ft 0 github.my.stars
+ExecStart=/usr/bin/env memoize-ft 0 github.my.stars

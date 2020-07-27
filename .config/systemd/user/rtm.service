@@ -5,4 +5,4 @@ Description=RTM updates service
 Type=simple
 Restart=on-failure
 RestartSec=10
-ExecStart=/usr/bin/sh memoize-ft 0 rtm.fetch
+ExecStart=/usr/bin/env memoize-ft 0 rtm.fetch
