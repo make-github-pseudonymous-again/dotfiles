@@ -1,17 +1,13 @@
 #!/usr/bin/env sh
 
 _running="$(uname -r)"
-_lts="$(<<< "$_running" grep '\-\lts$' -o)"
+_lts="$(printf '%s' "$_running" | grep '\-\lts$' -o)"
 _installed="$(pacman -Q linux"$_lts")"
 
-running="$(<<< "${_running}" tr '.-' ':' | sed 's/:arch/:/')"
-installed="$(<<< "${_installed}${_lts}" cut -d' ' -f2 | tr '.-' ':' | sed 's/:arch/:/')"
+running="$(printf '%s' "${_running}" | tr '.-' ':' | sed 's/:arch/:/')"
+installed="$(printf '%s' "${_installed}${_lts}" | cut -d' ' -f2 | tr '.-' ':' | sed 's/:arch/:/')"
 
->&2 echo "running=$running"
->&2 echo "installed=$installed"
+>&2 printf 'running=%s\n' "$running"
+>&2 printf 'installed=%s\n' "$installed"
 
-if [ "$running" != "$installed" ] ; then
-	exit 0
-else
-	exit 1
-fi
+test "$running" != "$installed"

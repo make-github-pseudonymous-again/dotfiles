@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 if [ "$#" -lt 2 ] ; then
-  >&2 echo "Not enough arguments."
-  >&2 echo "Syntax is: $0 <root> <dst> [...<additional rsync args>]"
+  >&2 printf '%s\n' "Not enough arguments."
+  >&2 printf '%s\n' "Syntax is: $0 <root> <dst> [...<additional rsync args>]"
   exit 1
 fi
 
@@ -10,38 +10,38 @@ root="$1" && shift
 dst="$1" && shift
 src='.'
 
-echo 'Params'
-echo " root:" "$root"
-echo "  dst:" "$dst"
-echo "rsync:" "$@"
-echo '==============='
+printf '%s\n' 'Params'
+printf ' root: %s\n' "$root"
+printf '  dst: %s\n' "$dst"
+printf 'rsync: %s\n' "$*"
+printf '%s\n' '==============='
 
-echo -n 'Generating file list...'
+printf '%s' 'Generating file list...'
 
 DANGLING="$(mktemp --tmpdir "${USER}-dangling-backup-list.XXXXXXXX")"
 
 #dangling -z -c -1 | tr '\0\n' '\n\0' | rev | cut -d' ' -f2- | rev | tr '\0\n' '\n\0' > "$DANGLING"
 dangling -z -r "$root" -c -1 | sed -z 's/.\{2\}$//' > "$DANGLING"
 
-echo ' DONE'
-echo '==============='
+printf '%s\n' ' DONE'
+printf '%s\n' '==============='
 
 n="$(< "$DANGLING" tr '\0\n' '\n\0' | wc -l)"
 
-echo 'Number of files'
-echo "$n"
-echo '==============='
+printf '%s\n' 'Number of files'
+printf '%s\n' "$n"
+printf '%s\n' '==============='
 
 human_size="$(du --files0-from "$DANGLING" -ch | tail -1 | cut -f1)"
 
-echo 'Storage'
-echo "$human_size"
-echo '==============='
+printf '%s\n' 'Storage'
+printf '%s\n' "$human_size"
+printf '%s\n' '==============='
 
-echo 'Overview'
+printf '%s\n' 'Overview'
 < "$DANGLING" tr '\0\n' '\n\0' | head -5
-echo '...'
-echo '==============='
+printf '%s\n' '...'
+printf '%s\n' '==============='
 
 if ask "Backup ${n} files (${human_size}) from '${src}' to '${dst}'?" ; then
   set -x

@@ -10,9 +10,8 @@ for FILE in "$@"; do
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
 	ID="${BASENAME%.pdf}"
-	METADATA=$(ref.arxiv.get "$ID")
 
-	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
+	if ! METADATA=$(ref.arxiv.get "$ID") || [ "$METADATA" = "" ] ; then
 		echo 'failed to retrieve metadata for '"$ID" >&2
 		continue
 	fi

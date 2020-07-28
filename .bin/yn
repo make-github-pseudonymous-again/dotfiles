@@ -1,8 +1,6 @@
 #!/usr/bin/env sh
 
-"$@"
-
-if [ "$?" -eq 0 ] ; then
+if "$@" ; then
 	echo yes
 else
 	echo no

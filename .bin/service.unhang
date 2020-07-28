@@ -20,7 +20,7 @@ LASTTIME=$(echo "$LASTEVENT" | jq -r '.__REALTIME_TIMESTAMP')
 
 NOW=$(date +%s%6N)
 
-DELTA="$(($NOW - $LASTTIME))"
+DELTA="$((NOW - LASTTIME))"
 WAIT=900000000
 if [ "$DELTA" -gt "$WAIT" ] ; then
 	>&2 echo "Last event for '$UNIT' is older than $WAIT microseconds. Restarting..."

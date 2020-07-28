@@ -10,6 +10,7 @@ for output in "$@" ; do
   switchoff="${switchoff} --output ${output} --off"
 done
 
+# shellcheck disable=SC2086
 xrandr.apply \
   --fb 0x0 --output "$primary" --primary --auto --panning 0x0+0+0 \
   --output "$secondary" --auto "$side" "$primary" \

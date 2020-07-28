@@ -13,8 +13,10 @@ for output in "$@" ; do
   previous="$output"
 done
 
+# shellcheck disable=SC2046
 switchoff="$(xrandr.args.off $(xrandr.list.connected | xrandr.filter.not "$primary" "$@"))"
 
+# shellcheck disable=SC2086
 xrandr.apply \
   --fb 0x0 --output "$primary" --primary --auto --panning 0x0+0+0 \
   $secondary \

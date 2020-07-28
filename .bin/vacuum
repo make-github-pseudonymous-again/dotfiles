@@ -10,6 +10,7 @@ while true ; do
     break
   fi
 
+  # shellcheck disable=SC2086
   sudo pacman -R $unrequired --noconfirm
 
 done

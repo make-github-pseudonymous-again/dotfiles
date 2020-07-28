@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # from https://unix.stackexchange.com/a/125702/33933
 
-search="$(sed.escape.search <<< "$1")" && shift
-replace="$(sed.escape.replace <<< "$1")" && shift
+search="$(printf '%s' "$1" | sed.escape.search)" && shift
+replace="$(printf '%s' "$1" | sed.escape.replace)" && shift
 
 sed "s/${search}/${replace}/g" "$@"

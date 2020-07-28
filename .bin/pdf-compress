@@ -27,4 +27,5 @@ compression="$1" && shift
 dflt_options='-dSAFER -q'
 device='pdfwrite'
 
+# shellcheck disable=SC2086
 gs "-sDEVICE=${device}" "-dPDFSETTINGS=/${compression}" ${dflt_options} "$@"

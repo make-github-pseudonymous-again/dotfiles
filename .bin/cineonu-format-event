@@ -2,11 +2,11 @@
 
 METADATA="$1"
 
-function k ( ) {
+k() {
 	key="$1"
-	value="$(jq -r <<< "$METADATA" ."$key")"
+	value="$(printf '%s' "$METADATA" | jq -r ."$key")"
 	if [ "$value" != 'null' ] ; then
-		echo "${key}: ${value}"
+		printf '%s: %s\n' "$key" "$value"
 	fi
 }
 
@@ -24,8 +24,7 @@ k facebook
 k eventbrite
 k bozar
 
-echo
-echo "Description"
-echo "=="
-echo
-jq -r <<< "$METADATA" .description
+printf '\n%s\n' Description
+printf '%s\n\n' '=='
+
+printf '%s' "$METADATA" | jq -r .description

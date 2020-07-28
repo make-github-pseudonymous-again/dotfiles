@@ -7,7 +7,7 @@ if [ "$1" = "--now" ] ; then
 	shift
 fi
 
-args="$@"
+args="$*"
 escaped_args="$(systemd-escape -- "$args")"
 
 if [ -z "$escaped_args" ] ; then

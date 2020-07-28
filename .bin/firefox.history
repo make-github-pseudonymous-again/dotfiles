@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
-profile='default'
-src="$(ls "${HOME}/.mozilla/firefox/"*".${profile}/places.sqlite" | head -1)"
-if [ "$src" = '' ] ; then
-	exit 2
-fi
+profile="${1:-default}"
+profile_dir="$(firefox.profile "$profile")"
+if [ -z "$profile_dir" ] ; then exit 2 ; fi
+
+src="${profile_dir}/places.sqlite"
 db="$(mktemp --tmpdir "${USER}-firefox.history-places.XXXXXXXX.sqlite")"
 cp "$src" "$db"
 
@@ -19,4 +19,4 @@ if [ "$url" = '' ] ; then
 	exit 1
 fi
 
-firefox -p "$profile" --new-window $( echo "$url" | rev | cut -d ' ' -f 1 | rev )
+firefox -p "$profile" --new-window "$(printf '%s\n' "$url" | rev | cut -d ' ' -f 1 | rev)"

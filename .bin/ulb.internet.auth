@@ -5,7 +5,7 @@ URL='https://'"$IP"'/web_auth/index.html'
 #POST='curl --insecure --data'
 POST='wget --no-check-certificate --server-response --output-document - --post-data'
 
->&2 echo 'Logging in @ '"$URL"
+>&2 printf 'Logging in @ %s' "$URL"
 
 # Try to find credentials via pass
 
@@ -16,16 +16,20 @@ fi
 
 # If not found, fallback to user input
 
-if [ -z "$USERNAME" -o -z "$PASSWORD" ]; then
-	read -p 'username: ' USERNAME
-	read -s -p 'password: ' PASSWORD
-	echo
+if [ -z "$USERNAME" ] || [ -z "$PASSWORD" ] ; then
+	printf 'username: '
+	read -r USERNAME
+	stty -echo
+	printf 'password: '
+	read -r PASSWORD
+	stty echo
+	printf '\n'
 fi
 
 # Encode credentials for inclusion in form data
 
-function urlencode () {
-	echo -n "$1" | perl -pe 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'
+urlencode() {
+	printf '%s' "$1" | perl -pe 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'
 }
 
 _USERNAME="$(urlencode "$USERNAME")"
@@ -36,11 +40,11 @@ RESULT="$($POST "admin_id=$_USERNAME&admin_pw=$_PASSWORD" "$URL" 2>&1)"
 
 # Report success or failure
 
-if <<< "$RESULT" grep 'webauthsucc' 1>/dev/null 2>/dev/null ; then
-	>&2 echo 'OK :)'
+if printf '%s' "$RESULT" | grep 'webauthsucc' 1>/dev/null 2>/dev/null ; then
+	>&2 printf 'OK :)'
 	exit 0
 else
-	>&2 echo "$RESULT"
-	>&2 echo 'KO :('
+	>&2 printf '%s' "$RESULT"
+	>&2 printf 'KO :('
 	exit 1
 fi

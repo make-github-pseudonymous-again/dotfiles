@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if [ $(id -u) == "0" ] ; then
+if [ "$(id -u)" = 0 ] ; then
   echo 'must NOT be run as root'
   exit 1
 fi
@@ -37,6 +37,7 @@ if grep -q '^Server = https' "${RANKED}" ; then
 
 else
 
+  # shellcheck disable=SC2016
   echo 'Not overwriting configuration because resulting file does not contain any `^Server = https` line.'
 
 fi

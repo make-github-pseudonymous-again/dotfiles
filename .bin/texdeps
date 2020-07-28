@@ -1,41 +1,43 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
-function packages {
+packages() {
 	sed -E -n '/^([^%]|\\%)*\\usepackage/p' "$1" |
 	sed -E -e 's/^.*\\usepackage[^\{\}]*\{([^\{\}]*)\}.*$/\1/g' \
 	       -e 's/^([^\.]*)$/\1.sty/g' |
 	sort | uniq
 }
 
-function inputs {
+inputs() {
 	sed -E -n '/^([^%]|\\%)*\\input\{/p' "$1" |
 	sed -E -e 's/^.*\\input\{([^\{\}]*)\}.*$/\1/g' \
 	       -e 's/^([^\.]*)$/\1.tex/g' |
 	sort | uniq
 }
 
-function figures {
+figures() {
 	sed -E -n '/^([^%]|\\%)*\\includegraphics/p' "$1" |
 	sed -E -e 's/^.*\\includegraphics.*\{([^\{\}]*)\}.*$/\1/g' \
 	       -e 's/^([^\.]*)$/\1.pdf/g' |
 	sort | uniq
 }
 
-function bibliography {
+bibliography() {
 	sed -E -n '/^([^%]|\\%)*\\bibliography\{/p' "$1" |
 	sed -E -e 's/^.*\\bibliography\{([^\{\}]*)\}.*$/\1/g' \
 	       -e 's/^([^\.]*)$/\1.bib/g' |
 	sort | uniq
 }
 
-function dft {
+dft() {
 	local path
 	for path in "$@"; do
 		if [ ! -e "$path" ] ; then continue; fi
 		printf '%s\n' "$path"
 		figures "$path"
 		bibliography "$path"
+		# shellcheck disable=SC2046
 		dft $(packages "$path")
+		# shellcheck disable=SC2046
 		dft $(inputs "$path")
 	done
 }

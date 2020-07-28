@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
-modes="battery\nbalanced\nperformance"
-mode=$(echo -e "$modes" | dmenu_center --rest -sb '#D24858' -p 'mode')
+mode="$(printf '%s\n%s\n%s\n' battery balanced performance |
+	dmenu_center --rest -sb '#D24858' -p 'mode')"
 
-if [ "$mode" = '' ]; then
+if [ -z "$mode" ]; then
 	exit 101
 fi
 
-echo "$mode" | sudo /usr/bin/tee /sys/class/drm/card0/device/power_dpm_state
+printf '%s\n' "$mode" | sudo /usr/bin/tee /sys/class/drm/card0/device/power_dpm_state

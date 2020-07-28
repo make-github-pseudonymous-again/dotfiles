@@ -9,7 +9,7 @@ _log () {
 }
 
 _usage () {
-  if [ "$1" "$2" "$3" ] ; then
+  if test "$1" "$2" "$3" ; then
     _log error "usage: $EXE $4"
     exit 1
   fi
@@ -32,10 +32,13 @@ fi
 CWD="$PWD/"
 
 # check working directory is in root directory
-if [[ "$CWD" != "$ROOT"* ]] ; then
-  _log error "$CWD is not in $ROOT"
-  exit 3
-fi
+case "$CWD" in
+  "$ROOT"*) ;;
+  *)
+    _log error "$CWD is not in $ROOT"
+    exit 3
+    ;;
+esac
 
 SLUG="${CWD#$ROOT}"
 SLUG="${SLUG%/}"

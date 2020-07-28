@@ -8,7 +8,7 @@ echo "FLAG=$FLAG"
 echo "SYNCING=$SYNCING"
 echo "MAIL=$MAIL"
 
-cd "$MAIL"
+cd "$MAIL" || exit 123
 
 trap _trap SIGUSR1
 

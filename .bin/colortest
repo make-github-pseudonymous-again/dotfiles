@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Original Posted at http://crunchbang.org/forums/viewtopic.php?pid=126921%23p126921#p126921
 # [ESC] character in original post removed here.
 
@@ -7,9 +8,9 @@
 #    colors (f = foreground, b = background), and use the 'off'
 #    feature for anything you turn on.
 
-initializeANSI()
-{
- esc="$(echo -en '\e')"
+initializeANSI() {
+
+  esc="$(echo -en '\e')"
 
   blackf="${esc}[30m";   redf="${esc}[31m";    greenf="${esc}[32m"
   yellowf="${esc}[33m"   bluef="${esc}[34m";   purplef="${esc}[35m"
@@ -25,6 +26,7 @@ initializeANSI()
   invon="${esc}[7m";     invoff="${esc}[27m"
 
   reset="${esc}[0m"
+
 }
 
 # note in this first use that switching colors doesn't require a reset

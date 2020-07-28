@@ -1,11 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if test "$#" -ne 1 ; then
 	echo 'usage: ref.rename.from.contents <file>' >&2
 	exit 1
 fi
 
-function debug {
+debug() {
 	>&2 echo "$@"
 }
 
@@ -56,20 +56,20 @@ while true ; do
 			head -n1)????"
 		debug "DATE: $DATE"
 		if [ "$DATE" = '????' ] || ask 'Input date yourself?' ; then
-			echo -n "date: "
-			read DATE
+			printf '%s' "date: "
+			read -r DATE
 		fi
 	else
-		echo -n "edit date or leave as is (YYYYMMDD): "
-		read -e -i "$DATE" DATE
+		printf '%s' "edit date or leave as is (YYYYMMDD): "
+		read -r -e -i "$DATE" DATE
 	fi
 
 
 	debug "TITLE: $TITLE"
 	if [ "$TITLE" = 'null' ] || [ "$TITLE" = '' ] || ask 'Search for better title?' ; then
-		tmp="$(pdftotext "$FILE" - | \
+		if tmp="$(pdftotext "$FILE" - | \
 			fzf --multi --no-sort --prompt '> select lines to construct title')"
-		if [ "$?" -eq 0 ] ; then
+		then
 			TITLE="$( tac <<< "$tmp" | \
 			sed -e 's/^ *//' -e 's/ *$//' | \
 			tr "\n" ' ' | \
@@ -78,17 +78,17 @@ while true ; do
 		fi
 	fi
 
-	echo -n "edit title or leave as is: "
-	read -e -i "$TITLE" TITLE
+	printf '%s' "edit title or leave as is: "
+	read -r -e -i "$TITLE" TITLE
 
 
 	debug "AA: $AA"
 	if [ "$AA" = 'n' ] || [ "$AA" = '' ] || ask 'Input authors first letters yourself?' ; then
-		echo -n "author's names first letters: "
-		read AA
+		printf '%s' "author's names first letters: "
+		read -r AA
 	else
-		echo -n "edit author's names first letters or leave as is: "
-		read -e -i "$AA" AA
+		printf '%s' "edit author's names first letters or leave as is: "
+		read -r -e -i "$AA" AA
 	fi
 	debug "AA: $AA"
 

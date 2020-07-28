@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if test "$#" -lt 1 ; then
 	echo 'usage: ref.springer.rename <file> <...files>' >&2
@@ -10,9 +10,8 @@ for FILE in "$@"; do
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
 	ID=$(ref.springer.split "$BASENAME")
-	METADATA=$(ref.doi.get "$ID")
 
-	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
+	if ! METADATA=$(ref.doi.get "$ID") || [ "$METADATA" = "" ] ; then
 		echo 'failed to retrieve metadata for '"$ID" >&2
 		continue
 	fi

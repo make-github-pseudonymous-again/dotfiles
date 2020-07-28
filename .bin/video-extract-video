@@ -19,6 +19,6 @@ video_output_format=copy
 
 >&2 echo "VIDEO OUTPUT: ${video_output_format}"
 
->&2 echo "FFMPEG PARAMS: $@"
+>&2 echo "FFMPEG PARAMS: $*"
 
 ffmpeg -i "$input" -c:v "$video_output_format" "$output" "$@"

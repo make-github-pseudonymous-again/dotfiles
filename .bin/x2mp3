@@ -11,9 +11,7 @@ for INPUT in "$@"; do
 	ID="${BASENAME%.*}"
 	OUTPUT="$DIRNAME"'/'"$ID"'.mp3'
 
-	ffmpeg -i "$INPUT" -codec:a libmp3lame -qscale:a 0 "$OUTPUT"
-
-	if [ "$?" != 0 ] ; then
+	if ! ffmpeg -i "$INPUT" -codec:a libmp3lame -qscale:a 0 "$OUTPUT" ; then
 		echo 'failed to convert '"$INPUT" >&2
 	fi
 

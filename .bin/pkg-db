@@ -4,10 +4,9 @@ if [ "$#" -eq 0 ] ; then
   pkg-parse
 else
   for uri in "$@" ; do
-    if [ "${uri:0:4}" = http ] ; then
-      curl -L "$uri" | pkg-parse
-    else
-      pkg-parse "$uri"
-    fi
+    case "$uri" in
+      http*) curl -L "$uri" | pkg-parse ;;
+      *) pkg-parse "$uri" ;;
+    esac
   done
 fi | sort -u

@@ -16,6 +16,6 @@ for FILE in "$@"; do
 	fi
 done
 
-wait $(jobs -p)
+wait
 
 echo 'Done!'

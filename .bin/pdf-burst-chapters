@@ -10,7 +10,7 @@ fi
 
 args="$(mktemp --tmpdir "${USER}-pdf-burst-chapters-commands.XXXXXXXX")"
 
-function _exit {
+_exit() {
   rm -f "$args"
   exit "$@"
 }
@@ -25,9 +25,9 @@ mutool-json-outline-format | \
 jq -c '.children[] | '"$selector" | \
 while IFS= read -r chapter; do
   i=$((i+1))
-  title="$(jq -r <<< "$chapter" .title | trim)"
-  begin="$(jq -r <<< "$chapter" .begin)"
-  end="$(jq -r <<< "$chapter" .end)"
+  title="$(printf '%s' "$chapter" | jq -r .title | trim)"
+  begin="$(printf '%s' "$chapter" | jq -r .begin)"
+  end="$(printf '%s' "$chapter" | jq -r .end)"
   if [ "$end" != 'N' ] ; then
     end="$((end-1))"
   fi
@@ -35,13 +35,11 @@ while IFS= read -r chapter; do
   echo "${begin}-${end}" "${ii} ${title}" | tee --append "$args"
 done
 
-vim "$args"
+if ! vim "$args" ; then _exit 11 ; fi
 
-if [ "$?" -ne 0 ] ; then _exit 11 ; fi
-
-while IFS= read -r line || [[ -n "$line" ]]; do
-  output="${root}/$(sed 's/^[^ ]* //' <<< "$line").pdf"
-  range=$(cut -d' ' -f1 <<< "$line")
+while IFS= read -r line || [ -n "$line" ] ; do
+  output="${root}/$(printf '%s' "$line" | sed 's/^[^ ]* //').pdf"
+  range="$(printf '%s' "$line" | cut -d' ' -f1)"
   mutool merge -o "$output" "$input" "$range"
 done < "$args"
 

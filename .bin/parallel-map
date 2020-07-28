@@ -4,12 +4,14 @@ OUTPUT_DIR="$(mktemp --tmpdir --directory "${USER}-parallel-map.XXXXXXXX.d")"
 
 i=0
 while read -r line ; do
-  ((++i))
-  "$@" <<< "$line" > "${OUTPUT_DIR}/${i}" &
+  i=$((i+1))
+  printf '%s\n' "$line" | "$@" > "${OUTPUT_DIR}/${i}" &
 done < /dev/stdin
 
-wait $(jobs -p)
+wait
 
-cat "${OUTPUT_DIR}"/*
+cd "$OUTPUT_DIR" || exit 123
+seq 1 "$i" | xargs cat
+cd "$OLDPWD" || exit 124
 
-rm -rf "${OUTPUT_DIR}"
+rm -rf "$OUTPUT_DIR"

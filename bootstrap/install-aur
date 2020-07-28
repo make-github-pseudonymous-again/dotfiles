@@ -1,18 +1,18 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-if [ $(id -u) == "0" ] ; then
-echo 'must NOT be run as root'
-exit 1
+if [ "$(id -u)" = 0 ] ; then
+	echo 'must NOT be run as root'
+	exit 1
 fi
 
-cd /tmp
+cd /tmp || exit 123
 
-function fail {
+fail() {
 	echo 'could not install trizen'
 	exit 1
 }
 
-function i {
+i() {
 	wget "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" || fail
 	tar -xvf "$1".tar.gz && rm "$1".tar.gz
 	sh -c "cd $1 && makepkg -si --skippgpcheck" || { rm -r "$1" && fail ; }
@@ -29,11 +29,12 @@ if ! which trizen 1>/dev/null 2>&1 ; then
 	fail
 fi
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/aur)"
 
 echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
-trizen -S --aur --needed --noconfirm --noedit - <<< $packages
+printf '%s\n' "$packages" |
+trizen -S --aur --needed --noconfirm --noedit -
 
 exit 0

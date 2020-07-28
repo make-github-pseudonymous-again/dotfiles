@@ -9,11 +9,11 @@ mkdir "$dup"
 mkdir "$dup/0"
 cat > "$dup/0/0"
 
-function hash1 {
+hash1() {
   stat --printf="%s" "$1"
 }
 
-function hash2 {
+hash2() {
   xxhsum "$1" 2>/dev/null | head -c 16
 }
 
@@ -24,10 +24,10 @@ hashfns="hash1 hash2"
 i=0
 for hashfn in $hashfns ; do
   prev="$i"
-  ((++i))
+  i=$((i+1))
   mkdir "$all/$i"
   mkdir "$dup/$i"
-  for entry in $(find "$dup/$prev" -type f) ; do
+  find "$dup/$prev" -type f | while read -r entry ; do
     prevkey="$(basename "$entry")"
     while read -r path; do
       newkey="$prevkey-$("$hashfn" "$path")"

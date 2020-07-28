@@ -1,4 +1,5 @@
 #!/usr/bin/env dash
+# shellcheck disable=SC2009
 ps -u root -o command | grep -q '[n]etctl/auto.action$'
 #interface="$(wifi.chips.default)"
 #systemctl | \

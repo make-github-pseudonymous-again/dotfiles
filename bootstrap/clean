@@ -1,11 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [ $(id -u) != "0" ] ; then
   echo 'must be run as root'
   exit 1
 fi
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 pacman_installed="$(pacman -Q | cut -d' ' -f1)"
 

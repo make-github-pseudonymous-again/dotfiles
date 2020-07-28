@@ -4,7 +4,7 @@ engine="https://duckduckgo.com/html"
 
 what="$(ui.dialog.input -p '' -sb '#3B3242')"
 
-if [ "$what" != '' ] ; then
-	query="$(head -c -1 <<< "$what" | urlencode)"
+if [ -n "$what" ] ; then
+	query="$(printf '%s' "$what" | urlencode)"
 	wb --new-window "${engine}?q=${query}"
 fi

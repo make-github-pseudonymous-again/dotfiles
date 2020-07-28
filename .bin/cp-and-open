@@ -5,26 +5,26 @@ URI_REGEXP='^[a-zA-Z][a-zA-Z0-9+.-]*://'
 FILE_URI_REGEXP='^file://'
 HTML2TEXT_OPTIONS='--decode-errors ignore --links-after-para --mark-code --ignore-images --dash-unordered-list -b 79 --reference-links'
 
-function isURI {
+isURI() {
 
-	<<< "$1" grep -q "$URI_REGEXP"
+	printf '%s' "$1" | grep -q "$URI_REGEXP"
 
 }
 
 # https://en.wikipedia.org/wiki/File_URI_scheme
-function isFileURI {
+isFileURI() {
 
-	<<< "$1" grep -q "$FILE_URI_REGEXP"
-
-}
-
-function getPathFromURI {
-
-	<<< "$1" sed "s%${URI_REGEXP}%%"
+	printf '%s' "$1" | grep -q "$FILE_URI_REGEXP"
 
 }
 
-function copyAndOpen {
+getPathFromURI() {
+
+	printf '%s' "$1" | sed "s%${URI_REGEXP}%%"
+
+}
+
+copyAndOpen() {
 
 	tmp="$(mktemp --tmpdir "${USER}-cp-and-open.XXXXXXXX")"
 
@@ -32,8 +32,8 @@ function copyAndOpen {
 
 	case "$filetype" in
 	'text/html'|'text/plain')
-		html2text $HTML2TEXT_OPTIONS -- "$1" | sed 's/\s*$//' > "$tmp"
-		if [ "$?" != 0 ] ; then
+		# shellcheck disable=SC2086
+		if ! html2text $HTML2TEXT_OPTIONS -- "$1" | sed 's/\s*$//' > "$tmp" ; then
 			cp "$1" "$tmp"
 		fi
 		;;
@@ -46,7 +46,7 @@ function copyAndOpen {
 
 }
 
-function open {
+open() {
 	xdg-open "$1" &
 }
 

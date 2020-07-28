@@ -1,10 +1,9 @@
 #!/usr/bin/env sh
 
 num="$(i3.workspace.focused | cut -d ':' -f 1)"
-new="$(ui.dialog.input -p '')"
 
-if [ "$?" -eq 0 ] ; then
-	if [ "$new" != '' ] ; then
+if new="$(ui.dialog.input -p '')" ; then
+	if [ -n "$new" ] ; then
 		i3-msg 'rename workspace to "'"$num"':'"$new"'"'
 	else
 		i3-msg 'rename workspace to "'"$num"'"'

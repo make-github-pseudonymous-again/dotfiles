@@ -2,4 +2,5 @@
 
 mkdir -p ~/shots
 
+# shellcheck disable=SC2016
 scrot "$HOME"'/shots/%Y-%m-%d-%H%M%S_$wx$h.png' -e 'gimp $f'

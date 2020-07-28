@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
-name=$(cat "$HOME/.cache/dmenu_run" | dmenu_center --rest -i -p '' -sb '#24A946')
+name="$(< "$HOME/.cache/dmenu_run" dmenu_center --rest -i -p '' -sb '#24A946')"
 
-if [ "$name" != '' ]; then
+if [ -n "$name" ]; then
 	if man "$name" > /dev/null 2>&1; then
 		terminator -b -x man "$name"
 	else

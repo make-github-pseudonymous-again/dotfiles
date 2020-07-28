@@ -19,6 +19,6 @@ audio_output_format=copy
 
 >&2 echo "AUDIO OUTPUT: ${audio_output_format}"
 
->&2 echo "FFMPEG PARAMS: $@"
+>&2 echo "FFMPEG PARAMS: $*"
 
 ffmpeg -i "$input" -c:a "$audio_output_format" "$output" "$@"

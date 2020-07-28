@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 atq | while read -r line ; do
-    echo "$line"
-    jobn="$(cut -f1 <<< "$line")"
+    printf '%s\n' "$line"
+    jobn="$(printf '%s' "$line" | cut -f1)"
     at -c "$jobn" | grep ^notify-send
 done

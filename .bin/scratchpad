@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 FILE="${1:-"$HOME/notes/scratchpad.md"}"
-ID="${2:-"VIMSCRATCHPAD$(<<< "$FILE" sed 's/\([-_A-Z]\)/\1\1/g' | tr '/.[:lower:]' '-_[:upper:]')"}"
+ID="${2:-"VIMSCRATCHPAD$(printf '%s' "$FILE" | sed 's/\([-_A-Z]\)/\1\1/g' | tr '/.[:lower:]' '-_[:upper:]')"}"
 
 >&2 echo "FILE=$FILE"
 >&2 echo "ID=$ID"

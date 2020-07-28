@@ -1,13 +1,13 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 matches="$(rg --color never --no-heading --column --only-matching --hidden -g '!.git/*' --smart-case "$@")"
-if [ "$matches" = '' ] ; then
+if [ -z "$matches" ] ; then
 	exit 1
 fi
 
 args="$(echo "$matches" | yank -l -d $'\n\r' | rev)"
 
-if [ "$args" = '' ] ; then
+if [ -z "$args" ] ; then
 	exit 2
 fi
 

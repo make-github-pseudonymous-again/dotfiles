@@ -1,24 +1,24 @@
 #!/usr/bin/env sh
-actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable\nreenable"
-action=$(echo -e "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
+actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable\nreenable\n"
+action=$(printf '%b' "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
 
-if [ "$action" = '' ]; then
+if [ -z "$action" ]; then
 	exit 101
 fi
 
 service=$(services.list | dmenu_center --rest -i -t -sb '#D24858' -p "$action" -l 10)
-
-if [ "$service" = '' ]; then
+if [ -z "$service" ]; then
 	exit 102
 fi
 
-if grep -q <<< "$service" '@\.' ; then
+if printf '%s' "$service" | grep -q '@\.' ; then
 	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
-	if [ "$argument" = '' ]; then
+	if [ -z "$argument" ]; then
 		exit 103
 	fi
 	escaped_argument="$(systemd-escape "$argument" | sed.escape.replace)"
-	service="$(sed <<< "$service" "s/@\\./@${escaped_argument}./")"
+	service="$(printf '%s' "$service" | sed "s/@\\./@${escaped_argument}./")"
 fi
 
+# shellcheck disable=SC2086
 systemctl --user $action "$service"

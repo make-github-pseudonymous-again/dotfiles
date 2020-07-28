@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-backlight="$(keyboard.brightness.handle)"
-if [ "$?" -ne 0 ] ; then exit 1 ; fi
-
-sudo /usr/bin/tee "$backlight/brightness" < "$backlight/max_brightness"
+if ! backlight="$(keyboard.brightness.handle)" ; then exit 1 ; fi
+# shellcheck disable=SC2024
+< "$backlight/max_brightness" sudo /usr/bin/tee "$backlight/brightness"

@@ -7,7 +7,7 @@ fi
 
 CACHE="$HOME/.cache/wifi/fingerprint"
 TAG="$1"
-HASH=$(echo -n "$TAG" | sha1sum | head -c 40)
+HASH=$(printf '%s' "$TAG" | sha1sum | head -c 40)
 FILE="$CACHE/$HASH"
 
 mkdir -p "$CACHE"

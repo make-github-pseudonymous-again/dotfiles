@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-while read line ; do
+while read -r line ; do
     output="$(echo "$line" | cut -d' ' -f1)"
     case "$output" in
         eDP*) ;;

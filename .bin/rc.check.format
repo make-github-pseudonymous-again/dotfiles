@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 TIME='20[0-9][0-9]/[0-9][0-9]/[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]'
 
@@ -11,7 +11,7 @@ MODIFIED="^$TIME ERROR : \\(.*\\): Sizes differ\$"
  FAILURE="^$TIME Failed to check: \\([1-9][0-9]*\\) differences found\$"
    ERROR="^$TIME ERROR : \\(.*\\)\$"
 
-while read line
+while read -r line
 do
 	if grep -q "$MODIFIED" <<< "$line"; then
 		filename="$(sed "s|$MODIFIED|\\1|" <<< "$line")"

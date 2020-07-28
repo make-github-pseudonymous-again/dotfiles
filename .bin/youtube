@@ -6,6 +6,6 @@ if [ "$q" = '' ] ; then
 	exit 1
 fi
 
-query=$(echo -n "$q" | urlencode)
+query=$(printf '%s' "$q" | urlencode)
 
 wb --new-window 'https://www.youtube.com/results?search_query='"$query"

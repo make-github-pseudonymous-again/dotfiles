@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 cwd="${1:-.}"
 
@@ -14,9 +14,9 @@ branch=$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null)
 handles=$(git -C "$cwd" branch -r)
 remotes=$(git -C "$cwd" remote)
 
-for remote in "$remotes"; do
+for remote in $remotes ; do
 	handle="$remote/$branch"
-	if grep "$handle" 1>/dev/null <<< "$handles"; then
+	if printf '%s' "$handles" | grep -q "$handle" ; then
 		pulls=$(git -C "$cwd" log "HEAD..$handle" --oneline | wc -l)
 		pushs=$(git -C "$cwd" log "$handle..HEAD" --oneline | wc -l)
 		if [ "$pulls" -gt 0 ] || [ "$pushs" -gt 0 ] ; then

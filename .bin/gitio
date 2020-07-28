@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Create a git.io short URL
-if [ -z "${1}" -o -z "${2}" ]; then
+if [ -z "${1}" ] || [ -z "${2}" ]; then
 	echo "Usage: \`gitio slug url\`";
 	exit 1;
 fi;

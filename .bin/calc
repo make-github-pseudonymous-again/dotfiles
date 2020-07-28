@@ -1,13 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
-result="$(printf -- "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')";
-if grep -q '[.]' <<< "$result" ; then
+result="$(printf '%s\n' "scale=10;$*" | bc --mathlib | tr -d '\\\n')"
+if printf '%s' "$result" | grep -q '[.]' ; then
 	# improve the output for decimal numbers
-	printf -- "$result" |
+	printf '%s\n' "$result" |
 	sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
 		-e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
-		-e 's/0*$//;s/\.$//';  # remove trailing zeros
+		-e 's/0*$//;s/\.$//'   # remove trailing zeros
 else
-	printf -- "$result";
-fi;
-printf -- "\n";
+	printf '%s\n' "$result"
+fi

@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
-connected="$(xrandr.list | xrandr.filter.connected)"
-indefault="$(<<< "$connected" xrandr.filter.internal | head -1)"
-exdefault="$(<<< "$connected" xrandr.filter.external | head -1)"
+connected="$(xrandr.list.connected)"
+indefault="$(printf '%s\n' "$connected" | xrandr.filter.internal | head -1)"
+exdefault="$(printf '%s\n' "$connected" | xrandr.filter.external | head -1)"
 
+# shellcheck disable=SC2046
 screen.layout.double "$indefault" "$exdefault" --left-of \
   $(xrandr.list.internal | xrandr.filter.connected | xrandr.filter.not "$indefault") \
   $(xrandr.list.external | xrandr.filter.connected | xrandr.filter.not "$exdefault")

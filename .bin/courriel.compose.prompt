@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-mail="$(courriel.compose._prompt "$@")"
-
-if [ "$?" -eq 0 ] ; then
-	<<< "$mail" courriel.send
+if mail="$(courriel.compose._prompt "$@")" ; then
+	printf '%s\n' "$mail" | courriel.send
 fi

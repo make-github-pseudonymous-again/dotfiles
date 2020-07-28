@@ -26,12 +26,12 @@ flock -x "$LOCKFD"
 # MSMTPFILE: ccyy-mm-dd-hh.mm.ss[-x].msmtp
 # where x is a consecutive number only appended if you send more than one
 # mail per second.
-BASE="`date +%Y-%m-%d-%H.%M.%S`"
-if [ -f "$BASE.mail" -o -f "$BASE.msmtp" ]; then
+BASE="$(date +%Y-%m-%d-%H.%M.%S)"
+if [ -f "$BASE.mail" ] || [ -f "$BASE.msmtp" ]; then
 	TMP="$BASE"
 	i=1
-	while [ -f "$TMP-$i.mail" -o -f "$TMP-$i.msmtp" ]; do
-		i=`expr $i + 1`
+	while [ -f "$TMP-$i.mail" ] || [ -f "$TMP-$i.msmtp" ]; do
+		i=$((i+1))
 	done
 	BASE="$BASE-$i"
 fi

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 CACHE="${HOME}/.cache/cineonu"
 CONFIG="${HOME}/.config/cineonu/config"
@@ -7,7 +7,7 @@ ROOT="https://www.unric.org"
 LANG="en"
 BASEURI="${ROOT}/${LANG}"
 
-function log {
+log() {
 	>&2 echo "$@"
 }
 
@@ -19,25 +19,26 @@ fi
 FROM="$(jq -r < "${CONFIG}" .mailfrom)"
 TO=$(jq -r < "${CONFIG}" .mailto[])
 
-function hash {
-	xxhsum - <<< "$1" 2>/dev/null | head -c 16
+hash() {
+	printf '%s\n' "$1" | xxhsum - 2>/dev/null | head -c 16
 }
 
-function getmetadata() {
-	url="$(jq -r <<< "$1" .url)"
-	title="$(jq -r <<< "$1" .title)"
+getmetadata() {
+	url="$(printf '%s' "$1" | jq -r .url)"
+	title="$(printf '%s' "$1" | jq -r .title)"
 	log "Downloading ${title} (${url})"
 	curl "${url}" | cineonu-parse-event
 }
 
-function enqueue() {
+enqueue() {
 	kind="$1"
 	metadata="$2"
-	url="$(jq -r <<< "$metadata" .url)"
-	title="$(jq -r <<< "$metadata" .title)"
+	url="$(printf '%s' "$metadata" | jq -r .url)"
+	title="$(printf '%s' "$metadata" | jq -r .title)"
 	log "Enqueueing ${title} (${url})"
 	subject="${kind} CINEONU event: ${title}"
 
+	# shellcheck disable=SC2086
 	cineonu-format-event "${metadata}" | \
 	courriel.compose._prompt \
 		--stdin \
@@ -48,7 +49,7 @@ function enqueue() {
 	msmtp-enqueue-only -t --read-envelope-from
 }
 
-function main() {
+main() {
 
 	year="$(date '+%Y')"
 
@@ -61,21 +62,15 @@ function main() {
 	mkdir -p "${datdir}"
 
 	log "Downloading Index for ${year} (${url})"
-	html="$(curl "${url}")"
 
-	if [ "$?" -ne 0 ] ; then exit 1 ; fi
-
-	events="$(cineonu-parse-list <<< "${html}")"
+	if ! html="$(curl "${url}")" ; then exit 1 ; fi
 
 	run=0
+	while read -r event ; do
 
-	while read -r event; do
+		if ! metadata="$(getmetadata "${event}")" ; then continue ; fi
 
-		metadata="$(getmetadata "${event}")"
-		if [ "$?" -ne 0 ] ; then continue ; fi
-
-		url="$(jq -r <<< "$metadata" .url)"
-		if [ "$?" -ne 0 ] ; then continue ; fi
+		if ! url="$(printf '%s' "$metadata" | jq -r .url)" ; then continue ; fi
 
 		dat_key="$(hash "$metadata")"
 		url_key="$(hash "$url")"
@@ -90,15 +85,17 @@ function main() {
 			kind=Updated
 			if [ ! -f "${url_file}" ] ; then
 				kind=New
-				echo "${url}" > "${url_file}"
+				printf '%s\n' "${url}" > "${url_file}"
 			fi
 
 			enqueue "${kind}" "${metadata}"
-			jq <<< "${metadata}" > "${dat_file}"
+			printf '%s' "${metadata}" | jq > "${dat_file}"
 
 		fi
 
-	done <<< "$(jq --compact-output '.events[]' <<< ${events})"
+	done < <(printf '%s' "$html" |
+				cineonu-parse-list |
+				jq --compact-output '.events[]')
 
 	if [ "${run}" -gt 0 ] ; then msmtp-runqueue ; fi
 

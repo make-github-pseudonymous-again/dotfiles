@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 rsync \
 	--exclude ".git/" \
 	--exclude ".gitmodules" \
+	--exclude ".travis.yml" \
 	--exclude "bootstrap/" \
 	--exclude "files/" \
+	--exclude "Makefile" \
 	--exclude "README.md" \
 	--exclude "LICENSE" \
 	-avnchL \

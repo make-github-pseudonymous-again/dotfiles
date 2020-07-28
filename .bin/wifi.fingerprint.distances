@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 CACHE="$HOME/.cache/wifi/fingerprint"
-FILES=$(find "$CACHE" -type f)
 
-wifi.fingerprint | wifi.fingerprint._distances $FILES
+# shellcheck disable=SC2046
+wifi.fingerprint | wifi.fingerprint._distances $(find "$CACHE" -type f)

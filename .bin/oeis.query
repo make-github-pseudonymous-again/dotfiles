@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 if [ $# -ge 1 ] ; then
-  if [ $# -eq 1 -a -f "$1" ] ; then
+  if [ $# -eq 1 ] && [ -f "$1" ] ; then
     query="$(< "$1" tr '\n' ',' | sed 's/,$//')"
   else
     query="$(joinarray ',' "$@")"

@@ -59,7 +59,7 @@ if [ "$video_output_format" = "copy" ] && [ "$audio_output_format" = "copy" ] ; 
 
 else
 
-  >&2 echo "FFMPEG PARAMS: $@"
+  >&2 echo "FFMPEG PARAMS: $*"
 
   ffmpeg -i "$input" -c:v "$video_output_format" -c:a "$audio_output_format" "$output" "$@"
 

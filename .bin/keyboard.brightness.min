@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 
-backlight="$(keyboard.brightness.handle)"
-if [ "$?" -ne 0 ] ; then exit 1 ; fi
-
-sudo /usr/bin/tee "$backlight/brightness" <<< 1
+if ! backlight="$(keyboard.brightness.handle)" ; then exit 1 ; fi
+printf '%s\n' 1 | sudo /usr/bin/tee "$backlight/brightness"

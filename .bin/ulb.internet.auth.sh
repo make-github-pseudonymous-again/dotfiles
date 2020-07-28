@@ -3,7 +3,7 @@
 username=
 password=
 
-function grabusername {
+grabusername() {
 
   echo 'Looking for username'
 
@@ -16,7 +16,7 @@ function grabusername {
 
 }
 
-function grabpassword {
+grabpassword() {
 
   echo 'Looking for password'
 
@@ -34,7 +34,7 @@ grabpassword
 
 echo 'Fetching...'
 # username and password should not contain new lines \n\r
-if printf "$username\n$password\n" | ulb.internet.auth.helper.js; then
+if printf "%s\n%s\n" "$username" "$password" | ulb.internet.auth.helper.js; then
   echo ':)'
   exit 0
 else

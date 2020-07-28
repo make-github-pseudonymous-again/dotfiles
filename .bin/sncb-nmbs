@@ -5,7 +5,7 @@ STATIONS="$CACHE/stations"
 SB='#00a0de'
 
 if [ ! -e "$STATIONS" ] ; then
-  a="$(echo -e "create\nexit" | dmenu_center --rest -p 'cache missing' -sb "$SB")"
+  a="$(printf '%s\n%s\n' 'create' 'exit' | dmenu_center --rest -p 'cache missing' -sb "$SB")"
   if [ "$a" = 'create' ] ; then
     mkdir -p "$CACHE"
     curl -s -H 'accept: application/json' 'https://irail.be/stations/nmbs' > "$STATIONS"
@@ -29,8 +29,8 @@ if [ "$station" = '' ] ; then
   exit 2
 fi
 
-id="$(<<< "$station" cut -d' ' -f1)"
-url="$(<<< "$id" sed 's/^http:/https:/')"
+id="$(printf '%s' "$station" | cut -d' ' -f1)"
+url="$(printf '%s' "$id" | sed 's/^http:/https:/')"
 #name="$(<<< "$station" cut -d' ' -f2-)"
 #no="${url##*/}"
 #id="BE.NMBS.$no"

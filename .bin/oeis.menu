@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
-query=$(ui.dialog.input -p '' -sb '#8080ff')
+query="$(ui.dialog.input -p '' -sb '#8080ff')"
 
-if [ "$query" = '' ] ; then
+if [ -z "$query" ] ; then
 	exit 1
 fi
 
+# shellcheck disable=SC2086
 oeis.query $query

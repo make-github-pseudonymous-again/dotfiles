@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
-languages="en\nfr"
+languages="en\nfr\n"
 
 
-lang=$(echo -e "$languages" | dmenu_center --rest -p ' ' -sb '#9791D9')
+lang=$(printf '%b' "$languages" | dmenu_center --rest -p ' ' -sb '#9791D9')
 
 if [ "$lang" = '' ] ; then
 	exit 2
@@ -16,6 +16,6 @@ if [ "$q" = '' ] ; then
 	exit 1
 fi
 
-query=$(echo -n "$q" | urlencode)
+query=$(printf '%s' "$q" | urlencode)
 
 wb --new-window 'https://'"$lang"'.wikipedia.org/wiki/Special:Search?search='"$query"

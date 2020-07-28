@@ -3,6 +3,7 @@
 primary=HDMI-0
 secondary=DVI-I-1
 
+# shellcheck disable=SC2046
 screen.layout.double "$primary" "$secondary" --right-of \
   $(xrandr.list | xrandr.filter.connected | xrandr.filter.not "$primary" "$secondary")
 

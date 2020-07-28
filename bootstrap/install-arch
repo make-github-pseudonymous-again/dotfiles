@@ -1,9 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-if [ $(id -u) != "0" ]
-then
-echo 'must be run as root'
-exit 1
+if [ "$(id -u)" != 0 ] ; then
+  echo 'must be run as root'
+  exit 1
 fi
 
 O="$(mktemp --tmpdir "${USER}-install-arch-out.XXXXXXXX")"
@@ -37,7 +36,7 @@ function _trap ( ) {
 
 trap _trap SIGHUP SIGINT SIGTERM
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/arch)"
 

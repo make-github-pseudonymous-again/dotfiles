@@ -1,4 +1,5 @@
 #!/usr/bin/env dash
+# shellcheck disable=SC2009
 ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-wlp'
 #interface="$(wifi.chips.default)"
 #systemctl | \

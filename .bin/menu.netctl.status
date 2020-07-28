@@ -7,4 +7,5 @@ if [ "$profile" = '' ]; then
 	exit 102
 fi
 
+# shellcheck disable=SC1003
 terminator -b -x watch netctl status "$(systemd-escape "$profile" | escape-characters '\\' '')"

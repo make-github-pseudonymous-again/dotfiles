@@ -1,16 +1,16 @@
 #!/usr/bin/env sh
 
-lang="en\nfr"
+lang="en\nfr\n"
 
 
-fro=$(echo -e "auto\n$lang" | dmenu_center --rest -p ' from' -sb '#2D615C')
+fro=$(printf 'auto\n%b' "$lang" | dmenu_center --rest -p ' from' -sb '#2D615C')
 
 if [ "$fro" = '' ] ; then
 	exit 1
 fi
 
 
-to=$(echo -e "$lang" | dmenu_center --rest -p ' to' -sb '#2D615C')
+to=$(printf '%b' "$lang" | dmenu_center --rest -p ' to' -sb '#2D615C')
 
 if [ "$to" = '' ] ; then
 	exit 2
@@ -23,6 +23,6 @@ if [ "$q" = '' ] ; then
 	exit 3
 fi
 
-query=$(echo -n "$q" | urlencode)
+query=$(printf '%s' "$q" | urlencode)
 
 wb --new-window "https://translate.google.com/#$fro/$to/$query"

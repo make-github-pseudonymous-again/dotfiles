@@ -8,15 +8,15 @@ ACCESS_KEY="${5:-$(pass data.fixer.io/api/access_key)}"
 
 URL="http://data.fixer.io/api/$DATE?access_key=$ACCESS_KEY&symbols=$FROM,$TO"
 
-RESPONSE="$(curl --silent $URL)"
+RESPONSE="$(curl --silent "$URL")"
 
 if [ "$RESPONSE" = '' ] ; then
-  >&2 echo "Could not access `$URL`"
+  >&2 echo "Could not access '$URL'"
   exit 1
 fi
 
-RATE_FROM="$(<<< "$RESPONSE" jq ".rates.$FROM")"
-RATE_TO="$(<<< "$RESPONSE" jq ".rates.$TO")"
+RATE_FROM="$(printf '%s' "$RESPONSE" | jq ".rates.$FROM")"
+RATE_TO="$(printf '%s' "$RESPONSE" | jq ".rates.$TO")"
 
 if [ "$RATE_FROM" = '' ] || [ "$RATE_TO" = '' ] ; then
   >&2 echo "Could not interpret response:"

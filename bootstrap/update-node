@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-if [ $(id -u) != "0" ]; then
+if [ "$(id -u)" != 0 ] ; then
   echo 'must be run as root'
   exit 1
 fi
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/node)"
 

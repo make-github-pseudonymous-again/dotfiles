@@ -10,9 +10,8 @@ for FILE in "$@"; do
 	DIRNAME=$(dirname "$FILE")
 	BASENAME=$(basename "$FILE")
 	ID=$(ref.sciencedirect.split "$BASENAME")
-	METADATA=$(ref.sciencedirect.get "$ID")
 
-	if [ "$?" != 0 ] || [ "$METADATA" = "" ] ; then
+	if ! METADATA=$(ref.sciencedirect.get "$ID") || [ "$METADATA" = "" ] ; then
 		echo 'failed to retrieve metadata for '"$ID" >&2
 		continue
 	fi

@@ -58,7 +58,7 @@ i=0
 files=()
 while [ "$1" != '-c' ] && [ "$#" -gt 0 ] ; do
 	files[$i]="$1"
-	((++i))
+	i=$((i+1))
 	shift
 done
 shift
@@ -67,7 +67,7 @@ i=0
 cmd=()
 while [ "$#" -gt 0 ] ; do
 	cmd[$i]="$1"
-	((++i))
+	i=$((i+1))
 	shift
 done
 

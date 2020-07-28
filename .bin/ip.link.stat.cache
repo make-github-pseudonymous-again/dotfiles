@@ -1,19 +1,21 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 CACHE="/tmp/${USER}-ip.link.stat.cache"
 
 milliseconds="$(system.time.milliseconds)"
 
-while read -r iface; do
+ip -oneline -stats link | while read -r iface ; do
 
-  l4="$(cut -d'\' -f4 <<< "${iface}")"
-  l6="$(cut -d'\' -f6 <<< "${iface}")"
+  # shellcheck disable=SC1003
+  l4="$(printf '%s' "$iface" | cut -d'\' -f4)"
+  # shellcheck disable=SC1003
+  l6="$(printf '%s' "$iface" | cut -d'\' -f6)"
 
-  ifname="$(cut -d' ' -f2 <<< "${iface}" | cut -d':' -f1)"
-  rx_bytes="$(tr -s ' ' <<< "${l4}" | cut -d' ' -f2)"
-  rx_packets="$(tr -s ' ' <<< "${l4}" | cut -d' ' -f3)"
-  tx_bytes="$(tr -s ' ' <<< "${l6}" | cut -d' ' -f2)"
-  tx_packets="$(tr -s ' ' <<< "${l6}" | cut -d' ' -f3)"
+  ifname="$(printf '%s' "$iface" | cut -d' ' -f2 | cut -d':' -f1)"
+  rx_bytes="$(printf '%s' "$l4" | tr -s ' ' | cut -d' ' -f2)"
+  rx_packets="$(printf '%s' "$l4" | tr -s ' ' | cut -d' ' -f3)"
+  tx_bytes="$(printf '%s' "$l6" | tr -s ' ' | cut -d' ' -f2)"
+  tx_packets="$(printf '%s' "$l6" | tr -s ' ' | cut -d' ' -f3)"
 
   folder="${CACHE}/${ifname}"
   mkdir -p "${folder}/rx" "${folder}/tx"
@@ -29,16 +31,16 @@ while read -r iface; do
     p_milliseconds="$(cat "${f_milliseconds}")"
     p_rx_bytes="$(cat "${f_rx_bytes}")"
     p_tx_bytes="$(cat "${f_tx_bytes}")"
-    d_milliseconds="$((${milliseconds}-${p_milliseconds}))"
+    d_milliseconds="$((milliseconds-p_milliseconds))"
     if [ "${d_milliseconds}" -gt 0 ] ; then
-      d_rx_bytes="$((${rx_bytes} - ${p_rx_bytes}))"
+      d_rx_bytes="$((rx_bytes - p_rx_bytes))"
       if [ "${d_rx_bytes}" -ge 0 ] ; then
-        rx_bytes_per_second="$((1000*${d_rx_bytes}/${d_milliseconds}))"
+        rx_bytes_per_second="$((1000*d_rx_bytes/d_milliseconds))"
         printf "%s\n" "${rx_bytes_per_second}" > "${f_rx_bytes_per_second}"
       fi
-      d_tx_bytes="$((${tx_bytes} - ${p_tx_bytes}))"
+      d_tx_bytes="$((tx_bytes - p_tx_bytes))"
       if [ "${d_tx_bytes}" -ge 0 ] ; then
-        tx_bytes_per_second="$((1000*${d_tx_bytes}/${d_milliseconds}))"
+        tx_bytes_per_second="$((1000*d_tx_bytes/d_milliseconds))"
         printf "%s\n" "${tx_bytes_per_second}" > "${f_tx_bytes_per_second}"
       fi
     fi
@@ -50,4 +52,4 @@ while read -r iface; do
   printf "%s\n" "${tx_bytes}" > "${f_tx_bytes}"
   printf "%s\n" "${tx_packets}" > "${f_tx_packets}"
 
-done <<< "$(ip -oneline -stats link)"
+done

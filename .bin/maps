@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-a=$(ui.dialog.input -p '' -sb '#A7CC95')
+q="$(ui.dialog.input -p '' -sb '#A7CC95')"
 
-if [ "$a" = '' ] ; then
+if [ -z "$q" ] ; then
 	exit 1
 fi
 
-address=$(echo -n "$a" | urlencode)
+query=$(printf '%s' "$q" | urlencode)
 
-wb --new-window https://maps.google.com?q="$address"
+wb --new-window https://maps.google.com?q="$query"

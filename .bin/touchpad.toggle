@@ -2,6 +2,6 @@
 
 off="$(synclient | grep TouchpadOff | tail -c2)"
 
-new="$(( ( $off + 1 ) % 2 ))"
+new="$(( ( off + 1 ) % 2 ))"
 
 synclient "TouchpadOff=$new"

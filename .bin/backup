@@ -12,9 +12,7 @@ for INPUT in "$@"; do
 	BASENAME=$(basename "$INPUT")
 	OUTPUT="$DIRNAME"'/'"$DATE"'.'"$BASENAME"
 
-	cp "$INPUT" "$OUTPUT"
-
-	if [ "$?" != 0 ] ; then
+	if ! cp "$INPUT" "$OUTPUT" ; then
 		echo 'failed to backup '"$INPUT" >&2
 	fi
 

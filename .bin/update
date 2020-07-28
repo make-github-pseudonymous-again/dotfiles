@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ $(id -u) == "0" ] ; then
+if [ "$(id -u)" = 0 ] ; then
   echo '! must NOT be run as root'
   exit 57
 fi
@@ -32,13 +32,13 @@ fish=false     # z
 
 function show_help ( ) {
   echo '! No help for the moment :(' ;
-  echo ' > Here is the code of the update script. The file is located at '"${BASH_SOURCE}".
+  echo ' > Here is the code of the update script. The file is located at '"${BASH_SOURCE[0]}".
   if command -v bat > /dev/null ; then
-    bat "${BASH_SOURCE}"
+    bat "${BASH_SOURCE[0]}"
   elif command -v less > /dev/null ; then
-    less "${BASH_SOURCE}"
+    less "${BASH_SOURCE[0]}"
   else
-    cat "${BASH_SOURCE}"
+    cat "${BASH_SOURCE[0]}"
   fi
 }
 

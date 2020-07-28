@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOTFILES="$(dirname "$(dirname "${BASH_SOURCE}")")";
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 cd "$DOTFILES";
 git pull origin master;
