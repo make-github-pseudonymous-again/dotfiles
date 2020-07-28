@@ -4,8 +4,8 @@
 
 ## Advisory
 
-Many scripts will cache data on your hard drive. This data can be used to
-impersonate you. Encrypt your hard drive before it is too late.
+Many scripts will cache data on your drive. This data can be used to
+impersonate you. Encrypt your drive before it is too late.
 
 ## Getting started
 
