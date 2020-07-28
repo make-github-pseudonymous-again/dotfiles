@@ -24,9 +24,9 @@ elif [ "$wifi_status" = auto ] ; then
 	execute="$execute"'| map( if .name == "wireless" then .full_text = " " + .full_text else . end )'
 fi
 
-tethering_iface="$(memoize 900 tethering.iface.default)"
+tethering_iface="$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize 900 tethering.iface.default)"
 if [ -n "$tethering_iface" ]; then
-	tethering_nclients="$(memoize 60 tethering.nclients "$tethering_iface")"
+	tethering_nclients="$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize 60 tethering.nclients "$tethering_iface")"
 	prepend='{"name":"tethering","color":"#0CD0F7","full_text":" '"${tethering_nclients}"'"},'"$prepend"
 fi
 
