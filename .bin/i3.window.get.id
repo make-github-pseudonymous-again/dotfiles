@@ -14,7 +14,7 @@ PROGNAME="$(basename "$0")"
 
 # Check for xwininfo and xprop
 for cmd in xwininfo xprop; do
-    if ! which $cmd > /dev/null 2>&1; then
+    if ! command -v $cmd > /dev/null 2>&1; then
         echo "$PROGNAME: $cmd: command not found" >&2
         exit 1
     fi
