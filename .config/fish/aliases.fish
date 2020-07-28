@@ -100,8 +100,8 @@ abbr path "readlink -f"
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias fgrep='grep --color=auto -F'
+alias egrep='grep --color=auto -E'
 
 # diff abbreviation. Use Git's colored diff when available.
 command -v git > /dev/null; and abbr --add dif "git diff --no-index --color-words"; or abbr --add dif "diff"

@@ -52,8 +52,8 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias fgrep='grep --color=auto -F'
+alias egrep='grep --color=auto -E'
 
 # Use Git's colored diff when available
 command -v git > /dev/null && alias diff="git diff --no-index --color-words"
