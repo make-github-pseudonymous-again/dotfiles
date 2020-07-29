@@ -28,7 +28,8 @@ impersonate you. Encrypt your drive before it is too late.
 
 ### Install appropriate graphics driver
 
-Usually one of the following, check the
+Usually **one of the following**.
+Check the
 [intel graphics](https://wiki.archlinux.org/index.php/Intel_graphics),
 [nvidia](https://wiki.archlinux.org/index.php/NVIDIA),
 and 
