@@ -14,7 +14,8 @@ else
   fi
 fi
 
+ROOT='https://web.archive.org'
 url="$selection"
 
-curl -v 2>&1 >/dev/null "https://web.archive.org/save/${url}" |
-sed -n 's/^< location: //p'
+curl -v 2>&1 >/dev/null "${ROOT}/save/${url}" |
+sed -n 's@^< content-location: @'"${ROOT}"'@p'
