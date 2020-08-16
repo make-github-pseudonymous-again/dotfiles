@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+"""
+    Prints one JSON object for each github notifications for the authenticated
+    github user.
+"""
+
+import sys
+import github
+
+if len(sys.argv) < 2: sys.exit(1)
+
+thread_id = sys.argv[1]
+
+token = github.token()
+url = github.api('/notifications/threads/{thread_id}', thread_id=thread_id)
+
+github.patch(url, token=token)

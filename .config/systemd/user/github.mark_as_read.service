@@ -1,0 +1,8 @@
+[Unit]
+Description=Github mark notifications read service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=300
+ExecStart=/usr/bin/env github.mark_as_read.daemon

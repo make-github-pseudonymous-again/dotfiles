@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import re
+import functools
+import subprocess
 import urllib.request
 
 # from https://github.com/kennethreitz/requests
@@ -36,18 +38,24 @@ def next_url ( info ) :
     header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
     return header_link_next['url']
 
-def pages ( url , credentials = None ) :
+
+def send ( url , token = None , **kwargs ) :
+    req = urllib.request.Request(url, **kwargs)
+    if token is not None:
+        req.add_header('Authorization', 'token {}'.format(token))
+
+    with urllib.request.urlopen(req) as connection:
+        data = connection.read()
+        info = connection.info()
+
+    return data, info
+
+def pages ( url , **kwargs ) :
 
     while True:
 
-        req = urllib.request.Request(url)
-        if credentials is not None:
-            req.add_header('Authorization', 'Basic %s' % credentials)
-
-        with urllib.request.urlopen(req) as connection:
-            data = connection.read()
-            info = connection.info()
-            yield data
+        data, info = send( url , **kwargs)
+        yield data
 
         try:
             url = next_url(info)
@@ -59,3 +67,24 @@ def pages ( url , credentials = None ) :
 def api ( endpoint, *args, **kwargs ) :
     github_api = 'https://api.github.com'
     return github_api + endpoint.format(*args, **kwargs)
+
+def token ( ) :
+    p = subprocess.run(['pass', 'apps/github/pat'], stdout=subprocess.PIPE)
+    if p.returncode == 0 :
+        return p.stdout.decode('utf-8')[:-1]
+    else:
+        raise Exception('Could not find token')
+
+PUT = "PUT"
+GET = "GET"
+POST = "POST"
+PATCH = "PATCH"
+UPDATE = "UPDATE"
+DELETE = "DELETE"
+
+put = functools.partial(send, method = PUT)
+get = functools.partial(send, method = GET)
+post = functools.partial(send, method = POST)
+update = functools.partial(send, method = UPDATE)
+patch = functools.partial(send, method = PATCH)
+delete = functools.partial(send, method = DELETE)

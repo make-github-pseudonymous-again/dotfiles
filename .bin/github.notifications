@@ -1,41 +1,18 @@
 #!/usr/bin/env python3
 
 """
-    Outputs the total number of github stars of the repositories owned by
-    a given github user.
+    Prints one JSON object for each github notifications for the authenticated
+    github user.
 """
 
 import sys
 import json
-import subprocess
-import base64
 import github
 
-try:
-
-    up = subprocess.run(['pass', 'apps/github/user'],stdout=subprocess.PIPE)
-    if up.returncode == 0 :
-        username = up.stdout.decode('utf-8')[:-1]
-
-        pp = subprocess.run(['pass', 'apps/github/password'],stdout=subprocess.PIPE)
-        if pp.returncode == 0 :
-            password = pp.stdout.decode('utf-8')[:-1]
-        else:
-            sys.exit(3)
-    else:
-        sys.exit(2)
-
-except:
-    sys.exit(4)
-
-credentials = ('%s:%s' % (username, password))
-credentials = base64.b64encode(credentials.encode('ascii'))
-credentials = credentials.decode("ascii")
-
+token = github.token()
 first_page = github.api('/notifications')
-notifications = 0
 
-for page in github.pages(first_page, credentials=credentials):
-    notifications += len(json.loads(page))
-
-print(notifications)
+for page in github.pages(first_page, token=token):
+    for notification in json.loads(page):
+        json.dump(notification, sys.stdout, indent=None, separators=(',', ':'))
+        sys.stdout.write('\n')
