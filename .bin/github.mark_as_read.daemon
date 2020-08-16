@@ -6,9 +6,9 @@ FILTER='.user.login == "renovate[bot]" and .state == "closed"'
 github.notifications |
 jq -c "$QUERY" |
 while read -r line ; do
-	id="$(jq -r <<< "$line" .id)"
-	pr="$(jq -r <<< "$line" .pr)"
-	title="$(jq -r <<< "$line" .title)"
+	id="$(printf '%s' "$line" | jq -r .id)"
+	pr="$(printf '%s' "$line" | jq -r .pr)"
+	title="$(printf '%s' "$line" | jq -r .title)"
 	if [ "$(curl -s "$pr" | jq "$FILTER")" = "true" ] ; then
 		>&2 echo "Marking thread #${id} as read: ${title} (${pr})"
 		github.mark_as_read "$id"
