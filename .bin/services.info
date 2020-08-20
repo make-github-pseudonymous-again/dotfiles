@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 import json
 import subprocess
 import fileinput
@@ -13,7 +14,10 @@ status = {}
 
 for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
 
-    unit, load, active, sub, description = map(lambda x : x.strip(), line.split(maxsplit=4))
+    unit, load, active, sub, description = map(
+        lambda x : x.strip(),
+        re.sub(r'^●', lambda m: ' ', line).split(maxsplit=4)
+    )
 
     name, kind = unit.rsplit('.',maxsplit=1)
 
