@@ -26,6 +26,8 @@ def plot3D(fns, rangex, rangey, points=100, colors=None, layout=None, block=Fals
     x, xmin, xmax = rangex
     y, ymin, ymax = rangey
 
+    xmin, xmax, ymin, ymax = map(float, (xmin, xmax, ymin, ymax))
+
     X = np.arange(xmin, xmax, (xmax-xmin)/points)
     Y = np.arange(ymin, ymax, (ymax-ymin)/points)
     domain = np.meshgrid(X, Y)
