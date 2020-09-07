@@ -104,22 +104,23 @@ def threshold (op , t) :
                 _bounds = (zmin,) + _bounds + (zmax,)
 
         ncolors = len(_bounds)
+        assert(ncolors >= 2)
 
         bounds = np.array(_bounds)
 
-        viridis = cm.get_cmap('viridis', ncolors)
-        newcolors = viridis(np.linspace(0, 1, ncolors))
+        viridis = cm.get_cmap('viridis', ncolors-1)
+        newcolors = viridis(np.linspace(0, 1, ncolors-1))
         pink = np.array([248/256, 24/256, 148/256, 1])
+
+        if op is __gt__:
+            if t < zmax:
+                newcolors[-1] = pink
+        else:
+            if t > zmin:
+                newcolors[0] = pink
+
         cmap = ListedColormap(newcolors)
-
-        if zmin <= t <= zmax:
-            newcolors[0 if op is __lt__ else -1] = pink
-        elif t < zmin <= zmax and op is __gt__:
-            newcolors[-1] = pink
-        elif zmin <= zmax < t and op is __lt__:
-            newcolors[0] = pink
-
-        norm = BoundaryNorm(bounds, ncolors)
+        norm = BoundaryNorm(bounds, ncolors-1)
 
         return cmap, norm
 
