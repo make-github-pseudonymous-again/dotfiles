@@ -1,15 +1,15 @@
-# ~/. dotfiles for Arch Linux
+# :wrench: ~/. dotfiles for Arch Linux
 
 [![Build](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
 
 <img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="864">
 
-## Advisory
+## :raising_hand_man: Advisory
 
 Many scripts will cache data on your drive. This data can be used to
 impersonate you. Encrypt your drive before it is too late.
 
-## Getting started
+## :rocket: Getting started
 
 ### Clone
 
@@ -55,12 +55,12 @@ Logout, login, then
     up -a
 
 
-## Usage
+## :woman_astronaut: Usage
 
 See [wiki](https://github.com/aureooms/dotfiles/wiki).
 
 
-## Credits
+## :clap: Credits
 
   - https://github.com/mathiasbynens/dotfiles
   - https://github.com/thomacer/dotfiles
