@@ -2,60 +2,60 @@
 add_newline = false
 
 # Prompt order (to place custom commands)
-prompt_order = [
-    "username",
-    "custom.sudo",
-    "hostname",
-    "kubernetes",
-    "directory",
-    "git_branch",
-    "git_commit",
-    "git_state",
-    "git_status",
-    "hg_branch",
-    "docker_context",
-    "package",
-    "dotnet",
-    "elixir",
-    "elm",
-    "golang",
-    "haskell",
-    "java",
-    "julia",
-    "nodejs",
-    "php",
-    "python",
-    "ruby",
-    "rust",
-    "terraform",
-    "nix_shell",
-    "conda",
-    "memory_usage",
-    "aws",
-    "env_var",
-    "crystal",
-    "cmd_duration",
-    "custom",
-    "line_break",
-    "jobs",
-    "battery",
-    "time",
-    "character",
-]
+format = """\
+  $username\
+  ${custom.sudo}\
+  $hostname\
+  $kubernetes\
+  $directory\
+  $git_branch\
+  $git_commit\
+  $git_state\
+  $git_status\
+  $hg_branch\
+  $docker_context\
+  $package\
+  $dotnet\
+  $elixir\
+  $elm\
+  $golang\
+  $haskell\
+  $java\
+  $julia\
+  $nodejs\
+  $php\
+  $python\
+  $ruby\
+  $rust\
+  $terraform\
+  $nix_shell\
+  $conda\
+  $memory_usage\
+  $aws\
+  $env_var\
+  $crystal\
+  $cmd_duration\
+  $custom\
+  $line_break\
+  $jobs\
+  $battery\
+  $time $character\
+"""
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]      # The name of the module we are configuring is "character"
-symbol = "[I] ➜"     # The "symbol" segment is being set to "➜"
-vicmd_symbol = "[N] ➜"
+[character]
+success_symbol = '[\[I\]](bold green) ➜'
+error_symbol = '[\[I\]](bold red) ➜'
+vicmd_symbol = '[\[N\]](bold green) ➜'
 
 [cmd_duration]
 min_time = 0
 show_milliseconds = true
-prefix = ""
+format = "[$duration]($style)"
 
 [time]
 disabled = false
-format = "%T"
+time_format = "%T"
+format = "[$time]($style)"
 
 [golang]
 symbol = "go "
@@ -73,7 +73,7 @@ symbol = "node "
 symbol = ""
 
 [custom.sudo]
-command = "echo '(sudo)'"
+command = "echo sudo"
 when = "sudo -n true"
 style = "bold fg:#ffb05b"
-prefix = ""
+format = "\\([$output]($style)\\) "
