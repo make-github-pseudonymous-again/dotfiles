@@ -67,6 +67,7 @@ python2-matplotlib
 python2-plyvel
 python2-pillow
 python2-pydub
+python2-pychm
 
 electron2 # not used anymore
 electron6 # not used anymore

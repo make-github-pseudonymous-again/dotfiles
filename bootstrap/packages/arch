@@ -140,7 +140,7 @@ catdoc
 unrtf
 id3lib
 python-mutagen
-python2-pychm
+python-pychm
 perl-image-exiftool
 aspell-en
 libxslt
