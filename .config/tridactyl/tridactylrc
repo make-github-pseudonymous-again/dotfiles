@@ -130,9 +130,10 @@ set searchurls.twt https://twitter.com/search?q=%s
 
 "" bindings
 
-" type xh, xs, or xl, to route page through sci-hub's proxy
+" route page through sci-hub's proxy
 unbind x
 bind xh js window.location = 'https://sci-hub.tw/' + window.location.href
+bind xt js window.location = 'https://sci-hub.st/' + window.location.href
 bind xs js window.location = 'https://sci-hub.se/' + window.location.href
 bind xl js window.location = 'https://sci-hub.ltd/' + window.location.href
 
