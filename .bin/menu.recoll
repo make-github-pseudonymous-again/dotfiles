@@ -20,70 +20,7 @@ args = parser.parse_args()
 prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', args.menuicon, '-sb', args.menucolor, '-l', '10']
 querystring = 'dir:"{}" AND ({})'.format(args.location, args.extensions)
 
-def humanbytes(size):
-
-    B = "B"
-    KB = "KB"
-    MB = "MB"
-    GB = "GB"
-    TB = "TB"
-    UNITS = [B, KB, MB, GB, TB]
-    HUMANFMT = "{:.2f} {}"
-    HUMANRADIX = 1024.
-
-    for u in UNITS[:-1]:
-        if size < HUMANRADIX : return HUMANFMT.format(size, u)
-        size /= HUMANRADIX
-
-    return HUMANFMT.format(size,  UNITS[-1])
-
-def formatdoc(doc):
-
-	path = doc.url[7:]
-	dirname = os.path.dirname(path)
-	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
-
-	try:
-	    timestamp = arrow.get(doc.mtime)
-	    htime = timestamp.humanize()
-	    hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
-	except Exception as e:
-	    htime = 'unknown'
-	    hdate = 'unknown'
-
-	try:
-	    hbytes = humanbytes(int(doc.fbytes))
-	except Exception as e:
-	    hbytes = 'unknown'
-
-	formatarray = ['{htime}', '>']
-
-	if doc.title:
-		formatarray.append('{title}')
-		formatarray.append('--')
-
-	formatarray.append('{hint}/{filename}')
-	formatarray.append('({hbytes}, {mtype})')
-	formatarray.append('--')
-
-	if doc.abstract:
-		formatarray.append('{abstract}')
-		formatarray.append('--')
-
-	formatarray.append('{url}')
-	formatarray.append('--')
-	formatarray.append('d@te:{hdate}')
-
-	keys = {
-		'hbytes': hbytes,
-		'htime': htime,
-		'hdate': hdate,
-		'hint': hint,
-		'filename': 'unknown',
-		**doc.items()
-	}
-
-	return ' '.join(formatarray).format(**keys)
+from librecoll import formatdoc
 
 import logging
 from recoll import recoll, rclextract
