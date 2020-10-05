@@ -1,0 +1,8 @@
+[Unit]
+Description=Unhang %I
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/env service.unhang %I

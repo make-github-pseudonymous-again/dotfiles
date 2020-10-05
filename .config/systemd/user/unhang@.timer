@@ -1,0 +1,9 @@
+[Unit]
+Description=Unhang %I timer
+
+[Timer]
+OnActiveSec=600
+OnUnitActiveSec=600
+
+[Install]
+WantedBy=ready.target
