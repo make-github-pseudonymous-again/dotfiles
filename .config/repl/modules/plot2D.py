@@ -5,19 +5,20 @@ from sympy import Symbol
 from sympy import lambdify
 from sympy import latex
 
-def lam2D (f, x):
+def lam2D (f, x, modules):
     tmp = Symbol('tmp')
-    return lambdify(tmp, f.subs(x,tmp), modules=['numpy'])
+    return lambdify(tmp, f.subs(x,tmp), modules=modules)
 
 def plot2D ( fns , rangex , ymin = None , ymax = None , hints = (),
         points = 1000 , figure = None , block = False ,
-        yfmt = '{:.4f}', label=lambda f: latex(f, mode='inline'), **kwargs ) :
+        yfmt = '{:.4f}', label=lambda f: latex(f, mode='inline'),
+        modules=['numpy', 'scipy'], **kwargs ) :
 
     if not isinstance(fns, (list, tuple)): fns = (fns,)
     x, xmin, xmax = rangex
     xmin, xmax = float(xmin), float(xmax)
     domain = np.linspace(xmin, xmax, points)
-    lmbds = list(map(lambda f: lam2D(f,x), fns))
+    lmbds = list(map(lambda f: lam2D(f,x,modules), fns))
 
     plt.figure(figure)
 
