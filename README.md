@@ -1,6 +1,4 @@
-# :wrench: ~/. dotfiles for Arch Linux
-
-[![Build](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
+# :wrench: ~/. dotfiles for Arch Linux [![Build status](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
 
 <img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="864">
 
