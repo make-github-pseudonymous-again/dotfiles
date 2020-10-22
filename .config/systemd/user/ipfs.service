@@ -3,6 +3,7 @@ Description=IPFS daemon
 After=ready.target
 
 [Service]
+Nice=19
 ExecStart=/usr/bin/ipfs daemon
 Restart=on-failure
 
