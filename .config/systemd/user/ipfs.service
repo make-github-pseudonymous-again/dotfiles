@@ -4,7 +4,7 @@ After=ready.target
 
 [Service]
 Nice=19
-ExecStart=/usr/bin/ipfs daemon
+ExecStart=/usr/bin/ipfs daemon --migrate
 Restart=on-failure
 
 [Install]
