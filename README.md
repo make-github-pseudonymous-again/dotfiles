@@ -1,4 +1,6 @@
-# :wrench: ~/. dotfiles for Arch Linux [![Build status](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
+:wrench: ~/. dotfiles for Arch Linux
+[![Build status](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
+==
 
 <p align="center">
 <a href="https://xkcd.com/974">
@@ -29,9 +31,11 @@ impersonate you. Encrypt your drive before it is too late.
 
     bash bootstrap/dotfiles-update
 
-### Install appropriate graphics driver
+### Install hardware-dependent software
 
-Usually **one of the following**.
+#### Graphics
+
+Usually **one** of the following drivers will work.
 Check the
 [intel graphics](https://wiki.archlinux.org/index.php/Intel_graphics),
 [nvidia](https://wiki.archlinux.org/index.php/NVIDIA),
@@ -45,8 +49,15 @@ pages on the wiki.
     pacman -S xf86-video-ati
     pacman -S nvidia
 
-See also [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
-laptop battery or power.
+
+#### Power
+
+See [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
+laptop battery or energy.
+
+#### Heat
+
+Consider installing [`thermald`](https://wiki.archlinux.org/index.php/CPU_frequency_scaling#thermald).
 
 ### Install system
 Logout, login, then
@@ -65,8 +76,9 @@ See [wiki](https://github.com/aureooms/dotfiles/wiki).
 
 ## :clap: Credits
 
-  - https://github.com/mathiasbynens/dotfiles
-  - https://github.com/thomacer/dotfiles
+  - [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
+  - [Thomas Perale](https://github.com/tperale/dotfiles)
+  - [Chris Down](https://github.com/cdown/dotfiles)
   - [xkcd#974](https://www.explainxkcd.com/wiki/index.php/974)
   - [xkcd#1205](https://www.explainxkcd.com/wiki/index.php/1205)
   - [xkcd#1319](https://www.explainxkcd.com/wiki/index.php/1319)
