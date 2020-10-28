@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# vi:syntax=sh
+
+ROOT="$HOME/dl/arxiv-downloader/index/all"
+
+find "$ROOT" -type l -printf '%f\n' |
+fzf-menu |
+sed -E -n 's/^.*\(arxiv:(.*)\).*$/\1/p' |
+xargs -L1 arxiv-generate-bibtex-entry |
+xsel -b

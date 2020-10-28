@@ -617,6 +617,8 @@ mode "tools" {
         bindcode 56 exec bib.ui.selection; mode "default"
         #-- bindsym Shift+B exec bib.selection.local; mode "default"
         bindcode Shift+56 exec bib.selection.local; mode "default"
+        #-- bindsym a exec bib.ui.selection.arxiv; mode "default"
+        bindcode 24 exec bib.ui.selection.arxiv; mode "default"
         #-- bindsym c exec clipboard.menu; mode "default"
         bindcode 54 exec clipboard.menu; mode "default"
         #-- bindsym m exec menu.man; mode "default"
