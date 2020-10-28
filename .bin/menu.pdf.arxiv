@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# vi:syntax=sh
+
+opener="${1:-xdg-open}"
+ROOT="$HOME/dl/arxiv-downloader/index/all"
+
+find "$ROOT" -type l -printf '%f\n' |
+fzf-menu |
+xargs -L1 -I{} "$opener" "$ROOT/{}"
