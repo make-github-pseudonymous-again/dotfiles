@@ -1,6 +1,11 @@
 # :wrench: ~/. dotfiles for Arch Linux [![Build status](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
 
-<img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="864">
+<p align="center">
+<a href="https://xkcd.com/974">
+<img src="https://imgs.xkcd.com/comics/the_general_problem.png" width="600">
+</a><br/>
+© <a href="https://xkcd.com">xkcd.com</a>
+</p>
 
 ## :raising_hand_man: Advisory
 
