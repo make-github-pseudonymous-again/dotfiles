@@ -6,5 +6,5 @@ ROOT="$HOME/dl/arxiv-downloader/index/all"
 
 find "$ROOT" -type l -printf '%f\n' |
 fzf-menu |
-escape-characters '\' |
+escape-characters "\\" |
 xargs -L1 -I{} "$opener" "$ROOT/{}"
