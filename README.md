@@ -67,3 +67,6 @@ See [wiki](https://github.com/aureooms/dotfiles/wiki).
 
   - https://github.com/mathiasbynens/dotfiles
   - https://github.com/thomacer/dotfiles
+  - [xkcd#974](https://www.explainxkcd.com/wiki/index.php/974)
+  - [xkcd#1205](https://www.explainxkcd.com/wiki/index.php/1205)
+  - [xkcd#1319](https://www.explainxkcd.com/wiki/index.php/1319)
