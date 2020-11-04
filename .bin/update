@@ -384,7 +384,7 @@ fi
 if $fish ; then
 
   echo '+ Update fish plugins'
-  fish -c 'fisher' || _exit "$?"
+  fish -c 'fisher update' || _exit "$?"
 
 fi
 
