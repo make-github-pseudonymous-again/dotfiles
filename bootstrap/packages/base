@@ -9,6 +9,7 @@ zip
 unzip
 unrar
 git
+diff-so-fancy
 rsync
 jq
 base-devel
