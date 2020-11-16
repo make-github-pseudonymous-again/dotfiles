@@ -1,0 +1,3 @@
+[diff]
+    format = "git"
+    pager = "diff-so-fancy"
