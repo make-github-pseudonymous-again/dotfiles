@@ -12,6 +12,7 @@ set fish_greeting
 . ~/.config/fish/exports.fish
 . ~/.config/fish/aliases.fish
 . ~/.config/fish/functions.fish
+. ~/.config/fish/forgit.fish
 #. ~/.config/fish/prompt.fish
 #
 starship init fish | source
