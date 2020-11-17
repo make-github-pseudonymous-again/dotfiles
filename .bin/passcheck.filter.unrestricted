@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+jq '{"passwords": (.passwords | map(.keys as $keys | select(["/number", "/expires", "/pin", "/verification-code"] | any([.] | inside($keys)) | not)))}'

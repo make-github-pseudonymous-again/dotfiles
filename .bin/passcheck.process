@@ -4,16 +4,41 @@ const ora = require('ora');
 const zxcvbn = require('zxcvbn');
 const readline = require('readline');
 
-const analysis = ora('Analyzing passwords ...').start();
+const progress = ora({
+  text: 'Analyzing passwords ...',
+}).start();
 
-const keys = [];
-const results = {};
+function Passwords ( ) {
+  this.map = new Map();
+}
+
+Passwords.prototype.add = function (key, password) {
+  if (!this.map.has(password)) {
+    const meta = zxcvbn(password);
+    this.map.set(password, {keys: [key], password, meta});
+  }
+  else {
+    this.map.get(password).keys.push(key);
+  }
+};
+
+Passwords.prototype[Symbol.iterator] = function () {
+  return this.map.values();
+};
+
+const passwords = new Passwords();
 
 let count = 0;
 let done = 0;
 
 function update ( ) {
-  analysis.text = `Analyzing passwords (${done}/${count}) ...`;
+  progress.text = `Analyzing passwords (${done}/${count}) ...`;
+}
+
+function output ( ) {
+  return {
+    passwords: [...passwords],
+  };
 }
 
 const rl = readline.createInterface({
@@ -24,26 +49,16 @@ const rl = readline.createInterface({
 
 rl.on('line', function(line){
   ++count; update();
-  const key = line.split(' ')[0];
-  const password = line.split(' ').slice(1).join(' ');
-  const result = zxcvbn(password);
-  keys.push(key);
-  results[key] = result;
+  const [key, ...parts] = line.split(' ');
+  const password = parts.join(' ');
+  passwords.add(key, password);
   ++done; update();
 });
 
 rl.on('close', function(){
 
-  analysis.succeed(`Analyzed ${count} passwords`)
+  progress.succeed(`Analyzed ${count} passwords`);
 
-  const display = ora('Sorting keys').start();
-
-  keys.sort((a,b) => results[a].guesses - results[b].guesses);
-
-  display.succeed();
-
-  for ( const key of keys ) {
-    console.log(`${key}: ${results[key].crack_times_display.offline_fast_hashing_1e10_per_second}`);
-  }
+  console.log(JSON.stringify(output()));
 
 });

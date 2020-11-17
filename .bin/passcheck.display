@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+jq -r '.passwords |
+sort_by(.meta.guesses_log10) |
+.[] |
+"\(.keys | join(", ")): \(.meta.crack_times_display.offline_fast_hashing_1e10_per_second)"'

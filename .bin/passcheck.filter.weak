@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+jq '{"passwords": (.passwords | map(select(.meta.guesses_log10 < 19.5)))}'

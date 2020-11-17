@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-passlist | passcheck.process
+passlist |
+passcheck.process |
+passcheck.display
