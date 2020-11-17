@@ -3,6 +3,6 @@
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 "$DOTFILES/bootstrap/dotfiles-diff-list" | \
-xargs -I{} git --no-pager diff --no-index --color-words "$HOME/{}" "$DOTFILES/{}";
+xargs -I{} env GIT_PAGER="diff-so-fancy" git diff --no-index "$HOME/{}" "$DOTFILES/{}";
 
 exit 0
