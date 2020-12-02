@@ -2,7 +2,7 @@
 Description=Homepage daemon
 
 [Service]
-ExecStart=/usr/bin/env server %h/.config/homepage 7342
+ExecStart=/usr/bin/env http-server %h/.config/homepage -a localhost -p 7342
 Restart=always
 
 [Install]
