@@ -884,10 +884,10 @@ bindcode $mod+28 exec touchpad.toggle
 # Change the workspace output
 #-- bindsym $mod+Shift+equal exec i3.workspace.swap
 bindcode $mod+Shift+61 exec i3.workspace.swap
-#-- bindsym $mod+semicolon move workspace to output right
-bindcode $mod+59 move workspace to output right
-#-- bindsym $mod+colon move workspace to output left
-bindcode $mod+60 move workspace to output left
+#-- bindsym $mod+semicolon move workspace to output left
+bindcode $mod+59 move workspace to output left
+#-- bindsym $mod+colon move workspace to output right
+bindcode $mod+60 move workspace to output right
 
 # Make the currently focused window a scratchpad
 #-- bindsym $mod+Shift+minus move scratchpad
