@@ -1,6 +1,9 @@
 " This will have to do until someone writes us a nice syntax file :)
 " vim: set filetype=vim:
 
+"" set theme
+colors sane
+
 "" Disable all default searchurls.
 "" See https://github.com/tridactyl/tridactyl/issues/2306#issuecomment-615798111
 "" Defaults are here https://github.com/tridactyl/tridactyl/blob/master/src/lib/config.ts
