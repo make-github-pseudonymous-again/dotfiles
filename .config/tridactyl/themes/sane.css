@@ -1,5 +1,6 @@
 :root.TridactylThemeSane {
     --tridactyl-font-family: "San Francisco", sans-serif;
+    --tridactyl-hintspan-bg: #F77;
 }
 
 :root.TridactylThemeSane #command-line-holder {
