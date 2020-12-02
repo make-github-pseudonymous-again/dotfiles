@@ -1,21 +1,24 @@
 :root.TridactylThemeSane {
     --tridactyl-font-family: "San Francisco", sans-serif;
     --tridactyl-hintspan-bg: #F77;
+    --tridactyl-cmdl-fg: #eee;
+    --tridactyl-cmdl-bg: #333;
+    --tridactyl-cmplt-fg: #eee;
+    --tridactyl-cmplt-bg: #333;
+    --tridactyl-url-fg: #ddd;
+    --tridactyl-url-bg: #1c1c1c;
 }
 
 :root.TridactylThemeSane #command-line-holder {
     order: 1;
     border: 2px solid #000;
-    background: #333;
-    color: #333; /*To hide ':'*/
+    color: var(--tridactyl-cmdl-bg); /*To hide ':'*/
 }
 
 :root.TridactylThemeSane #tridactyl-input {
     width: 90%;
     font-size: 1.5rem;
     line-height: 1.5;
-    color: #eee;
-    background: #333;
     padding: 1rem;
 }
 
@@ -37,8 +40,6 @@
 
 :root.TridactylThemeSane #completions {
     --option-height: 1.4em;
-    color: #eee;
-    background: #333;
     display: inline-block;
     font-size: unset;
     font-weight: 200;
@@ -98,11 +99,6 @@
     padding: 1rem !important;
     padding-left: unset;
     padding-bottom: 0.2rem;
-}
-
-:root.TridactylThemeSane #completions .option:not(.focused) .url {
-    color: #ddd;
-    background: #1c1c1c;
 }
 
 :root.TridactylThemeSane #cmdline_iframe {
