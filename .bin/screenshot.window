@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+mkdir -p ~/shots
+
+# shellcheck disable=SC2016
+scrot --focused "$HOME"'/shots/%Y-%m-%d-%H%M%S_$wx$h.png'
