@@ -866,11 +866,13 @@ bindcode Ctrl+Shift+237 exec keyboard.brightness.min
 # print screen
 bindsym --release Print exec screenshot.all
 bindsym --release Shift+Print exec screenshot.selection
+bindsym --release Ctrl+Print exec screenshot.window
 bindsym --release $mod+Print exec screenshot.all+gimp
 bindsym --release $mod+Shift+Print exec screenshot.selection+gimp
 # ... for MacBook Pro
 bindsym --release XF86LaunchA exec screenshot.all
 bindsym --release Shift+XF86LaunchA exec screenshot.selection
+bindsym --release Ctrl+XF86LaunchA exec screenshot.window
 bindsym --release $mod+XF86LaunchA exec screenshot.all+gimp
 bindsym --release $mod+Shift+XF86LaunchA exec screenshot.selection+gimp
 
