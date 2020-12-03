@@ -135,6 +135,7 @@ set searchurls.twt https://twitter.com/search?q=%s
 
 " route page through sci-hub's proxy
 unbind x
+bind xd js window.location = 'https://sci-hub.do/' + window.location.href
 bind xh js window.location = 'https://sci-hub.tw/' + window.location.href
 bind xt js window.location = 'https://sci-hub.st/' + window.location.href
 bind xs js window.location = 'https://sci-hub.se/' + window.location.href
