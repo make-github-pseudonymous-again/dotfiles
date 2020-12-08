@@ -92,7 +92,7 @@ function waitforevent() {
 
 	inotifywait --recursive --monitor --format "%w%f" \
 		--event close_write --event move --event create --event delete \
-		--exclude '4913$' \
+		--exclude '(/\.git/|/4913$)' \
 		"${files[@]}" | \
 		git check-ignore --verbose --non-matching --stdin | \
 		grep --line-buffered --max-count 1  --regexp '^::'
