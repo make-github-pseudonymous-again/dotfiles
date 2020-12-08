@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+id="$(printf '%s\n' "$1" | sed 's/ //g')"
+
+chromium https://zoom.us/wc/join/"$id"
