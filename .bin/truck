@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# See https://www.reddit.com/r/archlinux/comments/jxaktq/arch_linux_has_a_single_point_of_failure
+
+pacman -Qi |
+  grep '^Packager' |
+  cut -d: -f2 |
+  sort |
+  uniq -c |
+  sort -n |
+  sed 's/^ *//;s/  /:/' |
+  awk -F: "{printf \"%5.1f%%  \",\
+      100 * \$1 / $(pacman -Qq | wc -l);\
+      \$1=\"\" }1"
