@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+CACHE="$HOME/.cache/memoize"
+QR='^[1-9]'
+
+{
+	grep -l "$QR" "$CACHE"/*/R ;
+	grep -l "$QC" "$CACHE"/*/C ;
+	grep -l "$QO" "$CACHE"/*/O ;
+	grep -l "$QE" "$CACHE"/*/E ;
+	grep -l "$QT" "$CACHE"/*/T ;
+} | rev | cut -d/ -f2 | rev |  sort -u |
+while read -r filepath ; do
+	echo "$filepath"
+done
