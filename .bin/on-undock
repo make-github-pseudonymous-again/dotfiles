@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+#autorandr --change
+sudo /usr/bin/systemctl stop dhcpcd
+sleep 3
+wifi.resume

@@ -1,0 +1,9 @@
+[Unit]
+Description=Docked to Lenovo ThinkPad Thunderbolt 3 Dock Gen 2 135W
+After=ready.target
+After=dev-lenovo_thinkpad_thunderbolt_3_dock_gen_2_135w.device
+Requires=ready.target
+BindsTo=dev-lenovo_thinkpad_thunderbolt_3_dock_gen_2_135w.device
+
+[Install]
+WantedBy=dev-lenovo_thinkpad_thunderbolt_3_dock_gen_2_135w.device
