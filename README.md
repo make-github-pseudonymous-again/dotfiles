@@ -52,7 +52,10 @@ pages on the wiki.
 
 #### Power
 
-See [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
+In general, check out [*Power management* on the Arch wiki](https://wiki.archlinux.org/index.php/Power_management).
+
+For systems with hybrid graphics (with both an integrated GPU and a dedicated
+GPU), see [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee) to save
 laptop battery or energy.
 
 #### Heat
