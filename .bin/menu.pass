@@ -6,8 +6,9 @@ password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
-password=$(printf '%s\n' "${password_files[@]}" | dmenu_center --rest -i -t -p '' -sb '#382F32' -l 10)
+password_key=$(printf '%s\n' "${password_files[@]}" | dmenu_center --rest -i -t -p '' -sb '#382F32' -l 10)
 
-[[ -n $password ]] || exit 1
+[[ -n "$password_key" ]] || exit 1
 
-pass show -c "$password" 2>/dev/null
+pass show -c "$password_key" 2>/dev/null
+notify-send -u normal -t 3000 "Password for '$password_key' copied to clipboard."
