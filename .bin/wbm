@@ -18,4 +18,4 @@ ROOT='https://web.archive.org'
 url="$selection"
 
 curl -v 2>&1 >/dev/null "${ROOT}/save/${url}" |
-sed -n 's@^< content-location: @'"${ROOT}"'@p'
+grep -o '^< [a-z].*$'
