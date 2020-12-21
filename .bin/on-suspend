@@ -4,3 +4,4 @@
 . ~/.path
 system.lock
 bluetooth.suspend
+wifi.suspend
