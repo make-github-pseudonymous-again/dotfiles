@@ -67,7 +67,7 @@ fi
 #fi
 
 
-calendar="$(memoize-ft 0 calendar.now)"
+calendar="$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize-ft 0 calendar.now)"
 if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
 fi
