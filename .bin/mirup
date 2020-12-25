@@ -9,7 +9,7 @@ DEFAULT="$HOME/.config/mirup/default"
 CONFIG="$HOME/.config/mirup/config"
 
 PARAMS="$(urlgetparams "$DEFAULT" "$CONFIG" "$@")"
-URL="https://www.archlinux.org/mirrorlist/${PARAMS}"
+URL="https://archlinux.org/mirrorlist/${PARAMS}"
 SOURCE="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-source.XXXXXXXX")"
 RANKED="$(mktemp --tmpdir "${USER}-mirup-mirrorlist-ranked.XXXXXXXX")"
 PACMAN=/etc/pacman.d/mirrorlist
