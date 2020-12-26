@@ -50,6 +50,19 @@ pages on the wiki.
     pacman -S nvidia
 
 
+#### Microcode
+
+Configure [early loading of microcode updates](https://wiki.archlinux.org/index.php/Microcode#Early_loading)
+depending on your CPU (if AMD or Intel).
+
+
+#### SSD ATA_TRIM
+
+Setup
+[trimming](https://wiki.archlinux.org/index.php/Solid_state_drive#TRIM) for all
+solid-state drives partitions (including the ones under LUKS).
+
+
 #### Power
 
 In general, check out [*Power management* on the Arch wiki](https://wiki.archlinux.org/index.php/Power_management).
