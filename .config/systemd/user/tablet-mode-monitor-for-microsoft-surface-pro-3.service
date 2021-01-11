@@ -1,0 +1,9 @@
+[Unit]
+Description=Microsoft Surface Pro 3 tablet mode monitor daemon
+
+[Service]
+ExecStart=/usr/bin/env tablet-mode-monitor-for-microsoft-surface-pro-3
+Restart=always
+
+[Install]
+WantedBy=ready.target

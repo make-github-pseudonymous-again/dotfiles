@@ -1,0 +1,9 @@
+[Unit]
+Description=Lenovo Thinkpad X1 Yoga gen4 tablet mode monitor daemon
+
+[Service]
+ExecStart=/usr/bin/env tablet-mode-monitor-for-lenovo-thinkpad-x1-yoga-gen4
+Restart=always
+
+[Install]
+WantedBy=ready.target

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+stdbuf -oL -eL \
+inotifywait --monitor --event create --event delete --format '%w%f %e' \
+/dev/input/ |
+grep -oP --line-buffered '/dev/input/event3 \K(CREATE|DELETE)' |
+while read -r event; do
+
+  if [ "$event" = 'CREATE' ] ; then
+    systemctl --user stop tablet.target
+  elif [ "$event" = 'DELETE' ] ; then
+    systemctl --user start tablet.target
+  fi
+
+done
