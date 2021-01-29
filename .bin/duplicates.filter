@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+while read -r line; do
+  index="$(printf '%s' "$line" | cut -d' ' -f1)"
+  dup="$(printf '%s' "$line" | cut -d' ' -f2)"
+  find "$dup" -type f | while read -r entry ; do
+    "$@" < "$entry"
+  done
+  rm -r "$index"
+done
