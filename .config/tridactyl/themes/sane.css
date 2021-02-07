@@ -19,6 +19,7 @@
     font-size: 1.5rem;
     line-height: 1.5;
     padding: 1rem;
+    outline: none;
 }
 
 :root.TridactylThemeSane #completions table {
