@@ -32,9 +32,8 @@ def parse_header_links(value):
 
         yield link
 
-def next_url ( info ) :
-    header = dict(info)
-    header_link = header['link']
+def next_url ( headers ) :
+    header_link = headers.get('link') or headers['Link']
     header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
     return header_link_next['url']
 
@@ -44,21 +43,21 @@ def send ( url , token = None , **kwargs ) :
     if token is not None:
         req.add_header('Authorization', 'token {}'.format(token))
 
-    with urllib.request.urlopen(req) as connection:
-        data = connection.read()
-        info = connection.info()
+    with urllib.request.urlopen(req) as response:
+        data = response.read()
+        headers = response.headers
 
-    return data, info
+    return data, headers
 
 def pages ( url , **kwargs ) :
 
     while True:
 
-        data, info = send( url , **kwargs)
+        data, headers = send( url , **kwargs)
         yield data
 
         try:
-            url = next_url(info)
+            url = next_url(headers)
         except KeyError:
             break
         except StopIteration:
