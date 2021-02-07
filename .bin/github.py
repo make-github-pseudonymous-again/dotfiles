@@ -33,6 +33,7 @@ def parse_header_links(value):
         yield link
 
 def next_url ( headers ) :
+    headers = dict(headers)
     header_link = headers.get('link') or headers['Link']
     header_link_next = next(filter(lambda x: x['rel'] == 'next', parse_header_links(header_link)))
     return header_link_next['url']
