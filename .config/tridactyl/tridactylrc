@@ -70,6 +70,9 @@ set searchurls.arcp https://archlinux.org/packages/?q=%s
 " aur packages
 set searchurls.aur  https://aur.archlinux.org/packages/?K=%s
 
+" CVE
+set searchurls.cve  https://cve.circl.lu/cve/%s
+
 " github
 set searchurls.gh   https://github.com/%s
 set searchurls.ghs  https://github.com/search?q=%s
