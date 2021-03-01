@@ -15,3 +15,5 @@ ervy # not used
 get-stdin # not used
 katex # not used
 speed-test # too slow
+babel-eslint # deprecated
+eslint-plugin-babel # deprecated

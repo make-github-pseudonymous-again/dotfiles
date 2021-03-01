@@ -1,8 +1,8 @@
 # Node / npm / yarn
 eslint
 eslint_d
-babel-eslint
-eslint-plugin-babel
+@babel/eslint-parser
+@babel/eslint-plugin
 xo
 
 gulp-cli
