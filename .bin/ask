@@ -6,18 +6,18 @@
 
 # http://djm.me/ask
 
-while true; do
+if [ "${2:-}" = "Y" ]; then
+    prompt="Y/n"
+    default=Y
+elif [ "${2:-}" = "N" ]; then
+    prompt="y/N"
+    default=N
+else
+    prompt="y/n"
+    default=
+fi
 
-    if [ "${2:-}" = "Y" ]; then
-        prompt="Y/n"
-        default=Y
-    elif [ "${2:-}" = "N" ]; then
-        prompt="y/N"
-        default=N
-    else
-        prompt="y/n"
-        default=
-    fi
+while true; do
 
     # Ask the question (not using "read -p" as it uses stderr not stdout)
     echo -n "$1 [$prompt] "
