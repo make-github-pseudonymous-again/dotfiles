@@ -16,6 +16,7 @@ python-bibtexparser
 python-colored
 python-pypdf2
 python-inotify
+emojify
 
 # Shell Prompt
 starship-bin
