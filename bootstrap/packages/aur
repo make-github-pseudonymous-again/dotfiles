@@ -17,6 +17,7 @@ python-colored
 python-pypdf2
 python-inotify
 emojify
+watchman-bin # https://github.com/neoclide/coc-tsserver
 
 # Shell Prompt
 starship-bin
