@@ -1,6 +1,6 @@
 {
 	"refactor": {
-		"title": ":recycle: refactor"
+		"title": ":truck: refactor"
 	},
 	"chore": {
 		"title": ":unamused: chore"
@@ -12,7 +12,7 @@
 		"title": ":sparkles: feat"
 	},
 	"fix": {
-		"title": ":bug: fix"
+		"title": ":adhesive_bandage: fix"
 	},
 	"style": {
 		"title": ":art: style"
@@ -23,9 +23,6 @@
 	"perf": {
 		"title": ":rocket: perf"
 	},
-	"breaking": {
-		"title": ":boom: BREAKING CHANGE"
-	},
 	"build": {
 		"title": ":hammer: build"
 	},
@@ -33,6 +30,69 @@
 		"title": ":gear: ci"
 	},
 	"revert": {
-		"title": ":wastebasket: revert"
+		"title": ":rewind: revert"
+	},
+	"config": {
+		"title": ":wrench: config"
+	},
+	"deployment": {
+		"title": ":ship: deployment"
+	},
+	"deprecate": {
+		"title": ":warning: deprecate"
+	},
+	"dependencies": {
+		"title": ":package: dependencies"
+	},
+	"experiment": {
+		"title": ":alembic: experiment"
+	},
+	"hotfix": {
+		"title": ":ambulance: hotfix"
+	},
+	"i18n": {
+		"title": ":globe_with_meridians: i18n"
+	},
+	"a11y": {
+		"title": ":climbing: a11y"
+	},
+	"ignore": {
+		"title": ":see_no_evil: ignore"
+	},
+	"initial": {
+		"title": ":seedling: initial"
+	},
+	"license": {
+		"title": ":page_facing_up: license"
+	},
+	"lint": {
+		"title": ":rotating_light: lint"
+	},
+	"merge": {
+		"title": ":twisted_rightwards_arrows: merge"
+	},
+	"pin": {
+		"title": ":pushpin: pin"
+	},
+	"progress": {
+		"title": ":construction: progress"
+	},
+	"release": {
+		"title": ":hatching_chick: release"
+	},
+	"security": {
+		"title": ":closed_lock_with_key: security"
+	},
+	"trash": {
+		"title": ":fire: trash"
+	},
+	"typo": {
+		"title": ":pencil2: typo"
+	},
+	"ui": {
+		"title": ":lipstick: ui"
+	},
+	"ux": {
+		"title": ":children_crossing: ux"
 	}
 }
