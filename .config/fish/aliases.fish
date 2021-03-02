@@ -39,6 +39,7 @@ abbr tomb " tomb"
 abbr log " jrnl -from 1970 | less -r +G"
 abbr bundle "makepkg --printsrcinfo > .SRCINFO"
 abbr irc "weechat -d ~/.config/weechat"
+abbr xl "xargs -L1"
 
 # interpret
 abbr js node
