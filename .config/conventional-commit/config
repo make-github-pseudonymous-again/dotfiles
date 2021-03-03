@@ -17,6 +17,9 @@
 	"style": {
 		"title": ":art: style"
 	},
+	"cleaning": {
+		"title": ":broom: cleaning"
+	},
 	"test": {
 		"title": ":mag: test"
 	},
@@ -84,7 +87,7 @@
 		"title": ":closed_lock_with_key: security"
 	},
 	"trash": {
-		"title": ":fire: trash"
+		"title": ":wastebasket: trash"
 	},
 	"typo": {
 		"title": ":pencil2: typo"
