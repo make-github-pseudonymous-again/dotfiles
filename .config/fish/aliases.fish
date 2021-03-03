@@ -138,9 +138,6 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS
 	abbr "$method" "lwp-request -m '$method'"
 end
 
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null; and alias grunt="grunt --stack"
-
 # Lock the screen (when going AFK)
 abbr afk "system.LS"
 

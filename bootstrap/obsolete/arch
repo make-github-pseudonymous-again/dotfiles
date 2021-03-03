@@ -42,6 +42,7 @@ ack
 nerd-fonts-complete # this package is way too big
 pygtk # unmaintained
 memoize # replaced by memoize-rust
+grunt-cli # unused
 
 texlive-fontsextra # TeX Live - all sorts of extra fonts
 texlive-formatsextra # TeX Live - collection of extra TeX 'formats'
