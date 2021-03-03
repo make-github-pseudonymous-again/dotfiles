@@ -21,7 +21,7 @@
 		"title": ":mag: test"
 	},
 	"perf": {
-		"title": ":rocket: perf"
+		"title": ":bicyclist: perf"
 	},
 	"build": {
 		"title": ":hammer: build"
@@ -36,7 +36,7 @@
 		"title": ":wrench: config"
 	},
 	"deployment": {
-		"title": ":ship: deployment"
+		"title": ":rocket: deployment"
 	},
 	"deprecate": {
 		"title": ":warning: deprecate"
