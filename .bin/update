@@ -151,6 +151,12 @@ function _do ( ) {
   _check "$?" _do "$@"
 }
 
+function _do_fg ( ) {
+  "$@"
+  rm -f "$O" "$E"
+  _check "$?" _do_fg "$@"
+}
+
 function _check ( ) {
 
   if [ "$1" -ne 0 ] ; then
@@ -303,26 +309,18 @@ if $plugins ; then
   if [ -d "$PLUGINS" ] ; then
     echo '+ Plugins @ '"$PLUGINS"' :)'
 
+    if $pull ; then
+      echo ' * Pulling all plugins'
+      echo '  ° Go to '"$PLUGINS"
+      _do cd "$PLUGINS"
+      _do_fg env GEEZ_SYMLINK_DEPTH=1 GEEZ_HIDDEN_DEPTH=1 geez catchup
+    fi
+
     for plugin in $(ls -1a --color=never "$PLUGINS" | tail -c +6); do
       PLUGIN="$PLUGINS/$plugin"
       echo " * Plugin $plugin @ $PLUGIN"
       echo '  ° Go to '"$PLUGIN"
       _do cd "$PLUGIN"
-
-      if $pull ; then
-
-        echo '  ° Pull '"$PLUGIN"
-
-        echo '    + Stash local changes'
-        git stash || true
-
-        echo '    + Pull'
-        _do git pull
-
-        echo '    + Apply local changes'
-        git stash pop || true
-
-      fi
 
       CHEZMOIIGNORE="${PLUGIN}/.chezmoiignore"
 
