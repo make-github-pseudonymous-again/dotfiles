@@ -1,101 +1,101 @@
 {
 	"refactor": {
-		"title": ":truck: refactor"
+		"emoji": ":truck:"
 	},
 	"chore": {
-		"title": ":unamused: chore"
+		"emoji": ":unamused:"
 	},
 	"docs": {
-		"title": ":books: docs"
+		"emoji": ":books:"
 	},
 	"feat": {
-		"title": ":sparkles: feat"
+		"emoji": ":sparkles:"
 	},
 	"fix": {
-		"title": ":adhesive_bandage: fix"
+		"emoji": ":adhesive_bandage:"
 	},
 	"style": {
-		"title": ":art: style"
+		"emoji": ":art:"
 	},
 	"cleaning": {
-		"title": ":broom: cleaning"
+		"emoji": ":broom:"
 	},
 	"test": {
-		"title": ":mag: test"
+		"emoji": ":mag:"
 	},
 	"perf": {
-		"title": ":bicyclist: perf"
+		"emoji": ":bicyclist:"
 	},
 	"build": {
-		"title": ":hammer: build"
+		"emoji": ":hammer:"
 	},
 	"ci": {
-		"title": ":gear: ci"
+		"emoji": ":gear:"
 	},
 	"revert": {
-		"title": ":rewind: revert"
+		"emoji": ":rewind:"
 	},
 	"config": {
-		"title": ":wrench: config"
+		"emoji": ":wrench:"
 	},
 	"deployment": {
-		"title": ":rocket: deployment"
+		"emoji": ":rocket:"
 	},
 	"deprecate": {
-		"title": ":warning: deprecate"
+		"emoji": ":warning:"
 	},
 	"dependencies": {
-		"title": ":package: dependencies"
+		"emoji": ":package:"
 	},
 	"experiment": {
-		"title": ":alembic: experiment"
+		"emoji": ":alembic:"
 	},
 	"hotfix": {
-		"title": ":ambulance: hotfix"
+		"emoji": ":ambulance:"
 	},
 	"i18n": {
-		"title": ":globe_with_meridians: i18n"
+		"emoji": ":globe_with_meridians:"
 	},
 	"a11y": {
-		"title": ":climbing: a11y"
+		"emoji": ":climbing:"
 	},
 	"ignore": {
-		"title": ":see_no_evil: ignore"
+		"emoji": ":see_no_evil:"
 	},
 	"initial": {
-		"title": ":seedling: initial"
+		"emoji": ":seedling:"
 	},
 	"license": {
-		"title": ":page_facing_up: license"
+		"emoji": ":page_facing_up:"
 	},
 	"lint": {
-		"title": ":rotating_light: lint"
+		"emoji": ":rotating_light:"
 	},
 	"merge": {
-		"title": ":twisted_rightwards_arrows: merge"
+		"emoji": ":twisted_rightwards_arrows:"
 	},
 	"pin": {
-		"title": ":pushpin: pin"
+		"emoji": ":pushpin:"
 	},
 	"progress": {
-		"title": ":construction: progress"
+		"emoji": ":construction:"
 	},
 	"release": {
-		"title": ":hatching_chick: release"
+		"emoji": ":hatching_chick:"
 	},
 	"security": {
-		"title": ":closed_lock_with_key: security"
+		"emoji": ":closed_lock_with_key:"
 	},
 	"trash": {
-		"title": ":wastebasket: trash"
+		"emoji": ":wastebasket:"
 	},
 	"typo": {
-		"title": ":pencil2: typo"
+		"emoji": ":pencil2:"
 	},
 	"ui": {
-		"title": ":lipstick: ui"
+		"emoji": ":lipstick:"
 	},
 	"ux": {
-		"title": ":children_crossing: ux"
+		"emoji": ":children_crossing:"
 	}
 }
