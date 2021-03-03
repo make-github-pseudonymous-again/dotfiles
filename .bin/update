@@ -148,7 +148,7 @@ function _exit ( ) {
 
 function _do ( ) {
   "$@" 1>"$O" 2>"$E"
-  _check "$?" "$@"
+  _check "$?" _do "$@"
 }
 
 function _check ( ) {
@@ -166,7 +166,7 @@ function _check ( ) {
     case "$reply" in
       yes)
         shift
-        _do "$@"
+        "$@"
         ;;
       skip)
         echo ' > skipping'
