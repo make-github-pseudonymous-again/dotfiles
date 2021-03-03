@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-if [ "$(id -u)" != 0 ] ; then
-  echo 'must be run as root'
+if [ "$(id -u)" = 0 ] ; then
+  echo 'must NOT be run as root'
   exit 1
 fi
 
 DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/node)"
+
+wrap () {
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 "$@"
+}
 
 if false; then
 #if command -v yarn 1>/dev/null; then
@@ -22,13 +26,13 @@ if false; then
       echo "  > nothing to install"
     else
       echo "  > installing ~ $(tr '\n' ' ' <<< "$to_install")"
-      yarn global add $to_install
+      sudo wrap yarn global add $to_install
     fi
   }
 
   function _update {
     echo "  - upgrade global packages"
-    yarn global upgrade --latest || exit "$?"
+    sudo wrap yarn global upgrade --latest || exit "$?"
   }
 
 elif command -v npm 1>/dev/null; then
@@ -39,18 +43,34 @@ elif command -v npm 1>/dev/null; then
   npm_installed="$(find "$npm_root" -maxdepth "$(<<< "$npm_root" sed 's:/: :g' | wc -w)" -name package.json | cut -d/ -f5- | sed -e 's:/package.json$::' -e '/^[^@].*\//d')"
 
   function _install {
+    echo "   - install global packages"
     to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$npm_installed"))"
     if [ -z "$to_install" ] ; then
-      echo "  > nothing to install"
+      echo "   > nothing to install"
     else
-      echo "  > installing ~ $(tr '\n' ' ' <<< "$to_install")"
-      npm install -g $to_install
+      echo "   > installing ~ $(tr '\n' ' ' <<< "$to_install")"
+      sudo wrap npm install -g $to_install || exit "$?"
     fi
   }
 
   function _update {
     echo "  - update global packages"
-    npm update -g || exit "$?"
+    # We exclude these because we manage them with pacman
+    exclude='npm|semver|yarn|node-gyp'
+    ncu_versions="$(ncu -g | grep '^npm -g install ' | cut -d' ' -f4- | tr ' ' '\n' | grep -vE "^(${exclude})(^|@|$)")"
+    if [ -z "$ncu_versions" ] ; then
+      echo "   > nothing to update"
+    else
+      # We check that ncu plays nice
+      ncu_illegal="$(comm -23 <(<<< "$ncu_versions" rev | cut -d@ -f2- | rev | sort) <(sort <<< "$npm_installed"))"
+      if [ -n "$ncu_illegal" ] ; then
+        echo "   ! found packages that were never installed in ncu's output ~ $(tr '\n' ' ' <<< "$ncu_illegal")"
+        exit 123
+      else
+        echo "   > updating ~ $(tr '\n' ' ' <<< "$ncu_versions")"
+        sudo wrap npm install -g $ncu_versions || exit "$?"
+      fi
+    fi
   }
 
 else
@@ -60,7 +80,6 @@ fi
 
 x="${1:-i}"
 
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 if [ "$x" = i ] ; then
   _install
 elif [ "$x" = u ] ; then
@@ -69,4 +88,3 @@ else
   echo "Option $x is not valid."
   exit 3
 fi
-unset PUPPETEER_SKIP_CHROMIUM_DOWNLOAD

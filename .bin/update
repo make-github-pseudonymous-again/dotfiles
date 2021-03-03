@@ -247,7 +247,7 @@ if $sync ; then
 
   if $node ; then
     echo " * node"
-    sudo bash "$DOTFILES"/bootstrap/update-node u || _exit "$?"
+    bash "$DOTFILES"/bootstrap/update-node u || _exit "$?"
   fi
 
   if $pip ; then
@@ -273,7 +273,7 @@ if $install ; then
 
   if $node ; then
     echo " * node"
-    sudo bash "$DOTFILES"/bootstrap/update-node i || _exit "$?"
+    bash "$DOTFILES"/bootstrap/update-node i || _exit "$?"
   fi
 
   if $pip ; then
