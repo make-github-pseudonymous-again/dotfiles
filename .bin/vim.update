@@ -1,2 +1,4 @@
 #!/usr/bin/env sh
-vim +PlugUpdate +PlugUpgrade +qall
+vim +PlugUpgrade +qall || exit "$?"
+vim +PlugUpdate +qall || exit "$?"
+vim +CocUpdateSync +qall || exit "$?"
