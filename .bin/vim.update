@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# https://github.com/junegunn/vim-plug/wiki/faq#shouldnt-vim-plug-update-itself-on-plugupdate-like-vundle
 vim +PlugUpgrade +qall || exit "$?"
 vim +PlugUpdate +qall || exit "$?"
 vim +CocUpdateSync +qall || exit "$?"
