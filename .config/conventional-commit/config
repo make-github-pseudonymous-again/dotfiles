@@ -1,66 +1,83 @@
 {
-	"refactor": {
-		"emoji": ":truck:"
+	"a11y": {
+		"emoji": ":climbing:"
+	},
+	"bug": {
+		"emoji": ":bug:"
 	},
 	"chore": {
-		"emoji": ":unamused:"
-	},
-	"docs": {
-		"emoji": ":books:"
-	},
-	"feat": {
-		"emoji": ":sparkles:"
-	},
-	"fix": {
-		"emoji": ":adhesive_bandage:"
-	},
-	"style": {
-		"emoji": ":art:"
+		"emoji": {
+			"default": ":unamused:",
+			"subject": {
+				"ignore": ":see_no_evil:"
+			}
+		}
 	},
 	"cleaning": {
 		"emoji": ":broom:"
 	},
-	"test": {
-		"emoji": ":mag:"
-	},
-	"perf": {
-		"emoji": ":bicyclist:"
-	},
-	"build": {
-		"emoji": ":hammer:"
-	},
-	"ci": {
-		"emoji": ":gear:"
-	},
-	"revert": {
-		"emoji": ":rewind:"
-	},
 	"config": {
-		"emoji": ":wrench:"
+		"emoji": {
+			"default": ":wrench:",
+			"scope": {
+				"build": ":hammer:",
+				"ci": ":gear:",
+				"deploy": ":rocket:"
+			},
+			"subject": {
+				"docker": ":whale:"
+			}
+		}
 	},
-	"deployment": {
-		"emoji": ":rocket:"
+	"dependencies": {
+		"emoji": {
+			"default": ":package:",
+			"subject": {
+				"pin": ":pushpin:",
+				"upgrade": ":arrow_up:",
+				"downgrade": ":arrow_down:",
+				"lock": ":lock:"
+			}
+		}
 	},
 	"deprecate": {
 		"emoji": ":warning:"
 	},
-	"dependencies": {
-		"emoji": ":package:"
+	"docs": {
+		"emoji": ":books:"
 	},
 	"experiment": {
 		"emoji": ":alembic:"
 	},
-	"hotfix": {
-		"emoji": ":ambulance:"
+	"feat": {
+		"emoji": {
+			"default": ":sparkles:",
+			"subject": {
+				"error": ":goal_net:"
+			}
+		}
+	},
+	"fix": {
+		"emoji": {
+			"default": ":adhesive_bandage:",
+			"subject": {
+				"hotfix": ":ambulance:"
+			},
+			"scope": {
+				"ci": ":green_heart:"
+			}
+		}
 	},
 	"i18n": {
-		"emoji": ":globe_with_meridians:"
+		"emoji": {
+			"default": ":globe_with_meridians:",
+			"subject": {
+				"translation": ":speech_ballon:"
+			}
+		}
 	},
-	"a11y": {
-		"emoji": ":climbing:"
-	},
-	"ignore": {
-		"emoji": ":see_no_evil:"
+	"idea": {
+		"emoji": ":bulb:"
 	},
 	"initial": {
 		"emoji": ":seedling:"
@@ -68,23 +85,54 @@
 	"license": {
 		"emoji": ":page_facing_up:"
 	},
-	"lint": {
-		"emoji": ":rotating_light:"
-	},
 	"merge": {
 		"emoji": ":twisted_rightwards_arrows:"
 	},
-	"pin": {
-		"emoji": ":pushpin:"
+	"perf": {
+		"emoji": {
+			"default": ":bicyclist:",
+			"scope": {
+				"MongoDB": ":leaves:"
+			}
+		}
 	},
 	"progress": {
-		"emoji": ":construction:"
+		"emoji": {
+			"default": ":construction:",
+			"subject": {
+				"mock": ":clown_face:"
+			}
+		}
+	},
+	"refactor": {
+		"emoji": {
+			"default": ":recycle:",
+			"subject": {
+				"rename": ":truck:",
+				"lint": ":shirt:",
+				"style": ":art:"
+			}
+		}
 	},
 	"release": {
 		"emoji": ":hatching_chick:"
 	},
+	"revert": {
+		"emoji": ":rewind:"
+	},
 	"security": {
 		"emoji": ":closed_lock_with_key:"
+	},
+	"test": {
+		"emoji": {
+			"default": ":test_tube:",
+			"subject": {
+				"coverage": ":microscope:",
+				"regression": ":umbrella:",
+				"pass": ":heavy_check_mark:",
+				"failing": ":x:"
+			}
+		}
 	},
 	"trash": {
 		"emoji": ":wastebasket:"
