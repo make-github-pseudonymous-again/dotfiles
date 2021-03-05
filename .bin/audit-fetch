@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+if ! command -v memoize-ft > /dev/null ; then exit 117 ; fi
+if ! command -v audit-cmd > /dev/null ; then exit 118 ; fi
+
+memoize-ft 0 audit-cmd 1>/dev/null 2>&1

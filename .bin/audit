@@ -1,14 +1,3 @@
 #!/usr/bin/env sh
 
-output="$(arch-audit -qu)"
-excode="$?"
-
-if [ -n "$output" ] ; then
-	if [ "$excode" -eq 0 ] ; then
-		echo "$output"
-	else
-		>&2 echo "$output"
-	fi
-fi
-
-exit "$excode"
+memoize-get -1 audit-cmd

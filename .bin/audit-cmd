@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+output="$(arch-audit --color never --show-cve --upgradable)"
+excode="$?"
+
+if [ -n "$output" ] ; then
+	if [ "$excode" -eq 0 ] ; then
+		cat <<< "$output"
+	else
+		>&2 cat <<< "$output"
+	fi
+fi
+
+exit "$excode"
