@@ -29,7 +29,10 @@
 			}
 		}
 	},
-	"dependencies": {
+	"deprecate": {
+		"emoji": ":warning:"
+	},
+	"deps": {
 		"emoji": {
 			"default": ":package:",
 			"subject": {
@@ -39,9 +42,6 @@
 				"lock": ":lock:"
 			}
 		}
-	},
-	"deprecate": {
-		"emoji": ":warning:"
 	},
 	"docs": {
 		"emoji": ":books:"
