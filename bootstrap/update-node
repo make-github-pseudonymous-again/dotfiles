@@ -9,8 +9,8 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/node)"
 
-wrap () {
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 "$@"
+_sudo () {
+  sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 "$@"
 }
 
 if false; then
@@ -26,13 +26,13 @@ if false; then
       echo "  > nothing to install"
     else
       echo "  > installing ~ $(tr '\n' ' ' <<< "$to_install")"
-      sudo wrap yarn global add $to_install
+      _sudo yarn global add $to_install
     fi
   }
 
   function _update {
     echo "  - upgrade global packages"
-    sudo wrap yarn global upgrade --latest || exit "$?"
+    _sudo yarn global upgrade --latest || exit "$?"
   }
 
 elif command -v npm 1>/dev/null; then
@@ -49,7 +49,7 @@ elif command -v npm 1>/dev/null; then
       echo "   > nothing to install"
     else
       echo "   > installing ~ $(tr '\n' ' ' <<< "$to_install")"
-      sudo wrap npm install -g $to_install || exit "$?"
+      _sudo npm install -g $to_install || exit "$?"
     fi
   }
 
@@ -68,7 +68,7 @@ elif command -v npm 1>/dev/null; then
         exit 123
       else
         echo "   > updating ~ $(tr '\n' ' ' <<< "$ncu_versions")"
-        sudo wrap npm install -g $ncu_versions || exit "$?"
+        _sudo npm install -g $ncu_versions || exit "$?"
       fi
     fi
   }
