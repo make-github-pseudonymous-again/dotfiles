@@ -130,7 +130,8 @@
 				"coverage": ":microscope:",
 				"regression": ":umbrella:",
 				"pass": ":heavy_check_mark:",
-				"failing": ":x:"
+				"failing": ":x:",
+				"fail": ":x:"
 			}
 		}
 	},
