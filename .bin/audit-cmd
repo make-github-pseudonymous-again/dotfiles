@@ -5,9 +5,9 @@ excode="$?"
 
 if [ -n "$output" ] ; then
 	if [ "$excode" -eq 0 ] ; then
-		printf '%s' "$output"
+		printf '%s\n' "$output"
 	else
-		>&2 printf '%s' "$output"
+		>&2 printf '%s\n' "$output"
 	fi
 fi
 
