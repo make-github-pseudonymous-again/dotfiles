@@ -11,8 +11,50 @@
 
 ## :raising_hand_man: Advisory
 
-Many scripts will cache data on your drive. This data can be used to
-impersonate you. Encrypt your drive before it is too late.
+Many scripts will cache data on your storage device. This data can be used to
+impersonate you. Encrypt your storage device before it is too late.
+
+
+> :warning: This advisory remains relevant even if you do not use these
+> configuration files: you most certainly do not use a stateless machine that
+> forgets everything on each reboot.
+> Inside your *permanent* storage device you
+> will find *temporary* authentication keys/tokens (e.g. a subset of the
+> browser *cookies*) for all kind of services (your bank, your e-mail provider,
+> ...).
+> This is so for *convenience* and is considered standard practice.
+>
+> A lower bound on the number of services directly vulnerable to impersonation
+> attacks in case of theft of your computer can be computed by taking the sum of
+> services you actively use and for which you *conveniently* do not have to
+> enter a password each time you reboot. In most cases, this number is quite
+> high.
+>
+> Once theft as occurred, in order to defend yourself effectively, you have to
+> revoke all stolen keys/tokens **before they get abused**. Do you have a list?
+> Are you fast at keyboard typing and point-and-click games? Do you enjoy
+> stressful situations?
+>
+> Fortunately, a lot of services have traded convenience for security. For
+> instance most banks would use [*Multi-factor
+> authentication*](https://en.wikipedia.org/wiki/Multi-factor_authentication)
+> (e.g. Two-factor authentication, or 2FA) to sign any transaction, service
+> change, or even login. Also most of these temporary keys and tokens are
+> really temporary: if your thief waits for too long he will not be able to
+> abuse them.
+>
+> However, considering I have only given you a glimpse at the list of possible
+> attack vectors enabled by data theft (do you want your family pictures to be
+> dumped on the web?) and considering the availability of good encryption
+> software on most modern operating systems (for server, desktop, laptop,
+> **tablet**, **and mobile**), you should consider the investment worth it.
+>
+> Oh! And *theft* does not need to occur inside your 24/7 camera-covered,
+> dog-guarded, three-meter-high-fenced property. It can happen anywhere you
+> bring your portable devices. It can also happen in a dumpster, right after
+> you *"recyled"* your *"old"* device.
+>
+> Please use storage device encryption.
 
 ## :rocket: Getting started
 
