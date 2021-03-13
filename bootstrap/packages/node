@@ -26,8 +26,6 @@ puppeteer # voo
 
 http-server # homepage
 
-npx # run local npm binaries
-
 npm-check-updates # for js projects
 fixpack # for js projects
 
