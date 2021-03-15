@@ -109,6 +109,7 @@
 			"default": ":recycle:",
 			"subject": {
 				"rename": ":truck:",
+				"move": ":truck:",
 				"lint": ":shirt:",
 				"style": ":art:"
 			}
