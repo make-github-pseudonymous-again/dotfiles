@@ -80,6 +80,8 @@ set searchurls.ghs  https://github.com/search?q=%s
 set searchurls.npm  https://www.npmjs.com/search?q=%s
 " mdn
 set searchurls.mdn  https://developer.mozilla.org/en-US/search?q=%s
+" node
+set searchurls.node https://html.duckduckgo.com/html?q=site%3Anodejs.org%2Fapi%20%s
 " python 3
 set searchurls.py   https://docs.python.org/3/search.html?check_keywords=yes&area=default&q=%s
 " python 2
