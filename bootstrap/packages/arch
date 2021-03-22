@@ -125,7 +125,7 @@ gifski
 libwebp
 
 # Bibliography
-pandoc-citeproc # pandoc-citeproc --bib2yaml ...
+pandoc # pandoc --citeproc --bib2yaml ...
 
 # Plotting
 gnuplot

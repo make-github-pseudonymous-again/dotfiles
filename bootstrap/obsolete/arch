@@ -74,3 +74,5 @@ python2-lxml
 
 electron2 # not used anymore
 electron6 # not used anymore
+
+pandoc-citeproc # can now use pandoc --citeproc
