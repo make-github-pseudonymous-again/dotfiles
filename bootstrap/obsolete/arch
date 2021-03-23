@@ -70,6 +70,9 @@ python2-pillow
 python2-pydub
 python2-pychm
 python2-mutagen
+python2-mechanicalsoup
+python2-beautifulsoup4
+python2-soupsieve
 python2-lxml
 
 electron2 # not used anymore
