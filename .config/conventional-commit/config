@@ -22,6 +22,7 @@
 			"scope": {
 				"build": ":hammer:",
 				"ci": ":gear:",
+				"cd": ":building_construction:",
 				"deploy": ":rocket:"
 			},
 			"subject": {
@@ -64,7 +65,8 @@
 				"hotfix": ":ambulance:"
 			},
 			"scope": {
-				"ci": ":green_heart:"
+				"ci": ":green_heart:",
+				"cd": ":artificial_satellite:"
 			}
 		}
 	},
