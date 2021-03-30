@@ -182,3 +182,6 @@ xxhash
 
 # Web
 hugo
+
+# Shell Prompt
+starship
