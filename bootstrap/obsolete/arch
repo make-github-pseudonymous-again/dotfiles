@@ -79,6 +79,7 @@ python2-twisted
 python2-automat
 python2-constantly
 python2-service-identity
+python2-pyhamcrest
 
 electron2 # not used anymore
 electron6 # not used anymore
