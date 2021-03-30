@@ -83,6 +83,7 @@ python2-pyhamcrest
 python2-pyasn1-modules
 python2-click
 python2-hyperlink
+python2-numpy
 
 electron2 # not used anymore
 electron6 # not used anymore

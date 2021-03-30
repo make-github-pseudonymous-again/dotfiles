@@ -48,9 +48,6 @@ python-feedparser
 python-aiohttp
 autopep8
 
-# Python 2 packages
-python2-numpy
-
 # Video
 ffmpeg
 vlc
