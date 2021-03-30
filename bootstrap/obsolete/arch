@@ -80,6 +80,7 @@ python2-automat
 python2-constantly
 python2-service-identity
 python2-pyhamcrest
+python2-pyasn1-modules
 
 electron2 # not used anymore
 electron6 # not used anymore
