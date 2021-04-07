@@ -40,11 +40,13 @@ elif command -v npm 1>/dev/null; then
   echo "  # using npm"
 
   npm_root="$(npm root -g)"
-  npm_installed="$(find "$npm_root" -maxdepth "$(<<< "$npm_root" sed 's:/: :g' | wc -w)" -name package.json | cut -d/ -f5- | sed -e 's:/package.json$::' -e '/^[^@].*\//d')"
+  all_installed="$(find "$npm_root" -maxdepth "$(<<< "$npm_root" sed 's:/: :g' | wc -w)" -name package.json | cut -d/ -f5- | sed -e 's:/package.json$::' -e '/^[^@].*\//d' | sort)"
+  pacman_installed="$(pacman -Qk $all_installed 2>/dev/null | cut -d: -f1 | sort)"
+  npm_installed="$(comm -23 <(sort <<< "$all_installed") <(sort <<< "$pacman_installed"))"
 
   function _install {
     echo "   - install global packages"
-    to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$npm_installed"))"
+    to_install="$(comm -23 <(sort <<< "$packages") <(sort <<< "$all_installed"))"
     if [ -z "$to_install" ] ; then
       echo "   > nothing to install"
     else
@@ -55,14 +57,13 @@ elif command -v npm 1>/dev/null; then
 
   function _update {
     echo "  - update global packages"
-    # We exclude these because we manage them with pacman
-    exclude='npm|semver|yarn|node-gyp'
-    ncu_versions="$(ncu -g | grep '^npm -g install ' | cut -d' ' -f4- | tr ' ' '\n' | grep -vE "^(${exclude})(^|@|$)")"
+    ncu_versions="$(ncu -g --reject "$pacman_installed" | grep '^npm -g install ' | cut -d' ' -f4- | tr ' ' '\n')"
     if [ -z "$ncu_versions" ] ; then
       echo "   > nothing to update"
     else
       # We check that ncu plays nice
-      ncu_illegal="$(comm -23 <(<<< "$ncu_versions" rev | cut -d@ -f2- | rev | sort) <(sort <<< "$npm_installed"))"
+      ncu_packages="$(<<< "$ncu_versions" rev | cut -d@ -f2- | rev | sort)"
+      ncu_illegal="$(comm -23 <(sort <<< "$ncu_packages") <(sort <<< "$npm_installed"))"
       if [ -n "$ncu_illegal" ] ; then
         echo "   ! found packages that were never installed in ncu's output ~ $(tr '\n' ' ' <<< "$ncu_illegal")"
         exit 123
