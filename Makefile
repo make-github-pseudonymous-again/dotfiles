@@ -1,4 +1,4 @@
 .PHONY: test
 
 test:
-	grep -l '^#!/usr/bin/env *sh' .bin/* bootstrap/{install,update}-* bootstrap/clean bootstrap/dotfiles-* | xargs shellcheck --color
+	grep -l '^#!/usr/bin/env .*sh' .bin/* bootstrap/install-* bootstrap/update-* bootstrap/clean bootstrap/dotfiles-* | xargs shellcheck --color
