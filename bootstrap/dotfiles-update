@@ -29,8 +29,8 @@ function doIt() {
 
 	rsync \
 		--exclude ".git/" \
+		--exclude ".github/" \
 		--exclude ".gitmodules" \
-		--exclude ".travis.yml" \
 		--exclude "bootstrap/" \
 		--exclude "Makefile" \
 		--exclude "README.md" \

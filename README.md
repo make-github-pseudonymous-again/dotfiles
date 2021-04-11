@@ -1,5 +1,5 @@
 :wrench: ~/. dotfiles for Arch Linux
-[![Build status](https://img.shields.io/travis/aureooms/dotfiles/master.svg)](https://travis-ci.org/aureooms/dotfiles/branches)
+[![Tests](https://img.shields.io/github/workflow/status/aureooms/dotfiles/ci:test?event=push&label=tests)](https://github.com/aureooms/dotfiles/actions/workflows/ci:test.yml?query=branch:master)
 ==
 
 <p align="center">
