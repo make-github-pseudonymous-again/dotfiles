@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
+# shellcheck source=.path
 source ~/.path
 
-eval $(gnome-keyring-daemon --start) # gnome-keyring with PAM
+eval "$(gnome-keyring-daemon --start)" # gnome-keyring with PAM
 
 /usr/bin/systemctl --user import-environment PATH NODE_PATH SSH_AUTH_SOCK
 /usr/bin/systemctl --user start environment.target
