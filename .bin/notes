@@ -8,15 +8,16 @@ DEFAULT_EXT="md"
 CONFIG="${HOME}/.config/notes/config"
 # Look for configuration file at ~/.config/notes/config and use it
 if [ -f "$CONFIG" ]; then
+    # shellcheck disable=SC1090
     . "$CONFIG"
 fi
 
 configured_dir=${NOTES_DIRECTORY%/} # Remove trailing slashes
 notes_dir="${configured_dir:-$HOME/notes}"
-escaped_notes_dir="$(printf "$notes_dir" | sed -e 's/[]\/$*.^|[]/\\&/g')"
+escaped_notes_dir="$(printf '%s' "$notes_dir" | sed -e 's/[]\/$*.^|[]/\\&/g')"
 
 # Make sure the notes directory actually exists, and create it if it doesn't
-if ! $(mkdir -p "$notes_dir"); then
+if ! mkdir -p "$notes_dir"; then
     echo "Could not create directory $notes_dir, please update your \$NOTES_DIRECTORY" >&2
     exit 1
 fi
@@ -38,13 +39,15 @@ _find_notes() {
 }
 
 ls_notes() {
-    local ls_output=$(cd "$notes_dir" && ls "$@")
+    local ls_output
+    ls_output=$(cd "$notes_dir" && ls "$@")
     local ls_result=$?
 
-    local formatted_output=$(printf "$ls_output" | without_notes_dir)
+    local formatted_output
+    formatted_output=$(printf '%s' "$ls_output" | without_notes_dir)
 
     if [[ $ls_result == 0 && "$formatted_output" ]]; then
-        printf "$formatted_output\n"
+        printf "%s\n" "$formatted_output"
         return 0
     else
         return 2
@@ -52,12 +55,14 @@ ls_notes() {
 }
 
 find_notes() {
-    local find_output=$(_find_notes "$notes_dir" -ipath "$notes_dir/*$**" 2>&1)
+    local find_output
+    find_output=$(_find_notes "$notes_dir" -ipath "$notes_dir/*$**" 2>&1)
     local find_result=$?
-    local formatted_output=$(printf "$find_output" | without_notes_dir)
+    local formatted_output
+    formatted_output=$(printf '%s' "$find_output" | without_notes_dir)
 
     if [[ $find_result == 0 && "$formatted_output" ]]; then
-        printf "$formatted_output\n"
+        printf "%s\n" "$formatted_output"
         return 0
     else
         return 2
@@ -70,12 +75,14 @@ grep_notes() {
         return 1
     fi
 
-    local grep_output=$(grep -r --exclude-dir='.*' --exclude='.*' "$notes_dir" -li -e "$*" 2>&1)
+    local grep_output
+    grep_output=$(grep -r --exclude-dir='.*' --exclude='.*' "$notes_dir" -li -e "$*" 2>&1)
     local grep_result=$?
-    local formatted_output=$(printf "$grep_output" | without_notes_dir)
+    local formatted_output
+    formatted_output=$(printf '%s' "$grep_output" | without_notes_dir)
 
     if [[ $grep_result == 0 && "$formatted_output" ]]; then
-        printf "$formatted_output\n"
+        printf "%s\n" "$formatted_output"
         return 0
     else
         return 2
@@ -98,15 +105,16 @@ search_filenames_and_contents() {
 
 generate_name() {
     local append_num=0
-    local format_string="`date +$QUICKNOTE_FORMAT`"
+    local format_string
+    format_string="$(date "+$QUICKNOTE_FORMAT")"
     # Initial test has no append
     local resolved_name=$format_string
     while [[ -e "$notes_dir/$resolved_name.$DEFAULT_EXT" ]]
     do
-        append_num=$[$append_num+1]
+        append_num=$((append_num+1))
         resolved_name=$format_string.$append_num
     done
-    printf $resolved_name
+    printf '%s' "$resolved_name"
 }
 
 new_note() {
@@ -125,27 +133,27 @@ new_note() {
 }
 
 remove_note() {
-    pushd "$notes_dir" > /dev/null
+    pushd "$notes_dir" > /dev/null || exit
     rm -i "$@"
-    popd > /dev/null
+    popd > /dev/null || exit
 }
 
 trash_note() {
-    pushd "$notes_dir" > /dev/null
+    pushd "$notes_dir" > /dev/null || exit
     trash-put -v "$@"
-    popd > /dev/null
+    popd > /dev/null || exit
 }
 
 handle_multiple_notes() {
     local cmd=$1
 
     if [[ -p /dev/stdin ]]; then
-        read -d'\n' note_names
-        while read note_name; do
-            ${cmd}_note "$note_name"
+        read -r -d'\n' note_names
+        while read -r note_name; do
+            "${cmd}_note" "$note_name"
         done <<< "$note_names"
     else
-        ${cmd}_note "${@:2}"
+        "${cmd}_note" "${@:2}"
     fi
 }
 
@@ -196,7 +204,8 @@ cat_note() {
 }
 
 usage() {
-  local name=$(basename $0)
+  local name
+  name="$(basename "$0")"
 	cat <<EOF
 ${name} is a command line note taking tool.
 
@@ -264,7 +273,7 @@ main() {
             cmd="usage"
             ;;
         * )
-            printf "$1 is not a recognized notes command.\n\n"
+            printf "%s is not a recognized notes command.\n\n" "$1"
             cmd="usage"
             ret=1
             ;;
@@ -272,8 +281,8 @@ main() {
     shift
 
     $cmd "$@"
-    ret=$[$ret+$?]
-    exit $ret
+    ret=$((ret+$?))
+    exit "$ret"
 }
 main "$@"
 
