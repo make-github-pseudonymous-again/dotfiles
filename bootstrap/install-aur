@@ -33,7 +33,7 @@ DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
 
 packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/aur)"
 
-echo "  > installing ~ $(<<< $packages tr '\n' ' ')"
+echo "  > installing ~ $(<<< "$packages" tr '\n' ' ')"
 comm -23 \
 	<(printf '%s\n' "$packages") \
 	<(printf '%s\n' "$packages" | pacman -Qk - 2>/dev/null | cut -d: -f1) |

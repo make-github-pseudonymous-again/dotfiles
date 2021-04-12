@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ $(id -u) != "0" ] ; then
+if [ "$(id -u)" != 0 ] ; then
   echo 'must be run as root'
   exit 1
 fi
@@ -18,7 +18,7 @@ if command -v pip 1>/dev/null; then
 
   function _p ( ) {
     pacman_name="$1"
-    pip_name="$(sed 's/^python-//g' <<< "$pacman_name")"
+    pip_name="${pacman_name/#python-/}"
     if { <<< "$pacman_installed" grep "^$pacman_name\$" 1>/dev/null 2>&1 ; } ; then
       return
     fi

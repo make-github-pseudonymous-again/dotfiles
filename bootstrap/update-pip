@@ -12,7 +12,7 @@ pip_installed="$(pip list --format freeze | cut -d'=' -f1)"
 if [ "$x" = u ] ; then
 
   function _ ( ) {
-    package="$(<<< $1 cut -d= -f1)"
+    package="$(<<< "$1" cut -d= -f1)"
     if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > updating ~ $1"
       pip install --upgrade "$package" 1>/dev/null
@@ -22,7 +22,7 @@ if [ "$x" = u ] ; then
 elif [ "$x" = i ] ; then
 
   function _ ( ) {
-    package="$(<<< $1 cut -d= -f1)"
+    package="$(<<< "$1" cut -d= -f1)"
     if ! { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > installing ~ $1"
       pip install "$package" 1>/dev/null
@@ -32,7 +32,7 @@ elif [ "$x" = i ] ; then
 else
 
   function _ ( ) {
-    package="$(<<< $1 cut -d= -f1)"
+    package="$(<<< "$1" cut -d= -f1)"
     if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > updating ~ $1"
       pip install --upgrade "$package" 1>/dev/null
