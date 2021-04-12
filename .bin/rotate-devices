@@ -9,29 +9,30 @@ input_orientation="$1" && shift
 
 orientation=normal
 transform='1 0 0 0 1 0 0 0 1'
-rotate=none
+#rotate=none
 
 case "$input_orientation" in
     left|1)
     orientation=left
     transform='0 -1 1 1 0 0 0 0 1'
-    rotate=ccw
+    #rotate=ccw
     ;;
     right|3)
     orientation=right
     transform='0 1 0 -1 0 1 0 0 1'
-    rotate=cw
+    #rotate=cw
     ;;
     half|inverted|2)
     orientation=inverted
     transform='-1 0 1 0 -1 1 0 0 1'
-    rotate=half
+    #rotate=half
     ;;
 esac
 
 xrandr -o "$orientation"
 
 for device in "$@" ; do
+    # shellcheck disable=SC2086
     xinput --set-prop "$device" --type=float 'Coordinate Transformation Matrix' $transform
     #xsetwacom set "$device" Rotate "$rotate"
 done
