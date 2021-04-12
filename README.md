@@ -135,9 +135,9 @@ See [wiki](https://github.com/aureooms/dotfiles/wiki).
 
 This repository has grown so large that, without modification or curation, it
 is unusable for anybody other than myself. To palliate this issue, I started
-moving important functionality away from this repository. The ultimate goal
-would be to have a plugin/package and dependency handling system that would
-work in the realm of configuration files and scripts. See my [list of *dotfiles
+moving important functionality away from this repository. The goal would be to
+have a plugin/package and dependency handling system that would work in the
+realm of configuration files and scripts. See my [list of *dotfiles
 packages*](https://github.com/aureooms?tab=repositories&q=dotfiles) and the
 [instruction to install a *dotfiles plugin*](https://github.com/aureooms/dotfiles/wiki/Plugins).
 
