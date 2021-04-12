@@ -4,11 +4,11 @@ QUEUEDIR="$HOME/.msmtp/queue"
 LOCKFILE="$QUEUEDIR/.lock"
 MAXWAIT=120
 
-OPTIONS=$@
+OPTIONS=("$@")
 
 echo "[=======] Greetings! This is msmtp-runqueue ()_()"
 echo "[=======] Running queue '$QUEUEDIR'"
-echo "[=======] With options '$OPTIONS'"
+echo "[=======] With options '${OPTIONS[*]}'"
 
 # Jump to queue directory (create it if necessary)
 if ! mkdir -p "$QUEUEDIR" || ! cd "$QUEUEDIR" ; then
@@ -28,8 +28,10 @@ fi
 
 echo "[=======] Looking for emails to send ..( °°) [x]"
 
+queued="$(find . -name '*.mail')"
+
 # check for empty queuedir
-if [ "`echo *.mail`" = '*.mail' ]; then
+if [ -z "$queued" ] ; then
 	echo "[=======] No emails in '$QUEUEDIR' è_é"
 	echo "[=======] Have a good day!"
 	exit 0
@@ -38,21 +40,21 @@ fi
 echo "[=======] Sending emails that I found ^_^"
 
 # process all emails
-for MAILFILE in *.mail; do
-	MSMTPFILE="`echo $MAILFILE | sed -e 's/mail/msmtp/'`"
-	echo "[*******] Sending '$MAILFILE' to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
+while read -r MAILFILE; do
+	echo "[*******] Sending '$MAILFILE' ..."
+	MSMTPFILE="${MAILFILE/%.mail/.msmtp}"
 	if [ ! -f "$MSMTPFILE" ]; then
 		echo "[FAILURE] Could not find '$MSMTPFILE' matching '$MAILFILE' :("
 		continue
 	fi
-	msmtp $OPTIONS `cat "$MSMTPFILE"` < "$MAILFILE"
-	if [ $? -eq 0 ]; then
+	mapfile -t options < "$MSMTPFILE"
+	if msmtp "${OPTIONS[@]}" "${options[@]}" < "$MAILFILE" ; then
 		rm "$MAILFILE" "$MSMTPFILE"
 		echo "[SUCCESS] '$MAILFILE' sent successfully :)"
 	else
 		echo "[FAILURE] Could not send '$MAILFILE' :("
 	fi
-done
+done <<< "$queued"
 
 echo "[=======] Reached the end of the queue. Have a good day!"
 

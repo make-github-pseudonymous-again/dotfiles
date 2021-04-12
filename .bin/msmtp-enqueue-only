@@ -3,11 +3,13 @@
 QUEUEDIR="$HOME/.msmtp/queue"
 LOCKFILE="$QUEUEDIR/.lock"
 
+OPTIONS=("$@")
+
 # Set secure permissions on created directories and files
 umask 077
 
 echo "[=======] Greetings! This is msmtp-enqueue []_[]"
-echo "[=======] Running queue '$QUEUEDIR' with options '$OPTIONS'"
+echo "[=======] Running queue '$QUEUEDIR' with options '${OPTIONS[*]}'"
 
 # Jump to queue directory (create it if necessary)
 if ! mkdir -p "$QUEUEDIR" || ! cd "$QUEUEDIR" ; then
@@ -38,8 +40,8 @@ fi
 MAILFILE="$BASE.mail"
 MSMTPFILE="$BASE.msmtp"
 
-# Write command line to $MSMTPFILE
-if ! echo "$@" > "$MSMTPFILE" ; then
+# Write command line arguments to $MSMTPFILE
+if ! printf '%s\n' "${OPTIONS[@]}" > "$MSMTPFILE" ; then
 	echo "[~~~~~~~] Could not write '$MSMTPFILE' *_*"
 	rm -f "$MSMTPFILE"
 	exit 1

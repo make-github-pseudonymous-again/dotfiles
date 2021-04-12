@@ -6,11 +6,11 @@ CANCELEDDIR="${MSMTPDIR}/canceled"
 LOCKFILE="${QUEUEDIR}/.lock"
 MAXWAIT=120
 
-OPTIONS=$@
+OPTIONS=("$@")
 
 echo "[=======] Greetings! This is msmtp-cancel ()_()"
 echo "[=======] Running queue '$QUEUEDIR'"
-echo "[=======] With options '$OPTIONS'"
+echo "[=======] With options '${OPTIONS[*]}'"
 echo "[=======] Canceled jobs will be put in '$CANCELEDDIR'"
 
 # Jump to queue directory (create it if necessary)
@@ -37,8 +37,10 @@ fi
 
 echo "[=======] Looking for emails to cancel ..( °°) [x]"
 
+queued="$(find . -name '*.mail')"
+
 # check for empty queuedir
-if [ "`echo *.mail`" = '*.mail' ]; then
+if [ -z "$queued" ] ; then
 	echo "[=======] No emails in '$QUEUEDIR' è_é"
 	echo "[=======] Have a good day!"
 	exit 0
@@ -47,14 +49,14 @@ fi
 echo "[=======] Canceling emails that I found ^_^"
 
 # process all emails
-for MAILFILE in *.mail; do
+while read -r MAILFILE; do
 	echo "[*******] Canceling '$MAILFILE' ..."
-	MSMTPFILE="`echo $MAILFILE | sed -e 's/mail/msmtp/'`"
+	MSMTPFILE="${MAILFILE/%.mail/.msmtp}"
 	mv "$MAILFILE" "$CANCELEDDIR"
 	if ! mv "$MSMTPFILE" "$CANCELEDDIR" ; then
 		echo "[WARNING] Could not find '$MSMTPFILE' matching '$MAILFILE' :("
 	fi
-done
+done <<< "$queued"
 
 echo "[=======] Canceled all emails I could find. Have a good day!"
 
