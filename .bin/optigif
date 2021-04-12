@@ -7,7 +7,7 @@ for file in "$@" ; do
 	gifsicle -O "$file" -o "$file." && du -b "$file"{,.}
 	newsize=$(wc -c <"$file.")
 	oldsize=$(wc -c <"$file")
-	if [ $oldsize -gt $newsize ] ; then
+	if [ "$oldsize" -gt "$newsize" ] ; then
 		mv "$file"{.,}
 	else
 		rm "$file."
