@@ -20,8 +20,8 @@ impersonate you. Encrypt your storage device before it is too late.
 > forgets everything on each reboot.
 > Inside your *permanent* storage device you
 > will find *temporary* authentication keys/tokens (e.g. a subset of the
-> browser *cookies*) for all kind of services (your bank, your e-mail provider,
-> ...).
+> browser *cookies*) for all kinds of services (your bank, your e-mail
+> provider, ...).
 > This is so for *convenience* and is considered standard practice.
 >
 > A lower bound on the number of services directly vulnerable to impersonation
