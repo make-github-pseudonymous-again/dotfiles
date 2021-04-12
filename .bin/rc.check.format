@@ -14,28 +14,36 @@ MODIFIED="^$TIME ERROR : \\(.*\\): Sizes differ\$"
 while read -r line
 do
 	if grep -q "$MODIFIED" <<< "$line"; then
+		# shellcheck disable=SC2001
 		filename="$(sed "s|$MODIFIED|\\1|" <<< "$line")"
 		echo "M $filename"
 	elif grep -q  "$ADDED" <<< "$line"; then
+		# shellcheck disable=SC2001
 		filename="$(sed "s|$ADDED|\\1|" <<< "$line")"
 		echo "A $filename"
 	elif grep -q  "$DELETED" <<< "$line"; then
+		# shellcheck disable=SC2001
 		filename="$(sed "s|$DELETED|\\1|" <<< "$line")"
 		echo "D $filename"
 	elif grep -q "$REMOTE" <<< "$line"; then
+		# shellcheck disable=SC2001
 		missing="$(sed "s|$REMOTE|\\1|" <<< "$line")"
 		echo "R $missing"
 	elif grep -q "$LOCAL" <<< "$line"; then
+		# shellcheck disable=SC2001
 		missing="$(sed "s|$LOCAL|\\1|" <<< "$line")"
 		echo "L $missing"
 	elif grep -q "$CHANGES" <<< "$line"; then
+		# shellcheck disable=SC2001
 		changes="$(sed "s|$CHANGES|\\1|" <<< "$line")"
 		echo "C $changes"
 	elif grep -q "$FAILURE" <<< "$line"; then
+		# shellcheck disable=SC2001
 		failure="$(sed "s|$FAILURE|\\1|" <<< "$line")"
 		echo "F $failure"
 		exit 1
 	elif grep -q "$ERROR" <<< "$line"; then
+		# shellcheck disable=SC2001
 		error="$(sed "s|$ERROR|\\1|" <<< "$line")"
 		echo "E $error"
 	else
