@@ -141,7 +141,7 @@ shift $((OPTIND-1))
 function _exit ( ) {
   rm -f "$O" "$E"
   if $_wait ; then
-    read
+    read -r
   fi
   exit "$1"
 }
@@ -167,7 +167,7 @@ function _check ( ) {
 
     echo    ' Q: Do you want to try again? [yes/no/skip]'
     echo -n ' A: '
-    read reply
+    read -r reply
 
     case "$reply" in
       yes)
@@ -316,7 +316,8 @@ if $plugins ; then
       _do_fg env GEEZ_SYMLINK_DEPTH=1 GEEZ_HIDDEN_DEPTH=1 geez catchup
     fi
 
-    for plugin in $(ls -1a --color=never "$PLUGINS" | tail -c +6); do
+    find "$PLUGINS" -type f,l -printf '%f\n' |
+    while read -r plugin ; do
       PLUGIN="$PLUGINS/$plugin"
       echo " * Plugin $plugin @ $PLUGIN"
       echo '  ° Go to '"$PLUGIN"
