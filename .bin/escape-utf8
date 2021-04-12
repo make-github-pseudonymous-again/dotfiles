@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+input=("$@")
+mapfile -t output < <(printf '%s' "${input[*]}" | xxd -p -c1 -u)
+
 # UTF-8-encode a string of Unicode symbols
-printf "\\\x%s" $(printf '%s' "$*" | xxd -p -c1 -u);
+printf "\\\x%s" "${output[@]}"
 # print a newline unless we're piping the output to another program
 if [ -t 1 ]; then
 	printf -- '\n' # newline
