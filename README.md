@@ -1,5 +1,5 @@
 :wrench: ~/. dotfiles for Arch Linux
-[![Tests](https://img.shields.io/github/workflow/status/aureooms/dotfiles/ci:test?event=push&label=tests)](https://github.com/aureooms/dotfiles/actions/workflows/ci:test.yml?query=branch:master)
+[![Tests](https://img.shields.io/github/workflow/status/make-github-pseudonymous-again/dotfiles/ci:test?event=push&label=tests)](https://github.com/make-github-pseudonymous-again/dotfiles/actions/workflows/ci:test.yml?query=branch:master)
 ==
 
 <p align="center">
@@ -62,7 +62,7 @@ impersonate you. Encrypt your storage device before it is too late.
 
     cd
     cd dev
-    git clone https://github.com/aureooms/dotfiles
+    git clone https://github.com/make-github-pseudonymous-again/dotfiles
     cd dotfiles
 
 ### Install software
@@ -129,7 +129,7 @@ Logout, login, then
 
 ## :woman_astronaut: Usage
 
-See [wiki](https://github.com/aureooms/dotfiles/wiki).
+See [wiki](https://github.com/make-github-pseudonymous-again/dotfiles/wiki).
 
 ## :construction: Plugins (beta)
 
@@ -138,8 +138,8 @@ is unusable for anybody other than myself. To palliate this issue, I started
 moving important functionality away from this repository. The goal would be to
 have a plugin/package and dependency handling system that would work in the
 realm of configuration files and scripts. See my [list of *dotfiles
-packages*](https://github.com/aureooms?tab=repositories&q=dotfiles) and the
-[instructions to install a *dotfiles plugin*](https://github.com/aureooms/dotfiles/wiki/Plugins).
+packages*](https://github.com/make-github-pseudonymous-again?tab=repositories&q=dotfiles) and the
+[instructions to install a *dotfiles plugin*](https://github.com/make-github-pseudonymous-again/dotfiles/wiki/Plugins).
 
 ## :clap: Credits
 

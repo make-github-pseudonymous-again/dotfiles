@@ -155,9 +155,9 @@ bind xa js window.location = 'https://web.archive.org/' + window.location.href
 " github homepage
 quickmark g https://github.com
 " github dotfiles
-quickmark d https://github.com/aureooms/dotfiles
+quickmark d https://github.com/make-github-pseudonymous-again/dotfiles
 " github repositories
-quickmark r https://github.com/aureooms?tab=repositories
+quickmark r https://github.com/make-github-pseudonymous-again?tab=repositories
 " github trending
 quickmark t https://github.com/trending
 " github notifications

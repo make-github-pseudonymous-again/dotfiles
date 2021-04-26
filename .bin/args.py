@@ -5,7 +5,7 @@ DIRECTIVE_ARG = "--"
 
 def parse(argv, args, kwargs):
     """
-        Found in https://github.com/aureooms/sak/blob/91f86622a9e588d10b40c411ecf549b6fa21618b/lib/args.py#L85
+        Found in https://github.com/make-github-pseudonymous-again/sak/blob/91f86622a9e588d10b40c411ecf549b6fa21618b/lib/args.py#L85
     """
 
     key = ""
