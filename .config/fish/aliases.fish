@@ -148,6 +148,8 @@ abbr adl 'youtube-dl -f bestaudio --'
 
 # youtube-viewer
 abbr yt 'youtube-viewer'
+# youtube-viewer (audio only)
+abbr yta 'youtube-viewer --resolution=audio'
 
 # coursera-dl
 abbr cdl 'coursera-dl --download-quizzes --download-notebooks --about --video-resolution 720p'
