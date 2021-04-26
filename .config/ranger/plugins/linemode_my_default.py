@@ -35,7 +35,7 @@ extensions = { ext: icon for exts, icon in extensions_multi for ext in exts }
 
 @ranger.api.register_linemode
 class MyLinemode(ranger.core.linemode.LinemodeBase):
-    name = "aureooms_default"
+    name = "my_default"
 
     def filetitle(self, file, metadata):
         prefix = ''
