@@ -175,6 +175,7 @@ set newtab http://localhost:7342/newtab.html
 
 
 "" containers
+set autocontainmode strict
 set auconcreatecontainer true
 unset autocontain
 
