@@ -3,4 +3,4 @@ Description=Trigger ready target after 10 seconds
 
 [Timer]
 Unit=ready.target
-OnActiveSec=20
+OnActiveSec=10
