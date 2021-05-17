@@ -13,7 +13,7 @@
 
 Many scripts will cache data on your storage device. This data can be used to
 impersonate you. Encrypt your storage device before it is too
-late.[\*](#please-use-storage-device-encryption)
+late.[\*](#warning-please-use-storage-device-encryption)
 
 ## :rocket: Getting started
 
@@ -101,7 +101,7 @@ packages*](https://github.com/make-github-pseudonymous-again?tab=repositories&q=
 [instructions to install a *dotfiles plugin*](https://github.com/make-github-pseudonymous-again/dotfiles/wiki/Plugins).
 
 ## :warning: Please use storage device encryption
-The [advisory](#advisory) above remains relevant even if you do not use these
+The [advisory](#raising_hand_man-advisory) above remains relevant even if you do not use these
 configuration files: you most probably do not use a stateless machine that
 forgets everything on each reboot.
 Inside your *permanent* storage device you
