@@ -332,7 +332,7 @@ if $plugins ; then
           chezmoi --source "$(readlink -f "$PLUGIN")" diff
         elif [ -x "$DIFFER" ] ; then
           echo "  ° Diff ${PLUGIN} (${DIFFER})"
-          sh "$DIFFER" || _exit "$?"
+          "$DIFFER" || _exit "$?"
         fi
       fi
 
@@ -343,7 +343,7 @@ if $plugins ; then
           chezmoi --source "$(readlink -f "$PLUGIN")" apply
         elif [ -x "$UPDATER" ] ; then
           echo "  ° Update ${PLUGIN} (${UPDATER})"
-          sh "$UPDATER" -f || _exit "$?"
+          "$UPDATER" -f || _exit "$?"
         fi
       fi
 
