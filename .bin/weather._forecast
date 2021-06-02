@@ -146,6 +146,8 @@ print( """
  > 2.5 mm/h corresponds to moderate precipitation,
  > and 10 mm/h corresponds to heavy precipitation. """)
 
+DISPLAYED_TEMPERATURE = 'apparentTemperature'
+# DISPLAYED_TEMPERATURE = 'temperature'
 
 for day in daily:
 
@@ -154,8 +156,8 @@ for day in daily:
     sunset = arrow.get(day['sunsetTime']).to('local').format('HH:mm:ss')
     time = daytime
 
-    t1 = round(ftoc(day['apparentTemperatureMin']))
-    t2 = round(ftoc(day['apparentTemperatureMax']))
+    t1 = round(ftoc(day[DISPLAYED_TEMPERATURE+'Min']))
+    t2 = round(ftoc(day[DISPLAYED_TEMPERATURE+'Max']))
     p = round(100 * day['precipProbability'])
     i = round(itom(day['precipIntensity']), 1)
 
@@ -187,7 +189,7 @@ for day in daily:
         if time < daytime or time >= daytime.shift(days=+1):
             continue
 
-        t = round(ftoc(hour['apparentTemperature']))
+        t = round(ftoc(hour[DISPLAYED_TEMPERATURE]))
         p = round(100 * hour['precipProbability'])
         i = round(itom(hour['precipIntensity']), 1)
 
