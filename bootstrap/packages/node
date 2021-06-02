@@ -6,7 +6,6 @@ eslint_d
 xo
 
 gulp-cli
-tick
 man-n
 @babel/cli
 @babel/core

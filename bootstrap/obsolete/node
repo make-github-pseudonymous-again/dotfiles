@@ -18,3 +18,4 @@ speed-test # too slow
 babel-eslint # deprecated
 eslint-plugin-babel # deprecated
 npx # deprecated
+tick # use node --prof-process instead

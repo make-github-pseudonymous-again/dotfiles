@@ -56,6 +56,9 @@ abbr ni "npm i --save"
 abbr nid "npm i --save-dev"
 abbr nig "sudo npm i -g"
 
+# node abbreviations
+abbr npp "node --prof-process (exa -snew isolate-*.log | tail -1) | less"
+
 # trash-cli abbreviations
 abbr tp "trash-put --"
 abbr tl "trash-list"
