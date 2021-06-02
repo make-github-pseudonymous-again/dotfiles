@@ -2,6 +2,7 @@
 jshint
 jslint
 gulp
+gulp-cli # not used
 uglify-js
 peerflix
 torrentflix

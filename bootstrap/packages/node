@@ -5,7 +5,6 @@ eslint_d
 @babel/eslint-plugin
 xo
 
-gulp-cli
 man-n
 @babel/cli
 @babel/core
