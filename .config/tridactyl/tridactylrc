@@ -196,5 +196,4 @@ js tri.config.set("autocontain", "^https?://([^/]*\\.|)amazon\\.(com|fr|de)/", "
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)mediamarkt\\.(be)/", "mediamarkt")
 
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)github\\.com/", "github")
-js tri.config.set("autocontain", "^https?://([^/]*\\.|)indfak2\\.dk/", "barc")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)reddit\\.com/", "reddit")
