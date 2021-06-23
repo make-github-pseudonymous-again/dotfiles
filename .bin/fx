@@ -11,8 +11,19 @@ URL="http://data.fixer.io/api/$DATE?access_key=$ACCESS_KEY&symbols=$FROM,$TO"
 RESPONSE="$(curl --silent "$URL")"
 
 if [ "$RESPONSE" = '' ] ; then
-  >&2 echo "Could not access '$URL'"
+  >&2 echo "ERROR: Could not access '$URL'"
   exit 1
+fi
+
+SUCCESS="$(printf '%s' "$RESPONSE" | jq .success)"
+
+if [ "$SUCCESS" = 'false' ] ; then
+  CODE="$(printf '%s' "$RESPONSE" | jq .error.code)"
+  TYPE="$(printf '%s' "$RESPONSE" | jq .error.type)"
+  INFO="$(printf '%s' "$RESPONSE" | jq .error.info)"
+  >&2 echo "ERROR in response for '$URL':"
+  >&2 echo " > $CODE [$TYPE] $INFO"
+  exit 2
 fi
 
 RATE_FROM="$(printf '%s' "$RESPONSE" | jq ".rates.$FROM")"
