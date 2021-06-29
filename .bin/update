@@ -42,7 +42,7 @@ function show_help ( ) {
   fi
 }
 
-while getopts "h?acdfimnprstuvwxyzCDFIMNPRSTUVWXYZ" opt; do
+while getopts "h?abcdfimnprstuvwxyzCDFIMNPRSTUVWXYZ" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -57,6 +57,14 @@ while getopts "h?acdfimnprstuvwxyzCDFIMNPRSTUVWXYZ" opt; do
         install=true
         update=true
         restart=true
+        vim=true
+        fish=true
+        tldr=true
+        ;;
+    b)  pull=true
+        modules=true
+        plugins=true
+        update=true
         vim=true
         fish=true
         tldr=true
