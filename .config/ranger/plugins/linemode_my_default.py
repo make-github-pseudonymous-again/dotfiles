@@ -8,7 +8,7 @@ extensions_multi = (
     (('.pdf','.djvu','.eps','.ps'), ''),
     (('.json','.yaml','.toml','.atom','.xml','.html'), ''),
     (('.sh','.bash','.fish','.bat'), ''),
-    (('.js',), ''),
+    (('.js','.jsx','.ts','.tsx',), ''),
     (('.py',), ''),
     (('.webm','.aac','.flac','.mp3','.m4a','.wma'), ''),
     (('.png','.gif','.jpg','.jpeg','.pgm','.svg'), ''),
@@ -28,6 +28,9 @@ extensions_multi = (
 
 
 special = {
+    'package.json': '',
+    'package-lock.json': '',
+    'yarn.lock': '',
     'LICENSE': '',
 }
 
@@ -48,9 +51,8 @@ class MyLinemode(ranger.core.linemode.LinemodeBase):
                 prefix = ''
 
         else:
-            if file.relative_path in special:
-                prefix = special.get(file.relative_path)
-            else:
+            prefix = special.get(file.relative_path)
+            if prefix is None:
                 if file.relative_path[-1] == '~':
                     ext = '.bak'
                 elif file.relative_path[-2:] == 'rc':
