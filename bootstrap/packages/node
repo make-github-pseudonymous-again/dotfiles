@@ -3,7 +3,6 @@ eslint
 eslint_d
 @babel/eslint-parser
 @babel/eslint-plugin
-xo
 
 man-n
 @babel/cli
