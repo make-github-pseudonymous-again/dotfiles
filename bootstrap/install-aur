@@ -21,7 +21,7 @@ i() {
 
 if ! command -v trizen 1>/dev/null 2>&1 ; then
 	echo 'installing trizen'
-	sudo pacman -S expac yajl git --noconfirm --needed
+	sudo pacman -S wget expac yajl git --noconfirm --needed
 	i trizen
 fi
 
@@ -35,8 +35,8 @@ packages="$(sed -e 's/\s*#.*$//g' -e '/^$/d' "$DOTFILES"/bootstrap/packages/aur)
 
 echo "  > installing ~ $(<<< "$packages" tr '\n' ' ')"
 comm -23 \
-	<(printf '%s\n' "$packages") \
-	<(printf '%s\n' "$packages" | pacman -Qk - 2>/dev/null | cut -d: -f1) |
+	<(printf '%s\n' "$packages" | sort) \
+	<(printf '%s\n' "$packages" | pacman -Qk - 2>/dev/null | cut -d: -f1 | sort) |
 trizen -S --aur --needed --noconfirm --noedit -
 
 exit 0
