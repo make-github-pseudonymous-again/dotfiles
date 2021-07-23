@@ -33,7 +33,6 @@ set -l FZFCMD "command $FZF_FIND_CMD -L . \
 -type f -print -o \
 -type l -print 2>/dev/null \
 | sed 1d | cut -b3-" 2>/dev/null
-set -l FZFOPTS '--preview "begin; test -d {}; and ls -la {}; or coderay {}; or cat {}; end 2>/dev/null | head -$LINES"'
 
 set -x FZF_DEFAULT_COMMAND $FZFCMD
 #set -x FZF_DEFAULT_OPTS $FZFOPTS # DOES NOT WORK ?

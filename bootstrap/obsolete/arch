@@ -91,3 +91,4 @@ electron6 # not used anymore
 pandoc-citeproc # can now use pandoc --citeproc
 
 starship-bin # now available as community/starship
+ruby-coderay # use bat instead
