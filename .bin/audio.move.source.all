@@ -13,5 +13,5 @@ pacmd set-default-source "$source"
 outputs="$(audio.outputs.index)"
 
 if [ "$outputs" != '' ]; then
-	echo "$outputs" | xargs -L1 -i{} pacmd move-source-output "{}" "$source"
+	echo "$outputs" | xargs -I{} pacmd move-source-output "{}" "$source"
 fi

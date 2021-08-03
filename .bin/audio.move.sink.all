@@ -13,5 +13,5 @@ pacmd set-default-sink "$sink"
 inputs="$(audio.inputs.index)"
 
 if [ "$inputs" != '' ]; then
-	echo "$inputs" | xargs -L1 -i{} pacmd move-sink-input "{}" "$sink"
+	echo "$inputs" | xargs -I{} pacmd move-sink-input "{}" "$sink"
 fi
