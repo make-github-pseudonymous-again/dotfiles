@@ -6,34 +6,21 @@ format = """\
   $username\
   ${custom.sudo}\
   $hostname\
-  $kubernetes\
+  $shell\
+  $shlvl\
   $directory\
   $git_branch\
   $git_commit\
   $git_state\
+  $git_metrics\
   $git_status\
-  $hg_branch\
   $docker_context\
   $package\
-  $dotnet\
-  $elixir\
-  $elm\
-  $golang\
-  $haskell\
-  $java\
-  $julia\
-  $nodejs\
-  $php\
+  ${custom.node}\
   $python\
-  $ruby\
   $rust\
-  $terraform\
-  $nix_shell\
-  $conda\
   $memory_usage\
-  $aws\
   $env_var\
-  $crystal\
   $cmd_duration\
   $custom\
   $line_break\
@@ -41,6 +28,18 @@ format = """\
   $battery\
   $time $character\
 """
+
+[shell]
+fish_indicator = "🐟"
+disabled = false
+
+[shlvl]
+format = 'sub '
+threshold = 3
+disabled = false
+
+[git_metrics]
+disabled = false
 
 [character]
 success_symbol = '[\[I\]](bold green) ➜'
@@ -77,3 +76,16 @@ command = "echo sudo"
 when = "sudo -n true"
 style = "bold fg:#ffb05b"
 format = "\\([$output]($style)\\) "
+
+[custom.node]
+command = "node-info"
+directories = ["node_modules"]
+files = ["package.json"]
+style = "green"
+format = "via [$output]($style) "
+
+[custom.screen]
+description = "Display a monitor glyph and the pid.tty.host if we're in a screen session."
+when = """ test "$STY" """
+shell = ["bash", "--noprofile", "--norc"]
+command = 'echo 🖵 " $STY"'
