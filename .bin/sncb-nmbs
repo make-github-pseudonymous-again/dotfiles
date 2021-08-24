@@ -16,10 +16,8 @@ if [ ! -e "$STATIONS" ] ; then
 fi
 
 station="$(\
-#curl -s -H 'accept: application/json' https://irail.be/stations/nmbs | \
 < "$STATIONS" \
 jq '.["@graph"] | map(.["@id"] + " -- " + .name) | .[]' -r | \
-#fzf --header 'Pick a station' | \
 dmenu_center --rest -p 'station' -sb "$SB" -l 10 -i | \
 sed 's/ -- / /'\
 )"

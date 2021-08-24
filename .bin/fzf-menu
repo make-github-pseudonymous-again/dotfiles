@@ -3,7 +3,6 @@
 import sys
 import os
 import argparse
-import json
 from shlex import quote
 from tempfile import mkstemp
 from subprocess import call
@@ -34,23 +33,24 @@ def main():
     fzfcmd += ' '.join(map(quote,rest))
     fzfcmd += ' > {}'.format(quote(outputname))
 
+    pipe_input_temp_filename = None
     pipe = not sys.stdin.isatty()
 
     if pipe :
 
-        _, inputname = mkstemp()
-        with open(inputname, 'w') as f:
+        _, pipe_input_temp_filename = mkstemp()
+        with open(pipe_input_temp_filename, 'w') as f:
             f.write(sys.stdin.read())
 
-        fzfcmd += ' < {}'.format(quote(inputname))
+        fzfcmd += ' < {}'.format(quote(pipe_input_temp_filename))
 
     cmd += [fzfcmd]
 
     rc = call(cmd)
 
-    if pipe :
+    if pipe_input_temp_filename is not None:
 
-        os.remove(inputname)
+        os.remove(pipe_input_temp_filename)
 
     with open(outputname) as f:
         result = f.read()
