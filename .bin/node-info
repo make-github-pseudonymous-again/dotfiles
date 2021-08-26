@@ -4,7 +4,7 @@ if test -f .meteor/release; then
 	METEOR_VERSION="$(cut -d@ -f2 < .meteor/release)"
 	NODE_VERSION="$(test -e "${HOME}/.meteor/meteor" && meteor node --version)"
 	if test -n "$NODE_VERSION"; then
-		printf 'meteor %s (%s)\n' "$METEOR_VERSION" "$NODE_VERSION"
+		printf 'meteor %s (node %s)\n' "$METEOR_VERSION" "$NODE_VERSION"
 	else
 		printf 'meteor %s (not installed)\n' "$METEOR_VERSION"
 	fi
