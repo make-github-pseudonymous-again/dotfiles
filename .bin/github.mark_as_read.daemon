@@ -1,7 +1,32 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 QUERY='select(.subject.type == "PullRequest") | {"id":.id, "pr":.subject.url, "title":.subject.title}'
-FILTER='.user.login == "renovate[bot]" and .state == "closed"'
+
+declare -A filters
+
+while true ; do
+	filter="$1"
+	if ! shift; then
+		break
+	fi
+	validity="$1"
+	if ! shift; then
+		>&2 printf 'Expected an even number of arguments for filters\n'
+		exit 113
+	fi
+	filters[$filter]="$validity"
+done
+
+skip () {
+	pr="$1"
+	filter="$2"
+	validity="$3"
+	if [ "$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize "$validity" curl -s "$pr" | jq "$filter")" = "false" ] ; then
+		return 0
+	else
+		return 1
+	fi
+}
 
 github.notifications |
 jq -c "$QUERY" |
@@ -9,8 +34,16 @@ while read -r line ; do
 	id="$(printf '%s' "$line" | jq -r .id)"
 	pr="$(printf '%s' "$line" | jq -r .pr)"
 	title="$(printf '%s' "$line" | jq -r .title)"
-	if [ "$(curl -s "$pr" | jq "$FILTER")" = "true" ] ; then
-		>&2 echo "Marking thread #${id} as read: ${title} (${pr})"
-		github.mark_as_read "$id"
-	fi
+
+	for filter in "${!filters[@]}"; do
+		validity="${filters[$filter]}"
+		if skip "$pr" "$filter" "$validity" ; then
+			# shellcheck disable=SC2016
+			>&2 printf 'Not marking #%s as read: %s (%s) because it does not satisfy filter `%s`\n' "$id" "$title" "$pr" "$filter"
+			continue 2
+		fi
+	done
+
+	>&2 printf 'Marking thread #%s as read: %s (%s)' "$id" "$title" "$pr"
+	github.mark_as_read "$id"
 done

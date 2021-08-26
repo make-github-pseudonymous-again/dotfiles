@@ -5,4 +5,4 @@ Description=Github mark notifications read service
 Type=simple
 Restart=on-failure
 RestartSec=300
-ExecStart=/usr/bin/env github.mark_as_read.daemon
+ExecStart=/usr/bin/env github.mark_as_read.daemon '.user.login == "renovate[bot]"' 86400 '.state == "closed"' 21600
