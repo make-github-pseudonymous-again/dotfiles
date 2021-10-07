@@ -657,6 +657,8 @@ mode "system" {
         bindcode 39 exec menu.systemctl; mode "default"
         #-- bindsym x exec menu.systemctl.status; mode "default"
         bindcode 53 exec menu.systemctl.status; mode "default"
+        #-- bindsym f exec menu.journalctl.follow; mode "default"
+        bindcode 41 exec menu.journalctl.follow; mode "default"
         #-- bindsym Shift+X exec terminator -b -x watch systemctl status --user; mode "default"
         bindcode Shift+53 exec terminator -b -x watch systemctl status --user; mode "default"
 
