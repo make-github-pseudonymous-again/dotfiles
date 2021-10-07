@@ -2,7 +2,7 @@
 
 import sys
 import json
-from colored import fore, back, style
+from colored import fore, style
 
 OK = frozenset(['active'])
 KO = frozenset(['failed', 'dead'])
