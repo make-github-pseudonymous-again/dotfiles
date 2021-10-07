@@ -348,7 +348,7 @@ if $plugins ; then
         UPDATER="$PLUGIN"/dotfiles.update
         if [ -e "$CHEZMOIIGNORE" ] ; then
           echo "  ° Update ${PLUGIN} (chezmoi)"
-          chezmoi --source "$(readlink -f "$PLUGIN")" apply
+          chezmoi --source "$(readlink -f "$PLUGIN")" apply --force
         elif [ -x "$UPDATER" ] ; then
           echo "  ° Update ${PLUGIN} (${UPDATER})"
           "$UPDATER" -f || _exit "$?"
