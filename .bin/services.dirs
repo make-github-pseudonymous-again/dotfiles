@@ -4,6 +4,7 @@ manager="$1"
 
 if [ "$manager" = '--user' ] ; then
   printf '%s\0' \
+    "/usr/lib/systemd/user" \
     "$HOME/.config/systemd/user/"
 elif [ "$manager" = '--system' ] ; then
   printf '%s\0' \
