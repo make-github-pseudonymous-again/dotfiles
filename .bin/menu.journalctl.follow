@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+manager="$(printf '%s\n' --system --user |
+	dmenu_center --rest -sb '#D24858' -p 'manager')"
+
+if [ -z "$manager" ]; then
+	exit 101
+fi
+
+service="$(menu.systemctl.select "$manager")"
+rc="$?"
+if [ "$rc" -ne 0 ] ; then exit "$rc" ; fi
+
+# shellcheck disable=SC1003
+terminator -b -x journalctl -feu "$(systemd-escape "$(printf '%s' "$service" | escape-characters '\\' ' ')")" "$manager" --no-tail
