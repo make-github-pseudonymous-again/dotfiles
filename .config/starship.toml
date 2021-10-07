@@ -49,7 +49,7 @@ vicmd_symbol = '[\[N\]](bold green) ➜'
 [cmd_duration]
 min_time = 0
 show_milliseconds = true
-format = "[$duration]($style)"
+format = "[$duration]($style) "
 
 [time]
 disabled = false
@@ -88,4 +88,4 @@ format = "via [$output]($style) "
 description = "Display a monitor glyph and the pid.tty.host if we're in a screen session."
 when = """ test "$STY" """
 shell = ["bash", "--noprofile", "--norc"]
-command = 'echo 🖵 " $STY"'
+command = 'echo 🖵 " $STY" '
