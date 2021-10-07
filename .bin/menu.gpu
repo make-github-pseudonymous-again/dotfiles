@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-mode="$(printf '%s\n%s\n%s\n' battery balanced performance |
+mode="$(printf '%s\n' battery balanced performance |
 	dmenu_center --rest -sb '#D24858' -p 'mode')"
 
 if [ -z "$mode" ]; then
