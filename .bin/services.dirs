@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+manager="$1"
+
+if [ "$manager" = '--user' ] ; then
+  printf '%s\0' \
+    "$HOME/.config/systemd/user/"
+elif [ "$manager" = '--system' ] ; then
+  printf '%s\0' \
+    "/usr/lib/systemd/system"
+else
+  exit 117
+fi

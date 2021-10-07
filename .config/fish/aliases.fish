@@ -78,7 +78,7 @@ for al in (git la)
 end
 
 abbr up "update"
-abbr ss "services.show | less -r"
+abbr ss "services.show --user | less -r"
 
 
 # errors from journal

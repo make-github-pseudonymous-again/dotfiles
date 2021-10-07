@@ -7,7 +7,7 @@ if [ -e "${CACHE}" ] ; then
 	jqselector=".[0] as \$config | .[1] as \$cache | \$cache | with_entries(select( \
 		([.key] | inside(\$config.whitelist) | not) \
 		and
-		(.value.origin == \"user\") \
+		(.value.manager == \"--user\") \
 		and \
 		([.value.type] | inside([\"service\",\"timer\"])) \
 		and \

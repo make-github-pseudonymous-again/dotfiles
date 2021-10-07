@@ -30,7 +30,7 @@ alias g="git"
 alias e="vim"
 
 alias up="update"
-alias ss="services.show | less -r"
+alias ss="services.show --user | less -r"
 
 # errors from journal
 alias errors="journalctl -b -p err -r"

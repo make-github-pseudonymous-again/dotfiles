@@ -6,7 +6,7 @@ if [ -z "$action" ]; then
 	exit 101
 fi
 
-service=$(services.list | dmenu_center --rest -i -t -sb '#D24858' -p "$action" -l 10)
+service=$(services.list --user | dmenu_center --rest -i -t -sb '#D24858' -p "$action" -l 10)
 if [ -z "$service" ]; then
 	exit 102
 fi

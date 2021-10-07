@@ -4,12 +4,12 @@ CONFIG="${1:-"${HOME}/.config/services/config.json"}"
 CACHE="${HOME}/.cache/services"
 
 mkdir -p "$(dirname "${CACHE}")"
-services.list | service.info > "${CACHE}"
+services.list --user | service.info > "${CACHE}"
 
 jqselector=".[0] as \$config | .[1] as \$cache | \$cache | with_entries(select( \
 	([.key] | inside(\$config.whitelist) | not) \
 	and
-	(.value.origin == \"user\") \
+	(.value.manager == \"--user\") \
 	and \
 	([.value.type] | inside([\"service\",\"timer\"])) \
 	and \

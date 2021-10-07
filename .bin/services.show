@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-services.list |
-services.info |
-jq 'with_entries(select(.value.origin == "user"))' |
+manager="$1"
+services.list "$manager" |
+services.info "$manager" |
+jq 'with_entries(select(.value.manager == "'"$manager"'"))' |
 services.format

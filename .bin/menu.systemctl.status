@@ -1,17 +1,7 @@
 #!/usr/bin/env sh
-service="$(services.list | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)"
-
-if [ "$service" = '' ]; then
-	exit 102
-fi
-
-if printf '%s' "$service" | grep -q '@\.' ; then
-	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
-	if [ "$argument" = '' ]; then
-		exit 103
-	fi
-	service="$(printf '%s' "$service" | sed "s/@\\./@${argument}./")"
-fi
+service="$(menu.systemctl.select --user)"
+rc="$?"
+if [ "$rc" -ne 0 ] ; then exit "$rc" ; fi
 
 # shellcheck disable=SC1003
 terminator -b -x watch systemctl --user status "$(systemd-escape "$(printf '%s' "$service" | escape-characters '\\' ' ')")" -n 25

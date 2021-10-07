@@ -7,8 +7,10 @@ import json
 import subprocess
 import fileinput
 
-STATUS_CMD = ['systemctl', '--user', '--all', '--no-pager', '--no-legend']
-ENABLE_CMD = ['systemctl', '--user', 'is-enabled']
+manager = sys.argv[1]
+
+STATUS_CMD = ['systemctl', manager, '--all', '--no-pager', '--no-legend']
+ENABLE_CMD = ['systemctl', manager, 'is-enabled']
 
 status = {}
 
@@ -30,7 +32,7 @@ for line in subprocess.check_output(STATUS_CMD).decode().splitlines():
             "type": kind,
     }
 
-for line in fileinput.input():
+for line in fileinput.input(files=('-',)):
 
     unit = line.rstrip('\r\n')
 
@@ -43,11 +45,11 @@ for line in fileinput.input():
 
     if unit in status:
         status[unit]["enabled"] = enabled
-        status[unit]["origin"] = "user"
+        status[unit]["manager"] = manager
     else:
         name, kind = unit.rsplit('.',maxsplit=1)
         status[unit] = {
-            "origin": "user",
+            "manager": manager,
             "enabled": enabled,
             "name": name,
             "type": kind,
