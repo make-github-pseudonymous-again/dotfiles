@@ -38,11 +38,15 @@ with fileinput.input(files=('-',)) as f:
         unit = line.rstrip('\r\n')
 
         try:
-            enabled = subprocess.check_output(ENABLE_CMD + [unit])
+            output = subprocess.check_output(ENABLE_CMD + [unit])
         except subprocess.CalledProcessError as e:
-            enabled = e.output
+            output = e.output
 
-        enabled = enabled.decode().splitlines()[0]
+        lines = output.decode().splitlines()
+
+        if not lines: continue
+
+        enabled = lines[0]
 
         if unit in status:
             status[unit]["enabled"] = enabled
