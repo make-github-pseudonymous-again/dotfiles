@@ -8,7 +8,8 @@ if [ "$manager" = '--user' ] ; then
     "$HOME/.config/systemd/user/"
 elif [ "$manager" = '--system' ] ; then
   printf '%s\0' \
-    "/usr/lib/systemd/system"
+    "/usr/lib/systemd/system" \
+    "/etc/systemd/system"
 else
   exit 117
 fi
