@@ -3,7 +3,7 @@
 cache="${HOME}/.cache/netctl/last"
 profile="$(cat "$cache")"
 
-sudo ip link set "$(wifi.chips.default)" down
+sudo /usr/bin/ip link set "$(wifi.chips.default)" down
 
 if [ "$profile" = 'auto' ] ; then
 	wifi.auto.start

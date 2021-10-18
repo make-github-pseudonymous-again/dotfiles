@@ -15,4 +15,4 @@ else
 	rm -f "$cache"
 fi
 
-sudo ip link set "$(wifi.chips.default)" down
+sudo /usr/bin/ip link set "$(wifi.chips.default)" down
