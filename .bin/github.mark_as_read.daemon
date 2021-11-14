@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-QUERY='select(.subject.type == "PullRequest") | {"id":.id, "pr":.subject.url, "title":.subject.title}'
+MEMOIZE_CACHE="/tmp/${USER}-memoize"
+GET="curl -s"
+
+QUERY='select(.subject.type == "PullRequest") | {"id":.id, "pr":.subject.url, "title":.subject.title, "updated_at":.updated_at}'
 
 declare -A filters
 
@@ -9,37 +12,63 @@ while true ; do
 	if ! shift; then
 		break
 	fi
-	validity="$1"
-	if ! shift; then
-		>&2 printf 'Expected an even number of arguments for filters\n'
-		exit 113
-	fi
-	filters[$filter]="$validity"
+	filters[$filter]="$filter"
 done
 
-skip () {
+hasError () {
+	<<< "$1" jq -e '.message != null' > /dev/null
+}
+
+passes () {
 	pr="$1"
 	filter="$2"
-	validity="$3"
-	if [ "$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize "$validity" curl -s "$pr" | jq "$filter")" = "false" ] ; then
-		return 0
-	else
+	updated_at="$3"
+	last_fetched_path="${MEMOIZE_CACHE}/$(memoize-args-key $GET "$pr")/T"
+
+	validity="-1" # Defaults to immediate refetch
+	if [ -e "$last_fetched_path" ] ; then
+		last_updated="$(date --date "$updated_at" +%s)"
+		last_fetched="$(cat "$last_fetched_path")"
+		if [ "$last_fetched" -ge "$last_updated" ] ; then
+			if hasError "$(MEMOIZE_CACHE="$MEMOIZE_CACHE" memoize-get -1 $GET "$pr")" ; then
+				# There was an error with the last fetch
+				validity="25200" # 7 hours
+			else
+				# There was no error with the last fetch
+				validity="864000" # 10 days
+			fi
+		fi
+	fi
+
+	state="$(MEMOIZE_CACHE="$MEMOIZE_CACHE" memoize "$validity" $GET "$pr")"
+
+	if hasError "$state" ; then
+		>&2 printf 'Error while fetching PR (%s): %s\n' "$pr" "$(<<< "$state" jq -r .message)"
+		return 2
+	fi
+
+	if [ "$(<<< "$state" jq "$filter")" = "false" ] ; then
 		return 1
+	else
+		return 0
 	fi
 }
 
 github.notifications |
 jq -c "$QUERY" |
 while read -r line ; do
-	id="$(printf '%s' "$line" | jq -r .id)"
-	pr="$(printf '%s' "$line" | jq -r .pr)"
-	title="$(printf '%s' "$line" | jq -r .title)"
+	{ read id; read pr; read title; read updated_at; } <<< "$(printf '%s' "$line" | jq -r '.id,.pr,.title,.updated_at')"
 
 	for filter in "${!filters[@]}"; do
-		validity="${filters[$filter]}"
-		if skip "$pr" "$filter" "$validity" ; then
-			# shellcheck disable=SC2016
-			>&2 printf 'Not marking #%s as read: %s (%s) because it does not satisfy filter `%s`\n' "$id" "$title" "$pr" "$filter"
+		passes "$pr" "$filter" "$updated_at"
+		rc="$?"
+		if [ "$rc" -ne 0 ] ; then
+			if [ "$rc" -eq 1 ] ; then
+				# shellcheck disable=SC2016
+				>&2 printf 'Not marking #%s as read: %s (%s) because it does not satisfy filter `%s`\n' "$id" "$title" "$pr" "$filter"
+			else
+				>&2 printf 'Not marking #%s as read: %s (%s) because of API error\n' "$id" "$title" "$pr"
+			fi
 			continue 2
 		fi
 	done

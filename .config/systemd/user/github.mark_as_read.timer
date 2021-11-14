@@ -2,8 +2,8 @@
 Description=Github mark notifications read timer
 
 [Timer]
-OnActiveSec=600
-OnUnitActiveSec=600
+OnActiveSec=5400
+OnUnitActiveSec=5400
 
 [Install]
 WantedBy=ready.target
