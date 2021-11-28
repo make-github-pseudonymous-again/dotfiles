@@ -62,24 +62,24 @@ fi
 
 if power.battery.has; then
 	if power.adapter.online; then
-		execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+		execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 		execute="$execute"'| map(select(.name == "battery").color |= "#FDD949" )'
 	else
 		battery_charge="$(power.battery.charge)"
 		if [ "$battery_charge" -ge 80 ]; then
-			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 			execute="$execute"'| map(select(.name == "battery").color |= "#8CBF99" )'
 		elif [ "$battery_charge" -ge 60 ]; then
-			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 			execute="$execute"'| map(select(.name == "battery").color |= "#F4A938" )'
 		elif [ "$battery_charge" -ge 40 ]; then
-			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 			execute="$execute"'| map(select(.name == "battery").color |= "#FC854F" )'
 		elif [ "$battery_charge" -ge 20 ]; then
-			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 			execute="$execute"'| map(select(.name == "battery").color |= "#F45D4C" )'
 		else
-			execute="$execute"'| map(select(.name == "battery").full_text |= "" + . )'
+			execute="$execute"'| map(select(.name == "battery").full_text |= " " + . )'
 			execute="$execute"'| map(select(.name == "battery").color |= "#F2435B" )'
 		fi
 	fi
