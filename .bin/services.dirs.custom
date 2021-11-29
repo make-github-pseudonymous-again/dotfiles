@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+printf '%s\0' \
+  "$HOME/.config/systemd/user/"

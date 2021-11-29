@@ -1,10 +1,4 @@
 #!/usr/bin/env sh
 
 # shellcheck disable=SC1003
-services.dirs "$@" |
-  xargs -0 -I{} find {} -type f,l |
-  grep -E '\.(service|timer|target|socket|slice)$' |
-  escape-characters '\\' ' ' |
-  xargs -L1 basename |
-  sort |
-  uniq
+services.dirs "$@" | services.find

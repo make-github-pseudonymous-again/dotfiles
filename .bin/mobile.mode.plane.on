@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-services.off "${HOME}/.config/mode/plane/config.json"
+services.list.custom | services.off "${HOME}/.config/mode/plane/config.json"
 wifi.any.stop
 mkdir -p "/tmp/.cache/mobile/mode/plane"
 touch "/tmp/.cache/mobile/mode/plane/on"

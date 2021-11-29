@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-services.off
+services.list.custom | services.off
 services.on

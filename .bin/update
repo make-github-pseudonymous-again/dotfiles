@@ -294,7 +294,7 @@ fi
 if $restart ; then
 
   echo '+ Shutting down services'
-  _do services.off
+  _do services.list.custom | services.off
 
 fi
 
