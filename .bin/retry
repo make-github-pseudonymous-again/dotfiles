@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+t=1
+
+while ! "$@"; do
+	>&2 printf 'The command `'
+	printf '"%s" ' "$@" | >&2 head -c -1
+	>&2 printf '` failed with error code %s. Retrying in %s seconds.\n' "$?" "$t"
+	sleep "$t"
+	t=$((t*2))
+done
