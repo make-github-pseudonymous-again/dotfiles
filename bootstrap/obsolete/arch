@@ -84,6 +84,11 @@ python2-pyasn1-modules
 python2-click
 python2-hyperlink
 python2-numpy
+python2-cachecontrol
+python2-html5lib
+python2-pip
+python2-progress
+python2-requests
 
 electron2 # not used anymore
 electron6 # not used anymore
