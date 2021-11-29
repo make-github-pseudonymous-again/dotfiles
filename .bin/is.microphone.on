@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+amixer.is.on Capture

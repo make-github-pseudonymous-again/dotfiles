@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-amixer get Master | tail -1 | grep '\[on\]' > /dev/null 2>&1
+amixer.is.on Master

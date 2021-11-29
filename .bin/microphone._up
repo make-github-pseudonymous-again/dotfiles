@@ -1,0 +1,4 @@
+#!/usr/bin/env dash
+
+i="${1:-3}"
+amixer -q set Capture "$i"%+

@@ -3,14 +3,27 @@
 read -r line || exit 1
 
 PREPEND_INIT=''
+APPEND_INIT=''
 EXECUTE_INIT='.'
 
 prepend="$PREPEND_INIT"
+append="$APPEND_INIT"
 execute="$EXECUTE_INIT"
 
 execute="$execute"'| map( select( .full_text != "no IPV6" ) )'
 execute="$execute"'| map( select( .full_text != "No battery" ) )'
 execute="$execute"'| map( select( .full_text != "can'"'"'t read temp" ) )'
+
+microphone_volume="$(microphone.get)"
+if [ -n "${microphone_volume}" ] ; then
+	microphone_icon=""
+	microphone_color="#FFFFFF"
+	if is.microphone.on ; then
+		microphone_icon=""
+		microphone_color="#85BD85"
+	fi
+	append="$append"',{"name":"microphone","color":"'"${microphone_color}"'","full_text":"'"${microphone_icon} ${microphone_volume}"'%"}'
+fi
 
 linkspeed_string="$(linkspeed)"
 if [ -n "${linkspeed_string}" ] ; then
@@ -92,8 +105,8 @@ if  [ "$execute" != "$EXECUTE_INIT" ] ; then
 	line="$(printf "%s\n" "$line" | jq -cM "$execute")"
 fi
 
-if [ "$prepend" != "$PREPEND_INIT" ] ; then
-	line="[${prepend}$(printf "%s\n" "$line" | tail -c +2)"
+if [ "$prepend" != "$PREPEND_INIT" ] || [ "$append" != "$APPEND_INIT" ] ; then
+	line="[${prepend}$(printf "%s" "$line" | tail -c +2 | head -c -1)${append}]"
 fi
 
 printf "%s\n" "$line"

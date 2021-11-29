@@ -1,0 +1,2 @@
+#!/usr/bin/env dash
+amixer get "$@" | tail -1 | grep '\[on\]' > /dev/null 2>&1

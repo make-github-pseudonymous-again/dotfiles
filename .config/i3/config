@@ -693,6 +693,22 @@ mode "system" {
         #-- bindsym Ctrl+Shift+E exec keyboard.brightness.min
         bindcode Ctrl+Shift+26 exec keyboard.brightness.min
 
+        # microphone
+        #-- bindsym p exec microphone.up 10
+        bindcode 33 exec microphone.up 10
+        #-- bindsym o exec microphone.down 10
+        bindcode 32 exec microphone.down 10
+        #-- bindsym Shift+P exec microphone.up 1
+        bindcode Shift+33 exec microphone.up 1
+        #-- bindsym Shift+O exec microphone.down 1
+        bindcode Shift+32 exec microphone.down 1
+        #-- bindsym Ctrl+Shift+P exec microphone.max
+        bindcode Ctrl+Shift+33 exec microphone.max
+        #-- bindsym Ctrl+Shift+O exec microphone.min
+        bindcode Ctrl+Shift+32 exec microphone.min
+        #-- bindsym i exec microphone.toggle; mode "default"
+        bindcode 31 exec microphone.toggle; mode "default"
+
         # back to normal: Enter or Escape
         #-- bindsym Return mode "default"
         bindcode 36 mode "default"
@@ -864,6 +880,10 @@ bindcode Shift+237 exec keyboard.brightness.down 1
 bindcode Ctrl+Shift+238 exec keyboard.brightness.max
 #-- bindsym Ctrl+Shift+XF86KbdBrightnessDown exec keyboard.brightness.min
 bindcode Ctrl+Shift+237 exec keyboard.brightness.min
+
+# microphone push-to-talk (waiting for --keydown)
+#-- bindsym $mod+comma exec microphone.toggle
+bindcode $mod+58 exec microphone.toggle
 
 # print screen
 bindsym --release Print exec screenshot.all

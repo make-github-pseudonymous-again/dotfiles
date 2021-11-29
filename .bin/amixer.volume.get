@@ -1,0 +1,3 @@
+#!/usr/bin/env dash
+amixer get "$@" | tail -1 | grep -o '\[[0-9]*%\]' | tail -c +2 | head -c -3
+echo
