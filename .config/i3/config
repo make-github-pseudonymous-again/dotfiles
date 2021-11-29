@@ -401,7 +401,7 @@ mode "cast" {
         bindcode 28 exec screen.cast.talk; mode "default"
         #-- bindsym e exec screen.cast.external; mode "default"
         bindcode 26 exec screen.cast.external; mode "default"
-        #-- bindsym m exec screen.cast.mirror; mode "default"
+        #-- bindsym comma exec screen.cast.mirror; mode "default"
         bindcode 58 exec screen.cast.mirror; mode "default"
         #-- bindsym h exec screen.cast.hdmi; mode "default"
         bindcode 43 exec screen.cast.hdmi; mode "default"
@@ -454,7 +454,7 @@ mode "mode" {
 
         #-- bindsym p exec mobile.mode.plane.toggle; mode "default"
         bindcode 33 exec mobile.mode.plane.toggle; mode "default"
-        #-- bindsym m exec mobile.mode.plane.toggle; mode "default"
+        #-- bindsym m exec link.mode.metered.toggle; mode "default"
         bindcode 47 exec link.mode.metered.toggle; mode "default"
 
         # back to normal: Enter or Escape
@@ -786,7 +786,7 @@ mode "files" {
         #-- bindsym l exec menu.library; mode "default"
         bindcode 46 exec menu.library; mode "default"
         #-- bindsym Shift+l exec menu.library --opener evince; mode "default"
-        bindcode Shift+46 exec menu.library evince; mode "default"
+        bindcode Shift+46 exec menu.library --opener evince; mode "default"
 
         #-- bindsym r exec menu.pdf.research-library; mode "default"
         bindcode 27 exec menu.pdf.research-library; mode "default"
