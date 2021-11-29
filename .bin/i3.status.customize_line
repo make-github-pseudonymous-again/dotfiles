@@ -17,10 +17,10 @@ execute="$execute"'| map( select( .full_text != "can'"'"'t read temp" ) )'
 microphone_volume="$(microphone.get)"
 if [ -n "${microphone_volume}" ] ; then
 	microphone_icon=""
-	microphone_color="#FFFFFF"
+	microphone_color="#FDD949"
 	if is.microphone.on ; then
 		microphone_icon=""
-		microphone_color="#85BD85"
+		microphone_color="#F45D4C"
 	fi
 	append="$append"',{"name":"microphone","color":"'"${microphone_color}"'","full_text":"'"${microphone_icon} ${microphone_volume}"'%"}'
 fi
