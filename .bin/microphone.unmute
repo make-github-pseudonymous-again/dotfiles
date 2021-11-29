@@ -1,0 +1,4 @@
+#!/usr/bin/env dash
+
+microphone._unmute
+i3.status.reload

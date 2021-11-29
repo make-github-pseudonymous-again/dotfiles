@@ -1,0 +1,3 @@
+#!/usr/bin/env dash
+
+amixer -q set Capture nocap
