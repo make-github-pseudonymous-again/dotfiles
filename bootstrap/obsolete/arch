@@ -96,6 +96,15 @@ python2-pyopenssl
 python2-resolvelib
 python2-retrying
 python2-urllib3
+python2-cryptography
+python2-enum34
+python2-asn1crypto
+python2-cffi
+python2-distlib
+python2-distro
+python2-pycparser
+python2-webencodings
+python2-ply
 
 electron2 # not used anymore
 electron6 # not used anymore
