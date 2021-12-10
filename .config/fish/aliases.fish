@@ -208,3 +208,4 @@ abbr co 'curl -s https://corona-stats.online | html-select pre | html-format tex
 
 # network
 abbr ports nmap -Pn
+abbr myports netstat -ltnp
