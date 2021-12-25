@@ -1,8 +1,3 @@
 #!/usr/bin/env dash
-# shellcheck disable=SC2009
-ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-wlp'
-#interface="$(wifi.chips.default)"
-#systemctl | \
-#grep 'netctl\(\|-auto\)@'"$interface" | \
-#grep -e 'loaded\s*active\s*\(exited\|running\)' | \
-#grep -o 'netctl\(\|-auto\)@.*\.service' 1>/dev/null
+#ps -u root -o command | grep -q '^/usr/lib/iwd/iwd$'
+systemctl is-active iwd > /dev/null

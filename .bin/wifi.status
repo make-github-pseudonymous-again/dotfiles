@@ -1,12 +1,9 @@
 #!/usr/bin/env dash
 
 export MEMOIZE_CACHE="/tmp/${USER}-memoize"
-if memoize 0 ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-wlp' ; then
-  if memoize-get -1 ps -u root -o command | grep -q '[n]etctl/auto.action$' ; then
-    printf '%s\n' auto
-  else
-    printf '%s\n' profile
-  fi
+if memoize 0 ps -u root -o command | grep -q '[/]usr/lib/iwd/iwd' ; then
+  printf '%s\n' profile
+  #printf '%s\n' enabled
 else
   printf '%s\n' disabled
 fi

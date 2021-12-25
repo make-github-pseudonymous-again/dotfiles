@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-profiles=$(wifi.profiles | cut -b3-)
+profiles=$(wifi.profiles)
 profile=$(echo "$profiles" | dmenu_center --rest -z -p '' -sb '#85bd85' -i -t -l 10)
 
 if [ "$profile" != '' ] ; then

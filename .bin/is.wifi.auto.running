@@ -1,8 +1,2 @@
 #!/usr/bin/env dash
-# shellcheck disable=SC2009
-ps -u root -o command | grep -q '[n]etctl/auto.action$'
-#interface="$(wifi.chips.default)"
-#systemctl | \
-#grep 'netctl-auto@'"$interface" | \
-#grep -e 'loaded\s*active\s*\(exited\|running\)' | \
-#grep -o 'netctl-auto@.*\.service' 1>&2
+is.wifi.running
