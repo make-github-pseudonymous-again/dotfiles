@@ -1,5 +1,3 @@
 #!/usr/bin/env sh
 
-interface="$(wifi.chips.default)"
-
-sudo /usr/bin/systemctl start 'netctl-auto@'"$interface"
+sudo /usr/bin/systemctl start iwd

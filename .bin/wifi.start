@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+ethernet.ui.profile.stop
+sudo /usr/bin/systemctl start iwd

@@ -356,6 +356,10 @@ mode "wifi" {
   bindcode 40 exec wifi.ui.profile.stop; mode "default"
   #-- bindsym c exec wifi.ui.profile.start; mode "default"
   bindcode 54 exec wifi.ui.profile.start; mode "default"
+  #-- bindsym Shift+S exec wifi.stop; mode "default"
+  bindcode Shift+39 exec wifi.stop; mode "default"
+  #-- bindsym s exec wifi.start; mode "default"
+  bindcode 39 exec wifi.start; mode "default"
 
   #-- bindsym x exec menu.netctl.status; mode "default"
   bindcode 53 exec menu.netctl.status; mode "default"
