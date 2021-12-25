@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-cache="${HOME}/.cache/netctl/last"
+cache="${HOME}/.cache/iwctl/last"
 profile="$(wifi.profiles.running)"
 
 if [ "$profile" != '' ] ; then
@@ -14,5 +14,3 @@ elif is.wifi.auto.running ; then
 else
 	rm -f "$cache"
 fi
-
-sudo /usr/bin/ip link set "$(wifi.chips.default)" down
