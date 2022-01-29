@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+MEMOIZE_CACHE="/tmp/${USER}-memoize"
+
+{ read -r lat; read -r lon; } <<< "$(
+	MEMOIZE_CACHE="$HOME/.cache/memoize" memoize-get 1800 geolocation.fetch |
+		jq -r '.latitude,.longitude'
+)"
+
+if [ -z "$lat" ]; then
+	exit 2;
+fi
+
+if [ -z "$lon" ]; then
+	exit 3;
+fi
+
+{ read -r obs; read -r time; read -r value; } <<< "$(
+MEMOIZE_CACHE="$MEMOIZE_CACHE" memoize-get -1 aurora.fetch |
+	jq -r ".[\"Observation Time\"],.[\"Forecast Time\"],(.coordinates[] | select(.[0] == ("$lon" | round) and .[1] == ("$lat" | round)) | .[2])"
+)"
+
+if [ -n "$value" ] ; then
+	if [ "$value" -gt 0 ] ; then
+		printf '{"name":"aurora","color":"#52A964","full_text":" %s%% %s"}' "$value" "$(date --date "$time" -R)"
+	fi
+fi

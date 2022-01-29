@@ -1,0 +1,8 @@
+[Unit]
+Description=Aurora updates service
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=100
+ExecStart=/usr/bin/env aurora.poll

@@ -1,0 +1,9 @@
+[Unit]
+Description=Aurora updates timer
+
+[Timer]
+OnActiveSec=65
+OnUnitActiveSec=900
+
+[Install]
+WantedBy=ready.target

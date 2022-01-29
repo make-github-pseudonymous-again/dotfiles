@@ -72,6 +72,11 @@ if [ "$calendar" != '' ]; then
 	prepend="$calendar"','"$prepend"
 fi
 
+aurora="$(MEMOIZE_CACHE="/tmp/${USER}-memoize" memoize-get -1 aurora)"
+if [ -n "$aurora" ]; then
+	prepend="$aurora"','"$prepend"
+fi
+
 weather="$(memoize-get 9000 weather.now)"
 if [ "$weather" != '' ]; then
 	prepend="$weather"','"$prepend"

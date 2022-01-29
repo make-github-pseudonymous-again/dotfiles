@@ -1,0 +1,6 @@
+#!/usr/bin/env dash
+
+GET="curl -s"
+URL='https://services.swpc.noaa.gov/json/ovation_aurora_latest.json'
+
+$GET "$URL"
