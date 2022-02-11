@@ -56,7 +56,6 @@ atomicparsley
 
 # File parsing
 highlight
-atool
 w3m
 poppler
 libcaca
