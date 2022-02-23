@@ -24,7 +24,7 @@
 
 :root.TridactylThemeSane #completions table {
     font-size: 0.8rem;
-    font-weight: 200;
+    font-weight: 300;
     border-spacing: 0;
     table-layout: fixed;
     padding: 1rem;
@@ -42,7 +42,7 @@
     --option-height: 1.4em;
     display: inline-block;
     font-size: unset;
-    font-weight: 200;
+    font-weight: 300;
     overflow: hidden;
     width: 100%;
     border-top: unset;
@@ -88,13 +88,16 @@
 
 :root.TridactylThemeSane #completions table tr {
     white-space: nowrap;
+}
+
+:root.TridactylThemeSane #completions table tr td {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 :root.TridactylThemeSane #completions .sectionHeader {
     background: unset;
-    font-weight: 200;
+    font-weight: 300;
     border-bottom: unset;
     padding: 1rem !important;
     padding-left: unset;
@@ -119,7 +122,7 @@
     border: unset !important;
     border: 1px #000 solid !important;
     font-size: 9px !important;
-    font-weight: 200 !important;
+    font-weight: 300 !important;
     padding: 0.8ex !important;
 }
 
