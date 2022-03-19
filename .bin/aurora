@@ -15,9 +15,10 @@ if [ -z "$lon" ]; then
 	exit 3;
 fi
 
+# shellcheck disable=SC2034
 { read -r obs; read -r time; read -r value; } <<< "$(
 MEMOIZE_CACHE="$MEMOIZE_CACHE" memoize-get -1 aurora.fetch |
-	jq -r ".[\"Observation Time\"],.[\"Forecast Time\"],(.coordinates[] | select(.[0] == ("$lon" | round) and .[1] == ("$lat" | round)) | .[2])"
+	jq -r ".[\"Observation Time\"],.[\"Forecast Time\"],(.coordinates[] | select(.[0] == ($lon | round) and .[1] == ($lat | round)) | .[2])"
 )"
 
 if [ -n "$value" ] ; then

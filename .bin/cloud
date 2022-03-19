@@ -40,7 +40,7 @@ case "$CWD" in
     ;;
 esac
 
-SLUG="${CWD#$ROOT}"
+SLUG="${CWD#"$ROOT"}"
 SLUG="${SLUG%/}"
 
 _route () {
