@@ -126,6 +126,12 @@
     padding: 0.8ex !important;
 }
 
+/* This overrides dark.css */
+:root.TridactylThemeSane .option.focused .url {
+  color: var(--tridactyl-of-fg);
+  background: var(--tridactyl-of-bg);
+}
+
 /* #Sane-normal { */
 /*  border-color: green !important; */
 /* } */
