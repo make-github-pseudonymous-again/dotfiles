@@ -15,6 +15,9 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help:jrnl *:q:gd:gdw:gaa:gca:gst
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
+# Explicit theme for GTK
+export GTK_THEME=Adwaita:dark;
+
 # Highlight section titles in manual pages
 export LESS_TERMCAP_md="${yellow}";
 

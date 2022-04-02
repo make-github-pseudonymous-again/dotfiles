@@ -13,6 +13,9 @@ set -gx VISUAL "vim"
 set -x LANG "en_US.UTF-8"
 set -x LC_ALL "en_US.UTF-8"
 
+# Explicit theme for GTK
+set -x GTK_THEME "Adwaita:dark"
+
 # Highlight section titles in manual pages
 set -x LESS_TERMCAP_md (tput setaf 3)
 
