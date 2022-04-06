@@ -105,6 +105,15 @@ python2-distro
 python2-pycparser
 python2-webencodings
 python2-ply
+python2-backports
+python2-configparser
+python2-contextlib2
+python2-importlib-metadata
+python2-ipaddress
+python2-pathlib2
+python2-scandir
+python2-toml
+python2-zipp
 
 electron2 # not used anymore
 electron6 # not used anymore
@@ -113,3 +122,5 @@ pandoc-citeproc # can now use pandoc --citeproc
 
 starship-bin # now available as community/starship
 ruby-coderay # use bat instead
+
+progsreiserfs
