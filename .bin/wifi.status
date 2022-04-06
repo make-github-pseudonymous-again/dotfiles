@@ -1,7 +1,7 @@
 #!/usr/bin/env dash
 
 export MEMOIZE_CACHE="/tmp/${USER}-memoize"
-if memoize 0 ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-wlp' ; then
+if memoize 0 ps -u root -o command | grep -q '[r]un/netctl/wpa_supplicant-[mw]l' ; then
   if memoize-get -1 ps -u root -o command | grep -q '[n]etctl/auto.action$' ; then
     printf '%s\n' auto
   else

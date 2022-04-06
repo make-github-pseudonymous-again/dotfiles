@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 
 sudo /usr/bin/systemctl stop dhcpcd
-sudo /usr/bin/ip link set "$(ethernet.chips.default)" down
+chip="$(ethernet.chips.default)"
+if [ -n "$chip" ] ; then
+  sudo /usr/bin/ip link set "$chip" down
+fi
