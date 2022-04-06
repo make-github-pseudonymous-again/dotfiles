@@ -1,0 +1,8 @@
+#!/usr/bin/env dash
+
+A_LITTLE_BIT_MORE_THAN_FIVE_MINUTES_IN_DAYS=0.0035
+INTERVAL_IS_FRESH="$A_LITTLE_BIT_MORE_THAN_FIVE_MINUTES_IN_DAYS"
+PATH_STATE='.state.gmailieer.json'
+PATH_MAIL="${HOME}/.mail"
+
+test -n "$(find "$PATH_MAIL" -mindepth 1 -maxdepth 1 -mtime -"$INTERVAL_IS_FRESH" -type f -name "$PATH_STATE" -print -quit)"

@@ -3,12 +3,14 @@
 FLAG="$HOME/.cache/courriel/flag"
 SYNCING="$FLAG/syncing"
 MAIL="$HOME/.mail"
+INTERVAL_REFRESH=60
+ERROR_MAIL_FOLDER_DOES_NOT_EXIST=123
 
 echo "FLAG=$FLAG"
 echo "SYNCING=$SYNCING"
 echo "MAIL=$MAIL"
 
-cd "$MAIL" || exit 123
+cd "$MAIL" || exit "$ERROR_MAIL_FOLDER_DOES_NOT_EXIST"
 
 trap _trap SIGUSR1
 
@@ -36,5 +38,5 @@ while true
 do
   _run
   echo " > Sleeping ..."
-  sleep 60 & wait ${!}
+  sleep "$INTERVAL_REFRESH" & wait ${!}
 done
