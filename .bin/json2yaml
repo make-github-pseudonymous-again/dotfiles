@@ -13,7 +13,7 @@ readStream.on('data', function (chunk) { json += chunk; });
 
 readStream.on('end', function () {
   const data = JSON.parse(json);
-  const yaml = YAML.safeDump(data);
+  const yaml = YAML.dump(data);
   writeStream.write(yaml);
   writeStream.write('\n');
 });

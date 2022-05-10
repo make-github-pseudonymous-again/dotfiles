@@ -12,7 +12,7 @@ let yaml = '';
 readStream.on('data', function (chunk) { yaml += chunk; });
 
 readStream.on('end', function () {
-  const data = YAML.safeLoad(yaml);
+  const data = YAML.load(yaml);
   const json = JSON.stringify(data);
   writeStream.write(json);
   writeStream.write('\n');
