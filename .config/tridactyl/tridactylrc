@@ -178,8 +178,8 @@ set newtab http://localhost:7342/newtab.html
 set autocontainmode strict
 set auconcreatecontainer true
 
-js tri.config.set("autocontain", "^https?://(www\\.|maps\\.|)google\\.(com|fr|be|dk|es|nl|de|se)/", "google-search")
-js tri.config.set("autocontain", "^https?://(?!(www|maps)\\.)[^/]*\\.google\\.(com|fr|be|dk|es|nl|de|se)/", "google")
+js tri.config.set("autocontain", "^https?://(www\\.|maps\\.|translate\\.|)google\\.(com|fr|be|dk|es|nl|de|se)/", "google-search")
+js tri.config.set("autocontain", "^https?://(?!(www|maps|translate)\\.)[^/]*\\.google\\.(com|fr|be|dk|es|nl|de|se)/", "google")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)gmail\\.com/", "google")
 js tri.config.set("autocontain", "^https?://([^/]*\\.|)facebook\\.com/", "facebook")
 
