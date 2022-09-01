@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+DOTFILES="$(dirname "$(dirname "${BASH_SOURCE[0]}")")";
+
+path="$1"
+
+function diff {
+	env GIT_PAGER="diff-so-fancy" git diff --no-index "$@"
+}
+
+if [ -e "$HOME/$path" ] ; then
+	diff "$HOME/$path" "$DOTFILES/$path"
+else
+	diff /dev/null "$DOTFILES/$path"
+fi
