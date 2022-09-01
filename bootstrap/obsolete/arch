@@ -114,6 +114,11 @@ python2-pathlib2
 python2-scandir
 python2-toml
 python2-zipp
+python2-appdirs
+python2-ordered-set
+python2-packaging
+python2-pyparsing
+python2-six
 
 electron2 # not used anymore
 electron6 # not used anymore
