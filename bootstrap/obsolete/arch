@@ -119,6 +119,8 @@ python2-ordered-set
 python2-packaging
 python2-pyparsing
 python2-six
+python2-setuptools
+python2
 
 electron2 # not used anymore
 electron6 # not used anymore
