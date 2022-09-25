@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-printf "%s\n%s\n" y n | sudo pacman -Sc
+sudo paccache -rk3
+sudo paccache -ruk0
 
 while true ; do
 
