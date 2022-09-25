@@ -8,6 +8,8 @@ def by(n, iterable):
 
     iterator = iter(iterable)
 
+    group = None
+
     try:
 
         while True:
