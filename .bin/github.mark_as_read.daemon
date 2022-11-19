@@ -76,6 +76,6 @@ while read -r line ; do
 		fi
 	done
 
-	>&2 printf 'Marking thread #%s as read: %s (%s)' "$id" "$title" "$pr"
+	>&2 printf 'Marking thread #%s as read: %s (%s)\n' "$id" "$title" "$pr"
 	github.mark_as_read "$id"
 done
