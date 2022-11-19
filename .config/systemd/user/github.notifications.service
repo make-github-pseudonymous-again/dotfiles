@@ -3,4 +3,4 @@ Description=Memoizes github notifications
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/env memoize 0 github.notifications.count
+ExecStart=/usr/bin/env memoize 0 github.notifications.count 'select(.user.login != "renovate[bot]")'

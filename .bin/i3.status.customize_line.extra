@@ -15,7 +15,7 @@ append="$APPEND_INIT"
 #	prepend='{"name":"urlab open","color":"#6DE256","full_text":" '"$urlab_people"'"},'"$prepend"
 #fi
 
-github_notifications="$(memoize-get -1 github.notifications.count)"
+github_notifications="$(memoize-get -1 github.notifications.count 'select(.user.login != \"renovate[bot]\")')"
 if [ -n "$github_notifications" ] && [ "$github_notifications" -gt 0 ] ; then
 	prepend='{"name":"github notifications","color":"#73E9CF","full_text":" '"$github_notifications"'"},'"$prepend"
 fi
