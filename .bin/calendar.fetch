@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
 import sys
-import os.path
+import os
 import traceback
-import hashlib
 import urllib.request
 import urllib.error
-import arrow
+import arrow.parser
 import ics
-import json
+import ics.grammar.parse
 
 from events import log
 from events import CACHE
@@ -37,9 +36,11 @@ for _calendar in calendars():
             }
         )
 
-        data = urllib.request.urlopen(req).read()
+        stream = urllib.request.urlopen(req)
+
         # to check that we can parse the data
-        text = data.decode()
+        body = stream.read()
+        text = body.decode()
         # use workaround for nonrfc valarm blocks (see https://github.com/C4ptainCrunch/ics.py/issues/127)
         text = dropalarms(text)
         calendar = ics.Calendar(text)
