@@ -10,7 +10,7 @@ import json
 import github
 
 token = github.token()
-first_page = github.api('/notifications')
+first_page = github.api('/notifications?per_page=100')
 
 for page in github.pages(first_page, token=token):
     for notification in json.loads(page):
