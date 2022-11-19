@@ -1,18 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env dash
 
-"""
-    Outputs the total number of github notifications for the authenticated
-    github user.
-"""
+# Outputs the total number of github notifications for the authenticated
+# GitHub user.
 
-import json
-import github
+filter="${1:-.}"
 
-token = github.token()
-first_page = github.api('/notifications')
-notifications = 0
-
-for page in github.pages(first_page, token=token):
-    notifications += len(json.loads(page))
-
-print(notifications)
+github.notifications |
+jq -c "$filter" |
+wc -l
