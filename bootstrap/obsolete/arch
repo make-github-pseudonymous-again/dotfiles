@@ -33,6 +33,7 @@ stapler
 xfig
 wpa_actiond
 python-html2text
+python-pypdf2 # replaced by python-pypdf
 python2-keyring
 python2-secretstorage
 python2-xlib

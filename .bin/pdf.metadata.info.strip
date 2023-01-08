@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from pypdf import PdfReader, PdfWriter
 from argparse import ArgumentParser
 
 parser = ArgumentParser(description='discards all attributes from the info fields')
@@ -8,13 +8,13 @@ parser.add_argument('input')
 parser.add_argument('output')
 options = parser.parse_args()
 
-writer = PdfFileWriter()
+writer = PdfWriter()
 
 with open(options.input, "rb") as infile:
-    reader = PdfFileReader(infile)
-    writer.appendPagesFromReader(reader)
+    reader = PdfReader(infile)
+    writer.append_pages_from_reader(reader)
 
-    writer.addMetadata({'/Producer': ''})
+    writer.add_metadata({'/Producer': ''})
 
     with open(options.output, "wb") as outfile:
         writer.write(outfile)

@@ -3,15 +3,33 @@
 from sys import stdout
 from json import dump
 from argparse import ArgumentParser
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from datetime import datetime
+from pypdf import PdfReader, PdfWriter
 
 parser = ArgumentParser(description='prints metadata')
 parser.add_argument('input')
 options = parser.parse_args()
 
-writer = PdfFileWriter()
+writer = PdfWriter()
+
+def datetime_to_json(dt: None | datetime):
+    if dt is None:
+        return None
+    else:
+        return dt.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
 
 with open(options.input, "rb") as infile:
-    reader = PdfFileReader(infile)
-    metadata = reader.getDocumentInfo()
-    dump(metadata, stdout)
+    reader = PdfReader(infile)
+    metadata = reader.metadata
+    if metadata is None:
+        dump({}, stdout)
+    else:
+        dump({
+            'title': metadata.title,
+            'author': metadata.author,
+            'subject': metadata.subject,
+            'creator': metadata.creator,
+            'producer': metadata.producer,
+            'creation_date': datetime_to_json(metadata.creation_date),
+            'modification_date': datetime_to_json(metadata.modification_date),
+        }, stdout)
