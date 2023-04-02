@@ -92,7 +92,7 @@ seahorse
 transmission-gtk
 
 # Mail
-gmime
+gmime3
 notmuch
 notmuch-runtime
 msmtp

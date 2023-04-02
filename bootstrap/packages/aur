@@ -19,3 +19,4 @@ python-pypdf
 python-inotify
 emojify
 watchman-bin # https://github.com/neoclide/coc-tsserver
+gmime
