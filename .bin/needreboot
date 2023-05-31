@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 _running="$(uname -r)"
-_lts="$(printf '%s' "$_running" | grep '\-\lts$' -o)"
+_lts="$(printf '%s' "$_running" | grep '\-lts$' -o)"
 _installed="$(pacman -Q linux"$_lts")"
 
 running="$(printf '%s' "${_running}" | tr '.-' ':' | sed 's/:arch/:/')"
