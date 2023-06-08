@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 manager="$(printf '%s\n' --system --user |
-	dmenu_center --rest -sb '#D24858' -p 'manager')"
+	dmenu_center -sb '#D24858' -p 'manager')"
 
 if [ -z "$manager" ]; then
 	exit 101

@@ -1,18 +1,18 @@
 #!/usr/bin/env sh
 actions="restart\nstop\nstart\nenable --now\ndisable --now\nenable\ndisable\nreenable\n"
-action=$(printf '%b' "$actions" | dmenu_center --rest -sb '#D24858' -p 'action')
+action=$(printf '%b' "$actions" | dmenu_center -sb '#D24858' -p 'action')
 
 if [ -z "$action" ]; then
 	exit 101
 fi
 
-service=$(services.list --user | dmenu_center --rest -i -t -sb '#D24858' -p "$action" -l 10)
+service=$(services.list --user | dmenu_center -i -t -sb '#D24858' -p "$action" -l 10)
 if [ -z "$service" ]; then
 	exit 102
 fi
 
 if printf '%s' "$service" | grep -q '@\.' ; then
-	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
+	argument="$(echo | dmenu_center -i -t -sb '#D24858' -p "$service")"
 	if [ -z "$argument" ]; then
 		exit 103
 	fi

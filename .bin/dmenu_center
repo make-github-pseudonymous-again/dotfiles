@@ -1,133 +1,60 @@
 #!/usr/bin/env python3
 
-# Copyright 2013 Ryan McGowan
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-import sys
-import os
-import json
-from subprocess import call, check_output
-
-# to redirect xlib output
-# note that there is a dedicated method to do this in python >3.4
-# called contextlib.redirect_stdout
-from contextlib import contextmanager
+from argparse import ArgumentParser, BooleanOptionalAction
+from subprocess import call
+from sys import argv
 
 
-def fileno(file_or_fd):
-    fd = getattr(file_or_fd, 'fileno', lambda: file_or_fd)()
-    if not isinstance(fd, int):
-        raise ValueError("Expected a file (`.fileno()`) or a file descriptor")
-    return fd
-
-
-@contextmanager
-def redirect(fro, to):
-
-    stdout_fd = fileno(fro)
-    # copy stdout_fd before it is overwritten
-    # NOTE: `copied` is inheritable on Windows when duplicating a standard
-    # stream
-    with os.fdopen(os.dup(stdout_fd), 'wb') as copied:
-        fro.flush()  # flush library buffers that dup2 knows nothing about
-        try:
-            os.dup2(fileno(to), stdout_fd)  # $ exec >&to
-        except ValueError:  # filename
-            with open(to, 'wb') as to_file:
-                os.dup2(to_file.fileno(), stdout_fd)  # $ exec > to
-        try:
-            yield fro  # allow code to be run with the redirected fro
-        finally:
-            # restore fro to its previous value
-            # NOTE: dup2 makes stdout_fd inheritable unconditionally
-            fro.flush()
-            os.dup2(copied.fileno(), stdout_fd)  # $ exec >&copied
-
-
-def parse_dmenu_args(args):
-
-    split = args.index('--rest') if '--rest' in args else len(args)
-
-    args, rest = args[:split], args[split + 1:]
-
-    argc = len(args)
-    # Get arguments from the command line.
-
-    runnable = args[0] if argc > 0 else 'dmenu'
-
-    # 20% padding means only 80% of the screen is used by dmenu with 10%
-    # padding on each side.
-    padding = float(args[1]) if argc > 1 else .24
-
-    # Font size and lineheight are in points
-    line_height = int(args[2]) if argc > 2 else 24
-
-    font = args[3] if argc > 3 else 'LiterationMono Nerd Font Mono:12'
-
-    with redirect(sys.stdout, sys.stderr):
-        from Xlib import display
-        current_display = display.Display()
-        current_screen = current_display.screen()
-
-    workspaces = json.loads(check_output(['i3-msg', '-t', 'get_workspaces']))
-    workspace = next(workspace for workspace in workspaces if workspace['focused'])
-
-    screenwidth = workspace['rect']['width'] * 1.0
-    xoffset = int(round(padding / 2 * screenwidth))
-    width = screenwidth - 2 * xoffset
-
-    wholeheight = current_screen['height_in_pixels'] * 1.0
-    screenheight = workspace['rect']['height'] * 1.0
-    s = screenheight / wholeheight
-    height_in_mms = current_screen['height_in_mms'] * 1.0
-    height_in_inches = height_in_mms / 25.4 * s
-    height_in_points = height_in_inches * 72
-    pixels_per_point = screenheight / height_in_points
-
-    height = int(round(line_height * pixels_per_point, 0))
-    yoffset = int(round((screenheight - height) / 2))
-    height = screenheight - 2 * yoffset
-
-    # Set some default values for dmenu args
-    dmenu_run_args = {
-        'runnable': runnable,
-        'xoffset': str(xoffset),
-        'yoffset': str(yoffset),
-        'width': str(width),
-        'height': str(height),
-        'font': font,
-        'nb': '#1a1a1a'
-    }
-
-    return dmenu_run_args, rest
-
-
-def main(args):
-    dmenu_run_args, rest = parse_dmenu_args(args)
-    cmd = [dmenu_run_args['runnable']]
-    cmd += ['-fn', dmenu_run_args['font']]
-    cmd += ['-x', dmenu_run_args['xoffset']]
-    cmd += ['-y', dmenu_run_args['yoffset']]
-    cmd += ['-h', dmenu_run_args['height']]
-    cmd += ['-w', dmenu_run_args['width']]
-    cmd += ['-nb', dmenu_run_args['nb']]
-    cmd.extend(rest)
-    return call(cmd)
-
-
-def console_main():
-    sys.exit(main(sys.argv[1:]))
+css_variables = {
+  'fn': 'font',
+  'nb': 'normal background',
+  'nf': 'normal foreground',
+  'sb': 'selected background',
+  'sf': 'selected foreground',
+  'l': 'number of lines'
+}
 
 if __name__ == '__main__':
-    console_main()
+
+  parser = ArgumentParser()
+  for key, value in css_variables.items():
+    parser.add_argument('-{}'.format(key), help=value)
+
+  parser.add_argument('-t', help='match filter words separately', dest="tokenize", action="store_true")
+  parser.add_argument('-tokenize', help='match filter words separately', action="store_true")
+  parser.add_argument('-z', help='fuzzy matching', dest="matching", action="store_const", const="fuzzy")
+  parser.add_argument('-matching', help='rofi\'s -matching option', default="normal")
+
+  parser.add_argument('-sort', help='rofi\'s -sort/-no-sort option', action=BooleanOptionalAction, default=True)
+  parser.add_argument('-sorting-method', help='rofi\'s -sorting-method option', default="fzf")
+
+  parser.add_argument('-fullscreen', help='display menu in fullscreen', action="store_true")
+  parser.add_argument('-mask', help='mask input', action="store_true")
+
+  args, rest = parser.parse_known_intermixed_args(argv[1:])
+  kw = vars(args)
+
+  css_variable_defs = ''.join([
+    '{}: {};'.format(key, value) for key in css_variables if (value := kw.get(key)) is not None
+  ])
+
+  theme_str = '* {{{}}}'.format(css_variable_defs)
+  location = '2' if args.fullscreen else None
+
+  cmd: tuple[str] = (
+    'rofi',
+    '-dmenu',
+    '-theme',
+    'fullscreen' if args.fullscreen else 'oneline' if args.l is None else 'multiline',
+    *(('-location', location) if location is not None else ()),
+    '-theme-str',
+    theme_str,
+    *(('-matching', args.matching) if args.matching is not None else ()),
+    *(('-t',) if args.tokenize else ()),
+    *(('-password',) if args.mask else ()),
+    '-sort' if args.sort else '-no-sort',
+    '-sorting-method', args.sorting_method,
+    *rest
+  )
+
+  call(cmd)

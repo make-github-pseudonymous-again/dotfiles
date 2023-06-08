@@ -17,7 +17,7 @@ parser.add_argument('--ascending', action='store_true')
 
 args = parser.parse_args()
 
-prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', args.menuicon, '-sb', args.menucolor, '-l', '10']
+prompt = ['dmenu_center', '-i', '-z', '-p', args.menuicon, '-sb', args.menucolor, '-l', '10']
 querystring = 'dir:"{}" AND ({})'.format(args.location, args.extensions)
 
 from librecoll import formatdoc

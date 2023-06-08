@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 output="$(audio.outputs | \
-dmenu_center --rest -i -t -p 'output' -sb '#F24130' -l 10 | \
+dmenu_center -i -t -p 'output' -sb '#F24130' -l 10 | \
 cut -d' ' -f1)"
 
 if [ "$output" = '' ]; then
@@ -9,7 +9,7 @@ if [ "$output" = '' ]; then
 fi
 
 source="$(audio.sources | \
-dmenu_center --rest -i -t -p 'source' -sb '#F24130' -l 10 | \
+dmenu_center -i -t -p 'source' -sb '#F24130' -l 10 | \
 cut -d' ' -f1)"
 
 if [ "$source" = '' ]; then

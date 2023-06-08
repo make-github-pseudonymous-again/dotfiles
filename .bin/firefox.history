@@ -11,7 +11,7 @@ cp "$src" "$db"
 url=$(sqlite3 -separator ' -- ' "$db" 'SELECT title, url FROM (SELECT visit_date, visit_type,'\
 'url, title FROM moz_historyvisits JOIN moz_places ON moz_historyvisits.place_id ='\
 'moz_places.id AND visit_type = 1 GROUP BY url ORDER BY visit_date DESC);' |\
-dmenu_center --rest -p '' -sb '#54A8A8' -i -t -l 10)
+dmenu_center -p '' -sb '#54A8A8' -i -z -fullscreen)
 
 rm "$db"
 

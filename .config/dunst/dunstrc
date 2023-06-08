@@ -9,7 +9,7 @@
     allow_markup = yes
     bounce_freq = 0
     browser = firefox -new-tab
-    dmenu = dmenu_center --rest -p dunst
+    dmenu = dmenu_center -p dunst
     follow = none
     font = Font Awesome 12
     format = "<b>%s</b>\n%b"

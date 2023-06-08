@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
 profiles=$(wifi.profiles | sort -k1,1 | cut -b3-)
-profile=$(echo "$profiles" | dmenu_center --rest -i -t -sb '#D24858' -p "profile to watch" -l 10)
+profile="$(
+  echo "$profiles" | \
+  dmenu_center -i -z -sb '#D24858' -p "profile to watch" -l 10
+)"
 
 if [ "$profile" = '' ]; then
 	exit 102

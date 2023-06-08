@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 mode="$(printf '%s\n' battery balanced performance |
-	dmenu_center --rest -sb '#D24858' -p 'mode')"
+	dmenu_center -sb '#D24858' -p 'mode')"
 
 if [ -z "$mode" ]; then
 	exit 101

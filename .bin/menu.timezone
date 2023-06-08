@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
-timezone=$(timedatectl list-timezones | dmenu_center \
---rest -i -t -p '' -sb '#76BF76' -l 10)
+timezone="$(
+  timedatectl list-timezones | \
+  dmenu_center -i -z -p '' -sb '#76BF76' -fullscreen
+)"
 
 if [ "$timezone" != '' ]; then
 	terminator -b -x timedatectl set-timezone "$timezone"

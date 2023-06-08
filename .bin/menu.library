@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 OPENER="${1:-xdg-open}"
-file=$(find "$HOME/library" -type f | dmenu_center --rest -i -t -p '' -sb '#285577' -l 10)
+file=$(find "$HOME/library" -type f | dmenu_center -i -z -p '' -sb '#285577' -l 10)
 
 if [ "$file" != '' ]; then
 	"$OPENER" "$file"

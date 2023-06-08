@@ -3,14 +3,14 @@
 lang="en\nfr\n"
 
 
-fro=$(printf 'auto\n%b' "$lang" | dmenu_center --rest -p ' from' -sb '#2D615C')
+fro=$(printf 'auto\n%b' "$lang" | dmenu_center -p ' from' -sb '#2D615C')
 
 if [ "$fro" = '' ] ; then
 	exit 1
 fi
 
 
-to=$(printf '%b' "$lang" | dmenu_center --rest -p ' to' -sb '#2D615C')
+to=$(printf '%b' "$lang" | dmenu_center -p ' to' -sb '#2D615C')
 
 if [ "$to" = '' ] ; then
 	exit 2

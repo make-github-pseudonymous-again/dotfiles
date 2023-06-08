@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-wd=$(fasd -dRl | dmenu_center --rest -i -t -p '' -sb '#555555' -l 10)
+wd=$(fasd -dRl | dmenu_center -i -z -p '' -sb '#555555' -l 10)
 
 if [ "$wd" != '' ]; then
 	terminator -b --working-directory "$wd"

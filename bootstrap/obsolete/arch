@@ -132,3 +132,5 @@ starship-bin # now available as community/starship
 ruby-coderay # use bat instead
 
 progsreiserfs
+
+dmenu2  # use rofi -dmenu instead (and dmenu's dmenu_path)

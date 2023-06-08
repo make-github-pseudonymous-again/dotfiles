@@ -1,3 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
-dmenu_center 'dmenu_run' --rest -p '' -sb '#789048'
+dmenu_path | \
+  dmenu_center -p '' -sb '#789048' "$@" | \
+  "${SHELL:-"/usr/bin/env dash"}" &

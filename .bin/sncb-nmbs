@@ -5,7 +5,7 @@ STATIONS="$CACHE/stations"
 SB='#00a0de'
 
 if [ ! -e "$STATIONS" ] ; then
-  a="$(printf '%s\n%s\n' 'create' 'exit' | dmenu_center --rest -p 'cache missing' -sb "$SB")"
+  a="$(printf '%s\n%s\n' 'create' 'exit' | dmenu_center -p 'cache missing' -sb "$SB")"
   if [ "$a" = 'create' ] ; then
     mkdir -p "$CACHE"
     curl -s -H 'accept: application/json' 'https://irail.be/stations/nmbs' > "$STATIONS"
@@ -18,7 +18,7 @@ fi
 station="$(\
 < "$STATIONS" \
 jq '.["@graph"] | map(.["@id"] + " -- " + .name) | .[]' -r | \
-dmenu_center --rest -p 'station' -sb "$SB" -l 10 -i | \
+dmenu_center -p 'station' -sb "$SB" -l 10 -i -z | \
 sed 's/ -- / /'\
 )"
 

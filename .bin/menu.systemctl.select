@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
 manager="$1"
 
-service="$(services.list "$manager" | dmenu_center --rest -i -t -sb '#D24858' -p "service to watch" -l 10)"
+service="$(services.list "$manager" | dmenu_center -i -t -sb '#D24858' -p "service to watch" -l 10)"
 
 if [ "$service" = '' ]; then
 	exit 102
 fi
 
 if printf '%s' "$service" | grep -q '@\.' ; then
-	argument="$(echo | dmenu_center --rest -i -t -sb '#D24858' -p "$service")"
+	argument="$(echo | dmenu_center -i -t -sb '#D24858' -p "$service")"
 	if [ "$argument" = '' ]; then
 		exit 103
 	fi

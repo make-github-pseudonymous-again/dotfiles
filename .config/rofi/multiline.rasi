@@ -1,0 +1,70 @@
+/**
+ * ROFI Color theme
+ * User: make-github-pseudonymous-again
+ * Copyright: make-github-pseudonymous-again
+ */
+
+* {
+    nb: #1a1a1a;
+    nf: #bbb;
+    sb: SteelBlue;
+    sf: #ddd;
+    fn: "LiterationMono Nerd Font Mono 18";
+    l: 10;
+    background-color: @nb;
+    text-color: @nf;
+    font: @fn;
+}
+
+window {
+    width: 80%;
+    padding: 0;
+    spacing: 0;
+    children: [left, right];
+    orientation: horizontal;
+}
+
+left {
+    padding: 0;
+    spacing: 0;
+    expand: false;
+    children: [prompt];
+    orientation: vertical;
+}
+
+right {
+    padding: 0;
+    spacing: 0;
+    children: [entry, listview];
+    orientation: vertical;
+}
+
+entry, prompt, case-indicator {
+    text-font: inherit;
+    text-color: inherit;
+}
+
+entry {
+    expand: false;
+}
+
+listview {
+    padding: 0;
+    spacing: 0;
+    layout: vertical;
+    lines: @l;
+}
+
+prompt, entry, element {
+    padding: 0.4em 0.6em;
+}
+
+prompt, element selected {
+    background-color: @sb;
+	text-color: @sf;
+}
+
+element-text, element-icon {
+  background-color: inherit;
+  text-color: inherit;
+}

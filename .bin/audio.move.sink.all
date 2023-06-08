@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 sink="$(audio.sinks | \
-dmenu_center --rest -i -t -p 'sink' -sb '#F24130' -l 10 | \
+dmenu_center -i -t -p 'sink' -sb '#F24130' -l 10 | \
 cut -d' ' -f1)"
 
 if [ "$sink" = '' ]; then

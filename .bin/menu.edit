@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-file=$(fasd -fRl | dmenu_center --rest -i -t -p '' -sb '#24A946' -l 10)
+file=$(fasd -fRl | dmenu_center -i -z -p '' -sb '#24A946' -l 10)
 
 if [ "$file" != '' ]; then
 	terminator -b -x vim "$file"

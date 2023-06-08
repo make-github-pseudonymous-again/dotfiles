@@ -3,7 +3,7 @@
 languages="en\nfr\n"
 
 
-lang=$(printf '%b' "$languages" | dmenu_center --rest -p ' ' -sb '#9791D9')
+lang=$(printf '%b' "$languages" | dmenu_center -p ' ' -sb '#9791D9')
 
 if [ "$lang" = '' ] ; then
 	exit 2

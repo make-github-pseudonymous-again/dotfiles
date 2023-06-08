@@ -2,7 +2,7 @@
 
 LANG="${HOME}/.config/google/search/lr"
 
-lr="$(< "$LANG" dmenu_center --rest -p ' lr' -sb '#1851CE')"
+lr="$(< "$LANG" dmenu_center -p ' lr' -sb '#1851CE')"
 
 if [ -z "$lr" ] ; then
 	exit 1

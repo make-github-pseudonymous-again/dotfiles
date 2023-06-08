@@ -42,7 +42,7 @@ done
 # argument to override an earlier one. That is, if the user passes in `-l`, our
 # one will be ignored.
 chosen_line=$(printf '%s\n' "${ordered_selections[@]}" | \
-	dmenu_center --rest -l 10 -sb '#488281' -p '' -i -t "$@")
+	dmenu_center -l 10 -sb '#488281' -p '' -i -t "$@")
 
 [[ $chosen_line ]] || exit 1
 

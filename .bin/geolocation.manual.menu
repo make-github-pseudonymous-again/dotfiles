@@ -7,7 +7,7 @@ mkdir -p "$(dirname "$MANUAL")"
 
 tag=$(jq < "$CONFIG" '.tag | keys[]' -r |\
 sort |\
-dmenu_center --rest -p '' -sb '#338844' -i -t -l 10)
+dmenu_center -p '' -sb '#338844' -i -t -l 10)
 
 if [ "$tag" = '' ] ; then
 	exit 1

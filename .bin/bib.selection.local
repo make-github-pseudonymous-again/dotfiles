@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # vi:syntax=python
 
-import arrow
 from collections import defaultdict
 
-# prompt = ['dmenu_center', '--rest', '-i', '-t', '-p', 'bib', '-sb', '#8080ff', '-l', '10']
+# prompt = ['dmenu_center', ''-i', '-t', '-p', 'bib', '-sb', '#8080ff', '-l', '10']
 prompt = ['fzf-menu', '--lines', '10', '-m', '--prompt', 'bib > ']
 querystring = 'ext:bib'
 sortby = 'mtime'

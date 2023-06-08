@@ -6,7 +6,10 @@ password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
-password_key=$(printf '%s\n' "${password_files[@]}" | dmenu_center --rest -i -t -p '' -sb '#382F32' -l 10)
+password_key="$(
+	printf '%s\n' "${password_files[@]}" | \
+	dmenu_center -i -z -p '' -sb '#382F32' -l 10
+)"
 
 [[ -n "$password_key" ]] || exit 1
 
