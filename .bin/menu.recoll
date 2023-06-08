@@ -3,7 +3,6 @@
 
 import os
 import sys
-import arrow
 import argparse
 
 parser = argparse.ArgumentParser(description='Open a file from recoll.')
