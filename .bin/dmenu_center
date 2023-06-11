@@ -20,6 +20,7 @@ if __name__ == '__main__':
   for key, value in css_variables.items():
     parser.add_argument('-{}'.format(key), help=value)
 
+  parser.add_argument('-show', help='rofi\'s -show option')
   parser.add_argument('-t', help='match filter words separately', dest="tokenize", action="store_true")
   parser.add_argument('-tokenize', help='match filter words separately', action="store_true")
   parser.add_argument('-z', help='fuzzy matching', dest="matching", action="store_const", const="fuzzy")
@@ -43,7 +44,7 @@ if __name__ == '__main__':
 
   cmd: tuple[str] = (
     'rofi',
-    '-dmenu',
+    *(('-dmenu',) if args.show is None else ('-show', args.show)),
     '-theme',
     'fullscreen' if args.fullscreen else 'oneline' if args.l is None else 'multiline',
     *(('-location', location) if location is not None else ()),
