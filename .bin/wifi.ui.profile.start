@@ -3,7 +3,7 @@
 profiles=$(wifi.profiles | cut -b3-)
 profile="$(
   echo "$profiles" | \
-  dmenu_center -p '' -sb '#85bd85' -i -z -no-custom -fullscreen
+  dmenu_center -p '' -sb '#85bd85' -sf '#333' -i -z -no-custom -fullscreen
 )"
 
 if [ "$profile" != '' ] ; then
