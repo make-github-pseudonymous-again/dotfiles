@@ -71,6 +71,7 @@ abbr g git
 # Vim
 abbr e vim
 abbr ef "vim (bfs -type f | fzf -m)"
+abbr ec "vim (rg --hidden -g '!.git/*' '>>>>>>>' -l)"
 
 # Alias all git aliases
 for al in (git la)
