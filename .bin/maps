@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-q="$(ui.dialog.input -p '' -sb '#A7CC95')"
+q="$(ui.dialog.input -p '' -sb '#80D164' -sf '#333')"
 
 if [ -z "$q" ] ; then
 	exit 1
