@@ -47,6 +47,9 @@
 	"docs": {
 		"emoji": ":books:"
 	},
+	"dx": {
+		"emoji": ":woman_technologist:"
+	}
 	"experiment": {
 		"emoji": ":alembic:"
 	},
