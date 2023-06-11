@@ -649,6 +649,8 @@ mode "system" {
         bindcode 30 exec setxkbmap us; mode "default"
         #-- bindsym b exec setxkbmap be; mode "default"
         bindcode 56 exec setxkbmap be; mode "default"
+        #-- bindsym e exec setxkbmap se; mode "default"
+        bindcode 26 exec setxkbmap se; mode "default"
 
         #-- bindsym Shift+K exec keyboard.layout.caps.swapescape; mode "default"
         bindcode Shift+45 exec keyboard.layout.caps.swapescape; mode "default"
