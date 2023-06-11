@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+dmenu_center -show window \
+    -fullscreen \
+    -display-window '' \
+    -sb '#B0A4B5' -sf '#333' \
+    -z

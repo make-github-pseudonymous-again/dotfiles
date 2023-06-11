@@ -92,6 +92,8 @@ bindcode $mod+47 exec terminator -b -x ranger
 # start dmenu (a program launcher)
 #-- bindsym $mod+o exec dmenu_center_run
 bindcode $mod+32 exec dmenu_center_run
+#-- bindsym $mod+Shift+O exec windows.menu
+bindcode $mod+Shift+32 exec windows.menu
 
 # kill focused window
 #-- bindsym $mod+dollar kill
