@@ -15,7 +15,7 @@ if [ "$x" = u ] ; then
     package="$(<<< "$1" cut -d= -f1)"
     if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > updating ~ $1"
-      pip install --upgrade "$package" 1>/dev/null
+      pip install --break-system-packages --upgrade "$package" 1>/dev/null
     fi
   }
 
@@ -25,7 +25,7 @@ elif [ "$x" = i ] ; then
     package="$(<<< "$1" cut -d= -f1)"
     if ! { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > installing ~ $1"
-      pip install "$package" 1>/dev/null
+      pip install --break-system-packages "$package" 1>/dev/null
     fi
   }
 
@@ -35,10 +35,10 @@ else
     package="$(<<< "$1" cut -d= -f1)"
     if { <<< "$pip_installed" grep "^$package\$" 1>/dev/null 2>&1 ; } ; then
       echo "  > updating ~ $1"
-      pip install --upgrade "$package" 1>/dev/null
+      pip install --break-system-packages --upgrade "$package" 1>/dev/null
     else
       echo "  > installing ~ $1"
-      pip install "$package" 1>/dev/null
+      pip install --break-system-packages "$package" 1>/dev/null
     fi
   }
 
