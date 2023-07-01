@@ -1,4 +1,3 @@
-import os
 import arrow
 import human
 humanbytes = human.bytes
@@ -6,21 +5,20 @@ humanbytes = human.bytes
 def formatdoc(doc):
 
 	path = doc.url[7:]
-	dirname = os.path.dirname(path)
 	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
 
 	try:
-	    timestamp = arrow.get(doc.mtime)
-	    htime = timestamp.humanize()
-	    hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+		timestamp = arrow.get(doc.mtime)
+		htime = timestamp.humanize()
+		hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
 	except Exception as e:
-	    htime = 'unknown'
-	    hdate = 'unknown'
+		htime = 'unknown'
+		hdate = 'unknown'
 
 	try:
-	    hbytes = humanbytes(int(doc.fbytes))
+		hbytes = humanbytes(int(doc.fbytes))
 	except Exception as e:
-	    hbytes = 'unknown'
+		hbytes = 'unknown'
 
 	formatarray = ['{htime}', '>']
 
