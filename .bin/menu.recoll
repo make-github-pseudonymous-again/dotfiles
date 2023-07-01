@@ -4,93 +4,178 @@
 import os
 import sys
 import argparse
+import asyncio
+import logging
 
-parser = argparse.ArgumentParser(description='Open a file from recoll.')
-parser.add_argument('--location', default=os.path.expanduser('~'))
-parser.add_argument('--menuicon', default='')
-parser.add_argument('--menucolor', default='#285577')
-parser.add_argument('--extensions', default='ext:*')
-parser.add_argument('--opener', default='xdg-open')
-parser.add_argument('--sortby', default='mtime')
-parser.add_argument('--ascending', action='store_true')
-
-args = parser.parse_args()
-
-prompt = ['dmenu_center', '-i', '-z', '-p', args.menuicon, '-sb', args.menucolor, '-l', '10']
-querystring = 'dir:"{}" AND ({})'.format(args.location, args.extensions)
-
+from typing import Iterable
+from itertools import tee, islice
+from recoll import recoll, rclextract
 from librecoll import formatdoc
 
-import logging
-from recoll import recoll, rclextract
-from subprocess import check_output, call
+def createParser():
+	parser = argparse.ArgumentParser(description='Open a file from recoll.')
+	parser.add_argument('--location', default=os.path.expanduser('~'))
+	parser.add_argument('--menuicon', default='')
+	parser.add_argument('--menucolor', default='#285577')
+	parser.add_argument('--extensions', default='ext:*')
+	parser.add_argument('--opener', default='xdg-open')
+	parser.add_argument('--sortby', default='mtime')
+	parser.add_argument('--ascending', action='store_true')
+	return parser
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+def createLogger():
+	log = logging.getLogger(__name__)
+	log.setLevel(logging.INFO)
 
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-log.addHandler(handler)
+	handler = logging.StreamHandler(sys.stdout)
+	handler.setLevel(logging.INFO)
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	handler.setFormatter(formatter)
+	log.addHandler(handler)
 
-db = recoll.connect()
+	return log
 
-query = db.query()
+log = createLogger()
 
-if args.sortby:
-	query.sortby(args.sortby, ascending=args.ascending)
+def query(db, expr: str, sortby = None, ascending: bool = False):
 
-n = query.execute(querystring)
+	q = db.query()
 
-log.info('{} results'.format(n))
+	if sortby is not None:
+		q.sortby(sortby, ascending=ascending)
 
-docs = list(query)
+	n = q.execute(expr)
 
-def genline(i, doc, formatdoc=formatdoc):
+	log.info('{} results'.format(n))
+
+	return q
+
+def genline(i, doc, formatdoc=formatdoc) -> str:
 	return formatdoc(doc) + ' ' + str(i)
 
-lines = (genline(i, doc) for i, doc in enumerate(docs))
+def genlines(docs):
+	for i, doc in enumerate(docs):
+		yield genline(i, doc)
 
-raw = '\n'.join(lines).encode()
+async def menu(prompt, docs):
+	lines = genlines(docs)
 
-try:
-	result = check_output(prompt, input=raw)
+	process = await asyncio.create_subprocess_exec(
+		*prompt,
+		stdin = asyncio.subprocess.PIPE,
+		stdout = asyncio.subprocess.PIPE,
+		stderr = asyncio.subprocess.PIPE
+	)
 
-except Exception as e:
-	log.exception('dmenu failed')
-	sys.exit(1)
+	done = False
 
-line = result.decode()[:-1]
+	async def feed_input(stdin: asyncio.StreamWriter, lines):
+		for line in lines:
+			if done:
+				break
+			try:
+				stdin.write((line + '\n').encode())
+				await stdin.drain()
+			except BrokenPipeError as e:
+				print("BROKEN PIPE")
+				print(e)
+				break
 
-try:
+	assert process.stdin is not None
+	input_task = asyncio.create_task(feed_input(process.stdin, lines))
 
-	i = int(line.split()[-1])
+	stdout, stderr = await process.communicate()
+	done = True
+	input_task.cancel()  # NOTE Just in case it had not been started yet.
 
-except Exception as e:
-	log.exception('could not parse line number')
-	sys.exit(2)
+	if process.returncode != 0:
+		log.exception('dmenu failed')
+		sys.exit(2)
 
-try:
-	doc = docs[i]
-except IndexError as e:
-	log.exception('index not in range')
-	sys.exit(3)
+	assert len(stderr) == 0
 
-if genline(i, doc) != line:
-	log.error('lines do not match')
-	sys.exit(4)
+	return stdout.decode()
 
-if doc.ipath:
-	extractor = rclextract.Extractor(doc)
-	path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
-	call([args.opener, path])
-	if path[:5] == '/tmp/':
-		log.info('deleting {}'.format(path))
-		# just in case someone screws up upstreams
-		os.remove(path)
+def simplify(db, doc):
+	_doc = db.doc()
+	_doc.setbinurl(bytearray(doc.getbinurl()))
+	_doc.ipath = doc.ipath
+	_doc.mimetype = doc.mimetype
+	return _doc
 
-else:
-	path = doc.url[7:]
-	call([args.opener, path])
 
+def nth(iterable, n):
+	try:
+		return next(islice(iterable, n, None))
+	except StopIteration:
+		raise IndexError()
+
+async def select(db, prompt, docs):
+	menu_docs, select_docs = tee(docs, 2)
+	result = await menu(prompt, menu_docs)
+
+	if result == '':
+		log.exception('selection is empty')
+		sys.exit(1)
+
+	line = result[:-1]
+
+	try:
+		i = int(line.split()[-1])
+	except ValueError:
+		log.exception('could not parse line number')
+		sys.exit(3)
+
+	try:
+		doc = nth(select_docs, i)
+	except IndexError:
+		log.exception('index not in range')
+		sys.exit(4)
+
+	if genline(i, doc) != line:
+		log.error('lines do not match')
+		sys.exit(5)
+
+	return simplify(db, doc)
+
+async def call(args: Iterable[str]):
+	process = await asyncio.create_subprocess_exec(*args)
+	await process.wait()
+
+async def main():
+	parser = createParser()
+	args, rest = parser.parse_known_intermixed_args()
+
+	prompt = [
+		'dmenu_center',
+		'-i',
+		'-no-sort',
+		'-p', args.menuicon,
+		'-sb', args.menucolor,
+		'-l', '10',
+		*rest
+	]
+
+	querystring = 'dir:"{}" AND ({})'.format(args.location, args.extensions)
+
+	db = recoll.connect()
+	doc = await select(db, prompt, query(db,
+									  querystring, sortby = args.sortby,
+									  ascending = args.ascending))
+
+	if doc.ipath:
+		extractor = rclextract.Extractor(doc)
+		path = extractor.idoctofile(doc.ipath, doc.mimetype).decode()
+		await call([args.opener, path])
+		if path[:5] == '/tmp/':
+			log.info('deleting {}'.format(path))
+			# just in case someone screws up upstreams
+			os.remove(path)
+
+	else:
+		path = doc.url[7:]
+		await call([args.opener, path])
+
+
+if __name__ == '__main__':
+	asyncio.run(main())
