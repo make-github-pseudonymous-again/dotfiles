@@ -51,7 +51,6 @@ autopep8
 # Video
 ffmpeg
 vlc
-youtube-dl
 atomicparsley
 
 # File parsing
