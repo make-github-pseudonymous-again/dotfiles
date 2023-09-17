@@ -24,7 +24,7 @@ chezmoi # dotfiles sync
 dash
 fish
 ranger
-exa
+eza
 alsa-utils
 pulseaudio
 pulseaudio-alsa
