@@ -133,6 +133,8 @@
 		"emoji": {
 			"default": ":test_tube:",
 			"subject": {
+				"document": ":books:",
+				"manual": ":woman_scientist:",
 				"coverage": ":microscope:",
 				"regression": ":umbrella:",
 				"pass": ":heavy_check_mark:",
