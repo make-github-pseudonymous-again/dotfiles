@@ -4,7 +4,6 @@ After=ready.target
 
 [Service]
 Environment="AUTOSSH_GATETIME=0"
-Environment="SSH_AUTH_SOCK=/run/user/1000/keyring/ssh"
 Environment="AUTOSSH_ARGS=%I"
 ExecStart=/usr/bin/autossh -M 0 -N $AUTOSSH_ARGS
 Restart=always
