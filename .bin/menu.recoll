@@ -158,7 +158,7 @@ async def main():
 
 	querystring = 'dir:"{}" AND ({})'.format(args.location, args.extensions)
 
-	db = recoll.connect()
+	db = recoll.connect()  # type: ignore
 	doc = await select(db, prompt, query(db,
 									  querystring, sortby = args.sortby,
 									  ascending = args.ascending))
