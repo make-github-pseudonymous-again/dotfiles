@@ -4,22 +4,6 @@ humanbytes = human.bytes
 
 def formatdoc(doc):
 
-	path = doc.url[7:]
-	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
-
-	try:
-		timestamp = arrow.get(doc.mtime)
-		htime = timestamp.humanize()
-		hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
-	except Exception as e:
-		htime = 'unknown'
-		hdate = 'unknown'
-
-	try:
-		hbytes = humanbytes(int(doc.fbytes))
-	except Exception as e:
-		hbytes = 'unknown'
-
 	formatarray = ['{htime}', '>']
 
 	if doc.title:
@@ -38,7 +22,29 @@ def formatdoc(doc):
 	formatarray.append('--')
 	formatarray.append('d@te:{hdate}')
 
-	keys = {
+	keys = formatkeys(doc)
+	return ' '.join(formatarray).format(**keys)
+
+
+def formatkeys(doc):
+
+	path = doc.url[7:]
+	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
+
+	try:
+		timestamp = arrow.get(doc.mtime)
+		htime = timestamp.humanize()
+		hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+	except Exception:
+		htime = 'unknown'
+		hdate = 'unknown'
+
+	try:
+		hbytes = humanbytes(int(doc.fbytes))
+	except Exception:
+		hbytes = 'unknown'
+
+	return {
 		'hbytes': hbytes,
 		'htime': htime,
 		'hdate': hdate,
@@ -46,5 +52,3 @@ def formatdoc(doc):
 		'filename': 'unknown',
 		**doc.items()
 	}
-
-	return ' '.join(formatarray).format(**keys)
