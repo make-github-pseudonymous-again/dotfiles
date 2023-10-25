@@ -38,7 +38,7 @@ python-pypdf2 # replaced by python-pypdf
 python2-keyring
 python2-secretstorage
 python2-xlib
-python-xlib
+# python-xlib # required by solaar
 notes-git
 the_silver_searcher
 ack
