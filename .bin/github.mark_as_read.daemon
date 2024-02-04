@@ -65,17 +65,15 @@ while read -r line ; do
 	for filter in "${!filters[@]}"; do
 		passes "$pr" "$filter" "$updated_at"
 		rc="$?"
-		if [ "$rc" -ne 0 ] ; then
-			if [ "$rc" -eq 1 ] ; then
-				# shellcheck disable=SC2016
-				>&2 printf 'Not marking #%s as read: %s (%s) because it does not satisfy filter `%s`\n' "$id" "$title" "$pr" "$filter"
-			else
-				>&2 printf 'Not marking #%s as read: %s (%s) because of API error\n' "$id" "$title" "$pr"
-			fi
+		if [ "$rc" -eq 0 ] ; then
+			>&2 printf 'Marking thread #%s as read: %s (%s)\n' "$id" "$title" "$pr"
+			github.mark_as_read "$id"
 			continue 2
+		elif [ "$rc" -eq 1 ] ; then
+			# shellcheck disable=SC2016
+			>&2 printf 'Not marking #%s as read: %s (%s) because it does not satisfy filter `%s`\n' "$id" "$title" "$pr" "$filter"
+		else
+			>&2 printf 'Not marking #%s as read: %s (%s) because of API error\n' "$id" "$title" "$pr"
 		fi
 	done
-
-	>&2 printf 'Marking thread #%s as read: %s (%s)\n' "$id" "$title" "$pr"
-	github.mark_as_read "$id"
 done
