@@ -53,7 +53,8 @@ set -x FZF_ALT_C_OPTS "--preview 'ls -la {} | head -$LINES'"
 
 # ssh-agent socket
 #set -x SSH_AUTH_SOCK "${XDG_RUNTIME_DIR}/ssh-agent.socket" # ssh-agent.service
-set -x SSH_AUTH_SOCK (gnome-keyring-daemon --start 2>/dev/null | awk -F "=" '$1 == "SSH_AUTH_SOCK" { print $2 }') # gnome-keyring with PAM
+#set -x SSH_AUTH_SOCK (gnome-keyring-daemon --start 2>/dev/null | awk -F "=" '$1 == "SSH_AUTH_SOCK" { print $2 }') # gnome-keyring with PAM
+set -x SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gcr/ssh" # gcr-ssh-agent.socket
 
 # ipe styles
 if test -d $HOME/.ipe/styles

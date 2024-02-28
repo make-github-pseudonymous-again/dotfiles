@@ -66,8 +66,9 @@ export FZF_ALT_C_OPTS
 
 # ssh-agent socket
 #export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket" # ssh-agent.service
-eval $(gnome-keyring-daemon --start 2>/dev/null) # gnome-keyring with PAM
-export SSH_AUTH_SOCK # gnome-keyring with PAM
+#eval $(gnome-keyring-daemon --start 2>/dev/null) # gnome-keyring with PAM
+#export SSH_AUTH_SOCK # gnome-keyring with PAM
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gcr/ssh" # gcr-ssh-agent.socket
 
 # ipe styles
 if [ -d "$HOME/.ipe/styles" ] ; then

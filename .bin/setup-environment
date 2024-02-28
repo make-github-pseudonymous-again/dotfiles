@@ -5,6 +5,8 @@ source ~/.path
 
 eval "$(gnome-keyring-daemon --start)" # gnome-keyring with PAM
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh" # gcr-ssh-agent.socket
+
 /usr/bin/systemctl --user import-environment PATH NODE_PATH SSH_AUTH_SOCK
 /usr/bin/systemctl --user start environment.target
 /usr/bin/systemctl --user start ready.timer
