@@ -1,2 +1,2 @@
 #!/usr/bin/env dash
-acpi -a | grep on-line > /dev/null 2>&1
+[ "$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -oP '^ *state: *\K[a-zA-Z-]+')" != 'discharging' ]
