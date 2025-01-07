@@ -1,7 +1,7 @@
 
-# Make vim the default editor
-set -gx EDITOR "vim"
-set -gx VISUAL "vim"
+# Make nvim the default editor
+set -gx EDITOR "nvim"
+set -gx VISUAL "nvim"
 
 # DOES NOT WORK WELL WITH LAST_CMD_DURATION STUFF
 # Make some commands not show up in history

@@ -16,7 +16,7 @@
 # 	chmod +x ~/.bin/imgur
 # Optional, since Alan kindly provided an API key for this script: stick your 
 # API key in the top:
-# 	vim ~/.bin/imgur
+# 	nvim ~/.bin/imgur
 # Upload an image:
 # 	imgur images/hilarious/manfallingover.jpg
 # Upload multiple images:

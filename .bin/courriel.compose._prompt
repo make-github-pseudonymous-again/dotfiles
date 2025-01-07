@@ -152,7 +152,7 @@ function _Dsubject {
 function _body {
   clear
   _tmpbody
-  vim "$body"
+  nvim "$body"
 }
 
 function _Dbody {

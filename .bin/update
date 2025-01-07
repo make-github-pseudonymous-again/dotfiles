@@ -410,7 +410,7 @@ if $pacdiff ; then
   # https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
   # https://stackoverflow.com/a/27809708/1582182
   # https://stackoverflow.com/a/49061325/1582182 <- THE REAL CULPRIT
-  DIFFPROG='vim -c "syntax off" -d' sudo pacdiff
+  DIFFPROG='nvim -c "syntax off" -d' sudo pacdiff
 
 fi
 

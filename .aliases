@@ -27,7 +27,7 @@ alias td="trash-rm"
 alias te="trash-empty"
 
 alias g="git"
-alias e="vim"
+alias e="nvim"
 
 alias up="update"
 alias ssu="services.show --user | less -r"

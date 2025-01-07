@@ -9,7 +9,7 @@ alias .....="cd ../../../.."
 abbr -a -- - 'cd -'
 
 # fasd aliases
-alias v='f -e vim'      # quick opening files with vim
+alias v='f -e nvim'      # quick opening files with nvim
 alias m='f -e vlc'      # quick opening files with vlc
 alias j='fasd_cd -d'    # cd, same functionality as j in autojump
 alias o='a -e xdg-open' # quick opening files with xdg-open
@@ -68,10 +68,10 @@ abbr te "trash-empty"
 # Git
 abbr g git
 
-# Vim
-abbr e vim
-abbr ef "vim (bfs -type f | fzf -m)"
-abbr ec "vim (rg --hidden -g '!.git/*' '>>>>>>>' -l)"
+# Neovim
+abbr e nvim
+abbr ef "nvim (bfs -type f | fzf -m)"
+abbr ec "nvim (rg --hidden -g '!.git/*' '>>>>>>>' -l)"
 
 # Alias all git aliases
 for al in (git aliases)

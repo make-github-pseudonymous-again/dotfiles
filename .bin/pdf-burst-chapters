@@ -35,7 +35,7 @@ while IFS= read -r chapter; do
   echo "${begin}-${end}" "${ii} ${title}" | tee --append "$args"
 done
 
-if ! vim "$args" ; then _exit 11 ; fi
+if ! nvim "$args" ; then _exit 11 ; fi
 
 while IFS= read -r line || [ -n "$line" ] ; do
   output="${root}/$(printf '%s' "$line" | sed 's/^[^ ]* //').pdf"

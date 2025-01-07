@@ -46,6 +46,7 @@ python-keyring
 python-urwid
 python-feedparser
 python-aiohttp
+python-pynvim
 autopep8
 
 # Video

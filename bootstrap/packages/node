@@ -36,3 +36,6 @@ jsdom # for html query selectors (cineonu scripts)
 
 git-open # Open repo page
 git-recent # Summary of recent branches
+
+neovim # for neovim
+tree-sitter-cli # for neovim

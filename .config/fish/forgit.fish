@@ -6,5 +6,5 @@ set -gx FORGIT_STASH_FZF_OPTS '
 '
 
 set -gx FORGIT_LOG_FZF_OPTS '
---bind="ctrl-e:execute(echo {} |grep -Eo [a-f0-9]+ |head -1 |xargs git show |vim -)"
+--bind="ctrl-e:execute(echo {} |grep -Eo [a-f0-9]+ |head -1 |xargs git show |nvim -)"
 '
