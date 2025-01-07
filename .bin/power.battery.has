@@ -1,2 +1,2 @@
 #!/usr/bin/env dash
-[ "$(upower -e | head -1)" = "/org/freedesktop/UPower/devices/battery_BAT0" ]
+upower -e | grep -q "/org/freedesktop/UPower/devices/battery_BAT0"
