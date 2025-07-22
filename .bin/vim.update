@@ -2,5 +2,3 @@
 # https://github.com/junegunn/vim-plug/wiki/faq#shouldnt-vim-plug-update-itself-on-plugupdate-like-vundle
 vim +PlugUpgrade +qall || exit "$?"
 vim +PlugUpdate +qall || exit "$?"
-# https://github.com/neoclide/coc.nvim/issues/2945
-vim +CocUpdateAsyncWaitThenQuit || exit "$?"
