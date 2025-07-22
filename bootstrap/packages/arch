@@ -80,7 +80,6 @@ trash-cli
 gnupg
 openssh
 pass
-keybase
 gnome-keyring
 libsecret
 seahorse
