@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+"""
+    Delete all GitHub Actions caches for a repository.
+"""
+
+import json
+import github
+
+def list_caches(token, repo):
+    first_page = github.api(f'/repos/{repo}/actions/caches?per_page=100')
+    for page in github.pages(first_page, token=token):
+        caches = json.loads(page)
+        if caches:
+            yield from caches['actions_caches']
+
+def delete_cache(token, repo, cache_key):
+    assert isinstance(cache_key, int)
+    url = github.api(f'/repos/{repo}/actions/caches/{cache_key}')
+    print(f'DELETE {url}')
+    github.delete(url, token=token)
+
+def delete_all_caches(token, repo):
+    for cache in list_caches(token, repo):
+        delete_cache(token, repo, cache['id'])
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='Delete all GitHub Actions caches for a repository.')
+    parser.add_argument('repo', type=str, help='Owner and repository name in the format owner/repo')
+    args = parser.parse_args()
+
+    token = github.token()
+
+    delete_all_caches(token, args.repo)
