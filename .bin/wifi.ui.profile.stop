@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-profile="$(wifi.profiles.running)"
-
-if [ "$profile" != '' ] ; then
+for profile in "$(wifi.profiles.running)"; do
 	wifi.profile.stop "$profile"
-fi
+done
