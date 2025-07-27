@@ -63,6 +63,7 @@ libcaca
 catimg
 
 # useful
+bfs
 testdisk
 pstoedit
 fd
