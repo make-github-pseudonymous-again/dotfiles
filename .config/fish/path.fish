@@ -4,6 +4,11 @@ if test -d $HOME/.bin
   set -gx PATH $HOME/.bin $PATH
 end
 
+# Add `~/.meteor` to the `$PATH`
+if test -d $HOME/.meteor
+  set -gx PATH $HOME/.meteor $PATH
+end
+
 # ruby gems
 set -gx RUBY_PATH (ruby -e 'print Gem.user_dir')/bin
 if test -d $RUBY_PATH
