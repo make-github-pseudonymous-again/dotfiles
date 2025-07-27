@@ -23,6 +23,7 @@ chezmoi # dotfiles sync
 
 dash
 fish
+fisher
 ranger
 eza
 alsa-utils
