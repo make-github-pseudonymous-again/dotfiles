@@ -55,6 +55,7 @@ vlc
 atomicparsley
 
 # File parsing
+atool # for ranger
 highlight
 w3m
 poppler
