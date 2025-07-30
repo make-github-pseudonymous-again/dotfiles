@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+profile="${1:-default}"
+
+url=$(firefox.history "$profile" | dmenu_center -p '' -sb '#54A8A8' -i -z -fullscreen)
+
+if [ "$url" = '' ] ; then
+	exit 1
+fi
+
+firefox -p "$profile" --new-window "$(printf '%s\n' "$url" | rev | cut -d ' ' -f 1 | rev)"
