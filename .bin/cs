@@ -16,6 +16,7 @@ elif [ "$key" = 'airports' ] ; then
 fi
 
 if [ "$KIND" = 'wikipedia' ] ; then
+  # shellcheck disable=SC2086
   curl -s -L "$URL" | html-select table.wikitable | html2text --decode-errors replace -b 0 --reference-links $OPTIONS | less -S
 elif [ "$KIND" = 'csv' ] ; then
   curl -s -L "$URL" | less -S

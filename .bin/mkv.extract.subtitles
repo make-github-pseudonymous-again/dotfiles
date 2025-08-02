@@ -67,7 +67,7 @@ for subtitle in "${subtitles[@]}"; do
 	fi
 
 
-	tracks[$i]="$id:$slug-$name$ext"
+	tracks[i]="$id:$slug-$name$ext"
 	i=$((i+1))
 
 done

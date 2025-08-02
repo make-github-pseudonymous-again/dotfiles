@@ -27,17 +27,20 @@ if [ -z "$EDITOR" ] && type editor &>/dev/null; then
     EDITOR=editor
 fi
 
+# shellcheck disable=SC2317
 without_notes_dir() {
     cat | sed -e "s/^$escaped_notes_dir//g" | sed -E "s/^\/+//g"
 }
 
 FIND_FILTER=(-not -path '*/\.*' -type f)
 
+# shellcheck disable=SC2317
 _find_notes() {
     local root="$1" && shift
     find "$root" "${FIND_FILTER[@]}" "$@"
 }
 
+# shellcheck disable=SC2317
 ls_notes() {
     local ls_output
     ls_output=$(cd "$notes_dir" && ls "$@")
@@ -54,6 +57,7 @@ ls_notes() {
     fi
 }
 
+# shellcheck disable=SC2317
 find_notes() {
     local find_output
     find_output=$(_find_notes "$notes_dir" -ipath "$notes_dir/*$**" 2>&1)
@@ -69,6 +73,7 @@ find_notes() {
     fi
 }
 
+# shellcheck disable=SC2317
 grep_notes() {
     if [ ! "$#" -gt 0 ]; then
         printf "Grep requires a pattern, but none was provided."
@@ -89,6 +94,7 @@ grep_notes() {
     fi
 }
 
+# shellcheck disable=SC2317
 search_filenames_and_contents() {
     if [ "$#" -gt 0 ]; then
       formatted_output="$({ find_notes "$@" ; grep_notes "$@" ; })"
@@ -103,6 +109,7 @@ search_filenames_and_contents() {
     fi
 }
 
+# shellcheck disable=SC2317
 generate_name() {
     local append_num=0
     local format_string
@@ -117,6 +124,7 @@ generate_name() {
     printf '%s' "$resolved_name"
 }
 
+# shellcheck disable=SC2317
 new_note() {
     local note_name="$*"
     if [[ $note_name == "" ]]; then
@@ -132,18 +140,21 @@ new_note() {
     open_note "$note_name"
 }
 
+# shellcheck disable=SC2317
 remove_note() {
     pushd "$notes_dir" > /dev/null || exit
     rm -i "$@"
     popd > /dev/null || exit
 }
 
+# shellcheck disable=SC2317
 trash_note() {
     pushd "$notes_dir" > /dev/null || exit
     trash-put -v "$@"
     popd > /dev/null || exit
 }
 
+# shellcheck disable=SC2317
 handle_multiple_notes() {
     local cmd=$1
 
@@ -157,6 +168,7 @@ handle_multiple_notes() {
     fi
 }
 
+# shellcheck disable=SC2317
 get_full_note_path() {
     local note_path=$1
 
@@ -170,6 +182,7 @@ get_full_note_path() {
     echo "$note_path"
 }
 
+# shellcheck disable=SC2317
 open_note() {
     local note_path=$1
 
@@ -190,6 +203,7 @@ open_note() {
 
 }
 
+# shellcheck disable=SC2317
 cat_note() {
     local note_path=$1
 

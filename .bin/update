@@ -194,6 +194,7 @@ function _check ( ) {
 
 }
 
+# shellcheck disable=SC2317
 function _trap ( ) {
   echo '! TRAP'
   echo ' > There was an error!'

@@ -32,8 +32,6 @@ if [ "$DELTA" -gt "$WAIT" ] ; then
 		>&2 echo "Error :("
 	fi
 	exit "$EC"
-	systemctl restart --user "$UNIT"
-	exit "$?"
 fi
 
 # unit still running

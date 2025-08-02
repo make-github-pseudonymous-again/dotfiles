@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-for profile in "$(wifi.profiles.running)"; do
+for profile in $(wifi.profiles.running); do
 	wifi.profile.stop "$profile"
 done

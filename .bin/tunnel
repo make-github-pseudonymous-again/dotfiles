@@ -14,4 +14,5 @@ if [ -z "$escaped_args" ] ; then
 	exit 3
 fi
 
+# shellcheck disable=SC2086
 systemctl --user "$action" $flags tunnel@"${escaped_args}".service
