@@ -1,5 +1,5 @@
 :wrench: ~/. dotfiles for Arch Linux
-[![Tests](https://img.shields.io/github/workflow/status/make-github-pseudonymous-again/dotfiles/ci:test?event=push&label=tests)](https://github.com/make-github-pseudonymous-again/dotfiles/actions/workflows/ci:test.yml?query=branch:master)
+[![Tests](https://img.shields.io/github/actions/workflow/status/make-github-pseudonymous-again/dotfiles/ci:test.yml?branch=master&event=push&label=tests)](https://github.com/make-github-pseudonymous-again/dotfiles/actions/workflows/ci:test.yml?query=branch:master)
 ==
 
 <p align="center">
