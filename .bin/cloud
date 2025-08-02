@@ -107,29 +107,6 @@ _upload () {
 
 }
 
-_sleep () {
-
-  _log info "sleep $1"
-  sleep "$1"
-
-}
-
-_do () {
-
-  _log info "$@"
-  "$@"
-  rc="$?"
-
-  if [ "$rc" -eq 0 ] ; then
-    _log succ "$@"
-  else
-    _log fail "$@"
-  fi
-
-  return "$rc"
-
-}
-
 _unknown_command ( ) {
   >&2 echo "Unknown command: $1"
   exit 3
