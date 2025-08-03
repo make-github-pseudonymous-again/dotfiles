@@ -1,24 +1,22 @@
 #!/usr/bin/env python3
 
-import arrow
+from zoneinfo import ZoneInfo
+from datetime import datetime, timedelta
 import re
+import subprocess
 
-REGEX_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+TZ = subprocess.check_output(['timezone.current']).decode().strip()
+FMT = '%Y-%m-%d %H:%M:%S'
+REGEX_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 EXCLUDED_URLS = [
     'https://g.co/calendar',
 ]
 
 from events import _range
-from events import log
 from events import _cache_load_url
 from events import calendars
 from events import FRESH
-from events import _humanize
 from events import _duration
-from events import _shorthumanize
-from events import _shortduration
-from events import _tinyhumanize
-from events import _tinyduration
 
 def _icon(event):
 
@@ -46,14 +44,22 @@ for _calendar in calendars():
     for event in calendar_events:
         icons[event] = _calendar['icon']
 
-now = arrow.now()
-today = now.floor('day')
-tomorrow = today.shift(days=+1)
-dayaftertomorrow = tomorrow.shift(days=+1)
-nextweek = now.floor('week').shift(weeks=+1)
-weekafternextweek = nextweek.shift(weeks=+1)
-nextmonth = now.floor('month').shift(months=+1)
-monthafternextmonth = nextmonth.shift(months=+1)
+def _add_months(dt: datetime, months: int) -> datetime:
+    total_month = dt.month - 1 + months
+    year  = dt.year + total_month // 12
+    month = total_month % 12 + 1
+    return dt.replace(year=year, month=month)
+
+now = datetime.now(ZoneInfo(TZ))
+today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+tomorrow = today + timedelta(days=1)
+dayaftertomorrow = tomorrow + timedelta(days=1)
+startofthisweek = today - timedelta(days=today.weekday())
+nextweek = startofthisweek + timedelta(weeks=1)
+weekafternextweek = nextweek + timedelta(weeks=1)
+startofthismonth = today.replace(day=1)
+nextmonth = _add_months(startofthismonth, 1)
+monthafternextmonth = _add_months(nextmonth, 1)
 
 _fresh = set(filter(lambda x: x.end >= now, allevents))
 
@@ -79,10 +85,8 @@ for name, begin, end in timesections:
 
     events = set(filter(predicate, _fresh)) - used
 
-    A = 'the beginning of the Universe' if begin is None else begin.format(
-        'YYYY-MM-DD HH:mm:ss')
-    B = 'the end of the Universe' if end is None else end.format(
-        'YYYY-MM-DD HH:mm:ss')
+    A = 'the beginning of the Universe' if begin is None else begin.strftime(FMT)
+    B = 'the end of the Universe' if end is None else end.strftime(FMT)
 
     title = (name + ', from {} to {}').format(A, B)
 
@@ -115,7 +119,7 @@ ENDC = '\033[0m'
 
 
 print()
-print( ' > Generated on {}'.format(now.format('ddd, DD MMM YYYY HH:mm:ss Z')) )
+print( ' > Generated on {}'.format(now.strftime('%a, %d %b %Y %H:%M:%S %Z')) )
 
 for title, events in sections:
 
