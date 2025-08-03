@@ -3,11 +3,14 @@
 import os
 import sys
 import json
-import arrow
+from typing import Optional
+from dataclasses import dataclass
+from itertools import count, chain
 import shutil
+from datetime import datetime
+import urllib.parse
 import urllib.request
-
-from xml.etree import ElementTree
+import urllib.error
 
 TZ = 'Europe/Brussels'
 
@@ -18,73 +21,141 @@ HALT = CACHE + '/{}'
 LINE = HALT + '/{}'
 TIME = LINE + '/{}'
 
-REQUEST = 'http://m.stib.be/api/getwaitingtimes.php?halt={}'
+REQUEST = 'https://stibmivb.opendatasoft.com/api/explore/v2.1/catalog/datasets/waiting-time-rt-production/records?{}'
+PAGE_SIZE = 100
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
 
-def init(halt):
+def init(halt: str):
+	# NOTE: Dangerous.
+	assert(isinstance(halt, str))
+	assert(all(c >= "0" and c <= "9" for c in halt))
 
-    # dangerous
-    assert(isinstance(halt, str))
-    assert(all(c >= "0" and c <= "9" for c in halt))
+	path = HALT.format(halt)
 
-    path = HALT.format(halt)
+	shutil.rmtree(path, True)  # True to ignore errors
+	os.makedirs(path)
 
-    shutil.rmtree(path, True)  # True to ignore errors
-    os.makedirs(path)
+@dataclass(frozen=True)
+class Page:
+	total_count: str
+	results: list
 
+@dataclass(frozen=True)
+class Result:
+	pointid: str
+	lineid: str
+	passingtimes: str
 
-def save(halt, line, timestamp):
+@dataclass(frozen=True)
+class Destination:
+	fr: str
+	nl: str
 
-    log('x', halt, line, timestamp)
+@dataclass(frozen=True)
+class Event:
+	halt: str
+	line: str
+	destination: Optional[Destination]
+	eta: datetime
 
-    try:
-        os.mkdir(LINE.format(halt, line))
-    except FileExistsError:
-        pass
+def save(event: Event):
+	try:
+		os.mkdir(LINE.format(event.halt, event.line))
+	except FileExistsError:
+		pass
 
-    with open(TIME.format(halt, line, timestamp), 'w') as fd:
-        pass
+	with open(TIME.format(event.halt, event.line, event.eta.isoformat()), 'w'):
+		pass
 
 with open(CONFIG) as _config:
-    config = json.load(_config)
+	config = json.load(_config)
+
+def _fetch(halt, lines):
+	results = _fetch_halt(halt)
+	events = chain.from_iterable(map(_events, results))
+	return filter(_line_filter(lines), events)
+
+def _fetch_halt(halt: str):
+	expected_count = None
+	yielded = 0
+	for page in count(1):
+		total_count, results = _fetch_halt_page(halt, page)
+		if expected_count is None:
+			expected_count = total_count
+		else:
+			assert(total_count == expected_count)
+
+		yield from results
+
+		yielded += len(results)
+		if yielded >= expected_count:
+			assert(yielded == expected_count)
+			break
+
+def _result_for(halt: str):
+	def _f(kwargs: dict):
+		assert(kwargs['pointid'] == halt)
+		return Result(**kwargs)
+
+	return _f
+
+def _fetch_halt_page(halt: str, page: int):
+	offset = (page - 1) * PAGE_SIZE
+	limit = PAGE_SIZE
+
+	params = urllib.parse.urlencode({
+		'where': 'pointid={}'.format(halt),
+		'limit': limit,
+		'offset': offset
+	})
+
+	url = REQUEST.format(params)
+
+	log(url)
+
+	with urllib.request.urlopen(url) as fp:
+		data = Page(**json.load(fp))
+		return int(data.total_count), list(map(_result_for(halt), data.results))
+
+def _events(result: Result):
+	halt = result.pointid
+	line = result.lineid
+	events = json.loads(result.passingtimes)
+
+	for event in events:
+		assert(event['lineId'] == line)
+		yield Event(
+			halt=halt,
+			line=line,
+			destination=Destination(**event['destination']) if 'destination' in event else None,
+			eta=datetime.fromisoformat(event['expectedArrivalTime'])
+		)
+
+
+def _line_filter(lines: set[str]):
+	def predicate(event: Event):
+		keep = event.line in lines
+		log('x' if keep else ' ', event.halt, event.line, event.eta.isoformat())
+		return keep
+	return predicate
+
 
 for halt, lines in config.items():
 
-    url = REQUEST.format(halt)
+	try:
+		events = list(_fetch(halt, set(lines)))
+	except urllib.error.HTTPError as error:
+		log('failed to download', error.geturl())
+		continue
 
-    log(url)
+	# NOTE: In case of a bug do not erase previously known information.
 
-    try:
+	if not events:
+		continue
 
-        W = ElementTree.parse(urllib.request.urlopen(url)).getroot()
+	init(halt)
 
-    except urllib.error.HTTPError:
-        log('failed to download', url)
-        continue
-
-    now = arrow.now(TZ)
-
-    waitingtimes = list(W.iter('waitingtime'))
-
-    # in case of a bug do not erase previously known information
-
-    if not waitingtimes:
-        continue
-
-    init(halt)
-
-    for waitingtime in waitingtimes:
-
-        w = {tag.tag: tag.text for tag in waitingtime}
-
-        timestamp = now.shift(minutes=+int(w['minutes']))
-
-        if w['line'] in lines:
-
-            save(halt, w['line'], timestamp)
-
-        else:
-
-            log(' ', halt, w['line'], timestamp)
+	for event in events:
+		save(event)
