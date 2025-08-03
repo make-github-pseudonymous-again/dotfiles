@@ -46,7 +46,8 @@ def dblp_query ( query ) :
     try:
 
         output['time']['send'] = now()
-        tree = html.parse(urllib.request.urlopen(url))
+        with urllib.request.urlopen(url) as fp:
+            tree = html.parse(fp)
         output['time']['receive'] = now()
 
     except urllib.error.HTTPError:
