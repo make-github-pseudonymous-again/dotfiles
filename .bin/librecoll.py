@@ -1,6 +1,5 @@
-import arrow
-import human
-humanbytes = human.bytes
+from datetime import datetime
+from human import bytes as humanbytes, datetime as humandatetime
 
 def formatdoc(doc):
 
@@ -32,9 +31,9 @@ def formatkeys(doc):
 	hint = '/'.join(map(lambda x : x[:2], path.split('/')[3:-1]))
 
 	try:
-		timestamp = arrow.get(doc.mtime)
-		htime = timestamp.humanize()
-		hdate = timestamp.format('YYYY-MM-DDTHH:mm:ssZZ')
+		timestamp = datetime.fromtimestamp(int(doc.mtime))
+		htime = humandatetime(timestamp)
+		hdate = timestamp.isoformat()
 	except Exception:
 		htime = 'unknown'
 		hdate = 'unknown'
