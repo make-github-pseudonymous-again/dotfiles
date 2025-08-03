@@ -12,6 +12,8 @@ if not args :
 
 import json
 from datetime import datetime
+import urllib.parse
+import urllib.error
 import urllib.request
 
 import lxml.html as html

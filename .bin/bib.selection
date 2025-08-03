@@ -2,8 +2,6 @@
 
 import json
 import urwid
-import urllib.request
-import urllib.error
 import argparse
 import subprocess
 import asyncio
