@@ -3,16 +3,13 @@
 import os
 import sys
 import json
-import arrow
-import shutil
+from typing import Literal, Union
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+import urllib.error
+import urllib.parse
 import urllib.request
-
-import lxml.html as html
-from lxml.cssselect import CSSSelector
-
-TZ = 'Europe/Paris'
-
-sel = lambda h, s: CSSSelector(s)(h)
+import shutil
 
 CACHE = os.path.expanduser('~/.cache/rtm')
 CONFIG = os.path.expanduser('~/.config/rtm/config')
@@ -22,76 +19,123 @@ LINE = HALT + '/{}'
 DEST = LINE + '/{}'
 TIME = DEST + '/{}'
 
-REQUEST = 'http://www.rtm.fr/node/2091832?codesigep={}'
+REQUEST = 'https://api.rtm.fr/front/getReelTime?{}'
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
+def _is_valid_id_char(c: str):
+	return (c >= "A" and c <= "Z") or (c >= "0" and c <= "9") or (c == ":")
 
-def init(halt):
+def _is_valid_id(x: str):
+	assert(isinstance(x, str))
+	return all(map(_is_valid_id_char, x))
 
-    # dangerous
-    assert(isinstance(halt, str))
-    assert(all(c >= "A" and c <= "Z" for c in halt))
+@dataclass(frozen=True)
+class Line:
+	ref: str
+	direction: Union[Literal[1], Literal[2]]
 
-    path = HALT.format(halt)
+@dataclass(frozen=True)
+class DepartureTime:
+	Hour: str
+	Monitored: bool
 
-    shutil.rmtree(path, True)  # True to ignore errors
-    os.makedirs(path)
+@dataclass(frozen=True)
+class Event:
+	DepartureTime: dict
+	ReelHour: bool
+	PublishedLineName: str
+	DestinationName: str
+
+def _event(kwargs: dict):
+	return Event(**kwargs)
+
+@dataclass(frozen=True)
+class Data:
+	temps_reel: list[dict]
+
+@dataclass(frozen=True)
+class Response:
+	data: dict
+	returnCode: Literal[200]
+	dateReturn: str
+	meta: dict
+
+def _line(kwargs: dict):
+	return Line(**kwargs)
+
+def _queries(config: dict):
+	for halt, lines in config.items():
+		for line in map(_line, lines):
+			yield halt, line
+
+def init(halt: str, line: Line):
+
+	# NOTE: Dangerous.
+	assert(_is_valid_id(halt))
+	assert(_is_valid_id(line.ref))
+	assert(line.direction in (1, 2))
+
+	path = DEST.format(halt, line.ref, line.direction)
+
+	shutil.rmtree(path, True)  # NOTE: True to ignore errors.
+	os.makedirs(path)
 
 
-def save(halt, line, dest, timestamp):
-
-    log('x', halt, line, dest, timestamp)
-
-    try:
-        os.makedirs(DEST.format(halt, line, dest))
-    except FileExistsError:
-        pass
-
-    with open(TIME.format(halt, line, dest, timestamp), 'w') as fd:
-        pass
+def save(halt: str, line: Line, timestamp: datetime):
+	log('x', halt, line.ref, line.direction, timestamp.isoformat())
+	with open(TIME.format(halt, line.ref, line.direction, timestamp.isoformat()), 'w'):
+		pass
 
 with open(CONFIG) as _config:
-    config = json.load(_config)
+	config = json.load(_config)
 
-for halt in config:
+for halt, line in _queries(config):
+	params = urllib.parse.urlencode({
+		'lineRef': line.ref,
+		'direction': line.direction,
+		'pointRef': halt
+	})
 
-    url = REQUEST.format(halt)
+	url = REQUEST.format(params)
 
-    now = arrow.now(TZ)
+	log(url)
 
-    log(url)
+	try:
+		with urllib.request.urlopen(url) as fp:
+			response = Response(**json.load(fp))
 
-    try:
+	except urllib.error.HTTPError:
+		log('failed to download', url)
+		continue
 
-        tree = html.parse(url)
+	# NOTE: In case of a bug do not erase previously known information.
 
-    except urllib.error.HTTPError:
-        log('failed to download', url)
-        continue
+	if response.returnCode != 200: continue
+	data = Data(**response.data)
 
-    waitingtimes = sel(tree, '.sticky-enabled > tbody:nth-child(2) > tr')
+	if not data.temps_reel:
+		continue
 
-    waitingtimes = [sel(tr, 'td') for tr in waitingtimes]
+	events = map(_event, data.temps_reel)
+	now = datetime.fromisoformat(response.dateReturn)
 
-    waitingtimes = [[td.text for td in tr] for tr in waitingtimes]
+	init(halt, line)
 
-    # in case of a bug do not erase previously known information
+	for event in events:
+		departure = DepartureTime(**event.DepartureTime)
 
-    if not waitingtimes:
-        continue
+		hour, minute, second = map(int, departure.Hour.split(':'))
 
-    init(halt)
+		timestamp = now.replace(
+			hour=hour % 24,
+			minute=minute,
+			second=second,
+			microsecond=0
+		)
 
-    for line, time, dest in waitingtimes:
+		# NOTE: Let's say it is 23:57 and time == '00:05'.
+		if timestamp < now - timedelta(minutes=1):
+			timestamp = timestamp + timedelta(days=1)
 
-        hour, minute = map(int, time.split(':'))
-
-        timestamp = now.replace(hour=hour % 24, minute=minute,
-                                second=0, microsecond=0)
-
-        # let's say it is 23:57 and time == '00:05'
-        if timestamp < now.shift(minutes=-1):
-            timestamp = timestamp.shift(days=+1)
-
-        save(halt, line, dest, timestamp)
+		save(halt, line, timestamp)
