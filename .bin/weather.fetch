@@ -5,7 +5,6 @@ import os
 import codecs
 import subprocess
 import json
-import arrow
 import urllib.request
 
 URLFMT = 'https://api.darksky.net/forecast/{}/{},{}'

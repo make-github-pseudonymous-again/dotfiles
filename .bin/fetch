@@ -4,11 +4,10 @@
 import os
 import sys
 import stat
-import arrow
 import shutil
 import logging
 from recoll import recoll, rclextract
-from subprocess import check_output, call
+from subprocess import check_output
 
 stats = os.fstat(sys.stdout.fileno())
 mode = stats.st_mode
