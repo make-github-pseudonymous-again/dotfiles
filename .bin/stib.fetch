@@ -6,11 +6,16 @@ import json
 from typing import Optional
 from dataclasses import dataclass
 from itertools import count, chain
+from subprocess import check_output
 import shutil
 from datetime import datetime
 import urllib.parse
 import urllib.request
 import urllib.error
+
+APIKEY = check_output(
+    ('pass', 'stibmivb.opendatasoft.com/apikey')
+).decode().strip()
 
 TZ = 'Europe/Brussels'
 
@@ -69,9 +74,6 @@ def save(event: Event):
 	with open(TIME.format(event.halt, event.line, event.eta.isoformat()), 'w'):
 		pass
 
-with open(CONFIG) as _config:
-	config = json.load(_config)
-
 def _fetch(halt, lines):
 	results = _fetch_halt(halt)
 	events = chain.from_iterable(map(_events, results))
@@ -102,10 +104,14 @@ def _result_for(halt: str):
 	return _f
 
 def _fetch_halt_page(halt: str, page: int):
+	apikey = APIKEY
+	timezone = TZ
 	offset = (page - 1) * PAGE_SIZE
 	limit = PAGE_SIZE
 
 	params = urllib.parse.urlencode({
+		'apikey': apikey,
+		'timezone': timezone,
 		'where': 'pointid={}'.format(halt),
 		'limit': limit,
 		'offset': offset
@@ -141,6 +147,9 @@ def _line_filter(lines: set[str]):
 		return keep
 	return predicate
 
+
+with open(CONFIG) as _config:
+	config = json.load(_config)
 
 for halt, lines in config.items():
 
