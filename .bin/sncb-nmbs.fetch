@@ -16,7 +16,7 @@ CONFIG = os.path.expanduser('~/.config/sncb-nmbs/config')
 
 CONNECTIONS = CACHE + '/{}/{}/connections'
 
-REQUEST = 'https://api.irail.be/connections/?'
+REQUEST = 'https://api.irail.be/v1/connections/?'
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
 
