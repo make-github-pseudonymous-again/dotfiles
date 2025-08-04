@@ -5,6 +5,8 @@ import sys
 import json
 from zoneinfo import ZoneInfo
 from datetime import datetime
+import urllib.error
+import urllib.parse
 import urllib.request
 
 TZ = 'Europe/Brussels'
