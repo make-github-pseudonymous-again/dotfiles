@@ -3,7 +3,8 @@
 import os
 import sys
 import json
-import arrow
+from zoneinfo import ZoneInfo
+from datetime import datetime
 import urllib.request
 
 TZ = 'Europe/Brussels'
@@ -25,14 +26,14 @@ for connection in config['connections']:
     _from = connection['from']
     _to = connection['to']
 
-    now = arrow.now(TZ)
+    now = datetime.now(ZoneInfo(TZ))
 
     params = {
         'lang' : 'en' ,
         'format' : 'json' ,
         'timeSel' : 'depart' ,
-        'date' : now.format('DDMMYY') ,
-        'time' : now.format('HHmm') ,
+        'date' : now.strftime('%d%m%y') ,
+        'time' : now.strftime('%H%M') ,
         'from' : _from ,
         'to' : _to
     }
