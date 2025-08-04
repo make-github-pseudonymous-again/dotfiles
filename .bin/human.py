@@ -64,5 +64,5 @@ def datetime(x: dt.datetime, relative_to: Optional[dt.datetime]=None):
 	delta = x - relative_to
 	s = delta.total_seconds()
 
-	suffix = '' if s == 0 else ' ago' if s < 0 else ' from now'
-	return seconds(abs(s)) + suffix
+	fmt = '{}' if s == 0 else '{} ago' if s < 0 else 'in {}'
+	return fmt.format(seconds(abs(s)))
