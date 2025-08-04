@@ -3,8 +3,11 @@
 import os
 import sys
 import json
-import arrow
 import subprocess
+from typing import Callable, Iterable, Literal, Optional, Union
+from dataclasses import dataclass, asdict
+import human
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 CONFIG = os.path.expanduser('~/.config/commuting/config')
@@ -38,19 +41,48 @@ with open(RTMCONFIG) as _config:
 geolocation = json.loads(subprocess.check_output(
     ['memoize-get', '1200', 'geolocation.fetch']).decode())
 
-def istransit(method):
+def istransit(method: str):
     return method in [ 'train' , 'tram' , 'metro' , 'bus' ]
+
+Method = Union[
+    Literal['train'],
+    Literal['tram'],
+    Literal['metro'],
+    Literal['bus'],
+]
+
+Vendor = Union[
+    Literal['sncb-nmbs'],
+    Literal['stib-mivb'],
+    Literal['tec'],
+    Literal['rtm'],
+]
+
+@dataclass(frozen=True)
+class Part:
+    method: Method
+    seconds: Optional[float] = None
+    vendor: Optional[Vendor] = None
+    halt: Optional[str] = None
+    line: Optional[str] = None
+    dest: Optional[str] = None
+    origin: Optional[str] = None
+    destination: Optional[str] = None
+
+def _part(kwargs: dict):
+    return Part(**kwargs)
+
 
 pt = (part for road in config.values() for path in
         road['paths'] for part in
-               path['path'] if istransit(part['method']))
+               map(_part, path['path']) if istransit(part.method))
 
 
-def stibgrab(halt, line):
+def stibgrab(halt: str, line: str):
 
     try:
 
-        return sorted(map(arrow.get, os.listdir(STIBLINE.format(halt, line))))
+        return sorted(map(datetime.fromisoformat, os.listdir(STIBLINE.format(halt, line))))
 
     except FileNotFoundError:
 
@@ -59,11 +91,11 @@ def stibgrab(halt, line):
         return []
 
 
-def rtmgrab(halt, line, dest):
+def rtmgrab(halt: str, line: str, dest: str):
 
     try:
 
-        return sorted(map(arrow.get, os.listdir(RTMDEST.format(halt, line, dest))))
+        return sorted(map(datetime.fromisoformat, os.listdir(RTMDEST.format(halt, line, dest))))
 
     except FileNotFoundError:
 
@@ -73,56 +105,32 @@ def rtmgrab(halt, line, dest):
 
 
 
-def _humanize(time, ref):
+def _humanize(time: datetime, ref: datetime):
 
-    x = time.humanize(ref)
-
-    if x == "in seconds":
-
-        return "in {} seconds".format((time - ref).seconds)
-
-    if x == "just now":
-
-        return "now"
-
-    return x
+    return human.datetime(time, ref)
 
 
-def _duration(A, B):
+def _duration(delta: timedelta):
 
-    x = _humanize(B, A)
-
-    if x == 'now':
-
-        return '{} seconds'.format((B - A).seconds)
-
-    if x == 'in a minute':
-
-        return '1 minute'
-
-    return x[3:]
+    return human.timedelta(delta)
 
 
-def _shortduration(A, B):
 
-    return _shorten(_duration(A, B))
+def _shortduration(delta: timedelta):
+
+    return _shorten(_duration(delta))
 
 
-def _shorthumanize(time, ref):
+def _shorthumanize(time: datetime, ref: datetime):
 
     return _shorten(_humanize(time, ref))
 
-def _tinyduration(A, B):
+def _tinyduration(delta: timedelta):
 
-    return _tinier(_duration(A, B))
-
-
-def _tinyhumanize(time, ref):
-
-    return _tinier(_humanize(time, ref))
+    return _tinier(_duration(delta))
 
 
-def _shorten(x):
+def _shorten(x: str):
 
     if 'minutes' in x or 'seconds' in x:
 
@@ -134,7 +142,7 @@ def _shorten(x):
 
     return x
 
-def _tinier(x):
+def _tinier(x: str):
 
     if 'minutes' in x or 'seconds' in x:
 
@@ -147,11 +155,11 @@ def _tinier(x):
     return x
 
 
-def _repr(path,fduration=_shortduration):
+def _repr(path: Iterable[Part], fduration: Callable[[timedelta], str]=_shortduration):
 
     _map = {
-        "wait": lambda part : '  ({})'.format(fduration(part['seconds'])),
-        "walk": lambda part : '  ',
+        "wait": lambda part : '  ({})'.format(fduration(timedelta(seconds=part.seconds))),
+        "walk": lambda _: '  ',
         "tram": lambda part : {
             "stib-mivb" : lambda part: '  {line}'.format(**part),
             "rtm"       : lambda part: '  {line}'.format(**part),
@@ -170,27 +178,29 @@ def _repr(path,fduration=_shortduration):
         }[part['vendor']](part),
     }
 
-    return '  '.join(_map[part['method']](part) for part in path)
+    return '  '.join(_map[part.method](part) for part in path)
 
 
 
-def _diff(a, b):
+def _diff(a: datetime, b: datetime):
 
-    return a.datetime.timestamp() - b.datetime.timestamp()
+    return a.timestamp() - b.timestamp()
 
 PT = defaultdict(list)
 
-def _key ( x ) :
-    return frozenset( ( k , x[k] ) for k in x.keys() if k != 'seconds' )
+def _key ( x: Part ) :
+    return frozenset( ( k , v ) for k, v in asdict(x).items() if k != 'seconds' )
 
 for part in pt:
 
-    vendor = part['vendor']
+    vendor = part.vendor
 
     if vendor == 'stib-mivb':
 
-        halt = part['halt']
-        line = part['line']
+        halt = part.halt
+        assert(halt is not None)
+        line = part.line
+        assert(line is not None)
 
         if halt not in stibconfig or line not in stibconfig[halt]:
 
@@ -202,13 +212,16 @@ for part in pt:
 
     elif vendor == 'rtm':
 
-        halt = part['halt']
-        line = part['line']
-        dest = part['dest']
+        halt = part.halt
+        assert(halt is not None)
+        line = part.line
+        assert(line is not None)
+        dest = part.dest
+        assert(dest is not None)
 
-        if halt not in rtmconfig:
+        if halt not in rtmconfig or line not in set(x['ref'] for x in rtmconfig[halt]):
 
-            log('warning: rtm is not configured to fetch', halt)
+            log('warning: rtm is not configured to fetch', halt, line)
 
         k = _key(part)
         if k not in PT:
@@ -225,12 +238,12 @@ def allroutes():
 
         for path in road['paths']:
 
-            for route in routes(path['path']):
+            for route in routes(tuple(map(_part, path['path']))):
 
                 yield name, route
 
 
-def routes(path, leave=None, total=0, prev=()):
+def routes(path: tuple[Part, ...], leave=None, total: float=0, prev=()):
 
     if not path:
 
@@ -238,15 +251,16 @@ def routes(path, leave=None, total=0, prev=()):
 
         return
 
-    if path[0]['method'] == 'walk':
+    if path[0].method == 'walk':
 
-        duration = path[0]['seconds']
+        duration = path[0].seconds
 
         yield from routes(path[1:], leave, total + duration, prev + ( path[0], ))
 
     elif _key(path[0]) in PT :
 
-        duration = path[0]['seconds']
+        duration = path[0].seconds
+        assert(duration is not None)
         times = PT[_key(path[0])]
 
         if leave is None:
@@ -254,7 +268,7 @@ def routes(path, leave=None, total=0, prev=()):
             for timestamp in times:
 
                 _path = path[1:]
-                _leave = timestamp.shift(seconds=-total)
+                _leave = timestamp - timedelta(seconds=total)
                 _total = total + duration
                 _prev = prev + (path[0], )
 
@@ -279,9 +293,6 @@ def routes(path, leave=None, total=0, prev=()):
 
                 else:
 
-                    A = leave.shift(seconds=+total)
-                    B = A.shift(seconds=+waiting)
-
                     _path = path[1:]
                     _leave = leave
                     _total = total + waiting + duration
@@ -293,25 +304,24 @@ def routes(path, leave=None, total=0, prev=()):
 
                     yield from routes(_path, _leave, _total, _prev)
 
-NOW = arrow.now()
+NOW = datetime.now().astimezone()
 
-myroutes = []
+def _myroutes():
+	for name, route in allroutes():
 
-for name, route in allroutes():
+		_leave, _total, _path = route
 
-    _leave, _total, _path = route
+		if _leave is None:
+			_leave = NOW
 
-    if _leave is None:
-        _leave = NOW
+		elif _leave < NOW:
+			continue
 
-    elif _leave < NOW:
-        continue
+		_arrival = _leave + timedelta(seconds=_total)
 
-    _arrival = _leave.shift(seconds=+_total)
+		yield (name, _path, _leave, _arrival)
 
-    myroutes.append((name, _path, _leave, _arrival))
-
-myroutes = sorted(myroutes, key=lambda x: (x[0], x[3], x[2]))
+myroutes = sorted(_myroutes(), key=lambda x: (x[0], x[3], x[2]))
 
 
 def myfilter(name):
@@ -322,7 +332,7 @@ def myfilter(name):
 
             return False
 
-    if 'days' in config[name] and not NOW.format('dddd') in config[name]['days']:
+    if 'days' in config[name] and not NOW.isoformat('%A') in config[name]['days']:
 
         return False
 
@@ -336,17 +346,17 @@ for name, _path, _leave, _arrival in myroutes:
     title = config[name]['title']
     leave = _shorthumanize(_leave, NOW)
     arrival = _shorthumanize(_arrival, NOW)
-    total = _shortduration(_leave, _arrival)  # remove "in " prefix
+    total = _shortduration(_arrival - _leave)  # remove "in " prefix
     path = _repr(_path)
-    eta = _arrival.format('HH:mm:ss')
+    eta = _arrival.strftime('%H:%M:%S')
 
     full_text = ' [{}]  {},  {},  {} :{} : ETA  {}'.format(
         title, leave, total, arrival, path, eta
     )
 
-    sleave = _tinyduration(NOW, _leave)
-    sarrival = _tinyduration(NOW, _arrival)
-    stotal = _tinyduration(_leave, _arrival)
+    sleave = _tinyduration(_leave - NOW)
+    sarrival = _tinyduration(_arrival - NOW)
+    stotal = _tinyduration(_arrival - _leave)
     spath = _repr(_path,fduration=_tinyduration)
 
     short_text = ' [{}] {}|{}|{} :{} :  {}'.format(
