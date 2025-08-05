@@ -6,6 +6,7 @@ import hashlib
 from typing import Iterable
 import human
 import ics
+import ics.grammar.parse
 import json
 
 log = lambda *x, **y: print(*x, **y, file=sys.stderr)
