@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from datetime import datetime, timedelta
+import human
 import re
 
 FMT = '%Y-%m-%d %H:%M:%S'
@@ -13,7 +14,6 @@ from events import _range
 from events import _cache_load_url
 from events import calendars
 from events import FRESH
-from events import _duration
 
 def _icon(event):
 
@@ -175,7 +175,7 @@ for title, events in sections:
             hbegin = begin.humanize(),
             range = _range( now , begin , end ) ,
             hend = end.humanize( ) ,
-            hduration = 'lasts ' +  _duration( begin , end ) ,
+            hduration = 'lasts ' +  human.timedelta( end - begin ) ,
             name = name,
             location = location,
             urls = urls

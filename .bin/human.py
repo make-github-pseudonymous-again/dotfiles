@@ -52,7 +52,7 @@ def seconds(value: float):
 		if count == 0: continue
 		return _duration(unit, count)
 
-	return 'now'
+	return 'instant'
 
 def timedelta(delta: dt.timedelta):
 	return seconds(delta.total_seconds())
@@ -64,5 +64,7 @@ def datetime(x: dt.datetime, relative_to: Optional[dt.datetime]=None):
 	delta = x - relative_to
 	s = delta.total_seconds()
 
-	fmt = '{}' if s == 0 else '{} ago' if s < 0 else 'in {}'
+	if s == 0: return 'now'
+
+	fmt = '{} ago' if s < 0 else 'in {}'
 	return fmt.format(seconds(abs(s)))
