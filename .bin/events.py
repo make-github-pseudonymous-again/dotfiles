@@ -70,23 +70,23 @@ def _range ( now: datetime , begin: datetime , end: datetime ) :
 
     return begin.strftime( bf ) + ' - ' + end.strftime( ef )
 
-def calendars ( config = CONFIG ) :
+def calendars ( config: str = CONFIG ) :
     with open(config, 'r') as fd:
         return list(filter(lambda c: not c.get('hide'), json.load( fd )['calendars']))
 
-def load ( calendars , cache = CACHE ) :
+def load ( calendars , cache: str = CACHE ) :
     calendar = ics.Calendar()
     calendar.events.update(_cache_load_calendars(calendars, cache = cache))
     return calendar
 
-def _cache_load_calendars ( calendars , cache ) :
+def _cache_load_calendars ( calendars , cache: str ) :
     for _calendar in calendars:
         yield from _cache_load_url(cache, _calendar['url'])
 
-def url_hash ( url ) :
+def url_hash ( url: str ) :
     return hashlib.sha1(url.encode()).hexdigest()
 
-def _cache_load_url ( cache , url ) :
+def _cache_load_url ( cache: str , url: str ) :
 
     h = url_hash(url)
 
@@ -118,17 +118,17 @@ def _cache_load_url ( cache , url ) :
         return set()
 
 
-def _match(it, text):
+def _match(it: Iterable[str], text: str):
     for line in it:
         if line == text : break
 
-def _dropalarms(string):
+def _dropalarms(string: str):
     it = iter(string.splitlines())
     for line in it:
         if line == 'BEGIN:VALARM' : _match(it, 'END:VALARM')
         else: yield line
 
-def dropalarms(string):
+def dropalarms(string: str):
     return '\n'.join(_dropalarms(string))
 
 
