@@ -1,8 +1,10 @@
 import os
 import sys
-import datetime
+from datetime import datetime, timedelta, timezone
 import traceback
 import hashlib
+from typing import Iterable
+import human
 import ics
 import json
 
@@ -12,61 +14,61 @@ CACHE = os.path.expanduser('~/.cache/calendar/{}')
 FRESH = os.path.expanduser('~/.cache/calendar/fresh/{}')
 CONFIG = os.path.expanduser('~/.config/calendar/config')
 
-def _range ( now , begin , end ) :
+def _range ( now: datetime , begin: datetime , end: datetime ) :
 
-    if end - begin < datetime.timedelta(1) :
+    if end - begin < timedelta(days=1) :
         hour = True
-    elif begin.to('utc').time().minute != end.to('utc').time().minute :
+    elif begin.replace(tzinfo=timezone.utc).time().minute != end.replace(tzinfo=timezone.utc).time().minute :
         hour = True
-    elif begin.to('utc').time().second != end.to('utc').time().second :
+    elif begin.replace(tzinfo=timezone.utc).time().second != end.replace(tzinfo=timezone.utc).time().second :
         hour = True
-    elif begin.to('utc').time().hour in [ 22 , 23 , 0 ] and end.to('utc').time().hour in [ 22 , 23 , 0 ] :
+    elif begin.replace(tzinfo=timezone.utc).time().hour in ( 22 , 23 , 0 ) and end.replace(tzinfo=timezone.utc).time().hour in ( 22 , 23 , 0 ) :
         hour = False
     else :
         hour = True
 
     if hour :
 
-        bf = 'YYYY, MMM DD, HH:mm'
+        bf = '%Y, %b %d, %H:%M'
         if begin.year == now.year:
             if begin.month == now.month:
                 if begin.day == now.day:
-                    bf = 'HH:mm'
+                    bf = '%H:%M'
                 else :
-                    bf = 'ddd DD, HH:mm'
+                    bf = '%a %d, %H:%M'
             else:
-                bf = 'MMM DD, HH:mm'
+                bf = '%b %d, %H:%M'
 
-        ef = 'YYYY, MMM DD, HH:mm'
+        ef = '%Y, %b %d, %H:%M'
         if end.year == begin.year:
             if end.month == begin.month:
                 if end.day == begin.day:
-                    ef = 'HH:mm'
+                    ef = '%H:%M'
                 else:
-                    ef = 'DD, HH:mm'
+                    ef = '%d, %H:%M'
             else:
-                ef = 'MMM DD, HH:mm'
+                ef = '%b %d, %H:%M'
 
     else :
 
-        bf = 'YYYY, MMM DD'
+        bf = '%Y, %b %d'
         if begin.year == now.year:
             if begin.month == now.month:
                 if begin.day == now.day:
-                    bf = 'HH:mm'
+                    bf = '%H:%M'
                 else :
-                    bf = 'ddd DD'
+                    bf = '%a %d'
             else:
-                bf = 'MMM DD'
+                bf = '%b %d'
 
-        ef = 'YYYY, MMM DD'
-        if end - begin < datetime.timedelta(365) :
+        ef = '%Y, %b %d'
+        if end - begin < timedelta(days=365) :
             if end.month == begin.month:
-                ef = 'DD'
+                ef = '%d'
             else:
-                ef = 'MMM DD'
+                ef = '%b %d'
 
-    return begin.format( bf ) + ' - ' + end.format( ef )
+    return begin.strftime( bf ) + ' - ' + end.strftime( ef )
 
 def calendars ( config = CONFIG ) :
     with open(config, 'r') as fd:
@@ -130,7 +132,7 @@ def dropalarms(string):
     return '\n'.join(_dropalarms(string))
 
 
-def main ( now , events ) :
+def main ( now: datetime , events: Iterable[ics.Event] ) :
 
     _fresh = list(filter(lambda x: x.end >= now, events))
     _future = filter(lambda x: x.begin >= now, _fresh)
@@ -153,13 +155,13 @@ def main ( now , events ) :
         return _current if _next is None or _next.begin >= _current.end else _next
 
 
-def event_to_i3_status_object ( now , event ) :
+def event_to_i3_status_object ( now: datetime , event: ics.Event ) :
 
     name = event.name
     location = event.location
     short_location = location.split(',')[0] if location else None
-    begin = event.begin.to('local')
-    end = event.end.to('local')
+    begin = event.begin.datetime.astimezone()
+    end = event.end.datetime.astimezone()
 
     # event format
     ef = '{name}'
@@ -173,8 +175,8 @@ def event_to_i3_status_object ( now , event ) :
 
     full_text = ef.format(
         range = _range( now , begin , end ) ,
-        hbegin = begin.humanize(),
-        hend = end.humanize( ) ,
+        hbegin = human.datetime(begin),
+        hend = human.datetime(end) ,
         name = name,
         location = location
     )
@@ -184,8 +186,8 @@ def event_to_i3_status_object ( now , event ) :
 
     short_text = ef.format(
         range = _range( now , begin , end ) ,
-        hbegin = begin.humanize(),
-        hend = end.humanize( ) ,
+        hbegin = human.datetime(begin),
+        hend = human.datetime(end) ,
         name = (name[:47] + '..') if len(name) > 49 else name,
         location = short_location
     )

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import os
-import arrow
 import ics
+
+from datetime import datetime
 
 from events import log
 from events import _cache_load_url
@@ -16,7 +17,7 @@ try:
 except:
     pass
 
-now = arrow.now()
+now = datetime.now().astimezone()
 
 for _calendar in calendars():
     url = _calendar['url']
