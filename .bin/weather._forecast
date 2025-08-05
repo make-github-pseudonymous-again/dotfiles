@@ -4,7 +4,8 @@ import sys
 import os
 import subprocess
 import json
-import arrow
+from datetime import datetime, timedelta
+import human
 import math
 
 HALFHOUR = 60 * 60 // 2
@@ -84,7 +85,7 @@ if km(*current, *old) > threshold:
     sys.exit(1)
 
 
-NOW = arrow.now()
+NOW = datetime.now()
 
 if 'daily' in data:
     daily = data['daily']['data']
@@ -133,7 +134,7 @@ icons = {
 }
 
 print()
-print( ' > Generated on {}'.format(NOW.format('ddd, DD MMM YYYY HH:mm:ss Z')) )
+print( ' > Generated on {}'.format(NOW.strftime('%a, %d %b %Y %H:%M:%S %z')) )
 print( ' >  lat {latitude} lon {longitude} tz {timezone}'.format(**data) )
 
 print( """
@@ -151,9 +152,9 @@ DISPLAYED_TEMPERATURE = 'apparentTemperature'
 
 for day in daily:
 
-    daytime = arrow.get(day['time']).to('local')
-    sunrise = arrow.get(day['sunriseTime']).to('local').format('HH:mm:ss')
-    sunset = arrow.get(day['sunsetTime']).to('local').format('HH:mm:ss')
+    daytime = datetime.fromisoformat(day['time']).astimezone()
+    sunrise = datetime.fromisoformat(day['sunriseTime']).astimezone().strftime('%H:%M:%S')
+    sunset = datetime.fromisoformat(day['sunsetTime']).astimezone().strftime('%H:%M:%S')
     time = daytime
 
     t1 = round(ftoc(day[DISPLAYED_TEMPERATURE+'Min']))
@@ -163,7 +164,7 @@ for day in daily:
 
     fmt = '[{}]  {}  {} - {: >2}°C < {: >2}°C - {} {}'
 
-    dtime = time.format('dddd DD MMMM YYYY')
+    dtime = time.strftime('%A %d %B %Y')
     summary = day['summary']
 
     if p > 0:
@@ -173,7 +174,7 @@ for day in daily:
     icon, color = icons.get(iconname, ("?", RED))
     fmt = color + fmt + ENDC
 
-    if time < NOW.shift(hours=+3):
+    if time < NOW + timedelta(hours=3):
         fmt = BOLD + fmt + ENDC
 
     fmt = UNDERLINE + fmt + ENDC
@@ -184,9 +185,9 @@ for day in daily:
 
     for hour in hourly:
 
-        time = arrow.get(hour['time']).to('local')
+        time = datetime.fromisoformat(hour['time']).astimezone()
 
-        if time < daytime or time >= daytime.shift(days=+1):
+        if time < daytime or time >= daytime + timedelta(days=1):
             continue
 
         t = round(ftoc(hour[DISPLAYED_TEMPERATURE]))
@@ -195,8 +196,8 @@ for day in daily:
 
         fmt = ' * {} - {: >2}°C - {: <2} {} ({})'
 
-        dtime = time.format('hh A')
-        htime = time.humanize()
+        dtime = time.strftime('%I %p')
+        htime = human.datetime(time)
         summary = hour['summary']
 
         if p > 0:
@@ -206,7 +207,7 @@ for day in daily:
         icon, color = icons.get(iconname, ("?", RED))
         fmt = color + fmt + ENDC
 
-        if time < NOW.shift(hours=+3):
+        if time < NOW + timedelta(hours=3):
             fmt = BOLD + fmt + ENDC
 
         print(fmt.format(dtime, t, icon, summary, htime, p, i))

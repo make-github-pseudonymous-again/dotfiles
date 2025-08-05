@@ -5,7 +5,7 @@ import os
 import subprocess
 import heapq
 import json
-import arrow
+from datetime import datetime
 import math
 
 HALFHOUR = 60 * 60 // 2
@@ -104,7 +104,8 @@ def ftoc(c):
 def itom(i):
     return i * 25.4
 
-BEGIN = arrow.now().timestamp - HALFHOUR
+NOW = datetime.now()
+BEGIN = NOW.timestamp() - HALFHOUR
 
 data = heapq.nsmallest(
     3, filter(lambda x: x['time'] >= BEGIN, hourly), key=lambda x: x['time'])
