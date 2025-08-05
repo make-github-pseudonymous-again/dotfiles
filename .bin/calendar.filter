@@ -33,4 +33,4 @@ for _calendar in calendars():
 
     with open(freshfilename, 'w') as fd:
 
-        fd.writelines(calendar)
+        fd.writelines(calendar.serialize_iter())
