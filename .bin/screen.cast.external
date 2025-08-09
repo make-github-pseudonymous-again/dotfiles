@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
-default="$(xrandr.list.external | head -1)"
+default="$(xrandr.list.external | xrandr.filter.connected | head -1)"
 
 screen.cast "$default"
