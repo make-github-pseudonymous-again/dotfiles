@@ -23,7 +23,7 @@ if command -v pip 1>/dev/null; then
       return
     fi
     if { <<< "$pip_installed" grep "^$pip_name\$" 1>/dev/null 2>&1 ; } ; then
-      pip uninstall "$pip_name"
+      pip uninstall --break-system-packages "$pip_name"
     fi
   }
 
