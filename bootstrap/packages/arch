@@ -22,6 +22,7 @@ npm
 yarn
 pypy3
 go
+esbuild
 
 # Python 3 packages
 python-pip
