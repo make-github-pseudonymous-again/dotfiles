@@ -205,6 +205,7 @@ trap _trap SIGHUP SIGINT SIGTERM
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
+NODE_MODULES=.bin/node_modules/
 PLUGINS="$HOME/.config/dotfiles/plugins"
 
 if [ "$DOTFILES" = '' ] ; then
@@ -310,6 +311,15 @@ if $update ; then
 
   echo '+ Update dotfiles'
   sh "$DOTFILES"/bootstrap/dotfiles-update -f || _exit "$?"
+
+  if [ -d "${NODE_MODULES}" ] ; then
+    echo ' * Node Modules @ '"${NODE_MODULES}"
+    find "${NODE_MODULES}" -mindepth 1 -maxdepth 1 -type d |
+    while read -r module ; do
+      echo '  ° Install '"${HOME}/${module}"
+      _do npm --prefix "${HOME}/${module}" clean-install
+    done
+  fi
 
 fi
 
