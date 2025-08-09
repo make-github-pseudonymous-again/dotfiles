@@ -35,7 +35,7 @@ function doIt() {
 		--exclude "Makefile" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
-		-avhL --no-perms \
+		-avhl --no-perms \
 		"$DOTFILES"/ "$HOME"/ 1>/dev/null;
 
 	# shellcheck source=.bash_profile

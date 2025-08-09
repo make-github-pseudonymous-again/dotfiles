@@ -10,7 +10,7 @@ rsync \
 	--exclude "Makefile" \
 	--exclude "README.md" \
 	--exclude "LICENSE" \
-	-avnchL \
+	-avnchl \
 	"$DOTFILES"/ "$HOME"/ | \
 	tail -n +2 | \
 	head -n -3 | \
