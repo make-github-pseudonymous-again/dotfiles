@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 if calendar.fetch; then
 	calendar.filter || exit 2
