@@ -44,6 +44,4 @@ else
 
 fi
 
-_ arrow==0.14.7 # for compat with ics
-_ ics==0.7.0
 _ html2text
