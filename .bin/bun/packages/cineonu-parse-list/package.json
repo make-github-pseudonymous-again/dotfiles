@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "__cineonu-parse-list",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "jsdom": "^26.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "typescript": "^5.9.2"
+  }
+}

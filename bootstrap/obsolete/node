@@ -23,3 +23,4 @@ tick # use node --prof-process instead
 xo # use npx xo
 blessed # moved to .bin/node_modules/chart
 blessed-contrib # moved to .bin/node_modules/chart
+jsdom # moved to .bin/node_modules/cineonu
