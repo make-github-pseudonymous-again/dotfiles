@@ -11,8 +11,6 @@ journally
 ava-codemods
 fast-cli
 
-zxcvbn # for passcheck
-ora # for passcheck
 
 yo # for scaffolding
 

@@ -1,15 +1,1 @@
-#!/usr/bin/env node
-
-var zxcvbn = require('zxcvbn');
-var readline = require('readline');
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
-rl.on('line', function(password){
-	var result = zxcvbn(password);
-	console.log(result.crack_times_display.offline_fast_hashing_1e10_per_second);
-});
+bun/dist/packages/passwords/bin/zxcvbn.js

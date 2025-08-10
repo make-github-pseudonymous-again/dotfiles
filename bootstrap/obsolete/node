@@ -21,6 +21,8 @@ eslint-plugin-babel # deprecated
 npx # deprecated
 tick # use node --prof-process instead
 xo # use npx xo
+ora # moved to .bin/node_modules/passwords
+zxcvbn # moved to .bin/node_modules/passwords
 blessed # moved to .bin/node_modules/chart
 blessed-contrib # moved to .bin/node_modules/chart
 jsdom # moved to .bin/node_modules/cineonu

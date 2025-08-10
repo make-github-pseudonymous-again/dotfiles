@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "__passwords",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "ora": "^8.2.0",
+    "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "typescript": "^5.9.2"
+  }
+}
