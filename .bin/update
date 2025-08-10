@@ -317,7 +317,7 @@ if $update ; then
     find "${NODE_MODULES}" -mindepth 1 -maxdepth 1 -type d |
     while read -r module ; do
       echo '  ° Install '"${HOME}/${module}"
-      _do npm --prefix "${HOME}/${module}" clean-install
+      _do npm --prefix "${HOME}/${module}" clean-install --production
     done
   fi
 
