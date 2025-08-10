@@ -24,8 +24,6 @@ fixpack # for js projects
 
 js-yaml # for yaml2json
 
-got # for http requests
-
 git-open # Open repo page
 git-recent # Summary of recent branches
 
