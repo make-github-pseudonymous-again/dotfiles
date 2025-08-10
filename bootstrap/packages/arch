@@ -19,6 +19,7 @@ screenfetch
 # Compilers and package managers
 nodejs
 npm
+pnpm
 yarn
 pypy3
 go
