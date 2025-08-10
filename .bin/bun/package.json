@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun build packages/*/bin/* --packages external --outdir dist --format esm --target bun --production --sourcemap",
+    "clean": "rm -rf node_modules/ dist/",
+    "postinstall": "npm run build"
+  }
+}

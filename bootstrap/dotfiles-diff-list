@@ -6,6 +6,8 @@ rsync \
 	--exclude ".git/" \
 	--exclude ".github/" \
 	--exclude ".gitmodules" \
+	--exclude ".bin/bun/node_modules/" \
+	--exclude ".bin/bun/dist/" \
 	--exclude "bootstrap/" \
 	--exclude "Makefile" \
 	--exclude "README.md" \

@@ -205,7 +205,7 @@ trap _trap SIGHUP SIGINT SIGTERM
 
 echo '+ Looking up dotfiles'
 DOTFILES="$(cat "$HOME/.config/dotfiles/location")"
-NODE_MODULES=.bin/node_modules/
+BUN_PACKAGES=.bin/bun/
 PLUGINS="$HOME/.config/dotfiles/plugins"
 
 if [ "$DOTFILES" = '' ] ; then
@@ -314,13 +314,9 @@ if $update ; then
   echo '+ Update dotfiles'
   sh "$DOTFILES"/bootstrap/dotfiles-update -f || _exit "$?"
 
-  if [ -d "${NODE_MODULES}" ] ; then
-    echo ' * Node Modules @ '"${NODE_MODULES}"
-    find "${NODE_MODULES}" -mindepth 1 -maxdepth 1 -type d |
-    while read -r module ; do
-      echo '  ° Install '"${HOME}/${module}"
-      _do bun install --cwd "${HOME}/${module}" --frozen-lockfile --production
-    done
+  if [ -d "${BUN_PACKAGES}" ] ; then
+    echo ' * updating bun packages @ '"${BUN_PACKAGES}"
+    _do bun install --cwd "${HOME}/${BUN_PACKAGES}" --frozen-lockfile --production
   fi
 
 fi

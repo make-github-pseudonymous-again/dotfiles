@@ -1,9 +1,8 @@
 {
+  "private": true,
+  "name": "__events",
+  "version": "0.0.1",
   "type": "module",
-  "scripts": {
-    "build": "bun build bin/* --outdir dist/bin --format esm --target node --production --sourcemap",
-    "postinstall": "npm run build"
-  },
   "dependencies": {
     "chalk": "^5.5.0",
     "date-fns": "^4.1.0",
