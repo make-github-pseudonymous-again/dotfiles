@@ -26,3 +26,4 @@ zxcvbn # moved to .bin/node_modules/passwords
 blessed # moved to .bin/node_modules/chart
 blessed-contrib # moved to .bin/node_modules/chart
 jsdom # moved to .bin/node_modules/cineonu
+puppeteer # moved to .bin/node_modules/{ulb,voo}

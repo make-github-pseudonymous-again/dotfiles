@@ -73,6 +73,17 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/voo": {
+      "name": "__voo",
+      "version": "0.0.1",
+      "dependencies": {
+        "puppeteer": "^24.16.0",
+      },
+      "devDependencies": {
+        "@types/node": "^24.2.0",
+        "typescript": "^5.9.2",
+      },
+    },
   },
   "packages": {
     "@asamuzakjp/css-color": ["@asamuzakjp/css-color@3.2.0", "", { "dependencies": { "@csstools/css-calc": "^2.1.3", "@csstools/css-color-parser": "^3.0.9", "@csstools/css-parser-algorithms": "^3.0.4", "@csstools/css-tokenizer": "^3.0.3", "lru-cache": "^10.4.3" } }, "sha512-K1A6z8tS3XsmCMM86xoWdn7Fkdn9m6RSVtocUrJYIwZnFVkng/PvkEoWtOWmP+Scc6saYWHWZYbndEEXxl24jw=="],
@@ -112,6 +123,8 @@
     "__passwords": ["__passwords@workspace:packages/passwords"],
 
     "__ulb": ["__ulb@workspace:packages/ulb"],
+
+    "__voo": ["__voo@workspace:packages/voo"],
 
     "abbrev": ["abbrev@1.1.1", "", {}, "sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q=="],
 
