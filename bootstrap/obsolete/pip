@@ -5,3 +5,4 @@ python-cssselect
 python-lxml
 ics
 arrow
+python-html2text

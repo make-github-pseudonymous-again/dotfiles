@@ -49,6 +49,7 @@ python-urwid
 python-feedparser
 python-aiohttp
 python-pynvim
+python-html2text
 autopep8
 
 # Video
