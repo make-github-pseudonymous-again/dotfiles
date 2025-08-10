@@ -3,7 +3,7 @@
 status="$(curl -s -o /dev/null -I -w "%{http_code}" "$@")"
 success="$?"
 if [ "${success}" -ne 0 ]; then
-  >&2 echo "Error occurred while checking URL $@ (${success})"
+  >&2 echo "Error occurred while checking URL $* (${success})"
   exit 2
 fi
 
