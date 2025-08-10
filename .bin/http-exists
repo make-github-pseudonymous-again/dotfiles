@@ -1,0 +1,11 @@
+#!/usr/bin/env dash
+
+status="$(curl -s -o /dev/null -I -w "%{http_code}" "$@")"
+success="$?"
+if [ "${success}" -ne 0 ]; then
+  >&2 echo "Error occurred while checking URL $@ (${success})"
+  exit 2
+fi
+
+>&1 echo "${status}"
+echo "${status}" | grep -q "^200$"

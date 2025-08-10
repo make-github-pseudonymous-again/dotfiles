@@ -1,0 +1,7 @@
+#!/usr/bin/env dash
+
+if http-exists "https://archlinux.org/packages/extra/any/${1}/" 1>/dev/null ; then
+	aura -S "${1}"
+else
+	aura -A "${1}"
+fi

@@ -8,7 +8,7 @@ fi
 cd /tmp || exit 123
 
 fail() {
-	echo 'could not install trizen'
+	echo 'could not install aura'
 	exit 1
 }
 
@@ -19,13 +19,13 @@ i() {
 	rm -r "$1"
 }
 
-if ! command -v trizen 1>/dev/null 2>&1 ; then
-	echo 'installing trizen'
-	sudo pacman -S wget expac yajl git --noconfirm --needed
-	i trizen
+if ! command -v aura 1>/dev/null 2>&1 ; then
+	echo 'installing aura'
+	sudo pacman -S wget --noconfirm --needed
+	i aura-bin
 fi
 
-if ! command -v trizen 1>/dev/null 2>&1 ; then
+if ! command -v aura 1>/dev/null 2>&1 ; then
 	fail
 fi
 
@@ -37,6 +37,6 @@ echo "  > installing ~ $(<<< "$packages" tr '\n' ' ')"
 comm -23 \
 	<(printf '%s\n' "$packages" | sort) \
 	<(printf '%s\n' "$packages" | pacman -Qk - 2>/dev/null | cut -d: -f1 | sort) |
-trizen -S --aur --needed --noconfirm --noedit -
+xargs -r aura -A --noconfirm
 
 exit 0

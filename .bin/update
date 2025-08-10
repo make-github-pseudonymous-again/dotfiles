@@ -251,8 +251,10 @@ if $sync ; then
 
   echo '+ Update already installed software'
 
-  echo " * arch & aur (using trizen)"
-  env PATH="$DOTFILES/.config/mock/ninja/j1:$PATH" trizen --noconfirm --noedit -Syu || _exit "$?"
+  echo " * arch (using aura)"
+  env PATH="$DOTFILES/.config/mock/ninja/j1:$PATH" aura --noconfirm -Syu || _exit "$?"
+  echo " * AUR (using aura)"
+  env PATH="$DOTFILES/.config/mock/ninja/j1:$PATH" aura --noconfirm -Ayu || _exit "$?"
   if command -v audit-fetch >/dev/null ; then audit-fetch ; fi
 
   if $node ; then
