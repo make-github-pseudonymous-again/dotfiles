@@ -9,8 +9,7 @@ man-n
 @babel/core
 journally
 ava-codemods
-fast-cli
-
+fast-cli # for speedtest
 
 yo # for scaffolding
 
