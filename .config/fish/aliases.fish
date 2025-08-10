@@ -203,6 +203,7 @@ abbr rgh rg --hidden -g "'!.git/*'"
 
 # ssh
 abbr pxy ssh -N -D
+abbr pxi firefox -p proxied --no-remote
 
 # covid19
 abbr co 'curl -s https://corona-stats.online | html-select pre | html-format text | less'
