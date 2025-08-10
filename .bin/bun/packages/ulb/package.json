@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "__ulb",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "puppeteer": "^24.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "typescript": "^5.9.2"
+  }
+}
