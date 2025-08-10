@@ -6,7 +6,7 @@ if [ -d "$HOME/.bin" ] ; then
 fi
 
 # ruby gems
-if which ruby 2>/dev/null ; then
+if which ruby 1>/dev/null ; then
   export RUBY_PATH=$(ruby -e 'print Gem.user_dir')/bin;
   if [ -d "$RUBY_PATH" ] ; then
     export PATH="$RUBY_PATH:$PATH"
