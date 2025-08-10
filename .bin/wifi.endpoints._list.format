@@ -2,59 +2,53 @@
 
 import sys
 import json
+from typing import Iterable
+from dataclasses import dataclass, asdict
+
+@dataclass
+class Cell:
+    address: str|None = None
+    channel: int|None = None
+    frequency: float|None = None
+    quality: float|None = None
+    signal: int|None = None
+    essid: str = ""
 
 
-def by(n, iterable):
+def cells(iterable: Iterable[str]):
 
-    iterator = iter(iterable)
+    cell = None
 
-    group = None
+    for line in iterable:
+        if line.startswith('Cell '):
+            if cell is not None:
+                yield cell
+            cell = Cell(
+                address = line.split(': ')[1]
+            )
+            continue
 
-    try:
+        assert cell is not None
 
-        while True:
+        if line.startswith('Frequency:'):
+            cell.frequency = float(line.split(':')[1].split(' ')[0])
+        elif line.startswith('Channel:'):
+            cell.channel = int(line.split(':')[1])
+        elif line.startswith('ESSID:'):
+            if cell.essid == "":
+                cell.essid = line.split(':')[1][1:-1]
+        elif line.startswith('Quality='):
+            _quality, _signal = line.split('  ')
+            value, maximum = _quality.split('=')[1].split('/')
+            cell.quality = int(value) / int(maximum)
+            cell.signal = int(_signal.split('=')[1].split(' ')[0])
 
-            group = []
-
-            while len(group) < n:
-
-                group.append(next(iterator))
-
-            yield group
-
-    except StopIteration:
-
-        if group:
-            yield group
+    if cell is not None:
+        yield cell
 
 data = []
 
-for _cell in by(4, map(str.strip, sys.stdin)):
-
-    _address, _frequency, _strength, _ESSID = _cell
-
-    address = _address.split(': ')[1]
-
-    _tmp = _frequency.split(':')[1].split(' (')
-    channel = int(_tmp[1].split(' ')[1].split(')')[0])
-    frequency = float(_tmp[0].split(' ')[0])
-    _quality, _signal = _strength.split('  ')
-    value, maximum = _quality.split('=')[1].split('/')
-    quality = int(value) / int(maximum)
-    signal = int(_signal.split('=')[1].split(' ')[0])
-
-
-    ESSID = _ESSID[7:-1]
-
-    cell = {
-        "ESSID": ESSID,
-        "address": address,
-        "channel": channel,
-        "frequency": frequency,
-        "quality": quality,
-        "signal": signal,
-    }
-
-    data.append(cell)
+for cell in cells(map(str.strip, sys.stdin)):
+    data.append(asdict(cell))
 
 json.dump(data, sys.stdout)

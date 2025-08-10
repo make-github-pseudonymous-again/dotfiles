@@ -21,3 +21,5 @@ eslint-plugin-babel # deprecated
 npx # deprecated
 tick # use node --prof-process instead
 xo # use npx xo
+blessed # moved to .bin/node_modules/chart
+blessed-contrib # moved to .bin/node_modules/chart

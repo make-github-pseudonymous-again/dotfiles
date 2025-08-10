@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "__chart",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "typescript": "^5.9.2"
+  }
+}

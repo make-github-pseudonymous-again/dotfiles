@@ -6,7 +6,7 @@ IGNORE="$1"
 
 DEVICE="$2"
 
-sudo wifi.endpoints.scan "$DEVICE"
+wifi.endpoints.scan "$DEVICE"
 
 wifi.endpoints "$DEVICE" | \
 jq 'map(select([.address] | inside(['"$IGNORE"']) | not))' | \
