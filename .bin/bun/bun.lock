@@ -4,7 +4,7 @@
     "": {},
     "packages/events": {
       "name": "__events",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "dependencies": {
         "chalk": "^5.5.0",
         "date-fns": "^4.1.0",

@@ -5,16 +5,16 @@ import {
 	differenceInDays,
 	formatDistance,
 } from 'date-fns';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import crypto from 'node:crypto';
+import {readFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
 import { z } from 'zod';
 
 export const log = (...args: any[]) => console.error(...args);
 
-export const CACHE = path.join(homedir(), '.cache/calendar/{}');
-export const FRESH = path.join(homedir(), '.cache/calendar/fresh/{}');
-export const CONFIG = path.join(homedir(), '.config/calendar/config');
+export const CACHE = join(homedir(), '.cache/calendar/{}');
+export const FRESH = join(homedir(), '.cache/calendar/fresh/{}');
+export const CONFIG = join(homedir(), '.config/calendar/config');
 
 // Zod schema for calendar configuration
 const CalendarSchema = z.object({
@@ -63,13 +63,13 @@ export const parseICalendar = (calendarString: string): ParsedEvent[] => {
 	}
 }
 
-export const urlHash = (url: string): string => crypto.createHash('sha1').update(url).digest('hex');
+export const urlHash = (url: string): string => createHash('sha1').update(url).digest('hex');
 
 export const cacheRead = async (cache: string, url: string): Promise<string> => {
 	const h = urlHash(url);
 	const filename = cache.replace('{}', h);
 	log(`loading ${url} from ${filename}`);
-	return fs.readFile(filename, 'utf8');
+	return readFile(filename, 'utf8');
 }
 
 export const cacheLoadUrl = async (cache: string, url: string): Promise<ParsedEvent[]> => {
@@ -84,7 +84,7 @@ export const cacheLoadUrl = async (cache: string, url: string): Promise<ParsedEv
 }
 
 export const calendars = async (config: string = CONFIG): Promise<Calendar[]> => {
-	const rawConfig = await fs.readFile(config, 'utf8');
+	const rawConfig = await readFile(config, 'utf8');
 	const parsedConfig = JSON.parse(rawConfig);
 	const validatedConfig = ConfigSchema.parse(parsedConfig);
 	return validatedConfig.calendars.filter(c => !c.hide);
