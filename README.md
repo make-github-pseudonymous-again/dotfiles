@@ -126,7 +126,7 @@ instance most banks would use [*Multi-factor
 authentication*](https://en.wikipedia.org/wiki/Multi-factor_authentication)
 (e.g. Two-factor authentication, or 2FA) to sign any transaction, service
 change, or even login. Also most of these temporary keys and tokens are
-really temporary: if your thief waits for too long he will not be able to
+really temporary: if your thief waits for too long they will not be able to
 abuse them.
 
 However, considering I have only given you a glimpse at the list of possible
