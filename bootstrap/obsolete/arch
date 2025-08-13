@@ -140,3 +140,4 @@ progsreiserfs
 
 dmenu2  # use rofi -dmenu instead (and dmenu's dmenu_path)
 untex  # use detex instead (recoll)
+udevil # devmon, replaced by udisksctl

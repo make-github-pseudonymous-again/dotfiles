@@ -378,8 +378,6 @@ if $restart ; then
   _do sudo systemctl enable --now ntpd # clock sync
   echo '+ Enable atd'
   _do sudo systemctl enable --now atd # at program
-  echo '+ Enable devmon'
-  _do sudo systemctl enable --now devmon@"$USER" # auto mount usb drives program
   echo '+ Enable setup-environment'
   _do systemctl --user enable setup-environment # setup env variables at login
   echo '+ Enable vulnerabilities.timer'

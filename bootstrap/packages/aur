@@ -8,7 +8,6 @@ spqr
 
 # Others
 bun-bin
-udevil # for devmon
 yank-git
 python-bibtexparser
 python-colored

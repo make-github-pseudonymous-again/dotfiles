@@ -159,6 +159,7 @@ unrtf
 imagemagick
 
 # File system
+udisks2  # udisksctl
 inotify-tools
 rclone
 bat
