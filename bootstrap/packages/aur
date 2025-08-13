@@ -10,7 +10,6 @@ spqr
 bun-bin
 udevil # for devmon
 yank-git
-untex
 python-bibtexparser
 python-colored
 python-pypdf

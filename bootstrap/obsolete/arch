@@ -139,3 +139,4 @@ ruby-coderay # use bat instead
 progsreiserfs
 
 dmenu2  # use rofi -dmenu instead (and dmenu's dmenu_path)
+untex  # use detex instead (recoll)

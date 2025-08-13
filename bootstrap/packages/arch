@@ -141,6 +141,7 @@ perl-image-exiftool
 aspell-en
 libxslt
 djvulibre
+texlive-bin  # provides detex
 pstotext
 
 # Lesspipe
