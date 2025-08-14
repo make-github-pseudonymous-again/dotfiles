@@ -314,7 +314,7 @@ if $update ; then
   echo '+ Update dotfiles'
   sh "$DOTFILES"/bootstrap/dotfiles-update -f || _exit "$?"
 
-  if [ -d "${BUN_PACKAGES}" ] ; then
+  if which bun 2>/dev/null 1>&2 && [ -d "${BUN_PACKAGES}" ] ; then
     echo ' * updating bun packages @ '"${BUN_PACKAGES}"
     _do bun install --cwd "${HOME}/${BUN_PACKAGES}" --frozen-lockfile --production
   fi
