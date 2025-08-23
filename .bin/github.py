@@ -68,8 +68,8 @@ def api ( endpoint, *args, **kwargs ) :
     github_api = 'https://api.github.com'
     return github_api + endpoint.format(*args, **kwargs)
 
-def token ( ) :
-    p = subprocess.run(['pass', 'apps/github/pat'], stdout=subprocess.PIPE)
+def token ( kind = '') :
+    p = subprocess.run(['pass', 'apps/github/pat{}'.format(kind)], stdout=subprocess.PIPE)
     if p.returncode == 0 :
         return p.stdout.decode('utf-8')[:-1]
     else:

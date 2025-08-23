@@ -12,7 +12,7 @@ if len(sys.argv) < 2: sys.exit(1)
 
 thread_id = sys.argv[1]
 
-token = github.token()
+token = github.token('/notifications')
 url = github.api('/notifications/threads/{thread_id}', thread_id=thread_id)
 
 github.patch(url, token=token)
