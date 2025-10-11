@@ -112,6 +112,7 @@ alias egrep='grep --color=auto -E'
 
 # diff abbreviation. Use Git's colored diff when available.
 command -v git > /dev/null; and abbr --add dif "git diff --no-index --color-words"; or abbr --add dif "diff"
+abbr rdif 'rsync -PrHlc --itemize-changes --dry-run'
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
