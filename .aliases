@@ -92,9 +92,9 @@ done
 # Lock the screen (when going AFK)
 alias afk="system.LS"
 
-# youtube-dl
-alias vdl='youtube-dl'
-alias adl='youtube-dl -f140 --'
+# yt-dlp
+alias vdl='yt-dlp'
+alias adl='yt-dlp -f140 --'
 
 # thefuck aliases
 # THIS IS WAY TOO SLOW

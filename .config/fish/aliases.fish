@@ -146,10 +146,10 @@ end
 # Lock the screen (when going AFK)
 abbr afk "system.LS"
 
-# youtube-dl
-abbr ydl 'youtube-dl'
-abbr vdl 'youtube-dl -f best --'
-abbr adl 'youtube-dl -f bestaudio --'
+# yt-dlp
+abbr ydl 'yt-dlp'
+abbr vdl 'yt-dlp -f best --'
+abbr adl 'yt-dlp -f bestaudio --'
 
 # youtube-viewer
 abbr yt 'youtube-viewer'
