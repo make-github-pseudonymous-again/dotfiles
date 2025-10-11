@@ -4,7 +4,7 @@ add_newline = false
 # Prompt order (to place custom commands)
 format = """\
   $username\
-  ${custom.sudo}\
+  $sudo\
   $hostname\
   $shell\
   $shlvl\
@@ -71,11 +71,10 @@ symbol = "node "
 [package]
 symbol = ""
 
-[custom.sudo]
-command = "echo sudo"
-when = "sudo -n true"
+[sudo]
 style = "bold fg:#ffb05b"
-format = "\\([$output]($style)\\) "
+disabled = false
+format = "\\([sudo]($style)\\) "
 
 [custom.node]
 command = "node-info"
