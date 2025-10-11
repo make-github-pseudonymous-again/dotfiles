@@ -1,3 +1,18 @@
 #!/usr/bin/env sh
 
-ssh "$@" -t screen -x -R -S oc
+if [ "$#" -lt 1 ] ; then
+  >&2 echo "usage: $0 <host> [key] [ssh arg]*"
+  >&2 echo
+  >&2 echo "example: $0 example.com default"
+  exit 127
+fi
+
+host="${1}"
+shift
+
+key="${1:-default}"
+if [ "$#" -ge 1 ] ; then
+  shift
+fi
+
+ssh "${host}" "$@" -t screen -x -R -S "oc-${key}"
