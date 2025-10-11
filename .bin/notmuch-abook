@@ -73,7 +73,7 @@ import os
 import re
 import sys
 import docopt
-import notmuch
+import notmuch2 as notmuch
 import sqlite3
 import email.utils
 import email.parser
@@ -194,8 +194,7 @@ class NotmuchAddressGetter(object):
 
     def _get_all_messages(self):
         notmuch_db = notmuch.Database(self.db_path)
-        query = notmuch.Query(notmuch_db, self.query)
-        return query.search_messages()
+        return notmuch_db.messages(self.query)
 
     def generate(self):
         msgs = self._get_all_messages()
