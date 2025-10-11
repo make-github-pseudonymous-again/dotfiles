@@ -84,7 +84,7 @@ abbr sss "services.show --system | less -r"
 
 
 # errors from journal
-abbr errors "journalctl -b -p err -r"
+abbr errors 'journalctl -b -p err -r -g "^(?!$USER : a password is required ; .* ; COMMAND=/usr/bin/true\$)"'
 
 # List all files colorized in long format
 abbr l "exa -l"
