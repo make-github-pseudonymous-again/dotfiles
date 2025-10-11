@@ -6,11 +6,13 @@ color_bad="#CF4647"
 
 failures1=$(grep -o '^[1-9]' "$HOME/".cache/memoize/*/R | wc -l)
 failures2=$(systemctl --user show | grep '^NFailedUnits=' | cut -d '=' -f2)
+failures3=$(systemctl --system show | grep '^NFailedUnits=' | cut -d '=' -f2)
 
 >&2 echo "memoize failures: $failures1"
->&2 echo "systemctl failures: $failures2"
+>&2 echo "systemctl --user failures: $failures2"
+>&2 echo "systemctl --system failures: $failures3"
 
-failures=$((failures1 + failures2))
+failures=$((failures1 + failures2 + failures3))
 
 if test "$failures" -ge 3; then
 	color="$color_bad"
