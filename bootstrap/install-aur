@@ -13,15 +13,21 @@ fail() {
 }
 
 i() {
-	wget "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" || fail
-	tar -xvf "$1".tar.gz && rm "$1".tar.gz
-	sh -c "cd $1 && makepkg -si --skippgpcheck" || { rm -r "$1" && fail ; }
-	rm -r "$1"
+	git clone "https://aur.archlinux.org/${1}.git" "/tmp/${1}" || fail
+	pushd "/tmp/${1}" || fail
+	if makepkg -si --skippgpcheck ; then
+		popd
+		rm -rf "/tmp/${1}"
+	else
+		popd
+		rm -rf "/tmp/${1}"
+		fail
+	fi
 }
 
 if ! command -v aura 1>/dev/null 2>&1 ; then
 	echo 'installing aura'
-	sudo pacman -S wget --noconfirm --needed
+	sudo pacman -S git --noconfirm --needed
 	i aura-bin
 fi
 
