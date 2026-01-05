@@ -1,11 +1,5 @@
 #!/usr/bin/env sh
 
-profile="$(wifi.profiles.running)"
+chip="$(wifi.chips.default)"
 
-if [ "$profile" != '' ] ; then
-	wifi.profile.stop "$profile"
-elif is.wifi.auto.running ; then
-	wifi.auto.stop
-fi
-
-sudo /usr/bin/ip link set "$(wifi.chips.default)" down
+iwctl station "$chip" disconnect

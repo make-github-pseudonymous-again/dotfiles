@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 
-cache="${HOME}/.cache/netctl/last"
+cache="${HOME}/.cache/iwctl/last"
 profile="$(cat "$cache")"
-
-sudo /usr/bin/ip link set "$(wifi.chips.default)" down
 
 if [ "$profile" = 'auto' ] ; then
 	wifi.auto.start
