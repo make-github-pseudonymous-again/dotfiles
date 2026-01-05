@@ -142,7 +142,7 @@ aspell-en
 libxslt
 djvulibre
 texlive-bin  # provides detex
-pstotext
+ghostscript  # provides ps2ascii, ps2pdf
 
 # Lesspipe
 lesspipe
