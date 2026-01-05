@@ -20,6 +20,6 @@ function fish_user_key_bindings
     bind -M insert \cp accept-autosuggestion
 
     # fzf key bindings
-    fzf_key_bindings
+    fzf --fish | source
 
 end
