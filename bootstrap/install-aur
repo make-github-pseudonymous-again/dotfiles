@@ -16,10 +16,10 @@ i() {
 	git clone "https://aur.archlinux.org/${1}.git" "/tmp/${1}" || fail
 	pushd "/tmp/${1}" || fail
 	if makepkg -si --skippgpcheck ; then
-		popd
+		popd || fail
 		rm -rf "/tmp/${1}"
 	else
-		popd
+		popd || fail
 		rm -rf "/tmp/${1}"
 		fail
 	fi
