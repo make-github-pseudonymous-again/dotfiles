@@ -60,7 +60,7 @@ atomicparsley
 atool # for ranger
 highlight
 w3m
-poppler
+poppler # pdftotext for recoll
 libcaca
 catimg
 
